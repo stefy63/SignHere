@@ -1,0 +1,38 @@
+<?php
+
+namespace Faker\Provider\fr_FR;
+
+use Faker\Calculator\Luhn;
+
+class Company extends \Faker\Provider\Company
+{
+    /**
+     * @var array French company name formats.
+     */
+    protected static $formats = array(
+        '{{lastName}} {{companySuffix}}',
+        '{{lastName}} {{lastName}} {{companySuffix}}',
+        '{{lastName}}',
+        '{{lastName}}',
+    );
+
+    /**
+     * @var array French catch phrase formats.
+     */
+    protected static $catchPhraseFormats = array(
+        '{{catchPhraseNoun}} {{catchPhraseVerb}} {{catchPhraseAttribute}}',
+    );
+
+    /**
+     * @var array French nouns (used by the catch phrase format).
+     */
+    protected static $noun = array(
+        'la sécurité', 'le plaisir', 'le confort', 'la simplicité', "l'assurance", "l'art", 'le pouvoir', 'le droit',
+        'la possibilité', "l'avantage", 'la liberté'
+    );
+
+    /**
+     * @var array French verbs (used by the catch phrase format).
+     */
+    protected static $verb = array(
+        'de rouler', "d'avancer", "d'évoluer", 'de changer', "d'innover", 'de louer', "d'att
