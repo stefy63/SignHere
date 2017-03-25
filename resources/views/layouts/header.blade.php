@@ -1,24 +1,22 @@
 
 
-<nav class="navbar navbar-default navbar-inverse">
-    <div class="container-fluid">
+    <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
         <div class="navbar-header">
-
-            <!-- Collapsed Hamburger -->
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                <span class="sr-only">Toggle Navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-            <!-- Branding Image -->
-            <a class="navbar-brand" href="{{ url('/') }}">
-            <!--<img alt="Brand" src="...">-->
-            {{ config('app.name', 'Laravel') }}
-            </a>
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+            <!--<form role="search" class="navbar-form-custom" method="post" action="#">
+                <div class="form-group">
+                    <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                </div>
+            </form>-->
         </div>
+        @if(Auth::check())
+        <ul class="nav navbar-top-links navbar-right">
+            <li>
+                <a href='{{route('logout')}}' onClick="return confirm('{{__('menu.confirmLogout')}}')">
+                    <i class="fa fa-sign-out"></i>{{__('menu.logout')}}
+                </a>
+            </li>
+        </ul>
+        @endif
 
-
-    </div>
-</nav>
+    </nav>

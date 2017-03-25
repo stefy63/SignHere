@@ -76,11 +76,12 @@
                     @endif
                 </div>
             @endif
-
+            
             <div class="content">
                 <div class="title m-b-md">
+                    
                     Sign Here
-                </div>
+                </div>@yield('content')
             </div>
         </div>
     </body>

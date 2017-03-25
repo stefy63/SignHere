@@ -20,5 +20,7 @@ return [
     */
 
     'admin' => 'Admin',
+    'logout' => 'Log Out',
+    'confirmLogout' => 'Conferma Uscita?',
 
 ];

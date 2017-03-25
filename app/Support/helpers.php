@@ -9,18 +9,21 @@
 namespace App\Support;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;
 
 class Helpers {
 
     public static function getMenu(){
+        if(Auth::check()){
+            $menus = \Auth::user()
+                ->modules()
+                ->where('active',true)
+                ->orderBy('name')
+                ->get(array('short_name','functions'));
 
-        $menus = \Auth::user()
-            ->modules()
-            ->where('active',true)
-            ->orderBy('name')
-            ->get(array('short_name','functions'));
-
-        return $menus;
+            return $menus;
+        }
+        return false;
     }
 
     public static function getSubMenu($menu){
