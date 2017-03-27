@@ -43,13 +43,87 @@ class DatabaseSeeder extends Seeder
         DB::table('users2modules')->insert([
             'id' => 1,
             'user_id' => 1,
+            'permission' => 'ALL',
             'created_at' => date("Y-m-d H:i:s")
         ]);
 
         DB::table('modules')->insert([
-            'name' => 'Administrator',
-            'short_name' => 'admin',
+            'name' => 'ACLs',
+            'short_name' => 'admin_acls',
             'functions' => 'index,create,show,edit,update,destroy',
+            'isadmin' => true,
+            'users2module_id' => 1,
+            'active' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('modules')->insert([
+        'name' => 'Brands',
+        'short_name' => 'admin_brands',
+        'functions' => 'index,create,show,edit,update,destroy',
+        'isadmin' => true,
+        'users2module_id' => 1,
+        'active' => 1,
+        'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('modules')->insert([
+            'name' => 'Clients',
+            'short_name' => 'admin_clients',
+            'functions' => 'index,create,show,edit,update,destroy',
+            'isadmin' => true,
+            'users2module_id' => 1,
+            'active' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('modules')->insert([
+            'name' => 'Devices',
+            'short_name' => 'admin_devices',
+            'functions' => 'index,create,show,edit,update,destroy',
+            'isadmin' => true,
+            'users2module_id' => 1,
+            'active' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('modules')->insert([
+            'name' => 'Doc Type',
+            'short_name' => 'admin_doctypes',
+            'functions' => 'index,create,show,edit,update,destroy',
+            'isadmin' => true,
+            'users2module_id' => 1,
+            'active' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('modules')->insert([
+            'name' => 'Documents',
+            'short_name' => 'admin_documents',
+            'functions' => 'index,create,show,edit,update,destroy',
+            'isadmin' => true,
+            'users2module_id' => 1,
+            'active' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('modules')->insert([
+            'name' => 'Locations',
+            'short_name' => 'admin_locations',
+            'functions' => 'index,create,show,edit,update,destroy',
+            'isadmin' => true,
+            'users2module_id' => 1,
+            'active' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('modules')->insert([
+            'name' => 'Modules',
+            'short_name' => 'admin_modules',
+            'functions' => 'index,create,show,edit,update,destroy',
+            'isadmin' => true,
+            'users2module_id' => 1,
+            'active' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('modules')->insert([
+            'name' => 'Users',
+            'short_name' => 'admin_users',
+            'functions' => 'index,create,show,edit,update,destroy',
+            'isadmin' => true,
             'users2module_id' => 1,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")

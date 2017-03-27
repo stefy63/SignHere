@@ -16,9 +16,9 @@ class CreateUsers2modulesTable extends Migration
         Schema::create('users2modules', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
+            $table->string('permission')->default(null);
             $table->timestamps();
         });
-        
     }
 
     /**

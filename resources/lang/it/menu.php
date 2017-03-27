@@ -19,8 +19,8 @@ return [
     |
     */
 
-    'admin' => 'Admin',
     'logout' => 'Log Out',
     'confirmLogout' => 'Conferma Uscita?',
+    'main' => 'Vista Utente',
 
 ];

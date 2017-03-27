@@ -31,4 +31,21 @@ class User extends Authenticatable
         return $this->hasManyThrough('App\Models\Module','App\Models\users2module');
     }
 
+
+    public function getModules() {
+        return $this->modules()
+                ->where('active',true)
+                ->get(array('short_name'));
+    }
+
+    public function isAdmin() {
+
+        return $this->modules()
+                ->where('active',true)
+                ->where('isadmin',true)
+                ->get()->count();
+    }
+    
+
+
 }

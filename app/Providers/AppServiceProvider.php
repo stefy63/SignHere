@@ -18,30 +18,18 @@ class AppServiceProvider extends ServiceProvider
     {
         Blade::directive('menu', function (){
 
-            if($menus = Helpers::getMenu()){
+            if($menus = \Auth::user()->getModules()){
                 $ret = "";
 
                 foreach($menus as $menu) {
-                    $submenus=Helpers::getSubMenu($menu->short_name);
-                    if($submenus) {
-                        $ret .= "<li>
-                                <a href='#' class='dropdown-toggle' data-toggle='dropdown'><i class='fa fa-th-large'></i>";
-                        $ret .= "<span class='nav-label'>".__('menu.'.$menu->short_name)."<span class='caret'></span></span></a>
-                                <ul class='dropdown-menu animated fadeInRight m-t-xs'>       
-                                       <li><a href='".url($menu->short_name)."'><i class='fa fa-th-large'></i>".__('menu.'.$menu->short_name)."</a>";
-
-                        foreach($submenus as $submenu) {
-                            $ret .= "<li><a href='".url($submenu)."' ><i class='fa fa-th-large'></i>".__('menu.' . $submenu)."</a></li>";
-                        }
-                        $ret .= "</ul></li>";
-                    } else {
-                        $ret .= "<li><a href='".url($menu->short_name)."'><i class='fa fa-th-large'></i><span class='nav-label'>".__('menu.'.$menu->short_name)."</span></a></li>";
-                    }
+                    $ret .= "<li><a href='".url($menu->short_name)."'><i class='".$menu->icon."'></i>
+                            <span class='nav-label'>".__($menu->short_name.".".$menu->short_name)."</span></a></li>";
                 }
+
                 $ret .= "<li>
-                        <a href='".route('logout')."' class='text-critical'onClick=\"return confirm('".__('menu.confirmLogout')."')\"><i class='fa fa-th-large'></i><span class='nav-label'>".__('menu.logout')."</span></a>
-                        </li>
-                        </ul></nav>";
+                        <a href='".route('logout')."' onClick=\"return confirm('".__('menu.confirmLogout')."')\">
+                        <i class='fa fa-sign-out'></i><span class='nav-label'>".__('menu.logout')."</span></a>
+                        </li>";
 
                 return $ret;
             } else {

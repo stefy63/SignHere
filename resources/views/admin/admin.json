@@ -1,7 +1,39 @@
 {
-  "voce1" : "Voce A",
-  "voce2" : "Voce B",
-  "voce3" : "Voce C",
-  "voce4" : "Voce D"
+  "acl" : {
+    "icon" : "fa fa-th-large" ,
+    "route" : "/acl"
+  },
+  "brand" : {
+    "icon" : "fa fa-th-large" ,
+    "route" : "/brand"
+  },
+  "location" : {
+    "icon" : "fa fa-th-large" ,
+    "route" : "/location"
+  },
+  "client" : {
+    "icon" : "fa fa-th-large" ,
+    "route" : "/client"
+  },
+  "device" : {
+    "icon" : "fa fa-th-large" ,
+    "route" : "/device"
+  },
+  "document" : {
+    "icon" : "fa fa-th-large" ,
+    "route" : "/document"
+  },
+  "doctype" : {
+    "icon" : "fa fa-th-large" ,
+    "route" : "/doctype"
+  },
+  "user" : {
+    "icon" : "fa fa-th-large" ,
+    "route" : "/user"
+  },
+  "module" : {
+    "icon" : "fa fa-th-large" ,
+    "route" : "/module"
+  }
 
 }
