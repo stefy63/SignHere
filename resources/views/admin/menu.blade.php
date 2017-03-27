@@ -1,7 +1,7 @@
 
-<nav class="navbar-default navbar-static-side" role="navigation">
+<nav class="nav navbar-default navbar-static-side">
     <div class="sidebar-collapse">
-        <ul class="nav metismenu" id="side-menu">
+        <ul class="nav" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">

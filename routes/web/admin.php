@@ -11,17 +11,23 @@
          return view('/admin');
      });
 
-     Route::resource('admin_acls','AdminBrandController');
-     Route::resource('admin_brands','AdminBrandController');
-     Route::resource('admin_clients','AdminBrandController');
-     Route::resource('admin_devices','AdminBrandController');
-     Route::resource('admin_doctypess','AdminBrandController');
-     Route::resource('admin_documents','AdminBrandController');
-     Route::resource('admin_locations','AdminBrandController');
-     Route::resource('admin_modules','AdminBrandController');
-     Route::resource('admin_users','AdminBrandController');
+
+     // Route for ACLs //
+     Route::resource('admin_acls','AdminAclController');
+     // Route for Brands //
+     Route::resource('admin_brands','AdminBrandController',array('except'=>array('destroy')));
+     Route::get('admin_brands/destroy/{id}', array('as' => 'admin_brands.destroy','uses' => 'AdminBrandController@destroy'));
+     // Route for Clients //
+     Route::resource('admin_clients','AdminClientController');
+     Route::resource('admin_devices','AdminDeviceController');
+     Route::resource('admin_doctypess','AdminDoctypeController');
+     Route::resource('admin_documents','AdminDocumentController');
+     Route::resource('admin_locations','AdminLocationController');
+     Route::resource('admin_modules','AdminModuleController');
+     Route::resource('admin_users','AdminUserController');
 
 
  });
+
 
 

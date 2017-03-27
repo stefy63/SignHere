@@ -23,11 +23,11 @@
         @endif
 
         <div id="page-wrapper" class="gray-bg">
-            <div class="row border-bottom">
+            <div class="page-heading">
                 <!-- Section header -->
                 @include('layouts.header')
             </div>
-            <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row wrapper wrapper-content animated fadeInRight">
                 @yield('content')
             </div>                
             <div class="footer">

@@ -15,7 +15,7 @@ class CreateModulesTable extends Migration
     {
         Schema::create('modules', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('users2module_id')->unsigned();
+            $table->integer('users2module_id')->unsigned()->default(1);
             $table->string('name');
             $table->string('short_name');
             $table->string('functions');

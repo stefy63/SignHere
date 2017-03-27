@@ -46,6 +46,54 @@ class DatabaseSeeder extends Seeder
             'permission' => 'ALL',
             'created_at' => date("Y-m-d H:i:s")
         ]);
+        DB::table('users2modules')->insert([
+            'id' => 2,
+            'user_id' => 1,
+            'permission' => 'ALL',
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('users2modules')->insert([
+            'id' => 3,
+            'user_id' => 1,
+            'permission' => 'ALL',
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('users2modules')->insert([
+            'id' => 4,
+            'user_id' => 1,
+            'permission' => 'ALL',
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('users2modules')->insert([
+            'id' => 5,
+            'user_id' => 1,
+            'permission' => 'ALL',
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('users2modules')->insert([
+            'id' => 6,
+            'user_id' => 1,
+            'permission' => 'ALL',
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('users2modules')->insert([
+            'id' => 7,
+            'user_id' => 1,
+            'permission' => 'ALL',
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('users2modules')->insert([
+            'id' => 8,
+            'user_id' => 1,
+            'permission' => 'ALL',
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('users2modules')->insert([
+            'id' => 9,
+            'user_id' => 1,
+            'permission' => 'ALL',
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
 
         DB::table('modules')->insert([
             'name' => 'ACLs',
@@ -57,20 +105,20 @@ class DatabaseSeeder extends Seeder
             'created_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('modules')->insert([
-        'name' => 'Brands',
-        'short_name' => 'admin_brands',
-        'functions' => 'index,create,show,edit,update,destroy',
-        'isadmin' => true,
-        'users2module_id' => 1,
-        'active' => 1,
-        'created_at' => date("Y-m-d H:i:s")
+            'name' => 'Brands',
+            'short_name' => 'admin_brands',
+            'functions' => 'index,create,show,edit,update,destroy',
+            'isadmin' => true,
+            'users2module_id' => 2,
+            'active' => 1,
+            'created_at' => date("Y-m-d H:i:s")
         ]);
         DB::table('modules')->insert([
             'name' => 'Clients',
             'short_name' => 'admin_clients',
             'functions' => 'index,create,show,edit,update,destroy',
             'isadmin' => true,
-            'users2module_id' => 1,
+            'users2module_id' => 3,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
         ]);
@@ -79,7 +127,7 @@ class DatabaseSeeder extends Seeder
             'short_name' => 'admin_devices',
             'functions' => 'index,create,show,edit,update,destroy',
             'isadmin' => true,
-            'users2module_id' => 1,
+            'users2module_id' => 4,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
         ]);
@@ -88,7 +136,7 @@ class DatabaseSeeder extends Seeder
             'short_name' => 'admin_doctypes',
             'functions' => 'index,create,show,edit,update,destroy',
             'isadmin' => true,
-            'users2module_id' => 1,
+            'users2module_id' => 5,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
         ]);
@@ -97,7 +145,7 @@ class DatabaseSeeder extends Seeder
             'short_name' => 'admin_documents',
             'functions' => 'index,create,show,edit,update,destroy',
             'isadmin' => true,
-            'users2module_id' => 1,
+            'users2module_id' => 6,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
         ]);
@@ -106,7 +154,7 @@ class DatabaseSeeder extends Seeder
             'short_name' => 'admin_locations',
             'functions' => 'index,create,show,edit,update,destroy',
             'isadmin' => true,
-            'users2module_id' => 1,
+            'users2module_id' => 7,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
         ]);
@@ -115,7 +163,7 @@ class DatabaseSeeder extends Seeder
             'short_name' => 'admin_modules',
             'functions' => 'index,create,show,edit,update,destroy',
             'isadmin' => true,
-            'users2module_id' => 1,
+            'users2module_id' => 8,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
         ]);
@@ -124,7 +172,7 @@ class DatabaseSeeder extends Seeder
             'short_name' => 'admin_users',
             'functions' => 'index,create,show,edit,update,destroy',
             'isadmin' => true,
-            'users2module_id' => 1,
+            'users2module_id' => 9,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
         ]);

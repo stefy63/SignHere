@@ -20,5 +20,19 @@ return [
     */
 
     'admin_brands' => 'Aziende',
+    'index-header-col-1' => 'Descrizione',
+    'index-header-col-2' => 'Città',
+    'index-header-col-3' => 'Indirizzo',
+    'index-header-col-4' => 'Contato',
+    'index-header-col-5' => 'Telefono',
+    'index-header-col-6' => 'Azioni',
+    'index-title' => 'Elenco Aziende',
+    'index-tooltip-col1' => 'Visualizza dati Azienda',
+    'index-tooltip-update' => 'Modifica dati',
+    'index-tooltip-delete' => 'Cancella Azienda',
+    'confirmDelete' => 'Conferma Cancellazione Azienda',
+    'index-tooltip-create' => 'Inserisci Nuova Azienda',
+    '' => '',
+    '' => '',
 
 ];

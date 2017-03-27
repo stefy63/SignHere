@@ -39,7 +39,6 @@ class User extends Authenticatable
     }
 
     public function isAdmin() {
-
         return $this->modules()
                 ->where('active',true)
                 ->where('isadmin',true)
