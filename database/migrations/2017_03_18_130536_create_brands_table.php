@@ -15,19 +15,19 @@ class CreateBrandsTable extends Migration
     {
         Schema::create('brands', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('brands2acl_id')->unsigned();
+            $table->integer('brands2acl_id')->unsigned()->default(1);
             $table->string('description');
             $table->string('vat');
-            $table->string('personal_vat');
-            $table->string('sector');
+            $table->string('personal_vat')->nullable();
+            $table->string('sector')->nullable();
             $table->string('address');
             $table->string('city');
-            $table->string('zip_code');
+            $table->string('zip_code')->nullable();
             $table->string('region');
-            $table->string('contact');
-            $table->string('phone');
-            $table->string('mobile');
-            $table->string('fax');
+            $table->string('contact')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('mobile')->nullable();
+            $table->string('fax')->nullable();
             $table->string('email');
             $table->integer('user_id')->unsigned();
             $table->boolean('active')->default(true);

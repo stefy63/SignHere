@@ -28,7 +28,8 @@ class AdminBrandController extends Controller
      */
     public function create()
     {
-        dd('CREATE');
+
+        return view('admin.brands.create');
     }
 
     /**
@@ -39,7 +40,16 @@ class AdminBrandController extends Controller
      */
     public function store(Request $request)
     {
-        dd('STORE');
+        //dd($request->all());
+        $this->validate($request, Brand::$rules);
+
+        $brand = new Brand();
+        $request->offsetUnset('_token');
+        //dd($request->all());
+        $brand->fill($request->all());
+
+        $brand->save();
+        return \Redirect::to('admin.brands.create')->with('success', trans('admin_brands.success_brand_create'));
     }
 
     /**

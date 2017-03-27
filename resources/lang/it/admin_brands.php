@@ -8,22 +8,11 @@
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | menu Language Lines
-    |--------------------------------------------------------------------------
-    |
-    | The following language lines are used during menu for various
-    | messages that we need to display to the user. You are free to modify
-    | these language lines according to your application's requirements.
-    |
-    */
-
     'admin_brands' => 'Aziende',
     'index-header-col-1' => 'Descrizione',
     'index-header-col-2' => 'Città',
     'index-header-col-3' => 'Indirizzo',
-    'index-header-col-4' => 'Contato',
+    'index-header-col-4' => 'Contatto',
     'index-header-col-5' => 'Telefono',
     'index-header-col-6' => 'Azioni',
     'index-title' => 'Elenco Aziende',
@@ -32,7 +21,21 @@ return [
     'index-tooltip-delete' => 'Cancella Azienda',
     'confirmDelete' => 'Conferma Cancellazione Azienda',
     'index-tooltip-create' => 'Inserisci Nuova Azienda',
-    '' => '',
+    'db-description' => 'Denominazione',
+    'db-vat' => 'Partita IVA',
+    'db-personal_vat' => 'Codice Fiscale',
+    'db-sector' => 'Settore',
+    'db-address' => 'Indirizzo',
+    'db-city' => 'Città',
+    'db-zip_code' => 'CAP',
+    'db-region' => 'Comune',
+    'db-contact' => 'Contatto',
+    'db-phone' => 'Telefono',
+    'db-mobile' => 'Cellulare',
+    'db-fax' => 'Fax',
+    'db-email' => 'E-mail',
+    'db-active' => 'Attivo',
+    'submit' => 'Conferma',
     '' => '',
 
 ];

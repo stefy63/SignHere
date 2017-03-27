@@ -11,7 +11,6 @@
          return view('/admin');
      });
 
-
      // Route for ACLs //
      Route::resource('admin_acls','AdminAclController');
      // Route for Brands //
