@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDevices2aclsTable extends Migration
+class CreateUserAclTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class CreateDevices2aclsTable extends Migration
      */
     public function up()
     {
-        Schema::create('devices2acls', function (Blueprint $table) {
+        Schema::create('user_acl', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('acl_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
         });
         
@@ -28,6 +29,6 @@ class CreateDevices2aclsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('devices2acls');
+        Schema::dropIfExists('user_acl');
     }
 }

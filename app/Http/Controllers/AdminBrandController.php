@@ -30,7 +30,6 @@ class AdminBrandController extends Controller
      */
     public function create()
     {
-
         return view('admin.brands.create');
     }
 
@@ -45,12 +44,9 @@ class AdminBrandController extends Controller
         //dd($request->all());
         $this->validate($request, Brand::$rules);
 
-        $acl_id = brands2acl::create(['acl_id' => '1']);
-
         $brand = new Brand();
         $brand->fill($request->all());
         $brand->user_id = Auth::user()->id;
-        $brand->brands2acl_id = $acl_id->id;
         $brand->active = isset($request->active) ? $request->active : false;
 
         $brand->save();

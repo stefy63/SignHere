@@ -61,7 +61,7 @@
                                                     <td>{{$brand->contact}}</td>
                                                     <td>{{$brand->phone}}</td>
                                                     <td class="text-center">
-                                                        <a class="confirm-toast"  data-message="{{__('admin_brands.index-confirm-message')}}" data-location="{{ url('admin_brands/'.$brand->id.'/edit') }}">
+                                                        <a href="{{ url('admin_brands/'.$brand->id.'/edit') }}" >
                                                             <i class="fa fa-wrench"  data-toggle="tooltip" title="{{__('admin_brands.index-tooltip-update')}}"></i>
                                                         </a>
                                                         &nbsp;&nbsp;

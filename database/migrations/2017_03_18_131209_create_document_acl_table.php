@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsers2modulesTable extends Migration
+class CreateDocumentAclTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateUsers2modulesTable extends Migration
      */
     public function up()
     {
-        Schema::create('users2modules', function (Blueprint $table) {
+        Schema::create('document_acl', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->string('permission')->default(null);
+            $table->integer('acl_id')->unsigned();
+            $table->integer('document_id')->unsigned();
             $table->timestamps();
         });
+        
     }
 
     /**
@@ -28,6 +29,6 @@ class CreateUsers2modulesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users2modules');
+        Schema::dropIfExists('document_acl');
     }
 }

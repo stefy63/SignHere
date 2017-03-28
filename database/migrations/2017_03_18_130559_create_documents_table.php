@@ -15,7 +15,6 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('documents2acl_id')->unsigned();
             $table->timestamp('datedoc')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('name');
             $table->string('identifier');

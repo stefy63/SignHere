@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Acl;
 
 class Brand extends Model
 {
@@ -19,7 +20,7 @@ class Brand extends Model
     );
 
     public function acls() {
-        return $this->hasManyThrough('acl','brands2acl');
+        return $this->belongsToMany(Acl::class,'brand_acl');
     }
 
 

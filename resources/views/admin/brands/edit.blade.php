@@ -12,10 +12,9 @@
             </div>
         @endif
 
-        <form class="submit-toast" method="POST" action="{{ route('admin_brands.update',['id' => $brand->id]) }}">
+        <form class="" method="POST" action="{{ route('admin_brands.update',['id' => $brand->id]) }}">
             {!! csrf_field() !!}{{ method_field('PUT') }}
             <input type="hidden" name="id" value="{{$brand->id}}" />
-            <input type="hidden" name="brands2acl_id" value="{{$brand->brands2acl_id}}" />
             <div class="row">
                 <div class="form-group">
                     <div class="col-md-2 col-md-offset-1">

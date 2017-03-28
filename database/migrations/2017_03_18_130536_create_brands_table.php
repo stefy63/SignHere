@@ -15,7 +15,6 @@ class CreateBrandsTable extends Migration
     {
         Schema::create('brands', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('brands2acl_id')->unsigned()->default(1);
             $table->string('description');
             $table->string('vat');
             $table->string('personal_vat')->nullable();

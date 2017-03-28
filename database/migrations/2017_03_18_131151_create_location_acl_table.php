@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDocuments2aclsTable extends Migration
+class CreateLocationAclTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateDocuments2aclsTable extends Migration
      */
     public function up()
     {
-        Schema::create('documents2acls', function (Blueprint $table) {
+        Schema::create('location_acl', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('acl_id')->unsigned();
+            $table->integer('location_id')->unsigned();
             $table->timestamps();
         });
-        
     }
 
     /**
@@ -28,6 +28,7 @@ class CreateDocuments2aclsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('documents2acls');
+        Schema::dropIfExists('location_acl');
     }
 }
+

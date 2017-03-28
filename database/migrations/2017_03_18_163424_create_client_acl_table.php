@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLocations2aclsTable extends Migration
+class CreateClientAclTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateLocations2aclsTable extends Migration
      */
     public function up()
     {
-        Schema::create('locations2acls', function (Blueprint $table) {
+        Schema::create('client_acl', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('acl_id')->unsigned();
+            $table->integer('client_id')->unsigned();
             $table->timestamps();
         });
+        
     }
 
     /**
@@ -27,7 +29,6 @@ class CreateLocations2aclsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('locations2acls');
+        Schema::dropIfExists('client_acl');
     }
 }
-

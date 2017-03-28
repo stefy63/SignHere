@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Models\Acl;
+use App\Models\Module;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -28,9 +30,13 @@ class User extends Authenticatable
     ];
 
     public function modules() {
-        return $this->hasManyThrough('App\Models\Module','App\Models\users2module');
+        return $this->belongsToMany(Module::class,'user_module');
     }
 
+
+    public function acls() {
+        return $this->belongsToMany(Acl::class,'user_acl');
+    }
 
     public function getModules() {
         return $this->modules()
