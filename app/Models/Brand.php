@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Brand extends Model
 {
-    //protected $guarded = array();
+    protected $guarded = array();
     //protected $fillable = ['*'];
 
     public static $rules = array(
@@ -17,5 +17,11 @@ class Brand extends Model
         'region'            => 'required',
         'email'             => 'required|email',
     );
+
+    public function acls() {
+        return $this->hasManyThrough('acl','brands2acl');
+    }
+
+
 
 }

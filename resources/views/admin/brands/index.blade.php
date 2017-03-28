@@ -61,11 +61,11 @@
                                                     <td>{{$brand->contact}}</td>
                                                     <td>{{$brand->phone}}</td>
                                                     <td class="text-center">
-                                                        <a href="{{ url('admin_brands/'.$brand->id.'/edit') }}">
+                                                        <a class="confirm-toast"  data-message="{{__('admin_brands.index-confirm-message')}}" data-location="{{ url('admin_brands/'.$brand->id.'/edit') }}">
                                                             <i class="fa fa-wrench"  data-toggle="tooltip" title="{{__('admin_brands.index-tooltip-update')}}"></i>
                                                         </a>
                                                         &nbsp;&nbsp;
-                                                        <a href="{{ url('admin_brands/destroy/'.$brand->id) }}"  onClick="return confirm('{{__('admin_brands.confirmDelete')}}');">
+                                                        <a  class="confirm-toast"  data-message="{{__('admin_brands.index-confirm-message')}}"  data-location="{{ url('admin_brands/destroy/'.$brand->id) }}">
                                                             <i class="fa fa-trash"  data-toggle="tooltip" title="{{__('admin_brands.index-tooltip-delete')}}"></i>
                                                         </a>
                                                     </td>

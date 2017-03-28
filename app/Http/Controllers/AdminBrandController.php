@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Brand;
-use core_question\bank\view;
+use App\Models\brands2acl;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminBrandController extends Controller
 {
@@ -16,6 +17,7 @@ class AdminBrandController extends Controller
     public function index()
     {
         $brands = Brand::where('active',true)->paginate(10);
+
         return view('admin.brands.index',[
             'brands' => $brands,
         ]);
@@ -43,13 +45,16 @@ class AdminBrandController extends Controller
         //dd($request->all());
         $this->validate($request, Brand::$rules);
 
+        $acl_id = brands2acl::create(['acl_id' => '1']);
+
         $brand = new Brand();
-        $request->offsetUnset('_token');
-        //dd($request->all());
         $brand->fill($request->all());
+        $brand->user_id = Auth::user()->id;
+        $brand->brands2acl_id = $acl_id->id;
+        $brand->active = isset($request->active) ? $request->active : false;
 
         $brand->save();
-        return \Redirect::to('admin.brands.create')->with('success', trans('admin_brands.success_brand_create'));
+        return redirect()->back()->with('success', __('admin_brands.success_brand_create'));
     }
 
     /**
@@ -69,9 +74,15 @@ class AdminBrandController extends Controller
      * @param  \App\Models\Brand  $brand
      * @return \Illuminate\Http\Response
      */
-    public function edit(Brand $brand)
+    public function edit(Brand $brand, $id)
     {
-        dd('EDIT');
+        if($brand = Brand::find($id)) {
+            return view('admin.brands.edit',[
+                'brand' => $brand,
+            ]);
+        }
+
+        return redirect()->back()->with('warning', 'admin_brands.warning_brand_NOTfound');
     }
 
     /**
@@ -81,9 +92,17 @@ class AdminBrandController extends Controller
      * @param  \App\Models\Brand  $brand
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Brand $brand)
+    public function update(Request $request, Brand $brand, $id)
     {
-        dd('UPDATE');
+        if($brand = Brand::find($id)) {
+
+            //dd($request->all());
+            $brand->fill($request->all());
+            $brand->active = isset($request->active) ? $request->active : false;
+            $brand->save();
+            return redirect()->back()->with('success', __('admin_brands.success_brand_updated'));
+        }
+        return redirect()->back()->with('warning', 'admin_brands.warning_brand_NOTupdated');
     }
 
     /**
@@ -94,6 +113,6 @@ class AdminBrandController extends Controller
      */
     public function destroy(Brand $brand)
     {
-        dd('DESTROY');
+       return redirect()->back()->with('success', __('admin_brands.success_brand_destroy'));
     }
 }

@@ -14,8 +14,6 @@
 
     <form method="POST" action="{{ route('admin_brands.store') }}">
     {!! csrf_field() !!}
-        <input type="hidden" name="brands2acl_id" value="1" />
-        <input type="hidden" name="user_id" value="{{Auth::user()->id}}" />
         <div class="row">
             <div class="form-group">
                 <div class="col-md-2 col-md-offset-1">
@@ -44,7 +42,7 @@
                     <label for="personal_vat" >{{__('admin_brands.db-personal_vat')}}</label>
                 </div>
                 <div class="col-md-8">
-                    <input class="form-control" size="50" type="text" name="personal_vat" value="{{old("personal_vat")}}" />
+                    <input class="form-control" size="50" type="text" name="personal_vat" value="{{old("personal_vat")}}"  />
                 </div>
             </div>
         </div>
@@ -165,7 +163,7 @@
                     <label for="active" >{{__('admin_brands.db-active')}}</label>
                 </div>
                 <div class="col-md-8">
-                    <input class="form-control" size="50" type="checkbox" name="active" value="{{old("active")}}" />
+                    <input class="form-control" type="checkbox" name="active" value="1" checked="@if(old("active")) cheked @endif" />
                 </div>
             </div>
         </div>

@@ -19,8 +19,10 @@ return [
     'index-tooltip-col1' => 'Visualizza dati Azienda',
     'index-tooltip-update' => 'Modifica dati',
     'index-tooltip-delete' => 'Cancella Azienda',
-    'confirmDelete' => 'Conferma Cancellazione Azienda',
     'index-tooltip-create' => 'Inserisci Nuova Azienda',
+    'confirmDelete' => 'Conferma Cancellazione Azienda',
+    'index-confirm-title' => 'Sei Sicuro?',
+    'index-confirm-message' => 'Confermi l\'operazione richesta?',
     'db-description' => 'Denominazione',
     'db-vat' => 'Partita IVA',
     'db-personal_vat' => 'Codice Fiscale',
@@ -36,6 +38,18 @@ return [
     'db-email' => 'E-mail',
     'db-active' => 'Attivo',
     'submit' => 'Conferma',
+    'success_brand_create' => 'Azienda Creata con successo',
+    'success_brand_destroy' => 'Azienda Cancellata con successo',
+    'success_brand_updated' => 'Azienda Aggiornata con successo',
+    'warning_brand_NOTfound' => 'Azienda NON Trovata',
+    'warning_brand_NOTupdated' => 'Impossibil Aggiornare l\'Azienda',
     '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
+
+
+
 
 ];
