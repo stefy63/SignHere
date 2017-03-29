@@ -51,10 +51,10 @@
                                 </thead>
                                 <tbody>
                                 @foreach($brands as $brand)
-                                    @if($brand->active == 1)
-                                        <tr class="gradeA odd" role="row">
+                                    @if($brand->active != 1)
+                                        <tr class="gradeA odd text-danger" role="row">
                                     @else
-                                        <tr class="gradeA odd bg-danger" role="row">
+                                        <tr class="gradeA odd" role="row">
                                     @endif
                                         <td><a class="open-modal" data-url="{{ url('admin_brands/'.$brand->id) }}" data-toggle="modal" data-target="#showModal" title="{{__('admin_brands.index-tooltip-col1')}}" >
                                                 {{$brand->description}}</a>

@@ -5,7 +5,7 @@
         <div class="modal-content animated flipInY">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="modal-title" name="description">{{$brand->description}}</h4>
+                <h4 class="modal-title" id="modal-title" name="description"></h4>
                 <!--<small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>-->
             </div>
             <div class="modal-body">
@@ -16,7 +16,7 @@
                             <label for="vat" >{{__('admin_brands.db-vat')}}</label>
                         </div>
                         <div class="col-md-8 col-md-offset-1">
-                            <input class="form-control" size="50" type="text" name="vat" value="{{$brand->vat}}" disabled/>
+                            <input class="form-control" size="50" type="text" name="vat" value="" disabled/>
                         </div>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                             <label for="personal_vat" >{{__('admin_brands.db-personal_vat')}}</label>
                         </div>
                         <div class="col-md-8 col-md-offset-1">
-                            <input class="form-control" size="50" type="text" name="personal_vat" value="{{$brand->personal_vat}}" disabled/>
+                            <input class="form-control" size="50" type="text" name="personal_vat" value="" disabled/>
                         </div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                             <label for="sector" >{{__('admin_brands.db-sector')}}</label>
                         </div>
                         <div class="col-md-8 col-md-offset-1">
-                            <input class="form-control" size="50" type="text" name="sector" value="{{$brand->sector}}" disabled/>
+                            <input class="form-control" size="50" type="text" name="sector" value="" disabled/>
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                             <label for="address" >{{__('admin_brands.db-address')}}</label>
                         </div>
                         <div class="col-md-8 col-md-offset-1">
-                            <input class="form-control" size="50" type="text" name="address" value="{{$brand->address}}" disabled/>
+                            <input class="form-control" size="50" type="text" name="address" value="" disabled/>
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                             <label for="city" >{{__('admin_brands.db-city')}}</label>
                         </div>
                         <div class="col-md-8 col-md-offset-1">
-                            <input class="form-control" size="50" type="text" name="city" value="{{$brand->city}}" disabled/>
+                            <input class="form-control" size="50" type="text" name="city" value="" disabled/>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@
                             <label for="zip_code" >{{__('admin_brands.db-zip_code')}}</label>
                         </div>
                         <div class="col-md-8 col-md-offset-1">
-                            <input class="form-control" size="50" type="text" name="zip_code" value="{{$brand->zip_code}}" disabled/>
+                            <input class="form-control" size="50" type="text" name="zip_code" value="" disabled/>
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                             <label for="region" >{{__('admin_brands.db-region')}}</label>
                         </div>
                         <div class="col-md-8 col-md-offset-1">
-                            <input class="form-control" size="50" type="text" name="region" value="{{$brand->region}}" disabled/>
+                            <input class="form-control" size="50" type="text" name="region" value="" disabled/>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@
                             <label for="contact" >{{__('admin_brands.db-contact')}}</label>
                         </div>
                         <div class="col-md-8 col-md-offset-1">
-                            <input class="form-control" size="50" type="text" name="contact" value="{{$brand->contact}}" disabled/>
+                            <input class="form-control" size="50" type="text" name="contact" value="" disabled/>
                         </div>
                     </div>
                 </div>
@@ -104,7 +104,7 @@
                             <label for="phone" >{{__('admin_brands.db-phone')}}</label>
                         </div>
                         <div class="col-md-8 col-md-offset-1">
-                            <input class="form-control" size="50" type="text" name="phone" value="{{$brand->phone}}" disabled/>
+                            <input class="form-control" size="50" type="text" name="phone" value="" disabled/>
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
                             <label for="mobile" >{{__('admin_brands.db-mobile')}}</label>
                         </div>
                         <div class="col-md-8 col-md-offset-1">
-                            <input class="form-control" size="50" type="text" name="mobile" value="{{$brand->mobile}}" disabled/>
+                            <input class="form-control" size="50" type="text" name="mobile" value="" disabled/>
                         </div>
                     </div>
                 </div>
@@ -126,7 +126,7 @@
                             <label for="fax" >{{__('admin_brands.db-fax')}}</label>
                         </div>
                         <div class="col-md-8 col-md-offset-1">
-                            <input class="form-control" size="50" type="text" name="fax" value="{{$brand->fax}}" disabled/>
+                            <input class="form-control" size="50" type="text" name="fax" value="" disabled/>
                         </div>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
                             <label for="email" >{{__('admin_brands.db-email')}}</label>
                         </div>
                         <div class="col-md-8 col-md-offset-1">
-                            <input class="form-control" size="50" type="text" name="email" value="{{$brand->email}}" disabled/>
+                            <input class="form-control" size="50" type="text" name="email" value="" disabled/>
                         </div>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
                             <label for="active" >{{__('admin_brands.db-active')}}</label>
                         </div>
                         <div class="col-md-8 col-md-offset-1 text-left">
-                            <input class="form-control text-left" type="checkbox" name="active" value="1"  @if($brand->active == 1) checked="1" @endif disabled/>
+                            <input class="form-control text-left" type="checkbox" name="active" value="1" disabled/>
                         </div>
                     </div>
                 </div>

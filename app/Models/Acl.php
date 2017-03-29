@@ -39,4 +39,12 @@ class Acl extends Model
         return $this->belongsToMany(User::class,'user_acl');
     }
 
+    public function getMyBrands(Brand $brand) {
+        $userAcls = \Auth::user()->acls()->get(['acl_id'])->toArray();
+        //$Brands = Brand::acls
+        return false;
+    }
+
+
+
 }

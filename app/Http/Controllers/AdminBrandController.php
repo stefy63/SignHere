@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\models\Acl;
+use App\Models\Acl;
 use App\Models\Brand;
 use App\Models\brand_acl;
 use Illuminate\Http\Request;
@@ -11,14 +11,16 @@ use Illuminate\Support\Facades\Auth;
 class AdminBrandController extends Controller
 {
 
+    protected $acls;
     /**
      * Instantiate a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Acl $acls)
     {
         $this->middleware('hasRole');
+        $this->acls = $acls;
     }
 
 
@@ -29,8 +31,9 @@ class AdminBrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::paginate(10);
 
+        //$brands = $this->acls->getMyBrands()->paginate(10);
+        $brands = Brand::paginate(10);
         return view('admin.brands.index',[
             'brands' => $brands,
         ]);
