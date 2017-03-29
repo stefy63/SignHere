@@ -7,6 +7,7 @@ use App\Models\Device;
 use App\Models\Location;
 use App\Models\Document;
 use App\Models\Client;
+use App\Models\Brand;
 use Illuminate\Database\Eloquent\Model;
 
 class Acl extends Model

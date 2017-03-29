@@ -2,13 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\models\Acl;
 use App\Models\Brand;
-use App\Models\brands2acl;
+use App\Models\brand_acl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AdminBrandController extends Controller
 {
+
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('hasRole');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +29,7 @@ class AdminBrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::where('active',true)->paginate(10);
+        $brands = Brand::paginate(10);
 
         return view('admin.brands.index',[
             'brands' => $brands,
@@ -41,15 +54,16 @@ class AdminBrandController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
         $this->validate($request, Brand::$rules);
 
         $brand = new Brand();
         $brand->fill($request->all());
         $brand->user_id = Auth::user()->id;
         $brand->active = isset($request->active) ? $request->active : false;
-
         $brand->save();
+
+        $acls = brand_acl::create(['brand_id' => $brand->id,'acl_id' => '1']);
+
         return redirect()->back()->with('success', __('admin_brands.success_brand_create'));
     }
 
@@ -59,9 +73,18 @@ class AdminBrandController extends Controller
      * @param  \App\Models\Brand  $brand
      * @return \Illuminate\Http\Response
      */
-    public function show(Brand $brand)
+    public function show(Request $request, Brand $brand, $id)
     {
-        dd('SHOW');
+        if($brand = Brand::find($id)) {
+            if($request->ajax()){
+                return response()->json([$brand]);
+            }
+            return view('admin.brands.show',[
+                'brand' => $brand,
+            ]);
+        }
+
+        return redirect()->back()->with('warning', 'admin_brands.warning_brand_NOTfound');
     }
 
     /**
@@ -96,6 +119,7 @@ class AdminBrandController extends Controller
             $brand->fill($request->all());
             $brand->active = isset($request->active) ? $request->active : false;
             $brand->save();
+
             return redirect()->back()->with('success', __('admin_brands.success_brand_updated'));
         }
         return redirect()->back()->with('warning', 'admin_brands.warning_brand_NOTupdated');
@@ -107,8 +131,15 @@ class AdminBrandController extends Controller
      * @param  \App\Models\Brand  $brand
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Brand $brand)
+    public function destroy(Brand $brand, $id)
     {
-       return redirect()->back()->with('success', __('admin_brands.success_brand_destroy'));
+        if($brand = Brand::find($id)) {
+
+            brand_acl::where('brand_id',$id)->delete();
+            $brand->delete();
+
+            return redirect()->back()->with('success', __('admin_brands.success_brand_destroy'));
+        }
+        return redirect()->back()->with('warning', 'admin_brands.warning_brand_NOT deleted');
     }
 }

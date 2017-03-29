@@ -15,8 +15,8 @@ class CreateDeviceAclTable extends Migration
     {
         Schema::create('device_acl', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('acl_id')->unsigned();
-            $table->integer('device_id')->unsigned();
+            $table->integer('acl_id')->unsigned()->default(1);
+            $table->integer('device_id')->unsigned()->default(1);
             $table->timestamps();
         });
         

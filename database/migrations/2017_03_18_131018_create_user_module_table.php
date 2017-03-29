@@ -15,9 +15,9 @@ class CreateUserModuleTable extends Migration
     {
         Schema::create('user_module', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->integer('module_id')->unsigned();
-            $table->string('permission')->default(null);
+            $table->integer('user_id')->unsigned()->default(1);
+            $table->integer('module_id')->unsigned()->default(1);
+            $table->string('permission')->nullable()->default(null);
             $table->timestamps();
         });
     }

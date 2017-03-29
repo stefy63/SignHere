@@ -15,8 +15,8 @@ class CreateBrandAclTable extends Migration
     {
         Schema::create('brand_acl', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('acl_id')->unsigned();
-            $table->integer('brand_id')->unsigned();
+            $table->integer('acl_id')->unsigned()->default(1);
+            $table->integer('brand_id')->unsigned()->default(1);
             $table->timestamps();
         });
         

@@ -44,7 +44,7 @@ class DatabaseSeeder extends Seeder
             'id' => 1,
             'name' => 'ACLs',
             'short_name' => 'admin_acls',
-            'functions' => 'index,create,show,edit,update,destroy',
+            'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
@@ -53,7 +53,7 @@ class DatabaseSeeder extends Seeder
             'id' => 2,
             'name' => 'Brands',
             'short_name' => 'admin_brands',
-            'functions' => 'index,create,show,edit,update,destroy',
+            'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
             'id' => 3,
             'name' => 'Clients',
             'short_name' => 'admin_clients',
-            'functions' => 'index,create,show,edit,update,destroy',
+            'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
@@ -71,7 +71,7 @@ class DatabaseSeeder extends Seeder
             'id' => 4,
             'name' => 'Devices',
             'short_name' => 'admin_devices',
-            'functions' => 'index,create,show,edit,update,destroy',
+            'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
@@ -80,7 +80,7 @@ class DatabaseSeeder extends Seeder
             'id' => 5,
             'name' => 'Doc Type',
             'short_name' => 'admin_doctypes',
-            'functions' => 'index,create,show,edit,update,destroy',
+            'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
@@ -89,7 +89,7 @@ class DatabaseSeeder extends Seeder
             'id' => 6,
             'name' => 'Documents',
             'short_name' => 'admin_documents',
-            'functions' => 'index,create,show,edit,update,destroy',
+            'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
@@ -98,7 +98,7 @@ class DatabaseSeeder extends Seeder
             'id' => 7,
             'name' => 'Locations',
             'short_name' => 'admin_locations',
-            'functions' => 'index,create,show,edit,update,destroy',
+            'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
@@ -107,7 +107,7 @@ class DatabaseSeeder extends Seeder
             'id' => 8,
             'name' => 'Modules',
             'short_name' => 'admin_modules',
-            'functions' => 'index,create,show,edit,update,destroy',
+            'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
@@ -116,7 +116,7 @@ class DatabaseSeeder extends Seeder
             'id' => 9,
             'name' => 'Users',
             'short_name' => 'admin_users',
-            'functions' => 'index,create,show,edit,update,destroy',
+            'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")

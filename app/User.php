@@ -38,10 +38,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Acl::class,'user_acl');
     }
 
-    public function getModules() {
-        return $this->modules()
-                ->where('active',true)
-                ->get(array('short_name'));
+    public function getModules($module = false) {
+
+        $result = $this->modules()
+            ->where('active',true);
+
+        if($module) $result = $result->where('short_name',$module);
+
+        return $result->get(array('short_name','permission','functions'));
     }
 
     public function isAdmin() {
@@ -51,6 +55,30 @@ class User extends Authenticatable
                 ->get()->count();
     }
     
+    /**
+    * Find out if user has a specific role
+    *
+    * $return boolean
+    */
+    public function hasRole($module, $op)
+    {
+        if($userPermission = $this->getModules($module))
+        {
+            //dd($userPermission[0]->attributes);
+            $userPermission = $userPermission[0]->attributes;
+            ($userPermission['permission'] != 'ALL')? :$userPermission['permission'] = $userPermission['functions'];
+            ($op != 'store')? :$op='create';
+            ($op != 'update')? :$op='edit';
+            //dd($module,$op,$userPermission);
+            return (strpos(" ".$userPermission['permission'],$op ));
+        }
+        return false;
+    }
+
+
+
+
+
 
 
 }

@@ -24,7 +24,7 @@ return [
     'notify_success'    => 'Operazione Compleatata',
     'notify_warning'    => 'Avviso di Sistema',
     'confirm-title'     => 'Sei Sicuro?',
-    '' => '',
+    'error_operation'   => 'Operazione NON permessa',
     '' => '',
     '' => '',
     '' => '',

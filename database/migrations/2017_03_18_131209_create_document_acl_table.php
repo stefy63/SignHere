@@ -15,8 +15,8 @@ class CreateDocumentAclTable extends Migration
     {
         Schema::create('document_acl', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('acl_id')->unsigned();
-            $table->integer('document_id')->unsigned();
+            $table->integer('acl_id')->unsigned()->default(1);
+            $table->integer('document_id')->unsigned()->default(1);
             $table->timestamps();
         });
         

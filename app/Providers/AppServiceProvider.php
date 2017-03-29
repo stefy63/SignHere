@@ -19,17 +19,13 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('menu', function (){
 
             if($menus = \Auth::user()->getModules()){
+                //dd($menus);
                 $ret = "";
 
                 foreach($menus as $menu) {
                     $ret .= "<li><a href='".url($menu->short_name)."'><i class='".$menu->icon."'></i>
                             <span class='nav-label'>".__($menu->short_name.".".$menu->short_name)."</span></a></li>";
                 }
-
-                $ret .= "<li>
-                        <a href='".route('logout')."' onClick=\"return confirm('".__('menu.confirmLogout')."')\">
-                        <i class='fa fa-sign-out'></i><span class='nav-label'>".__('menu.logout')."</span></a>
-                        </li>";
 
                 return $ret;
             } else {

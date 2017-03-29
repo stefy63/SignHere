@@ -12,7 +12,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('admin_brands.store') }}">
+    <form method="POST" action="{{ route('admin_brands.store') }}" id="toast-form">
     {!! csrf_field() !!}
         <div class="row">
             <div class="form-group">
@@ -163,7 +163,7 @@
                     <label for="active" >{{__('admin_brands.db-active')}}</label>
                 </div>
                 <div class="col-md-8">
-                    <input class="form-control" type="checkbox" name="active" value="1" checked="@if(old("active")) cheked @endif" />
+                    <input class="form-control" type="checkbox" name="active" value="1" @if(old("active") == 1) checked="1" @endif />
                 </div>
             </div>
         </div>
@@ -173,7 +173,7 @@
 
         <div class="row">
             <div class="col-md-12 text-center">
-                <p><button class="btn btn-block btn-outline btn-primary" type="submit">{{__('admin_brands.submit')}}</button></p>
+                <p><button class="submit-toast btn btn-block btn-outline btn-primary" data-form-id="toast-form">{{__('admin_brands.submit')}}</button></p>
             </div>
         </div>
     </form>

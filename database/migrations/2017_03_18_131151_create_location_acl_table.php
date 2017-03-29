@@ -15,8 +15,8 @@ class CreateLocationAclTable extends Migration
     {
         Schema::create('location_acl', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('acl_id')->unsigned();
-            $table->integer('location_id')->unsigned();
+            $table->integer('acl_id')->unsigned()->default(1);
+            $table->integer('location_id')->unsigned()->default(1);
             $table->timestamps();
         });
     }

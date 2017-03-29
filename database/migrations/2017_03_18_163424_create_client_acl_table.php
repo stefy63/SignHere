@@ -15,8 +15,8 @@ class CreateClientAclTable extends Migration
     {
         Schema::create('client_acl', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('acl_id')->unsigned();
-            $table->integer('client_id')->unsigned();
+            $table->integer('acl_id')->unsigned()->default(1);
+            $table->integer('client_id')->unsigned()->default(1);
             $table->timestamps();
         });
         

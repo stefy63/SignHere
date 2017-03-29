@@ -63,28 +63,23 @@ $(function () {
         });
     });
 
-    $('.submit-toast').submit(function (e) {
-        var options = options || {};
-        if ( !options.lots_of_stuff_done ) {
-            e.preventDefault();
-            var location = this.getAttribute('action');
-            swal({
-                title: '{{__('app.confirm-title')}}',
-                text: this.getAttribute('data-message'),
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Yes",
-                closeOnConfirm: true
-            }, function () {
+    $('.submit-toast').click(function (e) {
+        e.preventDefault();
 
-                //alert(location);
-                //e.complete();
-            });
-        } else {
-            this.submit();
-        }
+        var form = '#'+this.getAttribute('data-form-id');
+        swal({
+            title: '{{__('app.confirm-title')}}',
+            text: this.getAttribute('data-message'),
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            closeOnConfirm: true
+        }, function () {
+            $(form).submit();
+        });
     });
+
 
 
 

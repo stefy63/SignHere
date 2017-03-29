@@ -4,11 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Acl;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Brand extends Model
 {
     protected $guarded = array();
     //protected $fillable = ['*'];
+
+    use SoftDeletes;
 
     public static $rules = array(
         'description'       => 'required',
