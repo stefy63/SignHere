@@ -8,7 +8,10 @@ use App\Models\Location;
 use App\Models\Document;
 use App\Models\Client;
 use App\Models\Brand;
+use App\Models\brand_acl;
+use App\Models\user_acl;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Acl extends Model
 {
@@ -39,10 +42,12 @@ class Acl extends Model
         return $this->belongsToMany(User::class,'user_acl');
     }
 
-    public function getMyBrands(Brand $brand) {
-        $userAcls = \Auth::user()->acls()->get(['acl_id'])->toArray();
-        //$Brands = Brand::acls
-        return false;
+    public static function getMyBrands() {
+        $userAcls = \Auth::user()->getMyAcls();
+        $aclBrands = brand_acl::whereIn('acl_id',$userAcls)->get()->pluck('brand_id')->toArray();
+        $Brands = Brand::whereIn('id',$aclBrands);
+
+        return $Brands;
     }
 
 

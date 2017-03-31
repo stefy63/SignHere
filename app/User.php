@@ -4,6 +4,7 @@ namespace App;
 
 use App\Models\Acl;
 use App\Models\Module;
+use App\Models\user_acl;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -32,7 +33,6 @@ class User extends Authenticatable
     public function modules() {
         return $this->belongsToMany(Module::class,'user_module');
     }
-
 
     public function acls() {
         return $this->belongsToMany(Acl::class,'user_acl');
@@ -64,17 +64,18 @@ class User extends Authenticatable
     {
         if($userPermission = $this->getModules($module))
         {
-            //dd($userPermission[0]->attributes);
             $userPermission = $userPermission[0]->attributes;
             ($userPermission['permission'] != 'ALL')? :$userPermission['permission'] = $userPermission['functions'];
             ($op != 'store')? :$op='create';
             ($op != 'update')? :$op='edit';
-            //dd($module,$op,$userPermission);
-            return (strpos(" ".$userPermission['permission'],$op ));
+
+            return (strpos(" ".$userPermission['permission'],$op )>0 ? true : false);
         }
         return false;
     }
 
-
+    public function getMyAcls() {
+        return \Auth::user()->acls()->get()->pluck('id')->toArray();
+    }
 
 }

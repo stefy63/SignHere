@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Acl;
 use App\Models\Brand;
 use App\Models\brand_acl;
+use App\Models\user_acl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AdminBrandController extends Controller
 {
 
-    protected $acls;
     /**
      * Instantiate a new controller instance.
      *
@@ -20,7 +20,6 @@ class AdminBrandController extends Controller
     public function __construct(Acl $acls)
     {
         $this->middleware('hasRole');
-        $this->acls = $acls;
     }
 
 
@@ -31,9 +30,8 @@ class AdminBrandController extends Controller
      */
     public function index()
     {
+        $brands = Acl::getMyBrands()->paginate(10);
 
-        //$brands = $this->acls->getMyBrands()->paginate(10);
-        $brands = Brand::paginate(10);
         return view('admin.brands.index',[
             'brands' => $brands,
         ]);
@@ -64,8 +62,8 @@ class AdminBrandController extends Controller
         $brand->user_id = Auth::user()->id;
         $brand->active = isset($request->active) ? $request->active : false;
         $brand->save();
-
-        $acls = brand_acl::create(['brand_id' => $brand->id,'acl_id' => '1']);
+        $brand->acls()->attach(  '1');
+        //$acls = brand_acl::create(['brand_id' => $brand->id,'acl_id' => '1']);
 
         return redirect()->back()->with('success', __('admin_brands.success_brand_create'));
     }
@@ -123,6 +121,7 @@ class AdminBrandController extends Controller
             $brand->active = isset($request->active) ? $request->active : false;
             $brand->save();
 
+
             return redirect()->back()->with('success', __('admin_brands.success_brand_updated'));
         }
         return redirect()->back()->with('warning', 'admin_brands.warning_brand_NOTupdated');
@@ -139,6 +138,7 @@ class AdminBrandController extends Controller
         if($brand = Brand::find($id)) {
 
             brand_acl::where('brand_id',$id)->delete();
+            $brand->acls()->detach();
             $brand->delete();
 
             return redirect()->back()->with('success', __('admin_brands.success_brand_destroy'));

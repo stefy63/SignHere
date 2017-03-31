@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
-class brand_acl extends Model
+class user_acl extends Model
 {
     protected $guarded = array();
     //protected $fillable = ['*'];
 
-    protected $table = 'brand_acl';
+    protected $table = 'user_acl';
 
 }
