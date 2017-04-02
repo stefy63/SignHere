@@ -11,6 +11,6 @@ class Module extends Model
     //protected $fillable = ['*'];
 
     public function users(){
-         return $this->belongsToMany(User::class,'user_module');
+         return $this->belongsToMany(User::class,'user_module')->withPivot('permission');
     }
 }

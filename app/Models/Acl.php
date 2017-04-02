@@ -58,6 +58,14 @@ class Acl extends Model
         return $Locations;
     }
 
+    public static function getMyUsers() {
+        $userAcls = \Auth::user()->getMyAcls();
+        $Users = User::whereHas('acls',function ($q) use ($userAcls){
+            $q->whereIn('acl_id',$userAcls);
+        });
+        return $Users;
+    }
+
 
 
 }

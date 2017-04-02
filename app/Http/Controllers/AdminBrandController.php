@@ -149,6 +149,6 @@ class AdminBrandController extends Controller
 
             return redirect()->back()->with('success', __('admin_brands.success_brand_destroy'));
         }
-        return redirect()->back()->with('warning', 'admin_brands.warning_brand_NOT deleted');
+        return redirect()->back()->with('warning', 'admin_brands.warning_brand_NOT_deleted');
     }
 }

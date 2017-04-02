@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'surname' => 'Superadmin',
             'email' => 'admin@localhost.com',
+            'user_id'=> 1,
             'api_token' => str_random(60),
             'password' => bcrypt('admin'),
             'created_at' => date("Y-m-d H:i:s")
@@ -116,7 +117,7 @@ class DatabaseSeeder extends Seeder
             'id' => 9,
             'name' => 'Users',
             'short_name' => 'admin_users',
-            'functions' => 'index,create,show,edit,destroy',
+            'functions' => 'index,create,show,edit,destroy,permission,resetPwd',
             'isadmin' => true,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")

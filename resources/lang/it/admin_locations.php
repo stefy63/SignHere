@@ -58,6 +58,7 @@ return [
     'success_location_updated' => 'Sito Aggiornata con successo',
     'warning_location_NOTfound' => 'Sito NON Trovato',
     'warning_location_NOTupdated' => 'Impossibil Aggiornare il Sito',
+    'warning_user_NOT_deleted' => 'Impossibile Cancellare il Sito',
     'modal-title' => '',
     '' => '',
     '' => '',

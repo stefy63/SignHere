@@ -26,7 +26,14 @@
      Route::get('admin_locations/destroy/{id}', array('as' => 'admin_locations.destroy','uses' => 'AdminLocationController@destroy'));
 
      Route::resource('admin_modules','AdminModuleController');
-     Route::resource('admin_users','AdminUserController');
+     // Route for Locations //
+     Route::resource('admin_users','AdminUserController', ['except' => ['show', 'destroy']]);
+     Route::get('admin_users/destroy/{id}', array('as' => 'admin_users.destroy','uses' => 'AdminUserController@destroy'));
+     Route::get('admin_users/permission/{id}', array('as' => 'admin_users.permission','uses' => 'AdminUserController@permission'));
+     Route::put('admin_users/permission/{id}', array('as' => 'admin_users.store_permission','uses' => 'AdminUserController@store_permission'));
+     Route::get('admin_users/resetPwd/{id}', array('as' => 'admin_users.resetPwd','uses' => 'AdminUserController@resetPwd'));
+     Route::post('admin_users/resetPwd', array('as' => 'admin_users.update_resetPwd','uses' => 'AdminUserController@update_resetPwd'));
+
 
 
  });

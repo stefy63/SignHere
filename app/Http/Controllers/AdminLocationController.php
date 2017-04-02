@@ -17,7 +17,7 @@ class AdminLocationController extends Controller
      *
      * @return void
      */
-    public function __construct(Acl $acls)
+    public function __construct()
     {
         $this->middleware('hasRole');
     }
@@ -112,7 +112,7 @@ class AdminLocationController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('warning', 'dmin_locations.warning_location_NOTfound');
+        return redirect()->back()->with('warning', 'admin_locations.warning_location_NOTfound');
     }
 
     /**
@@ -158,6 +158,6 @@ class AdminLocationController extends Controller
 
             return redirect()->back()->with('success', __('admin_locations.success_location_destroy'));
         }
-        return redirect()->back()->with('warning', 'admin_locations.warning_location_NOT deleted');
+        return redirect()->back()->with('warning', 'admin_locations.warning_location_NOT_deleted');
     }
 }

@@ -44,6 +44,7 @@ return [
     'success_brand_updated' => 'Azienda Aggiornata con successo',
     'warning_brand_NOTfound' => 'Azienda NON Trovata',
     'warning_brand_NOTupdated' => 'Impossibil Aggiornare l\'Azienda',
+    'warning_user_NOT_deleted' => 'Impossibile Cancellare l\'Azienda',
     'modal-title' => '',
     '' => '',
     '' => '',
