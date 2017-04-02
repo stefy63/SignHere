@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\Acl;
+use App\Models\Device;
 use App\Models\Module;
 use App\Models\user_acl;
 use Illuminate\Notifications\Notifiable;
@@ -36,6 +37,11 @@ class User extends Authenticatable
 
     public function acls() {
         return $this->belongsToMany(Acl::class,'user_acl');
+    }
+
+
+    public function devices() {
+        return $this->belongsToMany(Device::class,'device_user');
     }
 
     public function getModules($module = false) {
