@@ -10,6 +10,18 @@
             </div>
             <div class="modal-body">
 
+                <!-- AZIENDA -->
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3 col-md-offset-1">
+                            <label for="brand_id" >{{__('admin_locations.db-brand_id')}}</label>
+                        </div>
+                        <div class="col-md-7 col-md-offset-1">
+                            <input class="form-control" size="50" type="text" name="brand" value="" disabled/>
+                        </div>
+                    </div>
+                </div>
+                <!-- FINE AZIENDA -->
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-3 col-md-offset-1">
@@ -144,10 +156,10 @@
 
                 <div class="row">
                     <div class="form-group">
-                        <div class="col-md-3 col-md-offset-1">
+                        <div class="col-md-2 col-md-offset-1">
                             <label for="active" >{{__('admin_brands.db-active')}}</label>
                         </div>
-                        <div class="col-md-7 col-md-offset-1 text-left">
+                        <div class="col-md-8 col-md-offset-1 text-left">
                             <input class="form-control text-left" type="checkbox" name="active" value="1" disabled/>
                         </div>
                     </div>
@@ -170,6 +182,7 @@ $(function(){
 
         $.get(url, function (data) {
             //success data
+            console.log(data);
             data = data['0'];
             $('#showModal .modal-title').text(data['description']);
             if(data['action'] == 1) $('#showModal input[type="checkbox"]').checked=true;

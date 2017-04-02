@@ -96,7 +96,7 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('modules')->insert([
             'id' => 7,
-            'name' => 'Locations',
+            'name' => 'locations',
             'short_name' => 'admin_locations',
             'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,

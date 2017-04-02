@@ -50,7 +50,10 @@ class AddForeignKeyClients extends Migration
 
         Schema::table('documents', function (Blueprint $table) {
             $table->foreign('client_id')->references('id')->on('clients');
-            $table->foreign('doctype_id')->references('id')->on('doctypes');
+        });
+
+        Schema::table('locations', function (Blueprint $table) {
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
         });
     }
 

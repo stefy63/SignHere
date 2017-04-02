@@ -16,7 +16,7 @@ class CreateAclsTable extends Migration
         Schema::create('acls', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->integer('parent_id')->unsigned();
             $table->boolean('active')->default(true);
             $table->timestamps();

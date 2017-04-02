@@ -1,16 +1,6 @@
 @extends('admin.back')
 
 @section('content')
-    <div>
-        @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
 
         <form method="POST" action="{{ route('admin_brands.update',['id' => $brand->id]) }}"  id="toast-form">
             {!! csrf_field() !!}{{ method_field('PUT') }}
@@ -164,7 +154,7 @@
                         <label for="active" >{{__('admin_brands.db-active')}}</label>
                     </div>
                     <div class="col-md-8">
-                        <input class="form-control" type="checkbox" name="active" value="1"  @if($brand->active == 1) checked="1" @endif />
+                        <input class="js-switch" type="checkbox" data-switchery="true" name="active" value="1"  @if($brand->active == 1) checked @endif style="display: none;"/>
                     </div>
                 </div>
             </div>
@@ -180,5 +170,4 @@
         </form>
 
     </div>
-
 @endsection

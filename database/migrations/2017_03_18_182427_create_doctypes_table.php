@@ -16,11 +16,7 @@ class CreateDoctypesTable extends Migration
         Schema::create('doctypes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('identifier');
-            $table->string('description');
-            $table->integer('client_id')->unsigned();
-            $table->boolean('signed')->default(false);
-            $table->boolean('readonly')->default(false);
+            $table->string('description')->nullable();
             $table->integer('user_id')->unsigned();
             $table->boolean('active')->default(true);
             $table->timestamps();

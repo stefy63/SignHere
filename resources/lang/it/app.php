@@ -25,7 +25,7 @@ return [
     'notify_warning'    => 'Avviso di Sistema',
     'confirm-title'     => 'Sei Sicuro?',
     'error_operation'   => 'Operazione NON permessa',
-    '' => '',
+    'notify_alert_field' => 'Campi obbligatori o formato errato!',
     '' => '',
     '' => '',
     '' => '',

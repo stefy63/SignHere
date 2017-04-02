@@ -26,6 +26,8 @@ class Brand extends Model
         return $this->belongsToMany(Acl::class,'brand_acl');
     }
 
-
+    public function locations() {
+        return $this->hasMany(Location::class);
+    }
 
 }

@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Acl;
 use App\Models\Brand;
-use App\Models\brand_acl;
-use App\Models\user_acl;
+use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +16,7 @@ class AdminBrandController extends Controller
      *
      * @return void
      */
-    public function __construct(Acl $acls)
+    public function __construct()
     {
         $this->middleware('hasRole');
     }
@@ -60,10 +59,9 @@ class AdminBrandController extends Controller
         $brand = new Brand();
         $brand->fill($request->all());
         $brand->user_id = Auth::user()->id;
-        $brand->active = isset($request->active) ? $request->active : false;
+        $brand->active = isset($request->active) ? 1 : 0;
         $brand->save();
         $brand->acls()->attach(  '1');
-        //$acls = brand_acl::create(['brand_id' => $brand->id,'acl_id' => '1']);
 
         return redirect()->back()->with('success', __('admin_brands.success_brand_create'));
     }
@@ -114,9 +112,17 @@ class AdminBrandController extends Controller
      */
     public function update(Request $request, Brand $brand, $id)
     {
-        if($brand = Brand::find($id)) {
 
+
+        if($brand = Brand::find($id)) {
+            if($request->ajax()){
+                $brand->active = $request->active;
+                $brand->save();
+                return response()->json(['success' => __('admin_brands.success_brand_updated')]);
+            }
             //dd($request->all());
+            $this->validate($request, Brand::$rules);
+
             $brand->fill($request->all());
             $brand->active = isset($request->active) ? $request->active : false;
             $brand->save();
@@ -137,8 +143,8 @@ class AdminBrandController extends Controller
     {
         if($brand = Brand::find($id)) {
 
-            brand_acl::where('brand_id',$id)->delete();
             $brand->acls()->detach();
+            Location::where('brand_id',$brand->id)->delete();
             $brand->delete();
 
             return redirect()->back()->with('success', __('admin_brands.success_brand_destroy'));

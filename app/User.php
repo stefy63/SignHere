@@ -75,7 +75,7 @@ class User extends Authenticatable
     }
 
     public function getMyAcls() {
-        return \Auth::user()->acls()->get()->pluck('id')->toArray();
+        return $this->acls()->get()->pluck('id')->toArray();
     }
 
 }

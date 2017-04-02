@@ -17,8 +17,8 @@ class CreateDocumentsTable extends Migration
             $table->increments('id');
             $table->timestamp('datedoc')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('name');
-            $table->string('identifier');
-            $table->string('description');
+            $table->string('identifier')->nullable();
+            $table->string('description')->nullable();
             $table->string('filename');
             $table->integer('doctype_id')->unsigned();
             $table->integer('client_id')->unsigned();

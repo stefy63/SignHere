@@ -44,10 +44,18 @@ class Acl extends Model
 
     public static function getMyBrands() {
         $userAcls = \Auth::user()->getMyAcls();
-        $aclBrands = brand_acl::whereIn('acl_id',$userAcls)->get()->pluck('brand_id')->toArray();
-        $Brands = Brand::whereIn('id',$aclBrands);
-
+        $Brands = Brand::whereHas('acls',function ($q) use ($userAcls){
+            $q->whereIn('acl_id',$userAcls);
+        });
         return $Brands;
+    }
+
+    public static function getMyLocations() {
+        $userAcls = \Auth::user()->getMyAcls();
+        $Locations = Location::whereHas('acls',function ($q) use ($userAcls){
+            $q->whereIn('acl_id',$userAcls);
+        });
+        return $Locations;
     }
 
 

@@ -21,7 +21,10 @@
      Route::resource('admin_devices','AdminDeviceController');
      Route::resource('admin_doctypess','AdminDoctypeController');
      Route::resource('admin_documents','AdminDocumentController');
+     // Route for Locations //
      Route::resource('admin_locations','AdminLocationController');
+     Route::get('admin_locations/destroy/{id}', array('as' => 'admin_locations.destroy','uses' => 'AdminLocationController@destroy'));
+
      Route::resource('admin_modules','AdminModuleController');
      Route::resource('admin_users','AdminUserController');
 

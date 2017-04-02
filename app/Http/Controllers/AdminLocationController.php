@@ -2,11 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Acl;
+use App\Models\Brand;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\MessageBag;
 
 class AdminLocationController extends Controller
 {
+
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct(Acl $acls)
+    {
+        $this->middleware('hasRole');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +29,13 @@ class AdminLocationController extends Controller
      */
     public function index()
     {
-        //
+        $locations = Acl::getMyLocations()->paginate(10);
+        $brands = Acl::getMyBrands()->get();
+
+        return view('admin.locations.index',[
+            'locations' => $locations,
+            'brands' => $brands
+        ]);
     }
 
     /**
@@ -24,7 +45,10 @@ class AdminLocationController extends Controller
      */
     public function create()
     {
-        //
+        $brands = Acl::getMyBrands()->get();
+        return view('admin.locations.create',[
+            'brands' => $brands
+        ]);
     }
 
     /**
@@ -35,7 +59,17 @@ class AdminLocationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, Location::$rules);
+
+        $location = new Location();
+        $location->fill($request->all());
+        $location->user_id = Auth::user()->id;
+        $location->active = isset($request->active) ? 1 : 0;
+        $location->save();
+        $location->acls()->attach(  '1');
+        $location->acls()->attach(  Brand::find($request->brand_id)->acls()->first());
+
+        return redirect()->back()->with('success', __('admin_locations.success_location_create'));
     }
 
     /**
@@ -44,9 +78,22 @@ class AdminLocationController extends Controller
      * @param  \App\Models\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function show(Location $location)
+    public function show(Request $request,Location $location, $id)
     {
-        //
+        if($location = Location::find($id)) {
+            $brand = Acl::getMyBrands()->where('id',$location->brand_id)->get();
+            if($request->ajax()){
+                $location->toArray();
+                $location = array_add($location,'brand',$brand->pluck('description'));
+                return response()->json([$location]);
+            }
+            return view('admin.brands.show',[
+                'location' => $location,
+                'brand' => $brand,
+            ]);
+        }
+
+        return redirect()->back()->with('warning', 'admin_locations.warning_location_NOTfound');
     }
 
     /**
@@ -55,9 +102,17 @@ class AdminLocationController extends Controller
      * @param  \App\Models\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function edit(Location $location)
+    public function edit(Location $location, $id)
     {
-        //
+        if($location = Location::find($id)) {
+            $brands = Acl::getMyBrands()->get();
+            return view('admin.locations.edit',[
+                'location' => $location,
+                'brands' => $brands,
+            ]);
+        }
+
+        return redirect()->back()->with('warning', 'dmin_locations.warning_location_NOTfound');
     }
 
     /**
@@ -67,9 +122,25 @@ class AdminLocationController extends Controller
      * @param  \App\Models\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Location $location)
+    public function update(Request $request, Location $location, $id)
     {
-        //
+
+        if($location = Location::find($id)) {
+            if($request->ajax()){
+                $location->active = $request->active;
+                $location->save();
+                return response()->json(['success' => __('admin_locations.success_location_updated')]);
+            }
+            //dd($request->all());
+            $this->validate($request, Location::$rules);
+            $location->fill($request->all());
+            $location->active = isset($request->active) ? $request->active : false;
+            $location->save();
+
+
+            return redirect()->back()->with('success', __('admin_locations.success_location_updated'));
+        }
+        return redirect()->back()->with('warning', 'admin_locations.warning_location_NOTupdated');
     }
 
     /**
@@ -78,8 +149,15 @@ class AdminLocationController extends Controller
      * @param  \App\Models\Location  $location
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Location $location)
+    public function destroy(Location $location, $id)
     {
-        //
+        if($location = Location::find($id)) {
+
+            $location->acls()->detach();
+            $location->delete();
+
+            return redirect()->back()->with('success', __('admin_locations.success_location_destroy'));
+        }
+        return redirect()->back()->with('warning', 'admin_locations.warning_location_NOT deleted');
     }
 }

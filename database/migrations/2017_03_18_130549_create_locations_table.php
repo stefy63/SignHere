@@ -16,17 +16,18 @@ class CreateLocationsTable extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('description');
-            $table->string('sector');
+            $table->string('sector')->nullable();
             $table->string('address');
             $table->string('city');
-            $table->string('zip_code');
+            $table->string('zip_code')->nullable();
             $table->string('region');
-            $table->string('contact');
-            $table->string('phone');
-            $table->string('mobile');
-            $table->string('fax');
+            $table->string('contact')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('mobile')->nullable();
+            $table->string('fax')->nullable();
             $table->string('email');
             $table->integer('user_id')->unsigned();
+            $table->integer('brand_id')->unsigned();
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();

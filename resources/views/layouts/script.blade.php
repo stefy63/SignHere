@@ -13,6 +13,8 @@
 <script src="{{ asset('js/plugins/toastr/toastr.min.js') }}"></script>
 <!-- Sweet alert -->
 <script src="{{ asset('js/plugins/sweetalert/sweetalert.min.js') }}"></script>
+<!-- Switchery -->
+<script src="{{ asset('js/plugins/switchery/switchery.js') }}"></script>
 
 
 
@@ -81,7 +83,30 @@ $(function () {
     });
 
 
+    var defaults = {
+        color             : '#1AB394',
+        secondaryColor    : '#dfdfdf',
+        jackColor         : '#ED5565',
+        jackSecondaryColor: '#dfdfdf',
+        className         : 'switchery',
+        disabled          : false,
+        disabledOpacity   : 0.5,
+        speed             : '0.5s',
+        size              : 'small'
+    }
 
+    var elem = document.querySelector('.js-switch');
+    var switchery = new Switchery(elem,defaults);
+
+    @if(count($errors) > 0)
+        toastr['error']("{{__('app.notify_alert_field')}}", "{{__('app.notify_alert')}}");
+        var jCampi = [@foreach($errors->keys() as $k => $info)
+            '{{ $info }}',
+            @endforeach ];
+        for (var key in jCampi) {
+            $('label[for="'+jCampi[key]+'"]').css('color','red');
+        };
+    @endif
 
 })
 </script>

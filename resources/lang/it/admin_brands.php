@@ -9,6 +9,7 @@
 return [
 
     'admin_brands' => 'Aziende',
+    'index-header-col-0' => 'Enabled',
     'index-header-col-1' => 'Descrizione',
     'index-header-col-2' => 'Città',
     'index-header-col-3' => 'Indirizzo',
