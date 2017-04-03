@@ -18,7 +18,10 @@
      Route::get('admin_brands/destroy/{id}', array('as' => 'admin_brands.destroy','uses' => 'AdminBrandController@destroy'));
      // Route for Clients //
      Route::resource('admin_clients','AdminClientController');
-     Route::resource('admin_devices','AdminDeviceController');
+     // Route for devices //
+     Route::resource('admin_devices','AdminDeviceController',array('except'=>array('destroy')));
+     Route::get('admin_devices/destroy/{id}', array('as' => 'admin_devices.destroy','uses' => 'AdminDeviceController@destroy'));
+
      Route::resource('admin_doctypess','AdminDoctypeController');
      Route::resource('admin_documents','AdminDocumentController');
      // Route for Locations //

@@ -19,6 +19,7 @@ class AdminUserController extends Controller
     {
         $this->middleware('hasRole');
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,10 +41,7 @@ class AdminUserController extends Controller
      */
     public function create()
     {
-        $users = Acl::getMyBrands()->get();
-        return view('admin.users.create',[
-            'users' => $users
-        ]);
+        return view('admin.users.create');
     }
 
     /**

@@ -45,7 +45,7 @@ class AdminLocationController extends Controller
      */
     public function create()
     {
-        $brands = Acl::getMyBrands()->get();
+        $brands = Acl::getMyBrands()->where('active',true)->get();
         return view('admin.locations.create',[
             'brands' => $brands
         ]);
@@ -105,7 +105,7 @@ class AdminLocationController extends Controller
     public function edit(Location $location, $id)
     {
         if($location = Location::find($id)) {
-            $brands = Acl::getMyBrands()->get();
+            $brands = Acl::getMyBrands()->where('active',true)->get();
             return view('admin.locations.edit',[
                 'location' => $location,
                 'brands' => $brands,

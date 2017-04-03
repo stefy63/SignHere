@@ -3,16 +3,34 @@
 @section('content')
 <div>
 
-    <form method="POST" action="{{ route('admin_users.store') }}" id="toast-form">
+    <form method="POST" action="{{ route('admin_devices.store') }}" id="toast-form">
     {!! csrf_field() !!}
-        <input type="hidden" name="user_id" value="{{Auth::user()->id}}" />
+
+        <!-- UTENTE
         <div class="row">
             <div class="form-group">
                 <div class="col-md-2 col-md-offset-1">
-                    <label for="username" >{{__('admin_users.db-username')}}</label>
+                    <label for="user_id" >{{__('admin_devices.db-acl_user_id')}}</label>
                 </div>
                 <div class="col-md-8">
-                    <input class="form-control" size="50" type="text" name="username" value="{{old("username")}}" />
+                    <select class="form-control" name="user_id">
+                         <option value="0">{{__('admin_devices.db-select_user') }}</option>
+                        @foreach($users as $user)
+                         <option value="{{ $user->id }}">{{ $user->surname.' '.$user->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+          FINE UTENTE -->
+
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-2 col-md-offset-1">
+                    <label for="description" >{{__('admin_devices.db-description')}}</label>
+                </div>
+                <div class="col-md-8">
+                    <input class="form-control" size="50" type="text" name="description" value="{{old("description")}}" />
                 </div>
             </div>
         </div>
@@ -20,10 +38,10 @@
         <div class="row">
             <div class="form-group">
                 <div class="col-md-2 col-md-offset-1">
-                    <label for="name" >{{__('admin_users.db-name')}}</label>
+                    <label for="serial" >{{__('admin_devices.db-serial')}}</label>
                 </div>
                 <div class="col-md-8">
-                    <input class="form-control" size="50" type="text" name="name" value="{{old("name")}}" />
+                    <input class="form-control" size="50" type="text" name="serial" value="{{old("serial")}}" />
                 </div>
             </div>
         </div>
@@ -31,51 +49,7 @@
         <div class="row">
             <div class="form-group">
                 <div class="col-md-2 col-md-offset-1">
-                    <label for="surname" >{{__('admin_users.db-surname')}}</label>
-                </div>
-                <div class="col-md-8">
-                    <input class="form-control" size="50" type="text" name="surname" value="{{old("surname")}}"  />
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group">
-                <div class="col-md-2 col-md-offset-1">
-                    <label for="password" >{{__('admin_users.db-password')}}</label>
-                </div>
-                <div class="col-md-8">
-                    <input class="form-control" size="50" type="password" name="password" value="{{old("password")}}" />
-                </div>
-            </div>
-        </div>
-<!--
-        <div class="row">
-            <div class="form-group">
-                <div class="col-md-2 col-md-offset-1">
-                    <label for="password" >{{__('admin_users.db-password')}}</label>
-                </div>
-                <div class="col-md-8">
-                    <input class="form-control" size="50" type="text" name="password" value="{{old("password")}}" />
-                </div>
-            </div>
-        </div>
--->
-        <div class="row">
-            <div class="form-group">
-                <div class="col-md-2 col-md-offset-1">
-                    <label for="email" >{{__('admin_users.db-email')}}</label>
-                </div>
-                <div class="col-md-8">
-                    <input class="form-control" size="50" type="text" name="email" value="{{old("email")}}" />
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group">
-                <div class="col-md-2 col-md-offset-1">
-                    <label for="active" >{{__('admin_users.db-active')}}</label>
+                    <label for="active" >{{__('admin_devices.db-active')}}</label>
                 </div>
                 <div class="col-md-8">
                     <input class="js-switch form-control" type="checkbox" data-switchery="true" name="active" value="1" @if(old("active") == 1) checked @endif style="display: none;" />

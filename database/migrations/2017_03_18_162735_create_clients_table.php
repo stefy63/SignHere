@@ -27,6 +27,7 @@ class CreateClientsTable extends Migration
             $table->string('contact');
             $table->string('phone');
             $table->string('mobile');
+            $table->integer('user_id')->unsigned();
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();

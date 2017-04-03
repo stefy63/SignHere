@@ -100,9 +100,6 @@
                         </div>
                     </div>
                     <div class="row">
-                        <!--<div class="col-sm-5">
-                            <div class="dataTables_info" id="DataTables_Table_2_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div>
-                        </div>-->
                         <div class="col-sm-7">
                             <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_2_paginate">
                                 {{ $brands->links() }}
