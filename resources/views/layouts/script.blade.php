@@ -98,6 +98,7 @@ $(function () {
     var elem = document.querySelector('.js-switch');
     var switchery = new Switchery(elem,defaults);
 
+
     @if(count($errors) > 0)
         toastr['error']("{{__('app.notify_alert_field')}}", "{{__('app.notify_alert')}}");
         var jCampi = [@foreach($errors->keys() as $k => $info)

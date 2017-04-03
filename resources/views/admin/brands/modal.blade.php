@@ -142,17 +142,19 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <<div class="row">
                     <div class="form-group">
-                        <div class="col-md-3 col-md-offset-1">
+                        <div class="col-md-2 col-md-offset-1">
                             <label for="active" >{{__('admin_brands.db-active')}}</label>
                         </div>
-                        <div class="col-md-7 col-md-offset-1 text-left">
+                        <div class="col-md-8">
+                            <!--<input class="js-switch form-control" type="checkbox" data-switchery="true" name="active" value="1" @if(old("active") == 1) checked @endif style="display: none;" />-->
                             <input class="form-control text-left" type="checkbox" name="active" value="1" disabled/>
                         </div>
                     </div>
                 </div>
-            </div>
+                <br><br>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
             </div>
@@ -172,10 +174,10 @@ $(function(){
             //success data
             data = data['0'];
             $('#showModal .modal-title').text(data['description']);
-            if(data['action'] == 1) $('#showModal input[type="checkbox"]').checked=true;
+            //if(data['action'] == 1) $('#showModal input[type="checkbox"]').checked=true;
             for(var k in data) {
                 if($('#showModal input[name="'+k+'"]').attr('type') == 'checkbox') {
-                    $('#showModal input[name="'+k+'"]').attr("checked", (data[k] == 1)? true:false);
+                    $('#showModal input[name="'+k+'"]').prop('checked',(data[k] == 1)? true:false);
                 } else {
                     $('#showModal input[name="'+k+'"]').val(data[k]);
                 }

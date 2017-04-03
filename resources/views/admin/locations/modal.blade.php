@@ -188,7 +188,7 @@ $(function(){
             if(data['action'] == 1) $('#showModal input[type="checkbox"]').checked=true;
             for(var k in data) {
                 if($('#showModal input[name="'+k+'"]').attr('type') == 'checkbox') {
-                    $('#showModal input[name="'+k+'"]').attr("checked", (data[k] == 1)? true:false);
+                    $('#showModal input[name="'+k+'"]').prop('checked',(data[k] == 1)? true:false);
                 } else {
                     $('#showModal input[name="'+k+'"]').val(data[k]);
                 }
