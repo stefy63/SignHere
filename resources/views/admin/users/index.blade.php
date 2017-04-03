@@ -54,7 +54,7 @@
                                     <tr class="gradeA odd" role="row">
                                         <td>
                                             <div class="onoffswitch" >
-                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_users.update',['id' => $user->id]) }}"  @if($user->active == 1) checked @endif >
+                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_users.update',['id' => $user->id]) }}"  @if($user->active == 1) checked @endif id="{{$user->id}}">
                                                 <label class="onoffswitch-label" for="{{$user->id}}">
                                                     <span class="onoffswitch-inner"></span>
                                                     <span class="onoffswitch-switch"></span>

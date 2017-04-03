@@ -75,7 +75,7 @@ $(function(){
 
         $.get(url, function (data) {
             //success data
-            console.log(data);
+            //console.log(data);
             data = data['0'];
             $('#showModal .modal-title').text(data['description']);
             for(var k in data) {
