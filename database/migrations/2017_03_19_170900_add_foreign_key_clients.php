@@ -64,6 +64,15 @@ class AddForeignKeyClients extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('user_acl');
+        Schema::dropIfExists('user_module');
+        Schema::dropIfExists('brand_acl');
+        Schema::dropIfExists('location_acl');
+        Schema::dropIfExists('document_acl');
+        Schema::dropIfExists('device_acl');
+        Schema::dropIfExists('client_acl');
+
+        Schema::dropIfExists('documents');
+
     }
 }
