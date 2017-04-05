@@ -60,14 +60,15 @@ class AdminLocationController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, Location::$rules);
-
+        //$b_id = $request->brand_id;
+        //$request->request->remove('brand_id');
         $location = new Location();
         $location->fill($request->all());
         $location->user_id = Auth::user()->id;
         $location->active = isset($request->active) ? 1 : 0;
         $location->save();
         $location->acls()->attach(  '1');
-        $location->acls()->attach(  Brand::find($request->brand_id)->acls()->first());
+        $location->acls()->attach(  Brand::find($request->brand_id)->acls()->first()->id);
 
         return redirect()->back()->with('success', __('admin_locations.success_location_create'));
     }

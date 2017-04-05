@@ -125,6 +125,7 @@ class AdminBrandController extends Controller
 
             $brand->fill($request->all());
             $brand->active = isset($request->active) ? $request->active : false;
+            $brand->user_id = Auth::user()->id;
             $brand->save();
 
 

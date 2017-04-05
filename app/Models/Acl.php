@@ -66,13 +66,20 @@ class Acl extends Model
         return $Users;
     }
 
-
     public static function getMyDevices() {
         $userAcls = \Auth::user()->getMyAcls();
         $Devices = Device::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
         });
         return $Devices;
+    }
+
+    public static function getMyClients() {
+        $userAcls = \Auth::user()->getMyAcls();
+        $Clients = Client::whereHas('acls',function ($q) use ($userAcls){
+            $q->whereIn('acl_id',$userAcls);
+        });
+        return $Clients;
     }
 
 
