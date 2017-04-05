@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Doctype;
 use Illuminate\Http\Request;
+use App\Models\Acl;
 
 class AdminDoctypeController extends Controller
 {
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('hasRole');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +25,11 @@ class AdminDoctypeController extends Controller
      */
     public function index()
     {
-        //
+        $doctypes = Doctype::paginate(10);
+
+        return view('admin.doctypes.index',[
+            'doctypes' => $doctypes,
+        ]);
     }
 
     /**
@@ -24,7 +39,7 @@ class AdminDoctypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.doctypes.create');
     }
 
     /**
@@ -35,7 +50,15 @@ class AdminDoctypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, Doctype::$rules);
+
+        $doctype = new Doctype();
+        $doctype->fill($request->all());
+        $doctype->user_id = \Auth::user()->id;
+        $doctype->active = isset($request->active) ? 1 : 0;
+        $doctype->save();
+
+        return redirect()->back()->with('success', __('admin_doctypes.success_user_create'));
     }
 
     /**
@@ -44,9 +67,19 @@ class AdminDoctypeController extends Controller
      * @param  \App\Models\Doctype  $doctype
      * @return \Illuminate\Http\Response
      */
-    public function show(Doctype $doctype)
+    public function show(Request $request, Doctype $doctype, $id)
     {
-        //
+        if($doctype = Doctype::find($id)) {
+            if($request->ajax()){
+                $doctype->toArray();
+                return response()->json([$doctype]);
+            }
+            return view('admin.doctype.show',[
+                'doctype' => $doctype,
+            ]);
+        }
+
+        return redirect()->back()->with('warning', 'admin_doctypes.warning_doctype_NOTfound');
     }
 
     /**
@@ -55,9 +88,15 @@ class AdminDoctypeController extends Controller
      * @param  \App\Models\Doctype  $doctype
      * @return \Illuminate\Http\Response
      */
-    public function edit(Doctype $doctype)
+    public function edit(Doctype $doctype, $id)
     {
-        //
+        if($doctype = Doctype::find($id)) {
+            return view('admin.doctypes.edit',[
+                'doctype' => $doctype,
+            ]);
+        }
+
+        return redirect()->back()->with('warning', 'admin_doctypes.warning_doctype_NOTfound');
     }
 
     /**
@@ -67,9 +106,23 @@ class AdminDoctypeController extends Controller
      * @param  \App\Models\Doctype  $doctype
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Doctype $doctype)
+    public function update(Request $request, Doctype $doctype, $id)
     {
-        //
+        if($doctype = Doctype::find($id)) {
+            if($request->ajax()){
+                $doctype->active = $request->active;
+                $doctype->save();
+                return response()->json(['success' => __('admin_doctypes.success_doctype_updated')]);
+            }
+            $this->validate($request, Doctype::$rules);
+            $doctype->fill($request->all());
+            $doctype->user_id = \Auth::user()->id;
+            $doctype->active = isset($request->active) ? $request->active : false;
+            $doctype->save();
+
+            return redirect()->back()->with('success', __('admin_doctypes.success_doctype_updated'));
+        }
+        return redirect()->back()->with('warning', 'admin_doctypes.warning_doctype_NOTupdated');
     }
 
     /**
@@ -78,8 +131,14 @@ class AdminDoctypeController extends Controller
      * @param  \App\Models\Doctype  $doctype
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Doctype $doctype)
+    public function destroy(Doctype $doctype, $id)
     {
-        //
+        if($doctype = Doctype::find($id)) {
+
+            $doctype->delete();
+
+            return redirect()->back()->with('success', __('admin_doctypes.success_doctype_destroy'));
+        }
+        return redirect()->back()->with('warning', 'admin_doctypes.warning_doctype_NOT_deleted');
     }
 }

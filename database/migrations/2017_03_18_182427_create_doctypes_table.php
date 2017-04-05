@@ -17,6 +17,7 @@ class CreateDoctypesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description')->nullable();
+            $table->string('template')->nullable();
             $table->integer('user_id')->unsigned();
             $table->boolean('active')->default(true);
             $table->timestamps();

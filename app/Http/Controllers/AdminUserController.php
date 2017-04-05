@@ -167,7 +167,6 @@ class AdminUserController extends Controller
     public function update_resetPwd(Request $request)
     {
         if($user = User::find($request->id)) {
-            //dd($request->all());
             $this->validate($request, User::$rules_change_pwd);
 
             if(bcrypt($user->password) != bcrypt($request->new_password))

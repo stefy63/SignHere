@@ -137,8 +137,15 @@ class AdminClientController extends Controller
      * @param  \App\Models\Client  $client
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Client $client)
+    public function destroy(Client $client, $id)
     {
-        //
+        if($client = Client::find($id)) {
+
+            $client->acls()->detach();
+            $client->delete();
+
+            return redirect()->back()->with('success', __('admin_clients.success_client_destroy'));
+        }
+        return redirect()->back()->with('warning', 'admin_clients.warning_client_NOT_deleted');
     }
 }

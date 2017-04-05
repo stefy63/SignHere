@@ -16,7 +16,7 @@
                                 <label for="serial" >{{__('admin_devices.index-header-col-2')}}</label>
                             </div>
                             <div class="col-md-6 col-md-offset-1">
-                                <input class="form-control" size="50" type="text" name="serial" value="" />
+                                <input class="form-control" size="50" type="text" name="serial" value="" disabled/>
                             </div>
                         </div>
                     </div>

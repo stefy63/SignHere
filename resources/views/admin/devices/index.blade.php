@@ -137,6 +137,5 @@
     })
     
 </script>
-@include('admin.devices.modal')
 
 @endsection
