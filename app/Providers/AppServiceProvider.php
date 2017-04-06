@@ -19,7 +19,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('menu', function (){
 
             if($menus = \Auth::user()->getModules()){
-                //dd($menus);
                 $ret = "";
 
                 foreach($menus as $menu) {
