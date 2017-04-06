@@ -22,6 +22,7 @@ class CreateModulesTable extends Migration
             $table->boolean('isadmin')->default(false);
             $table->boolean('active')->default(true);
             $table->integer('user_id')->unsigned();
+            $table->integer('order')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

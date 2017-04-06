@@ -1,8 +1,8 @@
 <?php
 
  Route::group(['middleware' => ['auth','isAdmin']], function () {
-     Route::get('/admin',function (){
-         return view('/admin');
+     Route::get('admin',function (){
+         return view('admin');
      });
 
      // Route for ACLs //

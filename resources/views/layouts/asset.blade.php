@@ -12,6 +12,10 @@
 <link href="{{ asset('css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
 
 <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
+<!-- Dropzone -->
+<link href="{{ asset('css/plugins/dropzone/basic.css') }}" rel="stylesheet">
+<link href="{{ asset('css/plugins/dropzone/dropzone.css') }}" rel="stylesheet">
+
 <link href="{{ asset('css/style.css') }}" rel="stylesheet">
 <link href="{{ asset('css/signhere.css') }}" rel="stylesheet">
 

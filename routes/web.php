@@ -20,9 +20,9 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
+Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/home', 'HomeController@index');
+Route::get('home', 'HomeController@index');
 
 foreach ( new DirectoryIterator(base_path().DIRECTORY_SEPARATOR.'routes/web') as $fileinfo ) {
     if ($fileinfo->isFile() && $fileinfo->getExtension() == 'php'){
