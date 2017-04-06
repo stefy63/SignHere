@@ -14,7 +14,7 @@ class AdminDocumentController extends Controller
      */
     public function index()
     {
-        //
+        return redirect('admin');
     }
 
     /**

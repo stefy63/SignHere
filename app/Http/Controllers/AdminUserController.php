@@ -143,7 +143,6 @@ class AdminUserController extends Controller
 
     public function permission()
     {
-        //
         return redirect()->back()->with('warning', 'admin_users.warning_user_NOT_permission');
     }
     public function store_permission(Request $request)

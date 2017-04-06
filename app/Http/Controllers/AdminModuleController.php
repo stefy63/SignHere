@@ -4,9 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Module;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminModuleController extends Controller
 {
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('hasRole');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +25,11 @@ class AdminModuleController extends Controller
      */
     public function index()
     {
-        //
+        $modules = \Auth::user()->modules()->paginate(10);
+
+        return view('admin.modules.index',[
+            'modules' => $modules,
+        ]);
     }
 
     /**
@@ -24,7 +39,7 @@ class AdminModuleController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.modules.create');
     }
 
     /**
@@ -35,7 +50,23 @@ class AdminModuleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $reqAll = $request->all();
+        if (empty($request->short_name)) {
+            $reqAll['short_name'] = strtolower(str_replace(' ','_',$request->name));
+            $request->replace($reqAll);
+        }
+
+        $this->validate($request, Module::$rules);
+
+        $module = new Module();
+        $module->fill($request->all());
+        $module->user_id = \Auth::user()->id;
+        $module->active = isset($request->active) ? 1 : 0;
+        $module->isadmin = isset($request->isadmin) ? 1 : 0;
+        $module->save();
+        $module->users()->attach([1 => ['permission' => 'ALL']]);
+
+        return redirect()->back()->with('success', __('admin_modules.success_module_create'));
     }
 
     /**
@@ -44,9 +75,19 @@ class AdminModuleController extends Controller
      * @param  \App\Models\Module  $module
      * @return \Illuminate\Http\Response
      */
-    public function show(Module $module)
+    public function show(Request $request, Module $module, $id)
     {
-        //
+        if($module = Module::find($id)) {
+            if($request->ajax()){
+                $module->toArray();
+                return response()->json([$module]);
+            }
+            return view('admin.module.show',[
+                'module' => $module,
+            ]);
+        }
+
+        return redirect()->back()->with('warning', 'admin_modules.warning_module_NOTfound');
     }
 
     /**
@@ -55,9 +96,15 @@ class AdminModuleController extends Controller
      * @param  \App\Models\Module  $module
      * @return \Illuminate\Http\Response
      */
-    public function edit(Module $module)
+    public function edit(Module $module, $id)
     {
-        //
+        if($module = Module::find($id)) {
+            return view('admin.modules.edit',[
+                'module' => $module,
+            ]);
+        }
+
+        return redirect()->back()->with('warning', 'admin_modules.warning_module_NOTfound');
     }
 
     /**
@@ -67,9 +114,31 @@ class AdminModuleController extends Controller
      * @param  \App\Models\Module  $module
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Module $module)
+    public function update(Request $request, Module $module, $id)
     {
-        //
+
+        if($module = Module::find($id)) {
+            if($request->ajax()){
+                $module->active = $request->active;
+                $module->save();
+                return response()->json(['success' => __('admin_modules.success_module_updated')]);
+            }
+
+            $reqAll = $request->all();
+            if (empty($request->short_name)) {
+                $reqAll['short_name'] = strtolower(str_replace(' ','_',$request->name));
+                $request->replace($reqAll);
+            }
+            //dd($request->all());
+            $this->validate($request, Module::$rules);
+            $module->fill($request->all());
+            $module->active = isset($request->active) ? $request->active : false;
+            $module->isadmin = isset($request->isadmin) ? 1 : 0;
+            $module->save();
+
+            return redirect()->back()->with('success', __('admin_modules.success_module_updated'));
+        }
+        return redirect()->back()->with('warning', 'admin_modules.warning_module_NOTupdated');
     }
 
     /**
@@ -78,8 +147,15 @@ class AdminModuleController extends Controller
      * @param  \App\Models\Module  $module
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Module $module)
+    public function destroy(Module $module, $id)
     {
-        //
+        if($module = Module::find($id)) {
+
+            $module->users()->detach();
+            $module->delete();
+
+            return redirect()->back()->with('success', __('admin_modules.success_module_destroy'));
+        }
+        return redirect()->back()->with('warning', 'admin_modules.warning_module_NOT_deleted');
     }
 }

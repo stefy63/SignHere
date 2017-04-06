@@ -18,9 +18,10 @@ class CreateModulesTable extends Migration
             $table->string('name');
             $table->string('short_name');
             $table->string('functions');
-            $table->string('icon')->default('fa fa-th-large');
+            $table->string('icon')->default('fa fa-th-large')->nullable();
             $table->boolean('isadmin')->default(false);
             $table->boolean('active')->default(true);
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
         });
