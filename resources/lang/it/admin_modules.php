@@ -21,6 +21,7 @@ return [
 
 
     'admin_modules' => 'Moduli',
+    'admin_modules_tooltip' => 'Gesione Moduli',
     'index-header-col-0' => 'Enabled',
     'index-header-col-1' => 'Nome',
     'index-header-col-2' => 'Nome Breve',

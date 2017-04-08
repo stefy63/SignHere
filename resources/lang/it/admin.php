@@ -29,5 +29,6 @@ return [
     'user' => 'Utenti',
     'acl' => 'ACL',
     'module' => 'Moduli',
+    'profile' => 'Profili',
 
 ];

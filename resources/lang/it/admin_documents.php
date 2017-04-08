@@ -20,5 +20,6 @@ return [
     */
 
     'admin_documents' => 'Documenti',
+    'admin_documents_tooltip' => 'Gesione Documenti',
 
 ];

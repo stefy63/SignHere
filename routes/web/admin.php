@@ -29,6 +29,9 @@
      // Route for Modules //
      Route::resource('admin_modules','AdminModuleController');
      Route::get('admin_modules/destroy/{id}', array('as' => 'admin_modules.destroy','uses' => 'AdminModuleController@destroy'));
+     // Route for Profiles //
+     Route::resource('admin_profiles','AdminProfileController');
+     Route::get('admin_profiles/destroy/{id}', array('as' => 'admin_profiles.destroy','uses' => 'AdminProfileController@destroy'));
      // Route for Users //
      Route::resource('admin_users','AdminUserController', ['except' => ['show', 'destroy']]);
      Route::get('admin_users/destroy/{id}', array('as' => 'admin_users.destroy','uses' => 'AdminUserController@destroy'));

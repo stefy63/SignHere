@@ -22,4 +22,8 @@ class Module extends Model
     public function users(){
          return $this->belongsToMany(User::class,'user_module')->withPivot('permission');
     }
+
+    public function profiles(){
+         return $this->belongsToMany(Profile::class,'module_profile')->withPivot('permission');
+    }
 }

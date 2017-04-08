@@ -2,7 +2,7 @@
 
 namespace App\models;
 
-use App\User;
+use App\Models\User;
 use App\Models\Device;
 use App\Models\Location;
 use App\Models\Document;

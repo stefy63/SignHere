@@ -17,15 +17,15 @@
                             </li>
                         </ul>
                 </div>
-                <div class="logo-element">
-                    SH+
+                <div class="logo-element" data-toggle='tooltip' title='{{ucwords(strtolower(Auth::user()->name.' '.Auth::user()->surname))}}'>
+                    3.6
                 </div>
             </li>
-            <li class="active">
+            <li class="active" data-toggle='tooltip' title='{{__('menu.main_tooltip')}}'>
                 <a href="{{url('home')}}"><i class="fa fa-th-large"></i><span class="nav-label">{{__('menu.main')}}</span></a>
             </li>
             @menu
-            <li>
+            <li data-toggle='tooltip' title='{{__('menu.logout_tooltip')}}'>
                 <a class="confirm-toast"  data-message="{{__('menu.confirmLogout')}}"  data-location="{{url('logout')}}">
                 <i class='fa fa-sign-out'></i><span class='nav-label'>{{__('menu.logout')}}</span></a>
             </li>

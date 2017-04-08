@@ -20,6 +20,7 @@ return [
     */
 
 
-    'admin_acls' => 'ACLs',
+    'admin_acls' => 'Visibilità',
+    'admin_acls_tooltip' => 'Gesione Visibilità Gruppi',
 
 ];

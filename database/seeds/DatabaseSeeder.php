@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
             'surname' => 'Superadmin',
             'email' => 'admin@localhost.com',
             'user_id'=> 1,
+            'profile_id' => 1,
             'api_token' => str_random(60),
             'password' => bcrypt('admin'),
             'created_at' => date("Y-m-d H:i:s")
@@ -37,6 +38,13 @@ class DatabaseSeeder extends Seeder
         DB::table('user_acl')->insert([
             'id' => 1,
             'acl_id' => 1,
+            'user_id' => 1,
+            'created_at' => new DateTime()
+        ]);
+
+        DB::table('profiles')->insert([
+            'id' => 1,
+            'name' => 'Super Admin',
             'user_id' => 1,
             'created_at' => new DateTime()
         ]);
@@ -131,74 +139,90 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1,
             'created_at' => date("Y-m-d H:i:s")
         ]);
-
-
-
-
-        DB::table('user_module')->insert([
-            'id' => 1,
+        DB::table('modules')->insert([
+            'id' => 10,
+            'name' => 'Profiles',
+            'short_name' => 'admin_profiles',
+            'functions' => 'index,create,show,edit,destroy',
+            'isadmin' => true,
+            'active' => 1,
             'user_id' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+
+
+
+
+        DB::table('module_profile')->insert([
+            'id' => 1,
+            'profile_id' => 1,
             'module_id' => 1,
             'permission' => 'ALL',
             'created_at' => date("Y-m-d H:i:s")
         ]);
-        DB::table('user_module')->insert([
+        DB::table('module_profile')->insert([
             'id' => 2,
-            'user_id' => 1,
+            'profile_id' => 1,
             'module_id' => 2,
             'permission' => 'ALL',
             'created_at' => date("Y-m-d H:i:s")
         ]);
-        DB::table('user_module')->insert([
+        DB::table('module_profile')->insert([
             'id' => 3,
-            'user_id' => 1,
+            'profile_id' => 1,
             'module_id' => 3,
             'permission' => 'ALL',
             'created_at' => date("Y-m-d H:i:s")
         ]);
-        DB::table('user_module')->insert([
+        DB::table('module_profile')->insert([
             'id' => 4,
-            'user_id' => 1,
+            'profile_id' => 1,
             'module_id' => 4,
             'permission' => 'ALL',
             'created_at' => date("Y-m-d H:i:s")
         ]);
-        DB::table('user_module')->insert([
+        DB::table('module_profile')->insert([
             'id' => 5,
-            'user_id' => 1,
+            'profile_id' => 1,
             'module_id' => 5,
             'permission' => 'ALL',
             'created_at' => date("Y-m-d H:i:s")
         ]);
-        DB::table('user_module')->insert([
+        DB::table('module_profile')->insert([
             'id' => 6,
-            'user_id' => 1,
+            'profile_id' => 1,
             'module_id' => 6,
             'permission' => 'ALL',
             'created_at' => date("Y-m-d H:i:s")
         ]);
-        DB::table('user_module')->insert([
+        DB::table('module_profile')->insert([
             'id' => 7,
-            'user_id' => 1,
+            'profile_id' => 1,
             'module_id' => 7,
             'permission' => 'ALL',
             'created_at' => date("Y-m-d H:i:s")
         ]);
-        DB::table('user_module')->insert([
+        DB::table('module_profile')->insert([
             'id' => 8,
-            'user_id' => 1,
+            'profile_id' => 1,
             'module_id' => 8,
             'permission' => 'ALL',
             'created_at' => date("Y-m-d H:i:s")
         ]);
-        DB::table('user_module')->insert([
+        DB::table('module_profile')->insert([
             'id' => 9,
-            'user_id' => 1,
+            'profile_id' => 1,
             'module_id' => 9,
             'permission' => 'ALL',
             'created_at' => date("Y-m-d H:i:s")
         ]);
-
+        DB::table('module_profile')->insert([
+            'id' => 10,
+            'profile_id' => 1,
+            'module_id' => 10,
+            'permission' => 'ALL',
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
 
     }
 }

@@ -20,7 +20,9 @@ return [
     */
 
     'logout' => 'Log Out',
+    'logout_tooltip' => 'Log Out',
     'confirmLogout' => 'Conferma Uscita?',
     'main' => 'Vista Utente',
+    'main_tooltip' => 'Vista Utente',
 
 ];

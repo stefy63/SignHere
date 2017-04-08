@@ -17,5 +17,22 @@ class Profile extends Model
         'authorization' => 'required|numeric',
     );
 
+    public function users() {
+        return $this->hasMany(Profile::class);
+    }
+
+    public function modules() {
+        return $this->belongsToMany(Module::class,'module_profile')->withPivot('permission');
+    }
+
+    public function getModules($module = false) {
+
+        $result = $this->modules()
+            ->where('active',true);
+
+        if($module) $result = $result->where('short_name',$module);
+
+        return $result->get();
+    }
 
 }

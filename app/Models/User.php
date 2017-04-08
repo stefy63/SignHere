@@ -1,11 +1,12 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\Models\Acl;
 use App\Models\Device;
 use App\Models\Module;
 use App\Models\user_acl;
+use App\Models\Profile;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -46,26 +47,21 @@ class User extends Authenticatable
         return $this->belongsToMany(Acl::class,'user_acl');
     }
 
+    public function profile() {
+        return $this->belongsTo(Profile::class);
+    }
 
     public function devices() {
         return $this->belongsToMany(Device::class,'device_user');
     }
 
-    public function getModules($module = false) {
-
-        $result = $this->modules()
-            ->where('active',true);
-
-        if($module) $result = $result->where('short_name',$module);
-
-        return $result->get();
-    }
-
     public function isAdmin() {
-        return $this->modules()
-                ->where('active',true)
-                ->where('isadmin',true)
-                ->get()->count();
+        $profile = Profile::where('id',$this->profile_id)->first()->modules();
+
+        return $profile
+            ->where('active',true)
+            ->where('isadmin',true)
+            ->get()->count();
     }
     
     /**
@@ -75,14 +71,19 @@ class User extends Authenticatable
     */
     public function hasRole($module, $op)
     {
-        if($userPermission = $this->getModules($module))
+        if($userPermission = $this->profile()->first()->getModules($module))
         {
             $userPermission = $userPermission->first();
-            //dd($userPermission->functions);
             ($userPermission->pivot->permission != 'ALL')? :$userPermission->pivot->permission = $userPermission->functions;
-            (!str_contains($op, 'store'))? :$op='create';
-            (!str_contains($op, 'update'))? :$op='edit';
-
+            if(str_contains($op,'_')) {
+                list($op,$suf) = explode('_',$op,2);
+                if(str_contains($op, 'store') || str_contains($op, 'update')) {
+                    $op=$suf;
+                }
+            } else {
+                (!str_contains($op, 'store'))? :$op='create';
+                (!str_contains($op, 'update'))? :$op='edit';
+            }
             return (strpos(" ".$userPermission->pivot->permission,$op )>0 ? true : false);
         }
         return false;

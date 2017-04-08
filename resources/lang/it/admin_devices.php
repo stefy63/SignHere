@@ -20,6 +20,7 @@ return [
     */
 
     'admin_devices' => 'Device',
+    'admin_devices_tooltip' => 'Gesione Device',
     'index-header-col-0' => 'Enabled',
     'index-header-col-1' => 'Descrizione',
     'index-header-col-2' => 'Seriale',

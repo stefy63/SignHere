@@ -9,6 +9,7 @@
 return [
 
     'admin_brands' => 'Aziende',
+    'admin_brands_tooltip' => 'Gesione Aziende',
     'index-header-col-0' => 'Enabled',
     'index-header-col-1' => 'Descrizione',
     'index-header-col-2' => 'Città',

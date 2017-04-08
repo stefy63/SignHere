@@ -57,7 +57,7 @@ return [
 
         'documents' => [
             'driver' => 'local',
-            'root'   => public_path().'/documents'
+            'root'   => env('DRIVE_DOCUMENT').'/documents'
         ],
 
         's3' => [

@@ -18,11 +18,11 @@ class AppServiceProvider extends ServiceProvider
     {
         Blade::directive('menu', function (){
 
-            if($menus = \Auth::user()->getModules()){
+            if($menus = \Auth::user()->profile()->first()->getModules()){
                 $ret = "";
 
                 foreach($menus as $menu) {
-                    $ret .= "<li><a href='".url($menu->short_name)."'><i class='".$menu->icon."'></i>
+                    $ret .= "<li data-toggle='tooltip' title='".__($menu->short_name.".".$menu->short_name.'_tooltip')."'><a href='".url($menu->short_name)."'><i class='".$menu->icon."'></i>
                             <span class='nav-label'>".__($menu->short_name.".".$menu->short_name)."</span></a></li>";
                 }
 

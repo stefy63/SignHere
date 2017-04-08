@@ -48,6 +48,11 @@ class AddForeignKeyClients extends Migration
             $table->foreign('client_id')->references('id')->on('clients');
         });
 
+        Schema::table('module_profile', function (Blueprint $table) {
+            $table->foreign('module_id')->references('id')->on('modules');
+            $table->foreign('profile_id')->references('id')->on('profiles');
+        });
+
         Schema::table('documents', function (Blueprint $table) {
             $table->foreign('client_id')->references('id')->on('clients');
         });
@@ -55,6 +60,7 @@ class AddForeignKeyClients extends Migration
         Schema::table('locations', function (Blueprint $table) {
             $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
         });
+
     }
 
     /**
@@ -73,6 +79,7 @@ class AddForeignKeyClients extends Migration
         Schema::dropIfExists('client_acl');
 
         Schema::dropIfExists('documents');
+        Schema::dropIfExists('locations');
 
     }
 }

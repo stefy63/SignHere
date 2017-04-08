@@ -21,6 +21,7 @@ return [
 
 
     'admin_doctypes' => 'Tipi Documento',
+    'admin_doctypes_tooltip' => 'Gesione Tipi Documenti',
     'index-header-col-0' => 'Enabled',
     'index-header-col-1' => 'Nome',
     'index-header-col-2' => 'Descrizione',

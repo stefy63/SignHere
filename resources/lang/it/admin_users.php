@@ -21,6 +21,7 @@ return [
 
 
     'admin_users' => 'Utenti',
+    'admin_users_tooltip' => 'Gesione Utenti',
     'index-header-col-0' => 'Enabled',
     'index-header-col-1' => 'Username',
     'index-header-col-2' => 'Nome',

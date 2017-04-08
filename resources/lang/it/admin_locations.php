@@ -20,6 +20,7 @@ return [
     */
 
     'admin_locations' => 'Siti',
+    'admin_locations_tooltip' => 'Gesione Siti',
     'index-header-col-0' => 'Enabled',
     'index-header-col-1' => 'Descrizione',
     'index-header-col-2' => 'Città',

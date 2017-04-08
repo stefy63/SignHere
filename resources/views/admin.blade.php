@@ -9,7 +9,8 @@
                 </h1>
                 <small>
                     You are logged in.
-                </small>
+                </small><br>
+
             </div>
         </div>
     </div>

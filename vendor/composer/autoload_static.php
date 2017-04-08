@@ -293,7 +293,7 @@ class ComposerStaticInit535f00a37f2209a7cf42616c4f6b6672
     );
 
     public static $classMap = array (
-        'AddForeignKeyClients' => __DIR__ . '/../..' . '/database/migrations/2017_03_19_170900_add_foreign_key_clients.php',
+        'AddForeignKeyClients' => __DIR__ . '/../..' . '/database/migrations/2017_04_19_170900_add_foreign_key_clients.php',
         'CreateAclsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_130940_create_acls_table.php',
         'CreateBrandAclTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_131129_create_brand_acl_table.php',
         'CreateBrandsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_130536_create_brands_table.php',
@@ -308,9 +308,10 @@ class ComposerStaticInit535f00a37f2209a7cf42616c4f6b6672
         'CreateLocationAclTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_131151_create_location_acl_table.php',
         'CreateLocationsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_130549_create_locations_table.php',
         'CreateLogsTable' => __DIR__ . '/../..' . '/database/migrations/2014_03_10_130944_create_logs_table.php',
-        'CreateModelsProfilesTable' => __DIR__ . '/../..',
+        'CreateModuleProfileTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_08_111403_create_module_profile_table.php',
         'CreateModulesTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_130616_create_modules_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
+        'CreateProfilesTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_06_081325_create_profiles_table.php',
         'CreateUserAclTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_131039_create_user_acl_table.php',
         'CreateUserModuleTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_131018_create_user_module_table.php',
         'CreateUsersTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_000000_create_users_table.php',

@@ -21,6 +21,7 @@ return [
 
 
     'admin_clients' => 'Clienti',
+    'admin_clients_tooltip' => 'Gesione Clienti',
     'index-header-col-0' => 'Enabled',
     'index-header-col-1' => 'Nome',
     'index-header-col-2' => 'Cognome',
