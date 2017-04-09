@@ -90,11 +90,20 @@ class Acl extends Model
         return $Documents;
     }
 
-    public static function getMyModules() {
+    public static function getMyAcls() {
+        $userAcls = \Auth::user()->getMyAcls();
+        $acls = Acl::whereHas('users',function ($q) use ($userAcls){
+            $q->whereIn('acl_id',$userAcls);
+        });
+
+        return $acls;
+    }
+
+    /*public static function getMyModules() {
         $userAcls = \Auth::user()->getMyAcls();
         $Modules = Module::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
         });
         return $Modules;
-    }
+    }*/
 }

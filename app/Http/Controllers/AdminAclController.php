@@ -7,6 +7,17 @@ use Illuminate\Http\Request;
 
 class AdminAclController extends Controller
 {
+
+    /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('hasRole');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +25,11 @@ class AdminAclController extends Controller
      */
     public function index()
     {
-        return redirect('admin');
+        $acls = Acl::getMyAcls()->get();
+//dd($acls->first()->getMyBrands()->get());
+        return view('admin.visibility.index',[
+            'acls' => $acls,
+        ]);
     }
 
     /**
@@ -82,4 +97,7 @@ class AdminAclController extends Controller
     {
         //
     }
+
+
+
 }
