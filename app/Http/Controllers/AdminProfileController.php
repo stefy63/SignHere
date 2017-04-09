@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Module;
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Array_;
 
 class AdminProfileController extends Controller
 {
@@ -41,7 +42,10 @@ class AdminProfileController extends Controller
      */
     public function create()
     {
-        //
+        $modules = Module::where('active',true)->get();
+        return view('admin.profiles.create',[
+            'modules'  => $modules
+        ]);
     }
 
     /**
@@ -50,9 +54,27 @@ class AdminProfileController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
-        //
+        $this->validate($request, Profile::$rules);
+
+        $profile = new Profile();
+        $profile->name = $request->name;
+        $profile->user_id = \Auth::user()->id;
+        $profile->save();
+        $Modules = array();
+        foreach ($request->permission as $module => $functions) {
+            if($functions) {
+                $permission = "";
+                foreach ($functions as $func => $val){
+                 $permission .= $func.',';
+                }
+                $permission = rtrim($permission,',');
+                $Modules = array_add($Modules,$module , ['permission' => $permission]);
+            }
+        }
+        $profile->modules()->sync($Modules);
+        return redirect()->back()->with('success', __('admin_profiles.success_profile_create'));
     }
 
     /**
@@ -65,7 +87,6 @@ class AdminProfileController extends Controller
     {
         if($request->ajax()){
             $profile = Profile::find($id)->getModules()->toArray();
-            //$device = array_add($device,'user',$user->pluck('surname').' '.$user->pluck('name'));
             return response()->json([$profile]);
         }
         return redirect()->back()->with('warning', 'admin_profiles.warning_profile_NOTfound');
@@ -77,9 +98,17 @@ class AdminProfileController extends Controller
      * @param  \App\Models\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, Profile $profile, $id)
+    public function edit(Profile $profile, $id)
     {
-        //
+        $profile = Profile::find($id);
+        $modules = Module::where('active',true)->get();
+        //$my_modules = $profile->getModules();
+        //dd(modules);
+        return view('admin.profiles.edit',[
+            'profile' => $profile,
+            'modules'  => $modules,
+            //'my_modules'  => $my_modules
+        ]);
     }
 
     /**
@@ -89,9 +118,31 @@ class AdminProfileController extends Controller
      * @param  \App\Models\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Profile $profile)
+    public function update(Request $request, Profile $profile, $id)
     {
-        //
+        //dd($request->permission);
+
+        if($profile = Profile::find($id)) {
+
+            $this->validate($request, Profile::$rules);
+            $profile->name = $request->name;
+            $profile->user_id = \Auth::user()->id;
+            $profile->save();
+            $Modules = array();
+            foreach ($request->permission as $module => $functions) {
+                if($functions) {
+                    $permission = "";
+                    foreach ($functions as $func => $val){
+                     $permission .= $func.',';
+                    }
+                    $permission = rtrim($permission,',');
+                    $Modules = array_add($Modules,$module , ['permission' => $permission]);
+                }
+            }
+            $profile->modules()->sync($Modules);
+            return redirect()->back()->with('success', __('admin_profiles.success_profile_updated'));
+        }
+        return redirect()->back()->with('warning', 'admin_profiles.warning_profile_NOTupdated');
     }
 
     /**
@@ -100,8 +151,15 @@ class AdminProfileController extends Controller
      * @param  \App\Models\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Profile $profile)
+    public function destroy(Profile $profile, $id)
     {
-        //
+        if($profile = Profile::find($id)) {
+
+            $profile->modules()->detach();
+            $profile->delete();
+
+            return redirect()->back()->with('success', __('admin_profiles.success_profile_destroy'));
+        }
+        return redirect()->back()->with('warning', 'admin_profiles.warning_profile_NOT_deleted');
     }
 }

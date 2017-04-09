@@ -49,8 +49,7 @@
                                 </div>
                             @endforeach
                             <div class="text-center">
-                                <button type="button" id="profile-submit" class="profile-action btn btn-w-m btn-success submit-toast" data-message="{{__('admin_profiles.btn-submit')}}" data-location="{{ url('admin_profiles/') }}" hidden>{{__('admin_profiles.btn-submit')}}</button>
-                                <button type="button" id="profile-edit" class="btn btn-w-m btn-primary" data-location="{{ url('admin_profiles/') }}">{{__('admin_profiles.btn-edit')}}</button>
+                                <button type="button" id="profile-edit" class="btn btn-w-m btn-primary button-toast" data-location="{{ url('admin_profiles/') }}">{{__('admin_profiles.btn-edit')}}</button>
                                 <button type="button" id="profile-destroy" class="profile-action btn btn-w-m btn-danger confirm-toast" data-message="{{__('admin_profiles.index-confirm-message')}}" data-location="{{ url('admin_profiles/destroy/') }}">{{__('admin_profiles.btn-destroy')}}</button>
                             </div>
                         </div>
@@ -78,6 +77,7 @@ $(function () {
         $('#profile-submit').attr('data-location',url+profile);
         $('#profile-edit').attr('data-location',url+profile+'/edit');
         $('#profile-destroy').attr('data-location',url+'/destroy'+profile);
+        $('input#name').val(this.options[this.selectedIndex].text);
         url = url + profile;
 
         $.ajax({
@@ -106,17 +106,6 @@ $(function () {
         });
     });
     $('#select-profile').change();
-
-    $('#profile-edit').click(function () {
-        $('input[type="checkbox"]').prop('disabled', false);
-        $('#profile-submit').fadeIn();
-        var url = this.getAttribute('data-url');
-        
-    })
-
-
-
-
 
 
 })

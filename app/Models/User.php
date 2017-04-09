@@ -84,7 +84,7 @@ class User extends Authenticatable
                 (!str_contains($op, 'store'))? :$op='create';
                 (!str_contains($op, 'update'))? :$op='edit';
             }
-            return (strpos(" ".$userPermission->pivot->permission,$op )>0 ? true : false);
+            return (strpos(" ".$userPermission->pivot->permission,$op )>=0 ? true : false);
         }
         return false;
     }

@@ -14,7 +14,6 @@ class Profile extends Model
 
     public static $rules = array(
         'name'          => 'required',
-        'authorization' => 'required|numeric',
     );
 
     public function users() {

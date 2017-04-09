@@ -84,6 +84,28 @@ $(function () {
         });
     });
 
+    $('.button-toast').click(function (e) {
+        e.preventDefault();
+
+        var location = this.getAttribute('data-location');
+        var msg = this.getAttribute('data-message');
+        console.log(msg);
+        if (msg !== null) {
+            swal({
+                title: '{{__('app.confirm-title')}}',
+                text: msg,
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Yes",
+                closeOnConfirm: true
+            }, function () {
+                window.location.replace(location);
+            });
+        } else {
+            window.location.replace(location);
+        }
+    });
 
     var defaults = {
         color             : '#1AB394',
