@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Validation\Rule;
 
 class Module extends Model
 {
@@ -13,11 +14,14 @@ class Module extends Model
 
     use SoftDeletes;
 
-    public static $rules = array(
-        'name'       => 'required',
-        'short_name' => 'required',
-        'functions'  => 'required',
-    );
+    public static function rules($id = false) {
+
+        return array(
+            'name'       => 'required',
+            'short_name' => 'required'.($id)?'|unique:modules,short_name,'.$id:"|unique:modules,short_name",
+            'functions'  => 'required',
+        );
+    }
 
     public function users(){
          return $this->belongsToMany(User::class,'user_module')->withPivot('permission');

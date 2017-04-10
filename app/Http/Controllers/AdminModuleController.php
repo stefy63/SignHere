@@ -25,7 +25,7 @@ class AdminModuleController extends Controller
      */
     public function index()
     {
-        $modules = \Auth::user()->modules()->paginate(10);
+        $modules = Module::paginate(10);
 
         return view('admin.modules.index',[
             'modules' => $modules,
@@ -56,7 +56,7 @@ class AdminModuleController extends Controller
             $request->replace($reqAll);
         }
 
-        $this->validate($request, Module::$rules);
+        $this->validate($request, Module::rules());
 
         $module = new Module();
         $module->fill($request->all());
@@ -64,7 +64,7 @@ class AdminModuleController extends Controller
         $module->active = isset($request->active) ? 1 : 0;
         $module->isadmin = isset($request->isadmin) ? 1 : 0;
         $module->save();
-        $module->users()->attach([1 => ['permission' => 'ALL']]);
+        $module->profiles()->attach([1 => ['permission' => 'ALL']]);
 
         return redirect()->back()->with('success', __('admin_modules.success_module_create'));
     }
@@ -130,7 +130,7 @@ class AdminModuleController extends Controller
                 $request->replace($reqAll);
             }
             //dd($request->all());
-            $this->validate($request, Module::$rules);
+            $this->validate($request, Module::rules($id));
             $module->fill($request->all());
             $module->active = isset($request->active) ? $request->active : false;
             $module->isadmin = isset($request->isadmin) ? 1 : 0;
@@ -151,7 +151,7 @@ class AdminModuleController extends Controller
     {
         if($module = Module::find($id)) {
 
-            $module->users()->detach();
+            $module->profiles()->detach();
             $module->delete();
 
             return redirect()->back()->with('success', __('admin_modules.success_module_destroy'));

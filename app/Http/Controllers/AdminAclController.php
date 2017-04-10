@@ -41,7 +41,18 @@ class AdminAclController extends Controller
      */
     public function create()
     {
-        //
+        $acls = Acl::getMyAcls();
+        $brands = Acl::getMyBrands()->where('active',true)->get();
+        $locations = Acl::getMyLocations()->where('active',true)->get();
+        $devices = Acl::getMyDevices()->where('active',true)->get();
+        $users = Acl::getMyUsers()->where('active',true)->get();
+
+        return view('admin.visibility.create',[
+            'brands' => $brands,
+            'locations' => $locations,
+            'devices' => $devices,
+            'users' => $users,
+        ]);
     }
 
     /**
@@ -52,7 +63,7 @@ class AdminAclController extends Controller
      */
     public function store(Request $request)
     {
-            //
+        dd($request->all());
     }
 
     /**
@@ -64,10 +75,11 @@ class AdminAclController extends Controller
     public function show(Request $request,Acl $acl,$id)
     {
         if($request->ajax()){
-            $brands = Acl::find($id)->getMyBrands()->get();
-            $locations = Acl::find($id)->getMyLocations()->get();
-            $devices = Acl::find($id)->getMyDevices()->get();
-            $users = Acl::find($id)->getMyUsers()->get();
+            $acl = Acl::find($id);
+            $brands = $acl->getMyBrands()->where('active',true)->get();
+            $locations = $acl->getMyLocations()->where('active',true)->get();
+            $devices = $acl->getMyDevices()->where('active',true)->get();
+            $users = $acl->getMyUsers()->where('active',true)->get();
 
             return response()->json([$brands,$locations,$devices,$users]);
         }
@@ -109,5 +121,25 @@ class AdminAclController extends Controller
     }
 
 
+    /**
+     * Return the specified resource from storage.
+     *
+     * @param  \App\Models\Acl  $acl
+     * @return \Illuminate\Http\Response
+     */
+    public function getItem(Request $request, $id)
+    {
+        if($request->ajax()){
+            $locations = Acl::getMyLocations()
+                ->where('brand_id',$id)
+                ->where('active',true)
+                ->get();
+            $devices = Acl::getMyDevices()->where('active',true)->get();
+            $users = Acl::getMyUsers()->where('active',true)->get();
+
+            return response()->json([$locations,$devices,$users]);
+        }
+        return redirect()->back()->with('warning', 'admin_acls.warning_acl_NOTfound');
+    }
 
 }

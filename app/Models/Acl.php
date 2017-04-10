@@ -12,11 +12,18 @@ use App\Models\brand_acl;
 use App\Models\user_acl;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Acl extends Model
 {
     protected $guarded = array();
     //protected $fillable = ['*'];
+
+    use SoftDeletes;
+
+    public static $rules = array(
+        'name'          => 'required',
+    );
 
     public function devices(){
         return $this->belongsToMany(Device::class,'device_acl');

@@ -39,6 +39,8 @@ return [
     'index-confirm-message' => 'Confermi l\'operazione richesta?',
     'db-acl_user_id' => 'Utente',
     'db-name' => 'Nome',
+    'db-description' => 'Descrizione',
+    'db-select-brands' => 'Seleziona Azienda',
     'db-serial' => 'Seriale',
     'db-active' => 'Attivo',
     'submit' => 'Conferma',

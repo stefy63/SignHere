@@ -50,12 +50,12 @@
                                     </div>
                                 @endforeach
                                 <br>
-                                <div class="text-center">
-                                    <button type="button" class="btn btn-w-m btn-success submit-toast" data-form-id="toast-form" data-message="{{__('admin_profiles.btn-submit')}}">{{__('admin_profiles.btn-create')}}</button>
-                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="ibox-footer text-center">
+                    <button type="button" class="btn btn-w-m btn-success submit-toast" data-form-id="toast-form" data-message="{{__('admin_profiles.btn-submit')}}">{{__('admin_profiles.btn-create')}}</button>
                 </div>
             </form>
         </div>
