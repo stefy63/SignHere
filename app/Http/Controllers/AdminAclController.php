@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Acl;
+use App\Models\Brand;
 use Illuminate\Http\Request;
+use MongoDB\BSON\Javascript;
 
 class AdminAclController extends Controller
 {
@@ -26,7 +28,7 @@ class AdminAclController extends Controller
     public function index()
     {
         $acls = Acl::getMyAcls()->get();
-//dd($acls->first()->getMyBrands()->get());
+
         return view('admin.visibility.index',[
             'acls' => $acls,
         ]);
@@ -50,7 +52,7 @@ class AdminAclController extends Controller
      */
     public function store(Request $request)
     {
-        //
+            //
     }
 
     /**
@@ -59,9 +61,17 @@ class AdminAclController extends Controller
      * @param  \App\Models\Acl  $acl
      * @return \Illuminate\Http\Response
      */
-    public function show(Acl $acl)
+    public function show(Request $request,Acl $acl,$id)
     {
-        //
+        if($request->ajax()){
+            $brands = Acl::find($id)->getMyBrands()->get();
+            $locations = Acl::find($id)->getMyLocations()->get();
+            $devices = Acl::find($id)->getMyDevices()->get();
+            $users = Acl::find($id)->getMyUsers()->get();
+
+            return response()->json([$brands,$locations,$devices,$users]);
+        }
+        return redirect()->back()->with('warning', 'admin_acls.warning_acl_NOTfound');
     }
 
     /**

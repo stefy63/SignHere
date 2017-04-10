@@ -83,7 +83,7 @@ class AdminProfileController extends Controller
      * @param  \App\Models\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Profile $profile, $id)
+    public function show(Request $request, $id)
     {
         if($request->ajax()){
             $profile = Profile::find($id)->getModules()->toArray();

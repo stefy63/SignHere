@@ -32,7 +32,7 @@
                             @foreach($modules as $module)
                                 <div id="mod-{{$module->id}}" class="tab-pane @if($module->id == 1) active @endif">
                                     <div class="panel-body">
-                                        <p class="text-center"><span>Elenco funzioni</span></p><br>
+                                        <p class="text-center"><span>{{__('admin_profiles.index-subtitle')}}</span></p><br>
                                         @php
                                             $functions = explode(',',$module->functions);
                                         @endphp
@@ -74,7 +74,6 @@ $(function () {
         $('.tab-function').each(function (elem) {
             this.checked = false;
         });
-        $('#profile-submit').attr('data-location',url+profile);
         $('#profile-edit').attr('data-location',url+profile+'/edit');
         $('#profile-destroy').attr('data-location',url+'/destroy'+profile);
         $('input#name').val(this.options[this.selectedIndex].text);

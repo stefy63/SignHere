@@ -27,6 +27,7 @@ return [
     'index-header-col-3' => 'Utente',
     'index-header-col-4' => 'Azioni',
     'index-title' => 'Elenco Profili',
+    'index-subtitle' => 'Elenco funzioni',
     'edit-title' => 'Modifica Profilo',
     'create-title' => 'Nuovo Profilo',
     'index-tooltip-col1' => 'Visualizza dati Profilo',
