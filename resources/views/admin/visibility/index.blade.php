@@ -123,44 +123,31 @@ $(function () {
 
                 console.log(data[0]);
                 data[0].forEach(function(item){
-                    //$('div#brands div div').append('<input type="text" class="form-control" value="'+item.description+'" disabled />');
-                    //$('div#brands div div').append('<span class="form-control"> '+item.description+'</span>');
-                    $('ul#brands').append('<li> '+item.description+'</li>');
+                   $('ul#brands').append('<li> '+item.description+'</li>');
                 });
 
                 console.log(data[1]);
                 data[1].forEach(function(item){
-                    //$('div#locations div div').append('<input type="text" class="form-control" value="'+item.description+'" disabled />');
                     $('ul#locations').append('<li>  '+item.description+'</li>');
                 });
 
                 console.log(data[2]);
                 data[2].forEach(function(item){
-                    //$('div#devices div div').append('<input type="text" class="form-control" value="'+item.name+'" disabled />');
                     $('ul#devices').append('<li>  '+item.description+'</li>');
                 });
 
                 console.log(data[3]);
                 data[3].forEach(function(item){
-                    //$('div#users div div').append('<input type="text" class="form-control" value="'+item.name+'" disabled />');
                     $('ul#users').append('<li> '+item.name+', '+item.surname+'</li>');
                 });
 
 
             }
         });
-        //$('#select-visibility').change();
-
     })
     $('#select-visibility').change();
 })
 
 
 </script>
-<!--<div class="input-group m-b">
-        <span class="input-group-addon">
-        <input name="" class="tab-function" type="checkbox" disabled>
-    </span>
-    <input type="text" class="form-control" value="" disabled />
-    </div>-->
 @endsection
