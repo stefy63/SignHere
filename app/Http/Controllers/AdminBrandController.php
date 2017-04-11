@@ -83,7 +83,7 @@ class AdminBrandController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('warning', 'admin_brands.warning_brand_NOTfound');
+        return redirect()->back()->with('warning', __('admin_brands.warning_brand_NOTfound'));
     }
 
     /**
@@ -100,7 +100,7 @@ class AdminBrandController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('warning', 'admin_brands.warning_brand_NOTfound');
+        return redirect()->back()->with('warning', __('admin_brands.warning_brand_NOTfound'));
     }
 
     /**
@@ -131,7 +131,7 @@ class AdminBrandController extends Controller
 
             return redirect()->back()->with('success', __('admin_brands.success_brand_updated'));
         }
-        return redirect()->back()->with('warning', 'admin_brands.warning_brand_NOTupdated');
+        return redirect()->back()->with('warning', __('admin_brands.warning_brand_NOTupdated'));
     }
 
     /**
@@ -150,6 +150,6 @@ class AdminBrandController extends Controller
 
             return redirect()->back()->with('success', __('admin_brands.success_brand_destroy'));
         }
-        return redirect()->back()->with('warning', 'admin_brands.warning_brand_NOT_deleted');
+        return redirect()->back()->with('warning', __('admin_brands.warning_brand_NOT_deleted'));
     }
 }

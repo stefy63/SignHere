@@ -32,14 +32,25 @@
                             <label for="brand" >{{__('admin_acls.db-select-brands')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <select class="form-control col-md-8" name="brand" id="select-brands" data-url="{{ url('admin_acls/store_get') }}">
+                            <select class="form-control col-md-8" name="brand_id" id="select-brands" data-url="{{ url('admin_acls/store_get') }}">
                                 @foreach($brands as $brand)
                                     <option class="form-control col-md-8" value="{{$brand->id}}">{{$brand->description}} </option>
                                 @endforeach
                         </select>
                         </div>
                     </div>
-
+                    <div class="">
+                        <div class="col-md-2 col-md-offset-1">
+                            <label for="parent_id" >{{__('admin_acls.db-select-acls')}}</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select class="form-control col-md-8" name="parent_id" >
+                                @foreach($acls as $acl)
+                                    <option class="form-control col-md-8" value="{{$acl->id}}">{{$acl->description}} </option>
+                                @endforeach
+                        </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="ibox-content">
                     <div class="tabs-container">
@@ -130,7 +141,7 @@
 
                         console.log(data[2]);
                         data[2].forEach(function(item){
-                            $('div#users div div').append('<input name="users['+item.id+']" class="tab-function" type="checkbox" >&nbsp;&nbsp;<label>'+item.name+' '+item.surnam+'</label>');
+                            $('div#users div div').append('<input name="users['+item.id+']" class="tab-function" type="checkbox" >&nbsp;&nbsp;<label>'+item.name+' '+item.surname+'</label>');
                         });
 
 

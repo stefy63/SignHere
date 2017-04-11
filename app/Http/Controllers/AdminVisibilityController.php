@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Acl;
-use App\Models\Visibility;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 use MongoDB\BSON\Javascript;
 
-class AdminAclController extends Controller
+class AdminVisibilityController extends Controller
 {
 
     /**
@@ -114,10 +113,6 @@ class AdminAclController extends Controller
      */
     public function edit(Acl $acl,$id)
     {
-        if(Acl::getMyBrands()->where('active',true)->count() == 0)
-        {
-            return redirect()->back()->with('warning', __('admin_acls.warning_acl_brands_necessity'));
-        }
         $acl = Acl::find($id);
         $acls = $acl->getMyAcls()->where('active',true)->get();
         $brands = $acl->getMyBrands()->where('active',true)->get();
@@ -162,7 +157,7 @@ class AdminAclController extends Controller
             $visibility->users()->sync(array_keys($users));
 
             return redirect()->back()->with('success', __('admin_acls.success_acl_edit'));
-             }
+        }
         return redirect()->back()->with('warning', __('admin_acls.warning_acl_NOTupdated'));
     }
 

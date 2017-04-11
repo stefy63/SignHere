@@ -18,6 +18,7 @@ class CreateAclsTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->integer('parent_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();

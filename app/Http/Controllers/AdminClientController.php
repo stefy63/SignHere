@@ -82,7 +82,7 @@ class AdminClientController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('warning', 'admin_clients.warning_client_NOTfound');
+        return redirect()->back()->with('warning',__( 'admin_clients.warning_client_NOTfound'));
     }
 
     /**
@@ -99,7 +99,7 @@ class AdminClientController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('warning', 'admin_clients.warning_client_NOTfound');
+        return redirect()->back()->with('warning', __('admin_clients.warning_client_NOTfound'));
     }
 
     /**
@@ -128,7 +128,7 @@ class AdminClientController extends Controller
 
             return redirect()->back()->with('success', __('admin_clients.success_client_updated'));
         }
-        return redirect()->back()->with('warning', 'admin_clients.warning_client_NOTupdated');
+        return redirect()->back()->with('warning', __('admin_clients.warning_client_NOTupdated'));
     }
 
     /**
@@ -146,6 +146,6 @@ class AdminClientController extends Controller
 
             return redirect()->back()->with('success', __('admin_clients.success_client_destroy'));
         }
-        return redirect()->back()->with('warning', 'admin_clients.warning_client_NOT_deleted');
+        return redirect()->back()->with('warning', __('admin_clients.warning_client_NOT_deleted'));
     }
 }

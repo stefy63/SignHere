@@ -58,6 +58,7 @@ class AdminUserController extends Controller
         $user->fill($request->all());
         $user->active = isset($request->active) ? 1 : 0;
         $user->api_token = str_random(60);
+        $user->user_id = \Auth::user()->id;
         $user->password = bcrypt($request->password);
         $user->save();
         $user->acls()->attach(  '1');
@@ -90,7 +91,7 @@ class AdminUserController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('warning', 'admin_users.warning_user_NOTfound');
+        return redirect()->back()->with('warning', __('admin_users.warning_user_NOTfound'));
     }
 
     /**
@@ -112,13 +113,14 @@ class AdminUserController extends Controller
             $this->validate($request, User::$rules);
             $user->fill($request->all());
             $user->active = isset($request->active) ? 1 : 0;
+            $user->user_id = \Auth::user()->id;
             if(bcrypt($user->password) != bcrypt($request->password))
                     $user->password = bcrypt($request->password);
             $user->save();
 
             return redirect()->back()->with('success', __('admin_users.success_user_updated'));
         }
-        return redirect()->back()->with('warning', 'admin_users.warning_user_NOTupdated');
+        return redirect()->back()->with('warning', __('admin_users.warning_user_NOTupdated'));
     }
 
     /**
@@ -138,16 +140,16 @@ class AdminUserController extends Controller
 
             return redirect()->back()->with('success', __('admin_users.success_user_destroy'));
         }
-        return redirect()->back()->with('warning', 'admin_users.warning_user_NOT_deleted');
+        return redirect()->back()->with('warning', __('admin_users.warning_user_NOT_deleted'));
     }
 
     public function permission()
     {
-        return redirect()->back()->with('warning', 'admin_users.warning_user_NOT_permission');
+        return redirect()->back()->with('warning',__( 'admin_users.warning_user_NOT_permission'));
     }
     public function store_permission(Request $request)
     {
-        return redirect()->back()->with('warning', 'admin_users.warning_user_NOT_permission');
+        return redirect()->back()->with('warning', __('admin_users.warning_user_NOT_permission'));
     }
 
     public function resetPwd(Request $request,$id)
@@ -160,7 +162,7 @@ class AdminUserController extends Controller
             return view('admin.users.edit', [
                 'user' => $user,
             ]);
-            return redirect()->back()->with('warning', 'admin_users.warning_user_NOT_resetPwd');
+            return redirect()->back()->with('warning', __('admin_users.warning_user_NOT_resetPwd'));
         }
     }
     public function update_resetPwd(Request $request)
@@ -174,7 +176,7 @@ class AdminUserController extends Controller
 
             return redirect()->back()->with('success', __('admin_users.success_user_updated'));
         }
-        return redirect()->back()->with('warning', 'admin_users.warning_user_NOTupdated');
+        return redirect()->back()->with('warning',__( 'admin_users.warning_user_NOTupdated'));
     }
 
 }

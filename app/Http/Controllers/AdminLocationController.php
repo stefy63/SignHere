@@ -94,7 +94,7 @@ class AdminLocationController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('warning', 'admin_locations.warning_location_NOTfound');
+        return redirect()->back()->with('warning', __('admin_locations.warning_location_NOTfound'));
     }
 
     /**
@@ -113,7 +113,7 @@ class AdminLocationController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('warning', 'admin_locations.warning_location_NOTfound');
+        return redirect()->back()->with('warning', __('admin_locations.warning_location_NOTfound'));
     }
 
     /**
@@ -135,13 +135,14 @@ class AdminLocationController extends Controller
             //dd($request->all());
             $this->validate($request, Location::$rules);
             $location->fill($request->all());
+            $location->user_id = Auth::user()->id;
             $location->active = isset($request->active) ? $request->active : false;
             $location->save();
 
 
             return redirect()->back()->with('success', __('admin_locations.success_location_updated'));
         }
-        return redirect()->back()->with('warning', 'admin_locations.warning_location_NOTupdated');
+        return redirect()->back()->with('warning',__( 'admin_locations.warning_location_NOTupdated'));
     }
 
     /**
@@ -159,6 +160,6 @@ class AdminLocationController extends Controller
 
             return redirect()->back()->with('success', __('admin_locations.success_location_destroy'));
         }
-        return redirect()->back()->with('warning', 'admin_locations.warning_location_NOT_deleted');
+        return redirect()->back()->with('warning',__( 'admin_locations.warning_location_NOT_deleted'));
     }
 }

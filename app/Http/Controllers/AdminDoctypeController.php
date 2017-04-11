@@ -79,7 +79,7 @@ class AdminDoctypeController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('warning', 'admin_doctypes.warning_doctype_NOTfound');
+        return redirect()->back()->with('warning', __('admin_doctypes.warning_doctype_NOTfound'));
     }
 
     /**
@@ -96,7 +96,7 @@ class AdminDoctypeController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('warning', 'admin_doctypes.warning_doctype_NOTfound');
+        return redirect()->back()->with('warning', __('admin_doctypes.warning_doctype_NOTfound'));
     }
 
     /**
@@ -122,7 +122,7 @@ class AdminDoctypeController extends Controller
 
             return redirect()->back()->with('success', __('admin_doctypes.success_doctype_updated'));
         }
-        return redirect()->back()->with('warning', 'admin_doctypes.warning_doctype_NOTupdated');
+        return redirect()->back()->with('warning', __('admin_doctypes.warning_doctype_NOTupdated'));
     }
 
     /**
@@ -139,6 +139,6 @@ class AdminDoctypeController extends Controller
 
             return redirect()->back()->with('success', __('admin_doctypes.success_doctype_destroy'));
         }
-        return redirect()->back()->with('warning', 'admin_doctypes.warning_doctype_NOT_deleted');
+        return redirect()->back()->with('warning', __('admin_doctypes.warning_doctype_NOT_deleted'));
     }
 }

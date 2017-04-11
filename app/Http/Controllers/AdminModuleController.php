@@ -87,7 +87,7 @@ class AdminModuleController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('warning', 'admin_modules.warning_module_NOTfound');
+        return redirect()->back()->with('warning', __('admin_modules.warning_module_NOTfound'));
     }
 
     /**
@@ -104,7 +104,7 @@ class AdminModuleController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('warning', 'admin_modules.warning_module_NOTfound');
+        return redirect()->back()->with('warning', __('admin_modules.warning_module_NOTfound'));
     }
 
     /**
@@ -132,13 +132,14 @@ class AdminModuleController extends Controller
             //dd($request->all());
             $this->validate($request, Module::rules($id));
             $module->fill($request->all());
+            $module->user_id = \Auth::user()->id;
             $module->active = isset($request->active) ? $request->active : false;
             $module->isadmin = isset($request->isadmin) ? 1 : 0;
             $module->save();
 
             return redirect()->back()->with('success', __('admin_modules.success_module_updated'));
         }
-        return redirect()->back()->with('warning', 'admin_modules.warning_module_NOTupdated');
+        return redirect()->back()->with('warning', __('admin_modules.warning_module_NOTupdated'));
     }
 
     /**
@@ -156,6 +157,6 @@ class AdminModuleController extends Controller
 
             return redirect()->back()->with('success', __('admin_modules.success_module_destroy'));
         }
-        return redirect()->back()->with('warning', 'admin_modules.warning_module_NOT_deleted');
+        return redirect()->back()->with('warning', __('admin_modules.warning_module_NOT_deleted'));
     }
 }

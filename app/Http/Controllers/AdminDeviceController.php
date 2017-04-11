@@ -87,7 +87,7 @@ class AdminDeviceController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('warning', 'admin_devices.warning_device_NOTfound');
+        return redirect()->back()->with('warning', __('admin_devices.warning_device_NOTfound'));
     }
 
     /**
@@ -104,7 +104,7 @@ class AdminDeviceController extends Controller
             ]);
         }
 
-        return redirect()->back()->with('warning', 'admin_devices.warning_device_NOTfound');
+        return redirect()->back()->with('warning', __('admin_devices.warning_device_NOTfound'));
     }
 
     /**
@@ -125,12 +125,13 @@ class AdminDeviceController extends Controller
             //dd($request->all());
             $this->validate($request, Device::$rules);
             $device->fill($request->all());
+            $device->user_id = \Auth::user()->id;
             $device->active = isset($request->active) ? $request->active : false;
             $device->save();
 
             return redirect()->back()->with('success', __('admin_devices.success_device_updated'));
         }
-        return redirect()->back()->with('warning', 'admin_devices.warning_device_NOTupdated');
+        return redirect()->back()->with('warning', __('admin_devices.warning_device_NOTupdated'));
     }
 
     /**
@@ -148,6 +149,6 @@ class AdminDeviceController extends Controller
 
             return redirect()->back()->with('success', __('admin_devices.success_device_destroy'));
         }
-        return redirect()->back()->with('warning', 'admin_devices.warning_device_NOT_deleted');
+        return redirect()->back()->with('warning', __('admin_devices.warning_device_NOT_deleted'));
     }
 }

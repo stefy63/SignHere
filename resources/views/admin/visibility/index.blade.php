@@ -91,8 +91,8 @@
                         </div>
                         <br>
                         <div class="text-center">
-                            <button type="button" id="profile-edit" class="btn btn-w-m btn-primary button-toast" data-location="{{ url('admin_profiles/') }}">{{__('admin_profiles.btn-edit')}}</button>
-                            <button type="button" id="profile-destroy" class="profile-action btn btn-w-m btn-danger confirm-toast" data-message="{{__('admin_profiles.index-confirm-message')}}" data-location="{{ url('admin_profiles/destroy/') }}">{{__('admin_profiles.btn-destroy')}}</button>
+                            <button type="button" id="acl-edit" class="btn btn-w-m btn-primary button-toast" data-location="{{ url('admin_acls/') }}">{{__('admin_acls.btn-edit')}}</button>
+                            <button type="button" id="acl-destroy" class="profile-action btn btn-w-m btn-danger confirm-toast" data-message="{{__('admin_profiles.index-confirm-message')}}" data-location="{{ url('admin_acls/destroy/') }}">{{__('admin_acls.btn-destroy')}}</button>
                         </div>
                     </div>
                 </div>
@@ -107,6 +107,8 @@ $(function () {
         e.preventDefault();
         var url = this.getAttribute('data-url');
         var acl = '/' + this.options[this.selectedIndex].value;
+        $('#acl-edit').attr('data-location',url+acl+'/edit');
+        $('#acl-destroy').attr('data-location',url+'/destroy'+acl);
         url = url + acl;
         console.log(url);
         $.ajax({

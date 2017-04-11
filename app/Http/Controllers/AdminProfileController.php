@@ -89,7 +89,7 @@ class AdminProfileController extends Controller
             $profile = Profile::find($id)->getModules()->toArray();
             return response()->json([$profile]);
         }
-        return redirect()->back()->with('warning', 'admin_profiles.warning_profile_NOTfound');
+        return redirect()->back()->with('warning', __('admin_profiles.warning_profile_NOTfound'));
     }
 
     /**
@@ -142,7 +142,7 @@ class AdminProfileController extends Controller
             $profile->modules()->sync($Modules);
             return redirect()->back()->with('success', __('admin_profiles.success_profile_updated'));
         }
-        return redirect()->back()->with('warning', 'admin_profiles.warning_profile_NOTupdated');
+        return redirect()->back()->with('warning', __('admin_profiles.warning_profile_NOTupdated'));
     }
 
     /**
@@ -160,6 +160,6 @@ class AdminProfileController extends Controller
 
             return redirect()->back()->with('success', __('admin_profiles.success_profile_destroy'));
         }
-        return redirect()->back()->with('warning', 'admin_profiles.warning_profile_NOT_deleted');
+        return redirect()->back()->with('warning', __('admin_profiles.warning_profile_NOT_deleted'));
     }
 }

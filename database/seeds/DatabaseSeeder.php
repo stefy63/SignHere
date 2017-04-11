@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'root',
             'description' => 'root group of all acls',
             'parent_id' => 0,
+            'user_id' => 1,
             'active' => 1,
             'created_at' => date("Y-m-d H:i:s")
         ]);
