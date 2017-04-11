@@ -78,10 +78,12 @@ class AdminAclController extends Controller
         $visibility->parent_id = $request->parent_id;
         $visibility->save();
 
+        $users = (is_array($request->users))?$request->users:array();
+        (array_key_exists('1',$users))?:$users = ['1' => '1'];
         $visibility->brands()->sync([$request->brand_id]);
-        $visibility->locations()->sync(array_keys($request->locations));
-        $visibility->devices()->sync(array_keys($request->devices));
-        $visibility->users()->sync(array_keys($request->users));
+        ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
+        ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
+        $visibility->users()->sync(array_keys($users));
 
         return redirect()->back()->with('success', __('admin_acls.success_acl_create'));
     }
