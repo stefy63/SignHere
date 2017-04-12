@@ -22,6 +22,7 @@ return [
 
     'admin_modules' => 'Moduli',
     'admin_modules_tooltip' => 'Gesione Moduli',
+    'index-header-col-0-bis' => 'Ordine',
     'index-header-col-0' => 'Enabled',
     'index-header-col-1' => 'Nome',
     'index-header-col-2' => 'Nome Breve',
@@ -53,7 +54,7 @@ return [
     'warning_module_NOTfound' => 'Modulo NON Trovato',
     'warning_module_NOTupdated' => 'Impossibile Aggiornare il Modulo',
     'warning_module_NOT_deleted' => 'Impossibile Cancellare il Modulo',
-    '' => '',
+    'success_order_updated' => 'Ordine aggiornato con successo!',
     '' => '',
     '' => '',
     '' => '',

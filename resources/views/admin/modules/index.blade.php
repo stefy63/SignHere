@@ -42,11 +42,11 @@
                             <table class="table table-striped table-bordered table-hover dataTables-example ng-isolate-scope dataTable" datatable="" style="display: table;" id="DataTables_Table_2" role="grid" aria-describedby="DataTables_Table_2_info">
                                 <thead>
                                     <tr role="row">
+                                        <th class="col-md-1">{{__('admin_modules.index-header-col-0-bis')}}</th>
                                         <th class="col-md-1">{{__('admin_modules.index-header-col-0')}}</th>
                                         <th class="col-md-2">{{__('admin_modules.index-header-col-1')}}</th>
                                         <th class="col-md-2">{{__('admin_modules.index-header-col-2')}}</th>
                                         <th class="col-md-2">{{__('admin_modules.index-header-col-3')}}</th>
-                                        <th class="col-md-3">{{__('admin_modules.index-header-col-4')}}</th>
                                         <th class="col-md-1">{{__('admin_modules.index-header-col-5')}}</th>
                                         <th class="col-md-1">{{__('admin_modules.index-header-col-6')}}</th>
                                     </tr>
@@ -76,7 +76,7 @@
                                                         </div>
                                                         <div class="dd-handle  col-md-2">{{$module->short_name}}</div>
                                                         <div class="dd-handle  col-md-3">{{ str_limit($module->functions,30)}}</div>
-                                                        <div class="dd-handle  col-md-1 text-center">@if($module->isadmin == 1) Yes @else No @endif</div>
+                                                        <div class="dd-handle  col-md-1 text-center"><i class="fa fa-dot-circle-o @if($module->isadmin == 1) text-success @else text-danger @endif"></i> </div>
                                                         <div class=" col-md-1 text-center">
                                                             <a href="{{ url('admin_modules/'.$module->id.'/edit') }}" >
                                                                 <i class="fa fa-wrench"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-update')}}"></i>

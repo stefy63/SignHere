@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class AdminModuleController extends Controller
 {
@@ -119,11 +120,13 @@ class AdminModuleController extends Controller
         if($id == 0 ){
             $i=1;
             foreach (json_decode($request->order,true) as $v)
-                $module = Module::find($v['id']);
-                $module->order = $i++;
-                $module->save();
+                if($module = Module::find($v['id'])){
+                    $module->order = $i++;
+                    $module->save();
+                }
+                \Cache::flush();
             }
-            return response()->json(['success' => __('admin_modules.success_module_updated')]);
+            return response()->json(['success' => __('admin_modules.success_order_updated')]);
 
         if($module = Module::find($id)) {
             if($request->ajax()){
