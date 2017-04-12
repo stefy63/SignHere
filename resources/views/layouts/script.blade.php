@@ -48,6 +48,7 @@ $(function () {
     @elseif(session('alert'))
         toastr['error']("{{ session('alert') }}", "{{__('app.notify_alert')}}");
     @elseif(session('success'))
+        dd(sessionStorage);
         toastr['success']("{{ session('success') }}", "{{__('app.notify_success')}}");
     @elseif(session('warning'))
         toastr['warning']("{{ session('warning') }}", "{{__('app.notify_warning')}}");

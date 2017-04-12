@@ -176,8 +176,8 @@ class AdminUserController extends Controller
         if($user = User::find($request->id)) {
             $this->validate($request, User::$rules_change_pwd);
 
-            if(bcrypt($user->password) != bcrypt($request->new_password))
-                    $user->password = bcrypt($request->new_password);
+            //if(bcrypt($user->password) != bcrypt($request->new_password))
+            $user->password = bcrypt($request->new_password);
             $user->save();
 
             return redirect()->back()->with('success', __('admin_users.success_user_updated'));

@@ -33,7 +33,6 @@ class User extends Authenticatable
         );
 
     public static $rules_change_pwd = array(
-            'password'                  =>'required',
             'new_password'              =>'required|alpha_num|between:5,12',
             'new_password_confirmation' =>'required|same:new_password'
         );

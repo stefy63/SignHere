@@ -16,7 +16,7 @@
                     <input type="hidden" name="user_id" value="{{Auth::user()->id}}" />
 
 
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="form-group">
                             <div class="col-md-5 ">
                                 <label for="password" >{{__('admin_users.old_password')}}</label>
@@ -25,7 +25,7 @@
                                 <input class="form-control" size="50" type="password" name="password" value="" />
                             </div>
                         </div>
-                    </div>
+                    </div>-->
 
 
                     <div class="row">
