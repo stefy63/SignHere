@@ -1,6 +1,7 @@
 @extends('admin.back')
 
 @section('content')
+
 <div class="row">
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
@@ -37,61 +38,72 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 " >
                             <table class="table table-striped table-bordered table-hover dataTables-example ng-isolate-scope dataTable" datatable="" style="display: table;" id="DataTables_Table_2" role="grid" aria-describedby="DataTables_Table_2_info">
                                 <thead>
                                     <tr role="row">
                                         <th class="col-md-1">{{__('admin_modules.index-header-col-0')}}</th>
                                         <th class="col-md-2">{{__('admin_modules.index-header-col-1')}}</th>
                                         <th class="col-md-2">{{__('admin_modules.index-header-col-2')}}</th>
-                                        <th class="col-md-3">{{__('admin_modules.index-header-col-3')}}</th>
-                                        <th class="col-md-2">{{__('admin_modules.index-header-col-4')}}</th>
+                                        <th class="col-md-2">{{__('admin_modules.index-header-col-3')}}</th>
+                                        <th class="col-md-3">{{__('admin_modules.index-header-col-4')}}</th>
                                         <th class="col-md-1">{{__('admin_modules.index-header-col-5')}}</th>
                                         <th class="col-md-1">{{__('admin_modules.index-header-col-6')}}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($modules as $module)
-                                    <tr class="gradeA odd" role="row">
-                                        <td>
-                                            <div class="onoffswitch" >
-                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_modules.update',['id' => $module->id]) }}"  @if($module->active == 1) checked @endif id="{{$module->id}}">
-                                                <label class="onoffswitch-label" for="{{$module->id}}">
-                                                    <span class="onoffswitch-inner"></span>
-                                                    <span class="onoffswitch-switch"></span>
-                                                </label>
+                                    <tr class="gradeA odd" role="row" >
+                                        <td colspan="7">
+                                            <div class="dd" id="nestable">
+                                                <ol class="dd-list" >
+                                                    @foreach($modules as $module)
+                                                    <li class="dd-item " data-id="{{$module->id}}">
+                                                    <div class="col-md-12">
+                                                        <div class="dd-handle  col-md-1"><i class="fa fa-bars"></i></div>
+                                                        <div class=" col-md-1">
+                                                            <div class="onoffswitch" >
+                                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_modules.update',['id' => $module->id]) }}"  @if($module->active == 1) checked @endif id="{{$module->id}}">
+                                                                <label class="onoffswitch-label" for="{{$module->id}}">
+                                                                    <span class="onoffswitch-inner"></span>
+                                                                    <span class="onoffswitch-switch"></span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <a class="open-modal" data-url="{{ url('admin_modules/'.$module->id) }}" data-toggle="modal" data-target="#showModal" title="{{__('admin_modules.index-tooltip-col1')}}" >
+                                                                {{$module->name}}
+                                                            </a>
+                                                        </div>
+                                                        <div class="dd-handle  col-md-2">{{$module->short_name}}</div>
+                                                        <div class="dd-handle  col-md-3">{{ str_limit($module->functions,30)}}</div>
+                                                        <div class="dd-handle  col-md-1 text-center">@if($module->isadmin == 1) Yes @else No @endif</div>
+                                                        <div class=" col-md-1 text-center">
+                                                            <a href="{{ url('admin_modules/'.$module->id.'/edit') }}" >
+                                                                <i class="fa fa-wrench"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-update')}}"></i>
+                                                            </a>
+                                                            &nbsp;&nbsp;
+                                                            <a  class="confirm-toast"  data-message="{{__('admin_modules.index-confirm-message')}}"  data-location="{{ url('admin_modules/destroy/'.$module->id) }}">
+                                                                <i class="fa fa-trash"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-delete')}}"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    </li>
+                                                    @endforeach
+                                                </ol>
                                             </div>
                                         </td>
-                                        <td>
-                                           <a class="open-modal" data-url="{{ url('admin_modules/'.$module->id) }}" data-toggle="modal" data-target="#showModal" title="{{__('admin_modules.index-tooltip-col1')}}" >
-                                                {{$module->name}}
-                                            </a>
-                                        </td>
-                                        <td>{{$module->short_name}}</td>
-                                        <td>{{ str_limit($module->functions,33)}}</td>
-                                        <td>{{$module->icon}}</td>
-                                        <td class="text-center">@if($module->isadmin == 1) Yes @else No @endif</td>
-                                        <td class="text-center">
-                                            <a href="{{ url('admin_modules/'.$module->id.'/edit') }}" >
-                                                <i class="fa fa-wrench"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-update')}}"></i>
-                                            </a>
-                                            &nbsp;&nbsp;
-                                            <a  class="confirm-toast"  data-message="{{__('admin_modules.index-confirm-message')}}"  data-location="{{ url('admin_modules/destroy/'.$module->id) }}">
-                                                <i class="fa fa-trash"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-delete')}}"></i>
-                                            </a>
-                                        </td>
                                     </tr>
-                                @endforeach
+
                                 </tbody>
                                 <tfoot>
                                     <tr role="row">
-                                        <th class="col-md-1">{{__('admin_modules.index-header-col-0')}}</th>
-                                        <th class="col-md-2">{{__('admin_modules.index-header-col-1')}}</th>
-                                        <th class="col-md-2">{{__('admin_modules.index-header-col-2')}}</th>
-                                        <th class="col-md-3">{{__('admin_modules.index-header-col-3')}}</th>
-                                        <th class="col-md-2">{{__('admin_modules.index-header-col-4')}}</th>
-                                        <th class="col-md-1">{{__('admin_modules.index-header-col-5')}}</th>
-                                        <th class="col-md-1">{{__('admin_modules.index-header-col-6')}}</th>
+                                        <th>{{__('admin_modules.index-header-col-0')}}</th>
+                                        <th>{{__('admin_modules.index-header-col-1')}}</th>
+                                        <th>{{__('admin_modules.index-header-col-2')}}</th>
+                                        <th>{{__('admin_modules.index-header-col-3')}}</th>
+                                        <th>{{__('admin_modules.index-header-col-4')}}</th>
+                                        <th>{{__('admin_modules.index-header-col-5')}}</th>
+                                        <th>{{__('admin_modules.index-header-col-6')}}</th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -100,7 +112,6 @@
                     <div class="row">
                         <div class="col-sm-7">
                             <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_2_paginate">
-                                {{ $modules->links() }}
                             </div>
                         </div>
                     </div>
@@ -110,6 +121,7 @@
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function () {
 
@@ -117,20 +129,35 @@
             e.preventDefault();
             var url = this.getAttribute('data-url');
 
+            updateData({
+                    _token: "{{csrf_token()}}",
+                    active: $(this).is(':checked')?1:0
+                },url);
+        });
+
+        function updateData(tx,url) {
             $.ajax({
                 type: "PUT",
                 url: url,
-                data: {
-                    _token: "{{csrf_token()}}",
-                    active: $(this).is(':checked')?1:0
-                },
+                data: tx,
                 success: function(data){
                     console.log(data);
                     toastr['success']('', data['success']);
                 }
             });
-        });
-        
+        }
+
+         var updateOutput = function (e) {
+             var list = e.length ? e : $(e.target);
+             var url = "{{ route('admin_modules.update',['id' => '0']) }}";
+             updateData({
+                    _token: "{{csrf_token()}}",
+                    order: window.JSON.stringify(list.nestable('serialize'))
+                },url);
+             };
+
+            $('#nestable').nestable().on('change', updateOutput);
+
     })
     
 </script>

@@ -28,13 +28,13 @@ class User extends Authenticatable
 
     public static $rules = array(
             'username'  =>'required',
-            'password'  =>'required|alpha_num|between:6,12',
+            'password'  =>'required|alpha_num|between:5,12',
             'email'     => 'required|email',
         );
 
     public static $rules_change_pwd = array(
             'password'                  =>'required',
-            'new_password'              =>'required|alpha_num|between:6,12',
+            'new_password'              =>'required|alpha_num|between:5,12',
             'new_password_confirmation' =>'required|same:new_password'
         );
 

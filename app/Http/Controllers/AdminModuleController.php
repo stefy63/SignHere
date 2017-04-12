@@ -25,7 +25,7 @@ class AdminModuleController extends Controller
      */
     public function index()
     {
-        $modules = Module::paginate(10);
+        $modules = Module::orderBy('order')->get();
 
         return view('admin.modules.index',[
             'modules' => $modules,
@@ -116,6 +116,14 @@ class AdminModuleController extends Controller
      */
     public function update(Request $request, Module $module, $id)
     {
+        if($id == 0 ){
+            $i=1;
+            foreach (json_decode($request->order,true) as $v)
+                $module = Module::find($v['id']);
+                $module->order = $i++;
+                $module->save();
+            }
+            return response()->json(['success' => __('admin_modules.success_module_updated')]);
 
         if($module = Module::find($id)) {
             if($request->ajax()){

@@ -200,7 +200,7 @@ class AdminAclController extends Controller
                 ->where('active',true)
                 ->get();
             $devices = Acl::getMyDevices()->where('active',true)->get();
-            $users = Acl::getMyUsers()->where('active',true)->get();
+            $users = Acl::getMyUsers()->where('active',true)->get()->toArray();
 
             return response()->json([$locations,$devices,$users]);
         }

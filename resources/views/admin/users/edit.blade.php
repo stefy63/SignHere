@@ -64,6 +64,21 @@
             <div class="row">
                 <div class="form-group">
                     <div class="col-md-2 col-md-offset-1">
+                        <label for="email" >{{__('admin_users.db-profile')}}</label>
+                    </div>
+                    <div class="col-md-8">
+                        <select class="form-control" name="profile_id" >
+                            @foreach($profiles as $profile)
+                                <option value="{{$profile->id}}">{{$profile->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-2 col-md-offset-1">
                         <label for="active" >{{__('admin_users.db-active')}}</label>
                     </div>
                     <div class="col-md-8">

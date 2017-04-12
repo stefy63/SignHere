@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Profile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Acl;
@@ -41,7 +42,10 @@ class AdminUserController extends Controller
      */
     public function create()
     {
-        return view('admin.users.create');
+        $profiles = Profile::all();
+        return view('admin.users.create',[
+                'profiles' => $profiles,
+            ]);
     }
 
     /**
@@ -86,8 +90,10 @@ class AdminUserController extends Controller
     public function edit($id)
     {
         if($user = User::find($id)) {
+            $profiles = Profile::all();
             return view('admin.users.edit',[
                 'user' => $user,
+                'profiles' => $profiles,
             ]);
         }
 
