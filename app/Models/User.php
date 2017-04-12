@@ -73,20 +73,22 @@ class User extends Authenticatable
         if($userPermission = $this->profile()->first()->getModules($module))
         {
 
-            $userPermission = $userPermission->first();
-            $role = $userPermission->pivot->permission;
-            ($role != 'ALL')? :$role = $userPermission->functions;
-            if(str_contains($op,'_')) {
-                list($op,$suf) = explode('_',$op,2);
-                if(str_contains($op, 'store') || str_contains($op, 'update')) {
-                    $op=$suf;
+            if($userPermission = $userPermission->first()) {
+
+                $role = $userPermission->pivot->permission;
+                ($role != 'ALL') ?: $role = $userPermission->functions;
+                if (str_contains($op, '_')) {
+                    list($op, $suf) = explode('_', $op, 2);
+                    if (str_contains($op, 'store') || str_contains($op, 'update')) {
+                        $op = $suf;
+                    }
+                } else {
+                    (!str_contains($op, 'store')) ?: $op = 'create';
+                    (!str_contains($op, 'update')) ?: $op = 'edit';
                 }
-            } else {
-                (!str_contains($op, 'store'))? :$op='create';
-                (!str_contains($op, 'update'))? :$op='edit';
+                //dd($role,$op);
+                return (strpos(" " . $role, $op) > 0 ? true : false);
             }
-            //dd($role,$op);
-            return (strpos(" ".$role,$op ) > 0 ? true : false);
         }
         return false;
     }
