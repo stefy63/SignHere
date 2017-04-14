@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'created_at' => date("Y-m-d H:i:s")
         ]);
 
-        DB::table('user_acl')->insert([
+        DB::table('acl_user')->insert([
             'id' => 1,
             'acl_id' => 1,
             'user_id' => 1,

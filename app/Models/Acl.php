@@ -8,8 +8,8 @@ use App\Models\Location;
 use App\Models\Document;
 use App\Models\Client;
 use App\Models\Brand;
-use App\Models\brand_acl;
-use App\Models\user_acl;
+use App\Models\Profile;
+use App\Models\Module;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -26,27 +26,35 @@ class Acl extends Model
     );
 
     public function devices(){
-        return $this->belongsToMany(Device::class,'device_acl');
+        return $this->belongsToMany(Device::class);
     }
 
     public function brands(){
-        return $this->belongsToMany(Brand::class,'brand_acl');
+        return $this->belongsToMany(Brand::class);
     }
 
     public function locations(){
-        return $this->belongsToMany(Location::class,'location_acl');
+        return $this->belongsToMany(Location::class);
     }
 
     public function documents(){
-        return $this->belongsToMany(Document::class,'document_acl');
+        return $this->belongsToMany(Document::class);
     }
 
     public function clients(){
-        return $this->belongsToMany(Client::class,'client_acl');
+        return $this->belongsToMany(Client::class);
     }
 
     public function users(){
-        return $this->belongsToMany(User::class,'user_acl');
+        return $this->belongsToMany(User::class);
+    }
+
+    public function profile(){
+        return $this->belongsToMany(Profile::class);
+    }
+
+    public function module(){
+        return $this->belongsToMany(Module::class);
     }
 
     public static function getMyBrands() {

@@ -13,15 +13,15 @@ class AddForeignKeyClients extends Migration
      */
     public function up()
     {
-        Schema::table('user_acl', function (Blueprint $table) {
-            $table->foreign('acl_id')->references('id')->on('acls')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        });
+        /* Schema::table('user_acl', function (Blueprint $table) {
+             $table->foreign('acl_id')->references('id')->on('acls')->onDelete('cascade');
+             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+         });
 
         Schema::table('user_module', function (Blueprint $table) {
-            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-        });
+             $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
+             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+         });
 
         Schema::table('brand_acl', function (Blueprint $table) {
             $table->foreign('acl_id')->references('id')->on('acls')->onDelete('cascade');
@@ -51,16 +51,16 @@ class AddForeignKeyClients extends Migration
         Schema::table('module_profile', function (Blueprint $table) {
             $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
             $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('cascade');
-        });
-
-        Schema::table('documents', function (Blueprint $table) {
-            $table->foreign('client_id')->references('id')->on('clients');
-        });
-
-        Schema::table('locations', function (Blueprint $table) {
-            $table->foreign('brand_id')->references('id')->on('brands');
-        });
-
+        });*/
+        /*
+                Schema::table('documents', function (Blueprint $table) {
+                    $table->foreign('client_id')->references('id')->on('clients');
+              });
+                /*
+                Schema::table('locations', function (Blueprint $table) {
+                    $table->foreign('brand_id')->references('id')->on('brands');
+                });
+                */
     }
 
     /**
@@ -70,13 +70,15 @@ class AddForeignKeyClients extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_acl');
-        Schema::dropIfExists('user_module');
-        Schema::dropIfExists('brand_acl');
-        Schema::dropIfExists('location_acl');
-        Schema::dropIfExists('document_acl');
-        Schema::dropIfExists('device_acl');
-        Schema::dropIfExists('client_acl');
+        Schema::dropIfExists('acl_user');
+        Schema::dropIfExists('module_user');
+        Schema::dropIfExists('acl_brand');
+        Schema::dropIfExists('acl_location');
+        Schema::dropIfExists('acl_document');
+        Schema::dropIfExists('acl_device');
+        Schema::dropIfExists('acl_client');
+        Schema::dropIfExists('acl_profile');
+        Schema::dropIfExists('acl_module');
 
         Schema::dropIfExists('documents');
         Schema::dropIfExists('locations');

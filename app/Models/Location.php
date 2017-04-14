@@ -26,7 +26,7 @@ class Location extends Model
 
 
     public function acls() {
-        return $this->belongsToMany(Acl::class,'location_acl');
+        return $this->belongsToMany(Acl::class);
     }
 
     public function brands() {

@@ -21,10 +21,10 @@ class Device extends Model
     );
 
     public function acls() {
-        return $this->belongsToMany(Acl::class,'device_acl');
+        return $this->belongsToMany(Acl::class);
     }
 
     public function user() {
-        return $this->belongsToMany(User::class,'device_user');
+        return $this->belongsToMany(User::class);
     }
 }

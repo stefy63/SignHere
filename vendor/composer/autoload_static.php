@@ -294,6 +294,8 @@ class ComposerStaticInit535f00a37f2209a7cf42616c4f6b6672
 
     public static $classMap = array (
         'AddForeignKeyClients' => __DIR__ . '/../..' . '/database/migrations/2017_04_19_170900_add_foreign_key_clients.php',
+        'CreateAclModule' => __DIR__ . '/../..' . '/database/migrations/2017_04_14_134837_create_acl_module.php',
+        'CreateAclProfile' => __DIR__ . '/../..' . '/database/migrations/2017_04_14_134637_create_acl_profile.php',
         'CreateAclsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_130940_create_acls_table.php',
         'CreateBrandAclTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_131129_create_brand_acl_table.php',
         'CreateBrandsTable' => __DIR__ . '/../..' . '/database/migrations/2017_03_18_130536_create_brands_table.php',

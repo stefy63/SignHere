@@ -14,7 +14,7 @@ class Document extends Model
 
 
     public function acls() {
-        return $this->belongsToMany(Acl::class,'document_acl');
+        return $this->belongsToMany(Acl::class);
     }
 
     public function doctypes() {

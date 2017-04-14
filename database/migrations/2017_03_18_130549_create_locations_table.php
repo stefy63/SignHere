@@ -32,6 +32,9 @@ class CreateLocationsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        Schema::table('locations', function (Blueprint $table) {
+            $table->foreign('brand_id')->references('id')->on('brands');
+        });
         
     }
 

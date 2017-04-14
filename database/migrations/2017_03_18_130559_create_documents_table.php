@@ -29,6 +29,9 @@ class CreateDocumentsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
+        Schema::table('documents', function (Blueprint $table) {
+            $table->foreign('client_id')->references('id')->on('clients');
+        });
         
     }
 

@@ -20,7 +20,7 @@ class Client extends Model
     );
 
     public function acls() {
-        return $this->belongsToMany(Acl::class,'client_acl');
+        return $this->belongsToMany(Acl::class);
     }
 
     public function documents() {

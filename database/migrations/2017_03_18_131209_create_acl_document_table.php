@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateClientAclTable extends Migration
+class CreateAclDocumentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,15 @@ class CreateClientAclTable extends Migration
      */
     public function up()
     {
-        Schema::create('client_acl', function (Blueprint $table) {
+        Schema::create('acl_document', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('acl_id')->unsigned()->default(1);
-            $table->integer('client_id')->unsigned()->default(1);
+            $table->integer('document_id')->unsigned()->default(1);
             $table->timestamps();
+        });
+        Schema::table('acl_document', function (Blueprint $table) {
+            $table->foreign('acl_id')->references('id')->on('acls')->onDelete('cascade');
+            $table->foreign('document_id')->references('id')->on('documents')->onDelete('cascade');
         });
         
     }
@@ -29,6 +33,6 @@ class CreateClientAclTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('client_acl');
+        Schema::dropIfExists('acl_document');
     }
 }

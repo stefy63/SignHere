@@ -7,6 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'AddForeignKeyClients' => $baseDir . '/database/migrations/2017_04_19_170900_add_foreign_key_clients.php',
+    'CreateAclModule' => $baseDir . '/database/migrations/2017_04_14_134837_create_acl_module.php',
+    'CreateAclProfile' => $baseDir . '/database/migrations/2017_04_14_134637_create_acl_profile.php',
     'CreateAclsTable' => $baseDir . '/database/migrations/2017_03_18_130940_create_acls_table.php',
     'CreateBrandAclTable' => $baseDir . '/database/migrations/2017_03_18_131129_create_brand_acl_table.php',
     'CreateBrandsTable' => $baseDir . '/database/migrations/2017_03_18_130536_create_brands_table.php',

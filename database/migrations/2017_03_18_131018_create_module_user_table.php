@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateModuleProfileTable extends Migration
+class CreateModuleUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateModuleProfileTable extends Migration
      */
     public function up()
     {
-        Schema::create('module_profile', function (Blueprint $table) {
+        Schema::create('module_user', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('profile_id')->unsigned()->default(1);
+            $table->integer('user_id')->unsigned()->default(1);
             $table->integer('module_id')->unsigned()->default(1);
             $table->string('permission')->nullable()->default(null);
             $table->timestamps();
         });
-        Schema::table('module_profile', function (Blueprint $table) {
+        Schema::table('module_user', function (Blueprint $table) {
             $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
-            $table->foreign('profile_id')->references('id')->on('profiles')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -33,6 +33,6 @@ class CreateModuleProfileTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('module_profile');
+        Schema::dropIfExists('module_user');
     }
 }

@@ -39,11 +39,11 @@ class User extends Authenticatable
 
 
     public function modules() {
-        return $this->belongsToMany(Module::class,'user_module')->withPivot('permission');
+        return $this->belongsToMany(Module::class)->withPivot('permission');
     }
 
     public function acls() {
-        return $this->belongsToMany(Acl::class,'user_acl');
+        return $this->belongsToMany(Acl::class);
     }
 
     public function profile() {
@@ -51,7 +51,7 @@ class User extends Authenticatable
     }
 
     public function devices() {
-        return $this->belongsToMany(Device::class,'device_user');
+        return $this->belongsToMany(Device::class);
     }
 
     public function isAdmin() {

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserModuleTable extends Migration
+class CreateAclModule extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class CreateUserModuleTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_module', function (Blueprint $table) {
+        Schema::create('alc_module', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned()->default(1);
+            $table->integer('acl_id')->unsigned()->default(1);
             $table->integer('module_id')->unsigned()->default(1);
-            $table->string('permission')->nullable()->default(null);
             $table->timestamps();
+        });
+        Schema::table('alc_module', function (Blueprint $table) {
+            $table->foreign('acl_id')->references('id')->on('acls')->onDelete('cascade');
+            $table->foreign('module_id')->references('id')->on('modules')->onDelete('cascade');
         });
     }
 
@@ -29,6 +32,6 @@ class CreateUserModuleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_module');
+        Schema::dropIfExists('alc_module');
     }
 }

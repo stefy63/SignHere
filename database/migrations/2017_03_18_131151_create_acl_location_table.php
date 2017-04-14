@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDeviceAclTable extends Migration
+class CreateAclLocationTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,16 @@ class CreateDeviceAclTable extends Migration
      */
     public function up()
     {
-        Schema::create('device_acl', function (Blueprint $table) {
+        Schema::create('acl_location', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('acl_id')->unsigned()->default(1);
-            $table->integer('device_id')->unsigned()->default(1);
+            $table->integer('location_id')->unsigned()->default(1);
             $table->timestamps();
         });
-        
+        Schema::table('acl_location', function (Blueprint $table) {
+            $table->foreign('acl_id')->references('id')->on('acls')->onDelete('cascade');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
+        });
     }
 
     /**
@@ -29,6 +32,7 @@ class CreateDeviceAclTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('device_acl');
+        Schema::dropIfExists('acl_location');
     }
 }
+
