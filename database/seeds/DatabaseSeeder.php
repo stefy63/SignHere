@@ -55,6 +55,7 @@ class DatabaseSeeder extends Seeder
             'id' => 1,
             'acl_id' => 1,
             'profile_id' => 1,
+            'parent_id' => 0,
             'created_at' => new DateTime()
         ]);
 
@@ -64,7 +65,6 @@ class DatabaseSeeder extends Seeder
             'short_name' => 'admin_acls',
             'functions' => 'index,create,show,edit,destroy,getitem',
             'isadmin' => true,
-            'parent_id' => 0,
             'active' => 1,
             'user_id' => 1,
             'created_at' => date("Y-m-d H:i:s")
