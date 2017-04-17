@@ -55,7 +55,6 @@ class DatabaseSeeder extends Seeder
             'id' => 1,
             'acl_id' => 1,
             'profile_id' => 1,
-            'parent_id' => 0,
             'created_at' => new DateTime()
         ]);
 
