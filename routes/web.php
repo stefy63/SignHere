@@ -19,8 +19,18 @@ Route::get('/', function () {
 
 });
 
+
+Route::get('logout',  array('as' => 'logout',function (){
+     if(Auth::check()) {
+         Auth::logout();
+         return view('welcome');
+     }
+    else
+        return view('welcome');
+}));
+
+//Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Auth::routes();
-Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::get('home', 'HomeController@index');
 

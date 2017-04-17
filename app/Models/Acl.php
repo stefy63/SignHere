@@ -49,7 +49,7 @@ class Acl extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function profile(){
+    public function profiles(){
         return $this->belongsToMany(Profile::class);
     }
 
@@ -107,18 +107,24 @@ class Acl extends Model
 
     public static function getMyAcls() {
         $userAcls = \Auth::user()->getMyAcls();
-        $acls = Acl::whereHas('users',function ($q) use ($userAcls){
-            $q->whereIn('acl_id',$userAcls);
-        });
+        $acls = Acl::whereIn('id',$userAcls);
 
         return $acls;
     }
 
-    /*public static function getMyModules() {
+    public static function getMyProfiles() {
+        $userAcls = \Auth::user()->getMyAcls();
+        $Modules = Profile::whereHas('acls',function ($q) use ($userAcls){
+            $q->whereIn('acl_id',$userAcls);
+        });
+        return $Modules;
+    }
+
+    public static function getMyModules() {
         $userAcls = \Auth::user()->getMyAcls();
         $Modules = Module::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
         });
         return $Modules;
-    }*/
+    }
 }

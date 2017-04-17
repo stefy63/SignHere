@@ -14,14 +14,14 @@
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-3 col-md-offset-1">
-                            <label for="brand_id" >{{__('admin_locations.db-brand_id')}}</label>
+                            <label for="brand" >{{__('admin_locations.db-brand_id')}}</label>
                         </div>
                         <div class="col-md-7 col-md-offset-1">
                             <input class="form-control" size="50" type="text" name="brand" value="" disabled/>
                         </div>
                     </div>
                 </div>
-                <!-- FINE AZIENDA -->
+                <!-- FINE AZIENDA
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-3 col-md-offset-1">
@@ -42,7 +42,7 @@
                             <input class="form-control" size="50" type="text" name="personal_vat" value="" disabled/>
                         </div>
                     </div>
-                </div>
+                </div>-->
 
                 <div class="row">
                     <div class="form-group">
@@ -186,6 +186,7 @@ $(function(){
             data = data['0'];
             $('#showModal .modal-title').text(data['description']);
             if(data['action'] == 1) $('#showModal input[type="checkbox"]').checked=true;
+            data['brand'] = data['brand'].description;
             for(var k in data) {
                 if($('#showModal input[name="'+k+'"]').attr('type') == 'checkbox') {
                     $('#showModal input[name="'+k+'"]').prop('checked',(data[k] == 1)? true:false);

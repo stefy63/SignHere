@@ -46,6 +46,12 @@
                                                 </div>
                                             @endforeach
                                             <br>
+                                            <div class="input-group m-b">
+                                                <span class="input-group-addon">
+                                                    <input class="tab-function check_all" type="checkbox" data-module="{{$module->id}}">
+                                                </span>
+                                                <input type="text" class="form-control text-success" value="{{__('admin_profiles.crud-ALL')}}" disabled />
+                                            </div>
                                         </div>
                                     </div>
                                 @endforeach
@@ -61,5 +67,12 @@
         </div>
     </div>
 </div>
-
+<script>
+$(function () {
+    $('.check_all').click(function(e){
+        var module = this.getAttribute('data-module');
+        $('#mod-'+module+' input:checkbox').prop('checked', this.checked);
+    })
+})
+</script>
 @endsection

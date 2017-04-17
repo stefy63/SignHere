@@ -64,7 +64,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            {{$location->brands()->find($location->brand_id)->description}}
+                                            {{$location->brand->description}}
                                         </td>
                                         <td>
                                             <a class="open-modal" data-url="{{ url('admin_locations/'.$location->id) }}" data-toggle="modal" data-target="#showModal" title="{{__('admin_locations.index-tooltip-col1')}}" >

@@ -42,9 +42,12 @@ class AdminUserController extends Controller
      */
     public function create()
     {
-        $profiles = Profile::all();
+        $roots = Auth::user()->getMyRoot()->get();
+        $profiles = Acl::getMyProfiles()->get();
+
         return view('admin.users.create',[
                 'profiles' => $profiles,
+                'roots' => $roots,
             ]);
     }
 
@@ -59,13 +62,14 @@ class AdminUserController extends Controller
         $this->validate($request, User::$rules);
 
         $user = new User();
+        //$root = array_pull($request,'root');
         $user->fill($request->all());
         $user->active = isset($request->active) ? 1 : 0;
         $user->api_token = str_random(60);
         $user->user_id = \Auth::user()->id;
         $user->password = bcrypt($request->password);
         $user->save();
-        $user->acls()->attach(  '1');
+        $user->acls()->sync(Auth::user()->getMyRoot()->orderBy('id')->first());
 
         return redirect()->back()->with('success', __('admin_users.success_user_create'));
     }
@@ -90,10 +94,13 @@ class AdminUserController extends Controller
     public function edit($id)
     {
         if($user = User::find($id)) {
-            $profiles = Profile::all();
+            $roots = Auth::user()->getMyRoot()->get();
+            $profiles = Acl::getMyProfiles()->get();
+
             return view('admin.users.edit',[
                 'user' => $user,
                 'profiles' => $profiles,
+                'roots' => $roots,
             ]);
         }
 
@@ -117,12 +124,15 @@ class AdminUserController extends Controller
             }
             //dd($request->all());
             $this->validate($request, User::$rules);
+
+            //$root = array_pull($request,'root');
             $user->fill($request->all());
             $user->active = isset($request->active) ? 1 : 0;
             $user->user_id = \Auth::user()->id;
             if(bcrypt($user->password) != bcrypt($request->password))
                     $user->password = bcrypt($request->password);
             $user->save();
+            //$user->acls()->sync(Auth::user()->getMyRoot()->orderBy('id')->first());
 
             return redirect()->back()->with('success', __('admin_users.success_user_updated'));
         }

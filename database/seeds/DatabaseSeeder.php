@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@localhost.com',
             'user_id'=> 1,
             'profile_id' => 1,
+            'acl_id' => 1,
             'api_token' => str_random(60),
             'password' => bcrypt('admin'),
             'created_at' => date("Y-m-d H:i:s")
@@ -50,12 +51,20 @@ class DatabaseSeeder extends Seeder
             'created_at' => new DateTime()
         ]);
 
+        DB::table('acl_profile')->insert([
+            'id' => 1,
+            'acl_id' => 1,
+            'profile_id' => 1,
+            'created_at' => new DateTime()
+        ]);
+
         DB::table('modules')->insert([
             'id' => 1,
             'name' => 'ACLs',
             'short_name' => 'admin_acls',
-            'functions' => 'index,create,show,edit,destroy',
+            'functions' => 'index,create,show,edit,destroy,getitem',
             'isadmin' => true,
+            'parent_id' => 0,
             'active' => 1,
             'user_id' => 1,
             'created_at' => date("Y-m-d H:i:s")

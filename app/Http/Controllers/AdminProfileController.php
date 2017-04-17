@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Acl;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Module;
 use App\Models\Profile;
 use Illuminate\Http\Request;
@@ -26,7 +28,7 @@ class AdminProfileController extends Controller
      */
     public function index(Request $request)
     {
-        $profiles = Profile::paginate(10);
+        $profiles = Acl::getMyProfiles()->get();
         $modules = Module::where('active',true)->get();
         //dd($modules);
         return view('admin.profiles.index',[
@@ -74,6 +76,7 @@ class AdminProfileController extends Controller
             }
         }
         $profile->modules()->sync($Modules);
+        $profile->acls()->sync(Auth::user()->getMyRoot()->orderBy('id')->first());
         return redirect()->back()->with('success', __('admin_profiles.success_profile_create'));
     }
 

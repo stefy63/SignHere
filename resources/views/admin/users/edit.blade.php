@@ -64,7 +64,7 @@
             <div class="row">
                 <div class="form-group">
                     <div class="col-md-2 col-md-offset-1">
-                        <label for="email" >{{__('admin_users.db-profile')}}</label>
+                        <label for="profile_id" >{{__('admin_users.db-profile')}}</label>
                     </div>
                     <div class="col-md-8">
                         <select class="form-control" name="profile_id" >
@@ -75,6 +75,21 @@
                     </div>
                 </div>
             </div>
+
+            <!--<div class="row">
+                <div class="form-group">
+                    <div class="col-md-2 col-md-offset-1">
+                        <label for="root" >{{__('admin_users.db-root')}}</label>
+                    </div>
+                    <div class="col-md-8">
+                        <select class="form-control" name="root" >
+                            @foreach($roots as $root)
+                                <option value="{{$root->id}}">{{$root->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>-->
 
             <div class="row">
                 <div class="form-group">

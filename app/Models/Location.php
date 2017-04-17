@@ -29,7 +29,7 @@ class Location extends Model
         return $this->belongsToMany(Acl::class);
     }
 
-    public function brands() {
-        return $this->belongsTo(Brand::class,'id');
+    public function brand() {
+        return $this->belongsTo(Brand::class);
     }
 }

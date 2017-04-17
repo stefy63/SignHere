@@ -72,9 +72,7 @@ class User extends Authenticatable
     {
         if($userPermission = $this->profile()->first()->getModules($module))
         {
-
             if($userPermission = $userPermission->first()) {
-
                 $role = $userPermission->pivot->permission;
                 ($role != 'ALL') ?: $role = $userPermission->functions;
                 if (str_contains($op, '_')) {
@@ -93,8 +91,53 @@ class User extends Authenticatable
         return false;
     }
 
-    public function getMyAcls() {
-        return $this->acls()->get()->pluck('id')->toArray();
+    public function getMyAcls($roots = false) {
+        ($roots)? :$roots = $this->getMyForest();
+        $temp = array();
+        foreach ($roots as $v ) {
+            $temp[] = $v['id'];
+            //if (isset($v['branch']) && ($v['id'] != $v['branch'][0]['id'])) {
+            if (isset($v['branch']) && $v['branch'] != -1) {
+                $temp = array_merge($temp, $this->getMyAcls($v['branch']));
+            }
+        }
+        return array_unique($temp);
     }
+
+    public function getMyTree($root) {
+        $tree = array();
+        if($branchs = Acl::where('parent_id',$root['id'])->get()->toArray()) {
+            foreach ($branchs as $branch) {
+                $tree[] = array_add($branch, 'branch', $this->getMyTree($branch));
+            }
+        } else {
+            $tree = -1;
+        }
+        return $tree ;
+    }
+
+    public function getMyForest() {
+        $roots = $this->acls()->get()->toArray();
+        $forest = array();
+        foreach ($roots as $root) {
+            $forest[] = array_add($root,'branch',$this->getMyTree($root));
+        }
+        $forest = $this->remove_element_by_value($forest,  -1);
+        return $forest;
+    }
+
+    protected function remove_element_by_value($arr, $val) {
+        $return = array();
+        foreach($arr as $k => $v) {
+            if(is_array($v)) {
+                $return[$k] = $this->remove_element_by_value($v, $val); //recursion
+                continue;
+            }
+            if($v == $val) continue;
+            $return[$k] = $v;
+        }
+        return $return;
+    }
+
 
 }

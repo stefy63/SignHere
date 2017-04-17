@@ -56,6 +56,7 @@ return [
     'crud-permission' => 'Definisci Permessi Utente',
     'crud-resetPwd' => 'Reset Password Utente',
     'crud-visibility' => 'Assegnazione Visibilità',
+    'crud-getitem' => 'Ottiene Elenchi Personali Risorse',
     'crud-ALL' => 'TUTTI',
     'btn-edit' => 'Modifica',
     'btn-destroy' => 'Cancella',

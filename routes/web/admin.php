@@ -6,9 +6,9 @@
      });
 
      // Route for ACLs //
-     Route::resource('admin_acls','AdminAclController');
+     Route::get('admin_acls/store_getitem/{id}', array('as' => 'admin_acls.store_getitem','uses' => 'AdminAclController@getItem'));
      Route::get('admin_acls/destroy/{id}', array('as' => 'admin_acls.destroy','uses' => 'AdminAclController@destroy'));
-     Route::get('admin_acls/store_get/{id}', array('as' => 'admin_acls.store_get','uses' => 'AdminAclController@getItem'));
+     Route::resource('admin_acls','AdminAclController');
      // Route for Profiles //
      Route::resource('admin_profiles','AdminProfileController',array('except'=>array('destroy')));
      Route::get('admin_profiles/destroy/{id}', array('as' => 'admin_profiles.destroy','uses' => 'AdminProfileController@destroy'));

@@ -24,6 +24,12 @@ class Profile extends Model
         return $this->belongsToMany(Module::class)->withPivot('permission');
     }
 
+
+    public function acls() {
+        return $this->belongsToMany(Acl::class);
+    }
+
+
     public function getModules($module = false) {
 
         $result = $this->modules()

@@ -12,6 +12,7 @@
 
     <!-- Styles and Script -->
     @include('layouts.asset')
+
 </head>
 
 <body>
@@ -22,7 +23,7 @@
             @include('admin.menu')
         @endif
 
-        <div id="page-wrapper" class="gray-bg">
+        <div id="page-wrapper" class=" white-bg">
             <div class="page-heading">
                 <!-- Section header -->
                 @include('layouts.header')

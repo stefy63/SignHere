@@ -29,9 +29,11 @@ class AdminAclController extends Controller
     public function index()
     {
         $acls = Acl::getMyAcls()->get();
+        $tree = $this->_makeTree();
 
         return view('admin.visibility.index',[
             'acls' => $acls,
+            'tree' => $tree,
         ]);
     }
 
@@ -51,13 +53,15 @@ class AdminAclController extends Controller
         $locations = Acl::getMyLocations()->where('active',true)->get();
         $devices = Acl::getMyDevices()->where('active',true)->get();
         $users = Acl::getMyUsers()->where('active',true)->get();
+        $profiles = Acl::getMyProfiles()->where('active',true)->get();
 
         return view('admin.visibility.create',[
             'brands' => $brands,
+            'acls' => $acls,
             'locations' => $locations,
             'devices' => $devices,
             'users' => $users,
-            'acls' => $acls,
+            'profiles' => $profiles,
         ]);
     }
 
@@ -79,10 +83,11 @@ class AdminAclController extends Controller
         $visibility->save();
 
         $users = (is_array($request->users))?$request->users:array();
-        (array_key_exists('1',$users))?:$users = ['1' => '1'];
+        //(array_key_exists('1',$users))?:$users = ['1' => '1'];
         $visibility->brands()->sync([$request->brand_id]);
         ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
         ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
+        ($request->profiles)?$visibility->profiles()->sync(array_keys($request->profiles)):$visibility->profiles()->detach();
         $visibility->users()->sync(array_keys($users));
 
         return redirect()->back()->with('success', __('admin_acls.success_acl_create'));
@@ -96,14 +101,15 @@ class AdminAclController extends Controller
      */
     public function show(Request $request,Acl $acl,$id)
     {
-        if($request->ajax()){
+        if ($request->ajax()) {
             $acl = Acl::find($id);
-            $brands = $acl->getMyBrands()->where('active',true)->get();
-            $locations = $acl->getMyLocations()->where('active',true)->get();
-            $devices = $acl->getMyDevices()->where('active',true)->get();
-            $users = $acl->getMyUsers()->where('active',true)->get();
+            $brands = $acl->brands()->where('active', true)->get();
+            $locations = $acl->locations()->where('active', true)->get();
+            $devices = $acl->devices()->where('active', true)->get();
+            $users = $acl->users()->where('active', true)->get();
+            $profiles = $acl->profiles()->where('active', true)->get();
 
-            return response()->json([$brands,$locations,$devices,$users]);
+            return response()->json([$brands, $locations, $devices, $users,$profiles]);
         }
         return redirect()->back()->with('warning', __('admin_acls.warning_acl_NOTfound'));
     }
@@ -112,7 +118,9 @@ class AdminAclController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Acl  $acl
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Response               dd($userAcls);
+ dd($userAcls);
+
      */
     public function edit(Acl $acl,$id)
     {
@@ -121,19 +129,21 @@ class AdminAclController extends Controller
             return redirect()->back()->with('warning', __('admin_acls.warning_acl_brands_necessity'));
         }
         $acl = Acl::find($id);
-        $acls = $acl->getMyAcls()->where('active',true)->get();
+        $parent = $acl->getMyAcls()->where('active',true)->get();
         $brands = $acl->getMyBrands()->where('active',true)->get();
         $locations = $acl->getMyLocations()->where('active',true)->get();
         $devices = $acl->getMyDevices()->where('active',true)->get();
         $users = $acl->getMyUsers()->where('active',true)->get();
+        $profiles = $acl->getMyProfiles()->where('active', true)->get();
 
         return view('admin.visibility.edit',[
             'brands' => $brands,
             'locations' => $locations,
             'devices' => $devices,
             'users' => $users,
-            'all_acls' => $acls,
+            'parent' => $parent,
             'acl' => $acl,
+            'profiles' => $profiles,
         ]);
     }
 
@@ -146,7 +156,6 @@ class AdminAclController extends Controller
      */
     public function update(Request $request, Acl $acl,$id)
     {
-        //dd($request->all());
         if($visibility = Acl::find($id)) {
             $this->validate($request, Visibility::$rules);
 
@@ -157,10 +166,11 @@ class AdminAclController extends Controller
             $visibility->save();
 
             $users = (is_array($request->users))?$request->users:array();
-            (array_key_exists('1',$users))?:$users = ['1' => '1'];
+            //(array_key_exists('1',$users))?:$users = ['1' => '1'];
             ($request->brand_id)?$visibility->brands()->sync([$request->brand_id]):$visibility->brands()->detach();
             ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
             ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
+            ($request->profiles)?$visibility->profiles()->sync(array_keys($request->profiles)):$visibility->profiles()->detach();
             $visibility->users()->sync(array_keys($users));
 
             return redirect()->back()->with('success', __('admin_acls.success_acl_edit'));
@@ -176,8 +186,8 @@ class AdminAclController extends Controller
      */
     public function destroy(Acl $acl,$id)
     {
-        if($visibility = Acl::find($id) && $id != 1) {
-
+        if($id != 1) {
+            $visibility = Acl::find($id);
             $visibility->delete();
 
             return redirect()->back()->with('success', __('admin_acls.success_acl_destroy'));
@@ -201,10 +211,39 @@ class AdminAclController extends Controller
                 ->get();
             $devices = Acl::getMyDevices()->where('active',true)->get();
             $users = Acl::getMyUsers()->where('active',true)->get()->toArray();
+            $profiles = Acl::getMyProfiles()->where('active',true)->get()->toArray();
 
-            return response()->json([$locations,$devices,$users]);
+            return response()->json([$locations,$devices,$users,$profiles]);
         }
         return redirect()->back()->with('warning', 'admin_acls.warning_acl_NOTfound');
+    }
+
+   /* protected function _makeTree($root = false){
+        ($root)? :$root = \Auth::user()->getMyForest();
+        $temp = "\n<ul>\n";
+        foreach ($root[0] as $v ) {
+            $temp .= "<li id='".$v['id']."'>".$v['name'];
+            if (isset($v['branch'])){
+                $temp .= $this->_makeTree([$v['branch']]);
+            }
+            $temp .= "</li>\n";
+        }
+        $temp .= "</ul>\n";
+        return $temp;
+    } */
+
+    protected function _makeTree($roots = false){
+        ($roots)? :$roots = \Auth::user()->getMyForest();//dd($roots);
+        $temp = "\n<ul>\n";
+        foreach ($roots as $v ) {
+            $temp .= "<li id='".$v['id']."'>".$v['name'];
+            if (isset($v['branch'])){
+                $temp .= $this->_makeTree($v['branch']);
+            }
+            $temp .= "</li>\n";
+        }
+        $temp .= "</ul>\n";
+        return $temp;
     }
 
 }

@@ -22,9 +22,7 @@
 <!-- Switchery -->
 <link href="{{ asset('css/plugins/switchery/switchery.css') }}" rel="stylesheet">
 
-
-
-
+@stack('assets')
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>

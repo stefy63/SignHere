@@ -7,7 +7,7 @@
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                         <span class="clear">
                             <span class="block m-t-xs">
-                                <strong class="font-bold">{{ucwords(strtolower(Auth::user()->name.' '.Auth::user()->surname))}}</strong>
+                                <a href="{{url('admin')}}"><strong class="font-bold">{{ucwords(strtolower(Auth::user()->name.' '.Auth::user()->surname))}}</strong></a>
                             </span>
                         </span> </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">

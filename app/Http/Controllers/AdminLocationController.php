@@ -30,7 +30,7 @@ class AdminLocationController extends Controller
     public function index()
     {
         $locations = Acl::getMyLocations()->paginate(10);
-        $brands = Acl::getMyBrands()->get();
+        $brands = Acl::getMyBrands()->where('active',true)->get();
 
         return view('admin.locations.index',[
             'locations' => $locations,
@@ -67,8 +67,8 @@ class AdminLocationController extends Controller
         $location->user_id = Auth::user()->id;
         $location->active = isset($request->active) ? 1 : 0;
         $location->save();
-        $location->acls()->attach(  '1');
-        $location->acls()->attach(  Brand::find($request->brand_id)->acls()->first()->id);
+        //$location->acls()->attach(  '1');
+        $location->acls()->sync(Auth::user()->getMyRoot()->orderBy('id')->first());
 
         return redirect()->back()->with('success', __('admin_locations.success_location_create'));
     }
@@ -82,10 +82,10 @@ class AdminLocationController extends Controller
     public function show(Request $request,Location $location, $id)
     {
         if($location = Location::find($id)) {
-            $brand = Acl::getMyBrands()->where('id',$location->brand_id)->get();
+            $brand = $location->brand->description;
             if($request->ajax()){
                 $location->toArray();
-                $location = array_add($location,'brand',$brand->pluck('description'));
+                $location = array_add($location,'brand',$brand);
                 return response()->json([$location]);
             }
             return view('admin.brands.show',[

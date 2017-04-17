@@ -33,7 +33,7 @@ class CreateLocationsTable extends Migration
             $table->softDeletes();
         });
         Schema::table('locations', function (Blueprint $table) {
-            $table->foreign('brand_id')->references('id')->on('brands');
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
         });
         
     }

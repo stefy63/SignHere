@@ -32,7 +32,7 @@
                                 <label for="brand" >{{__('admin_acls.db-select-brands')}}</label>
                             </div>
                             <div class="col-md-8">
-                                <select class="form-control col-md-8" name="brand_id" id="select-brands" data-url="{{ url('admin_acls/store_get') }}">
+                                <select class="form-control col-md-8" name="brand_id" id="select-brands" data-url="{{ url('admin_acls/store_getitem') }}">
                                     @foreach($brands as $brand)
                                         <option class="form-control col-md-8" value="{{$brand->id}}" @if($brand->id == $acl->brands()->first()->pivot->brand_id) selected @endif>{{$brand->description}} </option>
                                     @endforeach
@@ -45,8 +45,8 @@
                             </div>
                             <div class="col-md-8">
                                 <select class="form-control col-md-8" name="parent_id" >
-                                    @foreach($all_acls as $val)
-                                        <option class="form-control col-md-8" value="{{$val->id}}" @if($val->id == $val->parent_id) selected @endif>{{$val->description}} </option>
+                                    @foreach($parent as $val)
+                                        <option class="form-control col-md-8" value="{{$val->id}}" @if($val->id == $acl->parent_id) selected @endif>{{$val->description}} </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -65,6 +65,9 @@
                                     <li class="" id="tab-index">
                                         <a data-toggle="tab" href="#users">{{__('admin_users.admin_users')}}</a>
                                     </li>
+                                    <li class="" id="tab-index">
+                                        <a data-toggle="tab" href="#profiles">{{__('admin_profiles.admin_profiles')}}</a>
+                                    </li>
                                 </ul>
                                 <div class="tab-content">
 
@@ -78,7 +81,7 @@
                                             <br>
                                         </div>
                                     </div>
-                                    <!-- LOCATIONS TAB-->
+                                    <!-- DEVICES TAB-->
                                     <div id="devices" class="tab-pane">
                                         <div class="panel-body">
                                             <p class="text-center"><span>{{__('admin_acls.devices-panel-title')}}</span></p>
@@ -87,10 +90,19 @@
                                             <br>
                                         </div>
                                     </div>
-                                    <!-- LOCATIONS TAB -->
+                                    <!-- USERS TAB -->
                                     <div id="users" class="tab-pane">
                                         <div class="panel-body">
                                             <p class="text-center"><span>{{__('admin_acls.users-panel-title')}}</span></p>
+                                            <br>
+                                            <div class="input-group m-b col-md-offset-3"></div>
+                                            <br>
+                                        </div>
+                                    </div>
+                                    <!-- PROFILES TAB -->
+                                    <div id="profiles" class="tab-pane">
+                                        <div class="panel-body">
+                                            <p class="text-center"><span>{{__('admin_acls.profiles-panel-title')}}</span></p>
                                             <br>
                                             <div class="input-group m-b col-md-offset-3"></div>
                                             <br>
@@ -127,23 +139,27 @@
                         $('div#locations div div').empty();
                         $('div#devices div div').empty();
                         $('div#users div div').empty();
+                        $('div#profiles div div').empty();
 
-                        console.log(data[0]);
+                        console.log(data);
                         data[0].forEach(function(item){
-                            $('div#locations div div').append('<input name="locations['+item.id+']" class="tab-function" type="checkbox" >&nbsp;&nbsp;<label>'+item.description+'</label>');
+                            $('div#locations div div').append('<input name="locations['+item.id+']" class="tab-function" type="checkbox" >&nbsp;&nbsp;<label>'+item.description+'</label><br>');
                         });
 
                         console.log(data[1]);
                         data[1].forEach(function(item){
-                            $('div#devices div div').append('<input name="devices['+item.id+']" class="tab-function" type="checkbox" >&nbsp;&nbsp;<label>'+item.description+'</label>');
+                            $('div#devices div div').append('<input name="devices['+item.id+']" class="tab-function" type="checkbox" >&nbsp;&nbsp;<label>'+item.description+'</label><br>');
                         });
-
 
                         console.log(data[2]);
                         data[2].forEach(function(item){
-                            $('div#users div div').append('<input name="users['+item.id+']" class="tab-function" type="checkbox" >&nbsp;&nbsp;<label>'+item.name+' '+item.surnam+'</label>');
+                            $('div#users div div').append('<input name="users['+item.id+']" class="tab-function" type="checkbox" >&nbsp;&nbsp;<label>'+item.name+' '+item.surname+'</label><br>');
                         });
 
+                        console.log(data[3]);
+                        data[3].forEach(function(item){
+                            $('div#profiles div div').append('<input name="profiles['+item.id+']" class="tab-function" type="checkbox" >&nbsp;&nbsp;<label>'+item.name+'</label><br>');
+                        });
 
 
                     }
