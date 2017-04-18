@@ -128,12 +128,13 @@ class AdminUserController extends Controller
             }
 
              $this->validate($request, User::$rules);
-
+//dd($request->all());
              $user->fill($request->all());
-             ($id == 1)? :$user->active = isset($request->active) ? 1 : 0;
+             $user->active = ($id == 1)? 1 :isset($request->active) ? 1 : 0;
              $user->user_id = \Auth::user()->id;
-             if (bcrypt($user->password) != bcrypt($request->password))
-                 $user->password = bcrypt($request->password);
+             //if (bcrypt($user->password) != bcrypt($request->password))
+             //$user->password = bcrypt($request->password);
+             $user->profile_id = $request->profile_id;
              $user->save();
 
              return redirect()->back()->with('success', __('admin_users.success_user_updated'));

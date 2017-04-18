@@ -69,7 +69,7 @@
                     <div class="col-md-8">
                         <select class="form-control" name="profile_id" >
                             @foreach($profiles as $profile)
-                                <option value="{{$profile->id}}">{{$profile->name}}</option>
+                                <option value="{{$profile->id}}" @if($user->profile_id == $profile->id) selected  @endif>{{$profile->name}}</option>
                             @endforeach
                         </select>
                     </div>
