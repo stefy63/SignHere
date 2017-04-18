@@ -73,7 +73,7 @@ class AdminAclController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, Visibility::$rules);
+        $this->validate($request, Acl::$rules);
 
         $visibility = new Acl();
         $visibility->name = $request->name;
@@ -87,7 +87,7 @@ class AdminAclController extends Controller
         $visibility->brands()->sync([$request->brand_id]);
         ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
         ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
-        ($request->profiles)?$visibility->profiles()->sync(array_keys($request->profiles)):$visibility->profiles()->detach();
+        ($request->profiles)?$visibility->profiles()->attach(array_keys($request->profiles)):$visibility->profiles()->detach();
         $visibility->users()->sync(array_keys($users));
 
         return redirect()->back()->with('success', __('admin_acls.success_acl_create'));
@@ -157,7 +157,7 @@ class AdminAclController extends Controller
     public function update(Request $request, Acl $acl,$id)
     {
         if($visibility = Acl::find($id)) {
-            $this->validate($request, Visibility::$rules);
+            $this->validate($request, Acl::$rules);
 
             $visibility->name = $request->name;
             $visibility->description = $request->description;
@@ -217,20 +217,6 @@ class AdminAclController extends Controller
         }
         return redirect()->back()->with('warning', 'admin_acls.warning_acl_NOTfound');
     }
-
-   /* protected function _makeTree($root = false){
-        ($root)? :$root = \Auth::user()->getMyForest();
-        $temp = "\n<ul>\n";
-        foreach ($root[0] as $v ) {
-            $temp .= "<li id='".$v['id']."'>".$v['name'];
-            if (isset($v['branch'])){
-                $temp .= $this->_makeTree([$v['branch']]);
-            }
-            $temp .= "</li>\n";
-        }
-        $temp .= "</ul>\n";
-        return $temp;
-    } */
 
     protected function _makeTree($roots = false){
         ($roots)? :$roots = \Auth::user()->getMyForest();//dd($roots);

@@ -108,7 +108,8 @@ class User extends Authenticatable
         $tree = array();
         if($branchs = Acl::where('parent_id',$root['id'])->get()->toArray()) {
             foreach ($branchs as $branch) {
-                $tree[] = array_add($branch, 'branch', $this->getMyTree($branch));
+                if ($branch['id'] != $root['id'])
+                    $tree[] = array_add($branch, 'branch', $this->getMyTree($branch));
             }
         } else {
             $tree = -1;
@@ -124,6 +125,10 @@ class User extends Authenticatable
         }
         $forest = $this->remove_element_by_value($forest,  -1);
         return $forest;
+    }
+
+    public function getMyRoot() {
+        return Acl::getMyAcls();
     }
 
     protected function remove_element_by_value($arr, $val) {
