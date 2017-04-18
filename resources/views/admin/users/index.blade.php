@@ -133,8 +133,15 @@
                     console.log(data);
                     if(data['success'])
                         toastr['success']('', data['success']);
-                    else
+                    else {
                         toastr['warning']('', data['warning']);
+                        setTimeout(function(){
+                            location.reload();
+                        },2000);
+                    }
+                },
+                error: function(error) {
+                    location.reload();
                 }
             });
         });

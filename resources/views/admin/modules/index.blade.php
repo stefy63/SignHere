@@ -1,7 +1,10 @@
 @extends('admin.back')
 
 @section('content')
-
+    @push('scripts')
+    <!-- Nestable List -->
+    <script src="{{ asset('js/plugins/nestable/jquery.nestable.js') }}"></script>
+    @endpush
 <div class="row">
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
@@ -138,12 +141,19 @@
                 type: "PUT",
                 url: url,
                 data: tx,
-                success: function(data){
+                success: function(data) {
                     console.log(data);
-                    toastr['success']('', data['success']);
-                    setTimeout(function () {
-                        location.reload();
-                    },3000);
+                    if (data['success'])
+                        toastr['success']('', data['success']);
+                    else {
+                        toastr['warning']('', data['warning']);
+                        setTimeout(function () {
+                            location.reload();
+                        }, 3000);
+                    }
+                },
+                error: function(error) {
+                    location.reload();
                 }
             });
         }

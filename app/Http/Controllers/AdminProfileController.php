@@ -89,7 +89,7 @@ class AdminProfileController extends Controller
     public function show(Request $request, $id)
     {
         if($request->ajax()){
-            $profile = Profile::find($id)->getModules()->toArray();
+            $profile = Profile::find($id)->getModules()->get();
             return response()->json([$profile]);
         }
         return redirect()->back()->with('warning', __('admin_profiles.warning_profile_NOTfound'));

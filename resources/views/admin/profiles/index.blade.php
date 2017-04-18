@@ -41,7 +41,8 @@
                                                 <span class="input-group-addon">
                                                     <input name="{{$function}}" class="tab-function" type="checkbox" disabled>
                                                 </span>
-                                                <input type="text" class="form-control" value="{{__('admin_profiles.crud-'.$function)}}" disabled />
+                                                <!--<input type="text" class="form-control" value="{{__('admin_profiles.crud-'.$function)}}" disabled />-->
+                                                <label class="form-control"><i>{{__('admin_profiles.crud-'.$function)}}</i></label>
                                             </div>
                                         @endforeach
                                         <br>
@@ -55,9 +56,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
     </div>
@@ -68,7 +66,7 @@ $(function () {
     $('#select-profile').change(function (e) {
         e.preventDefault();
         $('input[type="checkbox"]').prop('disabled', true);
-        $('#profile-submit').hide();
+        //$('#profile-submit').hide();
         var url = this.getAttribute('data-url');
         var profile = '/' + this.options[this.selectedIndex].value;
         $('.tab-function').each(function (elem) {
@@ -78,7 +76,7 @@ $(function () {
         $('#profile-destroy').attr('data-location',url+'/destroy'+profile);
         $('input#name').val(this.options[this.selectedIndex].text);
         url = url + profile;
-
+console.log(url);
         $.ajax({
             type: "GET",
             url: url,
@@ -86,7 +84,7 @@ $(function () {
                 _token: "{{csrf_token()}}",
             },
             success: function (data) {
-
+                console.log(data);
                 data.forEach(function(module){
                     module.forEach(function (field) {
                         $('#mod-'+field.id+' .tab-function').each(function (elem) {

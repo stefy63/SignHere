@@ -84,7 +84,6 @@ class User extends Authenticatable
                     (!str_contains($op, 'store')) ?: $op = 'create';
                     (!str_contains($op, 'update')) ?: $op = 'edit';
                 }
-                //dd($role,$op);
                 return (strpos(" " . $role, $op) > 0 ? true : false);
             }
         }
@@ -96,7 +95,6 @@ class User extends Authenticatable
         $temp = array();
         foreach ($roots as $v ) {
             $temp[] = $v['id'];
-            //if (isset($v['branch']) && ($v['id'] != $v['branch'][0]['id'])) {
             if (isset($v['branch']) && $v['branch'] != -1) {
                 $temp = array_merge($temp, $this->getMyAcls($v['branch']));
             }
@@ -135,7 +133,7 @@ class User extends Authenticatable
         $return = array();
         foreach($arr as $k => $v) {
             if(is_array($v)) {
-                $return[$k] = $this->remove_element_by_value($v, $val); //recursion
+                $return[$k] = $this->remove_element_by_value($v, $val);
                 continue;
             }
             if($v == $val) continue;

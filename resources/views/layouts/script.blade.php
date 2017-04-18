@@ -17,8 +17,6 @@
 <script src="{{ asset('js/plugins/switchery/switchery.js') }}"></script>
 <!-- DROPZONE -->
 <script src="{{ asset('js/plugins/dropzone/dropzone.js') }}"></script>
-<!-- Nestable List -->
-<script src="{{ asset('js/plugins/nestable/jquery.nestable.js') }}"></script>
 
 @stack('scripts')
 

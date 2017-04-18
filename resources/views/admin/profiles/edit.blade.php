@@ -38,7 +38,7 @@
                             @foreach($modules as $module)
                                 <div id="mod-{{$module->id}}" class="tab-pane @if($module->id == 1) active @endif">
                                     <div class="panel-body">
-                                        <p class="text-center"><span>Elenco funzioni</span></p><br>
+                                        <p class="text-center"><span>{{__('admin_profiles.index-subtitle')}}</span></p><br>
                                         @php
                                             $functions = explode(',',$module->functions);
                                             $permission = ($my_mod = $profile->getModules($module->short_name)->first())?@$my_mod->pivot->permission:"";
@@ -49,7 +49,8 @@
                                                 <span class="input-group-addon">
                                                     <input name="permission[{{$module->id}}][{{$function}}]" class="tab-function" type="checkbox" @if(str_contains($permission,$function) || $permission == "ALL") checked @endif>
                                                 </span>
-                                                <input type="text" class="form-control" value="{{__('admin_profiles.crud-'.$function)}}" disabled />
+                                                <!--<input type="text" class="form-control" value="{{__('admin_profiles.crud-'.$function)}}" disabled />-->
+                                                <label class="form-control"><i>{{__('admin_profiles.crud-'.$function)}}</i></label>
                                             </div>
                                         @endforeach
                                         <!--<div class="input-group m-b">
@@ -63,7 +64,8 @@
                                             <span class="input-group-addon">
                                                 <input class="tab-function check_all" type="checkbox" data-module="{{$module->id}}">
                                             </span>
-                                            <input type="text" class="form-control text-success" value="{{__('admin_profiles.crud-ALL')}}" disabled />
+                                            <!--<input type="text" class="form-control text-success" value="{{__('admin_profiles.crud-ALL')}}" disabled />-->
+                                            <label class="form-control"><i>{{__('admin_profiles.crud-ALL')}}</i></label>
                                         </div>
                                     </div>
                                 </div>
