@@ -131,7 +131,10 @@
                 },
                 success: function(data){
                     console.log(data);
-                    toastr['success']('', data['success']);
+                    if(data['success'])
+                        toastr['success']('', data['success']);
+                    else
+                        toastr['warning']('', data['warning']);
                 }
             });
         });

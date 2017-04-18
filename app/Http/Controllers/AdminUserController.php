@@ -59,7 +59,7 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, User::$rules);
+        $this->validate($request, array_add(User::$rules,'password','required|alpha_num|between:5,12'));
 
         $user = new User();
         //$root = array_pull($request,'root');
@@ -116,26 +116,29 @@ class AdminUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($user = User::find($id) && $id != 1) {
+        if($user = User::find($id)) {
             if($request->ajax()){
-                $user->active = $request->active;
-                $user->save();
-                return response()->json(['success' => __('admin_users.success_user_updated')]);
+                if($id != 1) {
+                    $user->active = $request->active;
+                    $user->save();
+                    return response()->json(['success' => __('admin_users.success_user_updated')]);
+                } else {
+                    return response()->json(['warning' => __('admin_users.warning_user_NOTupdated')]);
+                }
             }
-            //dd($request->all());
-            $this->validate($request, User::$rules);
 
-            //$root = array_pull($request,'root');
-            $user->fill($request->all());
-            $user->active = isset($request->active) ? 1 : 0;
-            $user->user_id = \Auth::user()->id;
-            if(bcrypt($user->password) != bcrypt($request->password))
-                    $user->password = bcrypt($request->password);
-            $user->save();
-            //$user->acls()->sync(Auth::user()->getMyRoot()->orderBy('id')->first());
+             $this->validate($request, User::$rules);
 
-            return redirect()->back()->with('success', __('admin_users.success_user_updated'));
+             $user->fill($request->all());
+             ($id == 1)? :$user->active = isset($request->active) ? 1 : 0;
+             $user->user_id = \Auth::user()->id;
+             if (bcrypt($user->password) != bcrypt($request->password))
+                 $user->password = bcrypt($request->password);
+             $user->save();
+
+             return redirect()->back()->with('success', __('admin_users.success_user_updated'));
         }
+
         return redirect()->back()->with('warning', __('admin_users.warning_user_NOTupdated'));
     }
 

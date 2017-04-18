@@ -39,7 +39,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <!--<div class="row">
                 <div class="form-group">
                     <div class="col-md-2 col-md-offset-1">
                         <label for="password" >{{__('admin_users.db-password')}}</label>
@@ -48,7 +48,7 @@
                         <input class="form-control" size="50" type="password" name="password" value="{{$user->password}}" />
                     </div>
                 </div>
-            </div>
+            </div>-->
 
             <div class="row">
                 <div class="form-group">
