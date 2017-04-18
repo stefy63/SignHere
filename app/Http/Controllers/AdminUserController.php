@@ -116,7 +116,7 @@ class AdminUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($user = User::find($id)) {
+        if($user = User::find($id) && $id != 1) {
             if($request->ajax()){
                 $user->active = $request->active;
                 $user->save();
