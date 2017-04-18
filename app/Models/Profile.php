@@ -37,7 +37,7 @@ class Profile extends Model
 
         if($module) $result = $result->where('short_name',$module);
 
-        return $result->get();
+        return $result;
     }
 
 }

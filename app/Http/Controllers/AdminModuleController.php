@@ -117,6 +117,7 @@ class AdminModuleController extends Controller
      */
     public function update(Request $request, Module $module, $id)
     {
+        \Artisan::call('view:clear');
         if($id == 0 ){
             $i=1;
             foreach (json_decode($request->order,true) as $v)
@@ -124,14 +125,14 @@ class AdminModuleController extends Controller
                     $module->order = $i++;
                     $module->save();
                 }
-                \Cache::flush();
-            }
             return response()->json(['success' => __('admin_modules.success_order_updated')]);
+            }
 
         if($module = Module::find($id)) {
             if($request->ajax()){
                 $module->active = $request->active;
                 $module->save();
+
                 return response()->json(['success' => __('admin_modules.success_module_updated')]);
             }
 

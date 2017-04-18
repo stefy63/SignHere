@@ -57,9 +57,8 @@
                                             <div class="dd" id="nestable">
                                                 <ol class="dd-list" >
                                                     @foreach($modules as $module)
-                                                    <li class="dd-item " data-id="{{$module->id}}">
-                                                    <div class="col-md-12">
-                                                        <div class="dd-handle  col-md-1"><i class="fa fa-bars"></i></div>
+                                                    <li class="dd-item col-md-12" data-id="{{$module->id}}">
+                                                        <div class="dd-handle col-md-1"><i class="fa fa-bars"></i></div>
                                                         <div class=" col-md-1">
                                                             <div class="onoffswitch" >
                                                                 <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_modules.update',['id' => $module->id]) }}"  @if($module->active == 1) checked @endif id="{{$module->id}}">
@@ -71,12 +70,12 @@
                                                         </div>
                                                         <div class="col-md-3">
                                                             <a class="open-modal" data-url="{{ url('admin_modules/'.$module->id) }}" data-toggle="modal" data-target="#showModal" title="{{__('admin_modules.index-tooltip-col1')}}" >
-                                                                {{$module->name}}
+                                                                {{__($module->short_name.".".$module->short_name)}}
                                                             </a>
                                                         </div>
-                                                        <div class="dd-handle  col-md-2">{{$module->short_name}}</div>
-                                                        <div class="dd-handle  col-md-3">{{ str_limit($module->functions,30)}}</div>
-                                                        <div class="dd-handle  col-md-1 text-center"><i class="fa fa-dot-circle-o @if($module->isadmin == 1) text-success @else text-danger @endif"></i> </div>
+                                                        <div class="col-md-2">{{$module->short_name}}</div>
+                                                        <div class=" col-md-3">{{ str_limit($module->functions,30)}}</div>
+                                                        <div class=" col-md-1 text-center"><i class="fa fa-dot-circle-o @if($module->isadmin == 1) text-success @else text-danger @endif"></i> </div>
                                                         <div class=" col-md-1 text-center">
                                                             <a href="{{ url('admin_modules/'.$module->id.'/edit') }}" >
                                                                 <i class="fa fa-wrench"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-update')}}"></i>
@@ -86,7 +85,6 @@
                                                                 <i class="fa fa-trash"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-delete')}}"></i>
                                                             </a>
                                                         </div>
-                                                    </div>
                                                     </li>
                                                     @endforeach
                                                 </ol>
@@ -143,6 +141,9 @@
                 success: function(data){
                     console.log(data);
                     toastr['success']('', data['success']);
+                    setTimeout(function () {
+                        location.reload();
+                    },3000);
                 }
             });
         }

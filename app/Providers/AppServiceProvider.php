@@ -18,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Blade::directive('menu', function (){
 
-            if($menus = \Auth::user()->profile()->first()->getModules()){
+            if($menus = \Auth::user()->profile()->first()->getModules()->orderBy('order')->get()){
                 $ret = "";
 
                 foreach($menus as $menu) {
