@@ -42,12 +42,12 @@ class AdminUserController extends Controller
      */
     public function create()
     {
-        $roots = Auth::user()->getMyRoot()->get();
+        //$roots = Auth::user()->getMyRoot()->get();
         $profiles = Acl::getMyProfiles()->get();
 
         return view('admin.users.create',[
                 'profiles' => $profiles,
-                'roots' => $roots,
+                //'roots' => $roots,
             ]);
     }
 
@@ -94,13 +94,13 @@ class AdminUserController extends Controller
     public function edit($id)
     {
         if($user = User::find($id)) {
-            $roots = Auth::user()->getMyRoot()->get();
+            //$roots = Auth::user()->getMyRoot()->get();
             $profiles = Acl::getMyProfiles()->get();
 
             return view('admin.users.edit',[
                 'user' => $user,
                 'profiles' => $profiles,
-                'roots' => $roots,
+                //'roots' => $roots,
             ]);
         }
 

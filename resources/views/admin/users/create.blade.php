@@ -94,9 +94,9 @@
                 </div>
                 <div class="col-md-8">
                     <select class="form-control" name="root" >
-                        @foreach($roots as $root)
+                       {{-- @foreach($roots as $root)
                             <option value="{{$root->id}}">{{$root->name}}</option>
-                        @endforeach
+                        @endforeach--}}
                     </select>
                 </div>
             </div>
