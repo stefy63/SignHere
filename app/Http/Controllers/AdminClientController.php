@@ -29,9 +29,11 @@ class AdminClientController extends Controller
     public function index()
     {
         $Clients = Acl::getMyClients()->paginate(10);
+        $acls = Acl::getMyAcls();
 
         return view('admin.clients.index',[
             'clients' => $Clients,
+            'acls' => $acls,
         ]);
     }
 
@@ -42,7 +44,10 @@ class AdminClientController extends Controller
      */
     public function create()
     {
-        return view('admin.clients.create');
+        $acls = Acl::getMyAcls()->get();
+        return view('admin.clients.create',[
+            'acls' => $acls,
+        ]);
     }
 
     /**
@@ -54,13 +59,13 @@ class AdminClientController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, Client::$rules);
-
+        $acl_id = $request->acl_id;
         $client = new Client();
-        $client->fill($request->all());
+        $client->fill($request->except(['acl_id']));
         $client->user_id = Auth::user()->id;
         $client->active = isset($request->active) ? 1 : 0;
         $client->save();
-        $client->acls()->attach(  '1');
+        $client->acls()->sync($acl_id);
 
         return redirect()->back()->with('success', __('admin_clients.success_client_create'));
     }
@@ -93,9 +98,11 @@ class AdminClientController extends Controller
      */
     public function edit(Client $client, $id)
     {
+        $acls = Acl::getMyAcls()->get();
         if($client = Client::find($id)) {
             return view('admin.clients.edit',[
                 'client' => $client,
+                'acls' => $acls,
             ]);
         }
 
@@ -117,13 +124,14 @@ class AdminClientController extends Controller
                 $client->save();
                 return response()->json(['success' => __('admin_clients.success_client_updated')]);
             }
-            //dd($request->all());
             $this->validate($request, Client::$rules);
 
-            $client->fill($request->all());
+            $acl_id = $request->acl_id;
+            $client->fill($request->except(['acl_id']));
             $client->active = isset($request->active) ? $request->active : false;
             $client->user_id = Auth::user()->id;
             $client->save();
+            $client->acls()->sync($acl_id);
 
 
             return redirect()->back()->with('success', __('admin_clients.success_client_updated'));

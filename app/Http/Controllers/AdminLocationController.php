@@ -67,7 +67,6 @@ class AdminLocationController extends Controller
         $location->user_id = Auth::user()->id;
         $location->active = isset($request->active) ? 1 : 0;
         $location->save();
-        //$location->acls()->attach(  '1');
         $location->acls()->sync(Auth::user()->getMyRoot());
 
         return redirect()->back()->with('success', __('admin_locations.success_location_create'));

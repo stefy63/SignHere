@@ -40,6 +40,7 @@ return [
     'db-name' => 'Nome',
     'db-surname' => 'Cognome',
     'db-email' => 'E-mail',
+    'db-acl_id' => 'Visibilità',
     'db-vat' => 'Partita IVA',
     'db-personal_vat' => 'Codice Fiscale',
     'db-address' => 'Indirizzo',

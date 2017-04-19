@@ -60,8 +60,7 @@ class AdminDeviceController extends Controller
         $device->user_id = \Auth::user()->id;
         $device->active = isset($request->active) ? 1 : 0;
         $device->save();
-        $device->acls()->attach(  '1');
-        //$device->user()->attach($request->user_id);
+        $device->acls()->sync( Auth::user()->getMyRoot());
 
         return redirect()->back()->with('success', __('admin_devices.success_user_create'));
     }

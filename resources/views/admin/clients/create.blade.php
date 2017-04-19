@@ -16,6 +16,23 @@
 
             <form method="POST" action="{{ route('admin_clients.store') }}" id="toast-form">
             {!! csrf_field() !!}
+                <!-- ACLS -->
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-md-offset-1">
+                            <label for="acl_id" >{{__('admin_clients.db-acl_id')}}</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select class="form-control" name="acl_id">
+                                @foreach($acls as $acl)
+                                 <option value="{{ $acl->id }}">{{ $acl->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                 <!-- FINE ACLS -->
+
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-2 col-md-offset-1">
