@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -47,7 +48,15 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        //if (!$user->active) abort(403, 'not authorised');
+        $previous_session = $user->session_id;
+
+        if ($previous_session) {
+            \Session::getHandler()->destroy($previous_session);
+        }
+
+        Auth::user()->session_id = \Session::getId();
+        Auth::user()->save();
+        return ;//redirect()->intended($this->redirectPath());
     }
 
 

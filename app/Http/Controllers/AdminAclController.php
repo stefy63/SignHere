@@ -78,8 +78,8 @@ class AdminAclController extends Controller
         $visibility = new Acl();
         $visibility->name = $request->name;
         $visibility->description = $request->description;
-        $visibility->user_id = \Auth::user()->id;
         $visibility->parent_id = $request->parent_id;
+        $visibility->user_id = \Auth::user()->id;
         $visibility->save();
 
         $users = (is_array($request->users))?$request->users:array();

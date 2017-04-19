@@ -76,7 +76,7 @@ class AdminProfileController extends Controller
             }
         }
         $profile->modules()->sync($Modules);
-        $profile->acls()->sync(Auth::user()->getMyRoot()->orderBy('id')->first());
+        $profile->acls()->sync(Auth::user()->getMyRoot());
         return redirect()->back()->with('success', __('admin_profiles.success_profile_create'));
     }
 

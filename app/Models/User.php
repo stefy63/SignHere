@@ -126,7 +126,7 @@ class User extends Authenticatable
     }
 
     public function getMyRoot() {
-        return Acl::getMyAcls();
+        return Acl::getMyAcls()->orderBy('id')->first();
     }
 
     protected function remove_element_by_value($arr, $val) {

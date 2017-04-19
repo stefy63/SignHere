@@ -69,7 +69,7 @@ class AdminUserController extends Controller
         $user->user_id = \Auth::user()->id;
         $user->password = bcrypt($request->password);
         $user->save();
-        $user->acls()->sync(Auth::user()->getMyRoot()->orderBy('id')->first());
+        $user->acls()->sync(Auth::user()->getMyRoot());
 
         return redirect()->back()->with('success', __('admin_users.success_user_create'));
     }

@@ -61,7 +61,7 @@ class AdminBrandController extends Controller
         $brand->user_id = Auth::user()->id;
         $brand->active = isset($request->active) ? 1 : 0;
         $brand->save();
-        $brand->acls()->sync( Auth::user()->getMyRoot()->orderBy('id')->first());
+        $brand->acls()->sync( Auth::user()->getMyRoot());
 
         return redirect()->back()->with('success', __('admin_brands.success_brand_create'));
     }
