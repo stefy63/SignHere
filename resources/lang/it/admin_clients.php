@@ -58,7 +58,8 @@ return [
     'warning_client_NOTupdated' => 'Impossibil Aggiornare il Cliente',
     'warning_user_NOT_deleted' => 'Impossibile Cancellare il Cliente',
     'modal-title' => '',
-    '' => '',
+    'create-title' => 'Nuovo Cliente',
+    'edit-title' => 'Modifica Cliente',
     '' => '',
     '' => '',
 

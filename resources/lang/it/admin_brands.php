@@ -48,7 +48,7 @@ return [
     'warning_brand_NOTupdated' => 'Impossibil Aggiornare l\'Azienda',
     'warning_user_NOT_deleted' => 'Impossibile Cancellare l\'Azienda',
     'modal-title' => '',
-    '' => '',
+    'edit-title' => 'Modifica Azienda',
     '' => '',
     '' => '',
     '' => '',

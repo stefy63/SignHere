@@ -6,6 +6,11 @@
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>{{__('admin_brands.create-title')}}</h5>
+                <div ibox-tools="" class="ng-scope">
+                    <div dropdown="" class="ibox-tools dropdown">
+                        <a href="{{ url('admin_brands') }}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
+                    </div>
+                </div>
             </div>
             <hr>
             <form method="POST" action="{{ route('admin_brands.store') }}" id="toast-form">

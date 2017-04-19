@@ -13,7 +13,7 @@
                 <h5>{{__('admin_acls.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_acls/create') }}"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_acls.index-tooltip-create')}}"></i></a>
+                        <a href="{{ url('admin_acls/create') }}"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_acls.index-tooltip-create')}}"></i></span></a>
                     </div>
                 </div>
             </div>

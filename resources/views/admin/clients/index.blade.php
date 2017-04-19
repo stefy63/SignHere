@@ -8,7 +8,7 @@
                 <h5>{{__('admin_clients.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_clients/create') }}"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_clients.index-tooltip-create')}}"></i></a>
+                        <a href="{{ url('admin_clients/create') }}"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_clients.index-tooltip-create')}}"></i></span></a>
                     </div>
                 </div>
             </div>
@@ -113,27 +113,27 @@
     </div>
 </div>
 <script>
-    $(document).ready(function () {
+$(document).ready(function () {
 
-        $('.onoffswitch-checkbox').change(function (e) {
-            e.preventDefault();
-            var url = this.getAttribute('data-url');
+    $('.onoffswitch-checkbox').change(function (e) {
+        e.preventDefault();
+        var url = this.getAttribute('data-url');
 
-            $.ajax({
-                type: "PUT",
-                url: url,
-                data: {
-                    _token: "{{csrf_token()}}",
-                    active: $(this).is(':checked')?1:0
-                },
-                success: function(data){
-                    console.log(data);
-                    toastr['success']('', data['success']);
-                }
-            });
+        $.ajax({
+            type: "PUT",
+            url: url,
+            data: {
+                _token: "{{csrf_token()}}",
+                active: $(this).is(':checked')?1:0
+            },
+            success: function(data){
+                console.log(data);
+                toastr['success']('', data['success']);
+            }
         });
-        
-    })
+    });
+
+})
     
 </script>
 @include('admin.clients.modal')
