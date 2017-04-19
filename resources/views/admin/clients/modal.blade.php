@@ -127,7 +127,7 @@
                             <label for="active" >{{__('admin_brands.db-active')}}</label>
                         </div>
                         <div class="col-md-6 col-md-offset-2">
-                            <input class="js-switch-modal" type="checkbox" data-switchery="true" name="active" checked disabled readonly style="..."/>
+                            <input class="js-switch-modal" type="checkbox" data-switchery="true" name="active" checked disabled readonly style="..." />
                         </div>
                     </div>
                     </p>
@@ -159,10 +159,9 @@ $(function(){
             $('#showModal .modal-title').text(data['surname']+" "+data['name']);
             for(var k in data) {
                 if($('#showModal input[name="'+k+'"]').attr('type') == 'checkbox') {
-                    switchery.isChecked((data[k] == 1)? true:false);
-                    //$('#showModal input[name="'+k+'"]').prop('checked',(data[k] == 1)? false:true);
-                    //$('#showModal input[name="'+k+'"]').click();
-
+                    elem.checked = (data[k] == 1)? true:false;
+                    switchery.setAttributes('checked',(data[k] == 1)? true:false);
+                    switchery.handleOnchange(true);
                 } else {
                     $('#showModal input[name="'+k+'"]').val(data[k]);
                 }

@@ -59,14 +59,10 @@
                             <div class="col-md-3">
                                 <label for="isadmin" >{{__('admin_modules.db-isadmin')}}</label>
                             </div>
+
+
                             <div class="col-md-7 col-md-offset-2">
-                                <div class="onoffswitch" >
-                                    <input type="checkbox" name="isadmin" class="onoffswitch-checkbox" @if(old("isadmin") == 1) checked @endif id="check1" disabled />
-                                    <label class="onoffswitch-label" for="check1">
-                                        <span class="onoffswitch-inner"></span>
-                                        <span class="onoffswitch-switch"></span>
-                                    </label>
-                                </div>
+                                <div class=" col-md-1 text-center"><i id="isadmin" name="isadmin" class="fa fa-dot-circle-o"></i> </div>
                             </div>
                         </div>
                     </div>
@@ -77,7 +73,7 @@
                                 <label for="active" >{{__('admin_modules.db-active')}}</label>
                             </div>
                             <div class="col-md-7 col-md-offset-2">
-                                <input class="js-switch form-control" type="checkbox" data-switchery="true" name="active" value="1" @if(old("active") == 1) checked @endif style="display: none;" disabled />
+                                <input class="js-switch-modal form-control" type="checkbox" data-switchery="true" name="active" value="1" @if(old("active") == 1) checked @endif style="display: none;" disabled />
                             </div>
                         </div>
                     </div>
@@ -97,18 +93,29 @@
 <script>
 $(function(){
 
-    //display modal form for task editing
+    var elem = document.querySelector('.js-switch-modal');
+    var switchery = new Switchery(elem);
+
     $('.open-modal').click(function(e){
         e.preventDefault();
         $('#showModal').modal('hide');
         var url = this.getAttribute('data-url');
 
         $.get(url, function (data) {
-            //success data
             data = data['0'];
             $('#showModal .modal-title').text(data['name']);
             for(var k in data) {
-                $('#showModal input[name="'+k+'"]').val(data[k]);
+                if( k == 'isadmin') {
+                    $('#showModal #isadmin').addClass((data[k] == 1)?'text-success':'text-danger');
+                }
+
+                if ($('#showModal input[name="' + k + '"]').attr('type') == 'checkbox') {
+                    elem.checked = (data[k] == 1) ? true : false;
+                    switchery.setAttributes('checked', (data[k] == 1) ? true : false);
+                    switchery.handleOnchange(true);
+                } else {
+                    $('#showModal input[name="' + k + '"]').val(data[k]);
+                }
             }
         })
     });

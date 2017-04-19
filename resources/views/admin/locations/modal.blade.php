@@ -21,28 +21,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- FINE AZIENDA
-                <div class="row">
-                    <div class="form-group">
-                        <div class="col-md-3 col-md-offset-1">
-                            <label for="vat" >{{__('admin_brands.db-vat')}}</label>
-                        </div>
-                        <div class="col-md-7 col-md-offset-1">
-                            <input class="form-control" size="50" type="text" name="vat" value="" disabled/>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-group">
-                        <div class="col-md-3 col-md-offset-1">
-                            <label for="personal_vat" >{{__('admin_brands.db-personal_vat')}}</label>
-                        </div>
-                        <div class="col-md-7 col-md-offset-1">
-                            <input class="form-control" size="50" type="text" name="personal_vat" value="" disabled/>
-                        </div>
-                    </div>
-                </div>-->
 
                 <div class="row">
                     <div class="form-group">
@@ -155,15 +133,19 @@
                 </div>
 
                 <div class="row">
+                    <p>
                     <div class="form-group">
                         <div class="col-md-2 col-md-offset-1">
                             <label for="active" >{{__('admin_brands.db-active')}}</label>
                         </div>
-                        <div class="col-md-8 col-md-offset-1 text-left">
-                            <input class="form-control text-left" type="checkbox" name="active" value="1" disabled/>
+                        <div class="col-md-6 col-md-offset-2">
+                            <input class="js-switch-modal" type="checkbox" data-switchery="true" name="active" checked disabled readonly style="..." />
                         </div>
                     </div>
+                    </p>
                 </div>
+                <br><br>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
@@ -174,7 +156,9 @@
 <script>
 $(function(){
 
-    //display modal form for task editing
+    var elem = document.querySelector('.js-switch-modal');
+    var switchery = new Switchery(elem);
+
     $('.open-modal').click(function(e){
         e.preventDefault();
         $('#showModal').modal('hide');
@@ -189,7 +173,9 @@ $(function(){
             data['brand'] = data['brand'].description;
             for(var k in data) {
                 if($('#showModal input[name="'+k+'"]').attr('type') == 'checkbox') {
-                    $('#showModal input[name="'+k+'"]').prop('checked',(data[k] == 1)? true:false);
+                    elem.checked = (data[k] == 1)? true:false;
+                    switchery.setAttributes('checked',(data[k] == 1)? true:false);
+                    switchery.handleOnchange(true);
                 } else {
                     $('#showModal input[name="'+k+'"]').val(data[k]);
                 }

@@ -6,7 +6,13 @@
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>{{__('admin_profiles.create-title')}}</h5>
+                <div ibox-tools="" class="ng-scope">
+                    <div dropdown="" class="ibox-tools dropdown">
+                        <a href="{{ url('admin_profiles') }}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
+                    </div>
+                </div>
             </div>
+
             <form method="POST" action="{{ route('admin_profiles.store') }}" id="toast-form">
                 {!! csrf_field() !!}
                 <div class="ibox-content">

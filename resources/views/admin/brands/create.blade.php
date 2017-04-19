@@ -13,6 +13,7 @@
                 </div>
             </div>
             <hr>
+
             <form method="POST" action="{{ route('admin_brands.store') }}" id="toast-form">
             {!! csrf_field() !!}
                 <div class="row">

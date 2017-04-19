@@ -24,9 +24,9 @@ class CreateUsersTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('profile_id')->unsigned()->nullable();
             $table->integer('acl_id')->unsigned()->nullable();
-            $table->integer('session_id')->unsigned()->nullable();
-            $table->rememberToken();
+            $table->string('session_id', 100)->nullable();
             $table->string('api_token', 60)->unique();
+            $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
         });

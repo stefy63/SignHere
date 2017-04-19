@@ -8,13 +8,13 @@
                 <h5>{{__('admin_profiles.edit-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_profiles/create') }}"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_profiles.index-tooltip-create')}}"></i></a>
+                        <a href="{{ url('admin_profiles') }}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
             </div>
+
             <form method="POST" action="{{ route('admin_profiles.update',['id' => $profile->id]) }}"  id="toast-form">
             {!! csrf_field() !!}{{ method_field('PUT') }}
-
             <div class="ibox-content">
                 <div class="form-group">
                     <div class="col-md-2 col-md-offset-1">

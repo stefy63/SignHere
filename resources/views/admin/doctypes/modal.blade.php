@@ -30,6 +30,19 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <p>
+                        <div class="form-group">
+                            <div class="col-md-5 ">
+                                <label for="active" >{{__('admin_brands.db-active')}}</label>
+                            </div>
+                            <div class="col-md-6 col-md-offset-1">
+                                <input class="js-switch-modal" type="checkbox" data-switchery="true" name="active" checked disabled readonly style="..." />
+                            </div>
+                        </div>
+                        </p>
+                    </div>
                     <br><br>
 
                 <div class="modal-footer">
@@ -44,7 +57,9 @@
 <script>
 $(function(){
 
-    //display modal form for task editing
+    var elem = document.querySelector('.js-switch-modal');
+    var switchery = new Switchery(elem);
+
     $('.open-modal').click(function(e){
         e.preventDefault();
         $('#showModal').modal('hide');
@@ -55,7 +70,13 @@ $(function(){
             data = data['0'];
             $('#showModal .modal-title').text(data['name']);
             for(var k in data) {
-                $('#showModal input[name="'+k+'"]').val(data[k]);
+                if ($('#showModal input[name="' + k + '"]').attr('type') == 'checkbox') {
+                    elem.checked = (data[k] == 1) ? true : false;
+                    switchery.setAttributes('checked', (data[k] == 1) ? true : false);
+                    switchery.handleOnchange(true);
+                } else {
+                    $('#showModal input[name="' + k + '"]').val(data[k]);
+                }
             }
         })
     });
