@@ -1,5 +1,17 @@
 @extends('admin.back')
-
+@push('scripts')
+<!-- Data Table -->
+<script src="{{ asset('js/plugins/dataTables/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
+<script src="{{ asset('js/plugins/dataTables/dataTables.responsive.js') }}"></script>
+<script src="{{ asset('js/plugins/dataTables/dataTables.tableTools.min.js') }}"></script>
+@endpush
+@push('assets')
+<!-- Data Table -->
+<link href="{{ asset('css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
+<link href="{{ asset('css/plugins/dataTables/dataTables.responsive.css') }}" rel="stylesheet">
+<link href="{{ asset('css/plugins/dataTables/dataTables.tableTools.min.css') }}" rel="stylesheet">
+@endpush
 @section('content')
 <div class="row" style="height: 100%">
     <div class="col-lg-12">
@@ -14,14 +26,14 @@
             </div>
             <div class="ibox-heading">
                 <select class="form-control" name="acl_id" id="select-acl">
-                    <option>{{__('admin_documents.select-acls')}}</option>
+                    <option id="opt_acl">{{__('admin_documents.select-acls')}}</option>
                     @foreach($acls as $acl)
                         <option value="{{$acl->id}}">{{$acl->name}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="ibox-content">
-                <div class="col-md-4">
+                <div class="col-md-5" style="height: 80%;">
                     <div class="ibox-title">
                         <h5 class="text-danger">{{__('admin_documents.index-client')}}</h5>
                         <div ibox-tools="" class="ng-scope">
@@ -32,7 +44,12 @@
                     </div>
                     <div class="">
                         <!-- CLIENTS  -->
-                        <table class="table table-stripped footable-odd"  id="tr-clients">
+                        <table class="table table-bordered table-hover"  id="tr-client" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </thead>
                             <tbody class="tbody-client" >
                             @foreach($clients as $client)
                                 <tr class="tab-client" id="{{$client->id}}">
@@ -44,14 +61,14 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td>{{$clients->links()}}</td>
+                                    <td></td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
                 </div>
-                <div class="col-md-8 border-left">
-                    <div class="" style="height: 50%">
+                <div class="col-md-7 border-left" style="height: 80%;">
+                    <div class="" style="height: 40%;">
                         <div class="ibox-title">
                             <h5 class="text-danger">{{__('admin_documents.index-dossier')}}</h5>
                             <div ibox-tools="" class="ng-scope">
@@ -62,7 +79,12 @@
                         </div>
                         <div class="">
                             <!-- DOSSIERS  -->
-                            <table class="table table-stripped footable-odd" id="tr-dossier">
+                            <table class="table table-bordered table-hover" id="tr-dossier">
+                                <thead>
+                                    <tr>
+                                        <td></td>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                 @foreach($dossiers as $dossier)
                                     <tr class="tab-dossier" id="{{$dossier->id}}">
@@ -81,7 +103,7 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="">
+                    <div class="" style="height: 40%;">
                         <div class="ibox-title">
                             <h5 class="text-danger">{{__('admin_documents.index-document')}}</h5>
                             <div ibox-tools="" class="ng-scope">
@@ -92,12 +114,17 @@
                         </div>
                         <div class="">
                             <!-- DOCUMENTS  -->
-                            <table class="table table-stripped footable-odd" >
+                            <table class="table table-bordered table-hover" id="tr-document">
+                                <thead>
+                                    <tr>
+                                        <td></td>
+                                    </tr>
+                                </thead>
                                 <tbody>
                                 @foreach($documents as $document)
-                                    <tr>
+                                    <tr class="tab-document" id="{{$document->id}}">
                                         <td>
-                                            <a class="tab-document" id="{{$document->id}}">{{$document->name}}</a>
+                                            {{$document->name}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -117,25 +144,33 @@
 </div>
 <script>
 $(document).ready(function () {
-    $(document).on('mouseover','.tab-client',function(e){
-        $(this).css('cursor', 'pointer');
-    });
-    $(document).on('mouseover','.tab-dossier',function(e){
-        $(this).css('cursor', 'pointer');
-    });
+    var tbl_option = {
+        "paging": true,
+        "ordering": false,
+        "info": false,
+        "searching": false,
+        "pagingType": "numbers",
+        "scrollY": "200px",
+        "scrollCollapse": true
+    };
+
+    $('#tr-client').DataTable(tbl_option );
+    $('#tr-dossier').DataTable(tbl_option );
+    $('#tr-document').DataTable(tbl_option );
 
     $('#select-acl').on('change',function(e){
         e.preventDefault();
+        $(this).children('#opt_acl').remove();
         var url = '{{url('admin_documents')}}';
         getData({
                 _token: "{{csrf_token()}}",
                 acl_id: this.value
         },url)
             .success(function(data){
-                    $('#tr-clients').empty();
+                    $('#tr-client').empty();
                     data[0].forEach(function(k){
                         console.log(k);
-                        $('#tr-clients').append('<tr class="tab-client" id="'+k['id']+'"><td>'+k['name']+'</td></tr>');
+                        $('#tr-client').append('<tr class="tab-client" id="'+k['id']+'"><td>'+k['name']+'</td></tr>');
                     });
 
             });
@@ -143,8 +178,8 @@ $(document).ready(function () {
 
     $(document).on('click','.tab-client',function(e){
         e.preventDefault();
-        $('.tab-client').removeClass('bg-info');
-        $(this).addClass('bg-info');
+        $('.tab-client').removeClass('bg-success');
+        $(this).addClass('bg-success');
         var url = '{{url('admin_documents')}}';
         getData({
                 _token: "{{csrf_token()}}",
@@ -164,9 +199,24 @@ $(document).ready(function () {
         $('.tab-dossier').removeClass('bg-success');
         $(this).addClass('bg-success');
         console.log(this.id);
+        var url = '{{url('admin_documents')}}';
+        getData({
+                _token: "{{csrf_token()}}",
+            dossier_id: this.id
+        },url)
+            .success(function(data){
+                    $('#tr-document').empty();
+                    data[0].forEach(function(k){
+                        console.log(k);
+                        $('#tr-document').append('<tr class="tab-document" id="'+k['id']+'"><td>'+k['name']+'</td></tr>');
+                    });
+            });
     });
 
     $(document).on('click','.tab-document',function(e){
+        e.preventDefault();
+        $('.tab-document').removeClass('bg-danger');
+        $(this).addClass('bg-danger');
         console.log(this.id);
     });
 
@@ -193,23 +243,7 @@ $(document).ready(function () {
         return $.ajax({
             type: "GET",
             url: url,
-            data: param,
-            //success: function(data) {
-                //console.log(data);
-                /*if (data['success'])
-                    toastr['success']('', data['success']);
-                else {
-                    toastr['warning']('', data['warning']);
-                    setTimeout(function () {
-                        location.reload();
-                    }, 3000);
-                }*/
-                //retData(data) ;
-           // },
-           // error: function(error) {
-                //location.reload();
-          //  }
-        });
+            data: param });
     }
 
 })
