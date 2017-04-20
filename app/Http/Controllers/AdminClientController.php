@@ -80,7 +80,7 @@ class AdminClientController extends Controller
     {
         if($client = Client::find($id)) {
             if($request->ajax()){
-                return response()->json([$client]);
+                return response()->json([$client,$client->acls->first()]);
             }
             return view('admin.clients.show',[
                 'client' => $client,

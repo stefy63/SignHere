@@ -9,7 +9,18 @@
                 <!--<small class="font-bold">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>-->
             </div>
             <div class="modal-body">
-
+                <!-- VISIBILITY -->
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3 col-md-offset-1">
+                            <label for="acl" >{{__('admin_clients.index-header-col-3')}}</label>
+                        </div>
+                        <div class="col-md-7 col-md-offset-1">
+                            <input class="form-control" size="50" type="text" name="acl" value="" disabled/>
+                        </div>
+                    </div>
+                </div>
+                <!-- END VISIBILITY -->
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-3 col-md-offset-1">
@@ -154,7 +165,6 @@ $(function(){
 
 
         $.get(url, function (data) {
-            //success data
             data = data['0'];
             $('#showModal .modal-title').text(data['surname']+" "+data['name']);
             for(var k in data) {
@@ -163,7 +173,10 @@ $(function(){
                     switchery.setAttributes('checked',(data[k] == 1)? true:false);
                     switchery.handleOnchange(true);
                 } else {
-                    $('#showModal input[name="'+k+'"]').val(data[k]);
+                    if(k == 'acls')
+                        $('#showModal input[name="acl"]').val(data[k][0]['name']);
+                    else
+                        $('#showModal input[name="'+k+'"]').val(data[k]);
                 }
             }
         })

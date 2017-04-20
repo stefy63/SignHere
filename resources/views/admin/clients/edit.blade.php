@@ -24,7 +24,7 @@
                         <div class="col-md-8">
                             <select class="form-control" name="acl_id">
                                 @foreach($acls as $acl)
-                                 <option value="{{ $acl->id }}">{{ $acl->name}}</option>
+                                 <option value="{{ $acl->id }}" @if($acl->id == $client->acls->first()->id) selected @endif>{{ $acl->name}}</option>
                                 @endforeach
                             </select>
                         </div>

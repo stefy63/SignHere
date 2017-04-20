@@ -68,9 +68,10 @@
                                             </a>
                                         </td>
                                         <td>{{$client->surname}}</td>
-                                        <td>{{$client->address}}</td>
+                                        <!--<td>{{$client->address}}</td>-->
+                                        <td>{{$client->acls()->first()->name}}</td>
                                         <td>{{$client->mobile}}</td>
-                                        <td>{{$client->email}}</td>
+                                        <td><a href="mailto:{{$client->email}}">{{$client->email}}</a></td>
                                         <td class="text-center">
                                             <a href="{{ url('admin_clients/'.$client->id.'/edit') }}" >
                                                 <i class="fa fa-wrench"  data-toggle="tooltip" title="{{__('admin_clients.index-tooltip-update')}}"></i>

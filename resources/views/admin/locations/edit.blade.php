@@ -27,7 +27,7 @@
                         <div class="col-md-8">
                             <select class="form-control" name="brand_id">
                                 @foreach($brands as $brand)
-                                 <option value="{{ $brand->id }}" {{ $location->brand_id == $brand->id ? 'selected="selected"' : '' }}>{{ $brand->description}}</option>
+                                 <option value="{{ $brand->id }}" @if($location->brand_id == $brand->id) selected @endif>{{ $brand->description}}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -25,7 +25,7 @@ return [
     'index-header-col-0' => 'Enabled',
     'index-header-col-1' => 'Nome',
     'index-header-col-2' => 'Cognome',
-    'index-header-col-3' => 'Città',
+    'index-header-col-3' => 'Visibilità',
     'index-header-col-4' => 'Cellulare',
     'index-header-col-5' => '@Mail',
     'index-header-col-6' => 'Azioni',
