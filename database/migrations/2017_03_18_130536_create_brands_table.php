@@ -42,6 +42,7 @@ class CreateBrandsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('acl_brand');
         Schema::dropIfExists('brands');
     }
 }

@@ -39,6 +39,7 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('acl_user');
         Schema::dropIfExists('users');
     }
 }

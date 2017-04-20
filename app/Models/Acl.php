@@ -37,10 +37,6 @@ class Acl extends Model
         return $this->belongsToMany(Location::class);
     }
 
-    public function documents(){
-        return $this->belongsToMany(Document::class);
-    }
-
     public function clients(){
         return $this->belongsToMany(Client::class);
     }

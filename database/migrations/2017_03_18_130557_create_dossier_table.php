@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProfilesTable extends Migration
+class CreateDossierTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,16 @@ class CreateProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('profiles', function (Blueprint $table) {
+        Schema::create('dossiers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->boolean('active')->default(true);
-            $table->integer('user_id')->unsigned();
+            $table->string('description');
+            $table->timestamp('date_dossier')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->integer('client_id')->unsigned();
+            $table->string('note');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
         });
     }
 
@@ -30,7 +33,6 @@ class CreateProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('acl_profile');
-        Schema::dropIfExists('profiles');
+        Schema::dropIfExists('dossiers');
     }
 }

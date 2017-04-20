@@ -13,15 +13,15 @@ class Document extends Model
     //protected $fillable = ['*'];
 
 
-    public function acls() {
-        return $this->belongsToMany(Acl::class);
-    }
+    public static $rules = array(
+        'name'      => 'required',
+    );
 
-    public function doctypes() {
+    public function doctype() {
         return $this->hasOne(Doctype::class);
     }
 
-    public function clients() {
-        return $this->hasOne(Client::class);
+    public function dossier() {
+        return $this->hasOne(Dossier::class);
     }
 }

@@ -3,11 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Acl;
-use App\Models\Document;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Client extends Model
+class Dossier extends Model
 {
     protected $guarded = array();
     //protected $fillable = ['*'];
@@ -16,14 +14,10 @@ class Client extends Model
 
     public static $rules = array(
         'name'      => 'required',
-        'email'     => 'required|email',
     );
 
-    public function acls() {
-        return $this->belongsToMany(Acl::class);
+    public function client() {
+        return $this->hasOne(Client::class);
     }
 
-    public function dossiers() {
-        return $this->hasMany(Dossier::class);
-    }
 }

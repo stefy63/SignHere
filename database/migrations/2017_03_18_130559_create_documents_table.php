@@ -15,22 +15,20 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->increments('id');
-            $table->timestamp('datedoc')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('date_doc')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('name');
             $table->string('identifier')->nullable();
             $table->string('description')->nullable();
             $table->string('filename');
             $table->integer('doctype_id')->unsigned();
-            $table->integer('client_id')->unsigned();
+            $table->integer('dossier_id')->unsigned();
             $table->boolean('signed')->default(false);
             $table->boolean('readonly')->default(false);
             $table->integer('user_id')->unsigned();
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();
-        });
-        Schema::table('documents', function (Blueprint $table) {
-            $table->foreign('client_id')->references('id')->on('clients');
+            $table->foreign('dossier_id')->references('id')->on('dossiers')->onDelete('cascade');
         });
         
     }

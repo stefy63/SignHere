@@ -35,6 +35,7 @@ class CreateModulesTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('acl_module');
         Schema::dropIfExists('modules');
     }
 }

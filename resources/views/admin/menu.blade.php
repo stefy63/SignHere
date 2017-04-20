@@ -5,11 +5,12 @@
             <li class="nav-header">
                 <div class="dropdown profile-element">
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                        <span class="clear">
-                            <span class="block m-t-xs">
-                                <a href="{{url('admin')}}"><strong class="font-bold">{{ucwords(strtolower(Auth::user()->name.' '.Auth::user()->surname))}}</strong></a>
+                            <span class="clear">
+                                <span class="block m-t-xs">
+                                    <a href="{{url('admin')}}"><strong class="font-bold">{{ucwords(strtolower(Auth::user()->name.' '.Auth::user()->surname))}}</strong></a>
+                                </span>
                             </span>
-                        </span> </a>
+                        </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li>
                                 <a class="confirm-toast"  data-message="{{__('menu.confirmLogout')}}"  data-location="{{url('logout')}}">

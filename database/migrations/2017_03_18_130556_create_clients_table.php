@@ -41,6 +41,7 @@ class CreateClientsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('acl_client');
         Schema::dropIfExists('clients');
     }
 }
