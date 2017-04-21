@@ -27,9 +27,8 @@ class AdminDocumentController extends Controller
      */
     public function index(Request $request)
     {
-        //dd($request->all());
         $acls = Acl::getMyAcls();
-        if ($request->has('acl_id')) {//dd($request->all());
+        if ($request->has('acl_id')) {
             $clients = Acl::find($request->acl_id)->clients();
             if($request->ajax()) {
                 return response()->json([$clients->get()]);
@@ -38,7 +37,7 @@ class AdminDocumentController extends Controller
             $clients = Acl::getMyClients();
         }
 
-        if ($request->has('client_id')) {//dd($request->all());
+        if ($request->has('client_id')) {
             $dossiers = Dossier::where('client_id',$request->client_id);
             if($request->ajax()) {
                 return response()->json([$dossiers->get()]);
@@ -57,7 +56,6 @@ class AdminDocumentController extends Controller
         }
 
 
-//dd($clients->first());
 
         return view('admin.documents.index',[
             'acls'      => $acls->get(),
@@ -72,9 +70,12 @@ class AdminDocumentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        //dd($request->all());
+
+
+        return view('admin.dossier.index');
     }
 
     /**

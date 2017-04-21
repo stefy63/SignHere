@@ -44,6 +44,7 @@
                     </div>
                     <div class="">
                         <!-- CLIENTS  -->
+                        <input type="hidden" id="client_id" value="0"/>
                         <table class="table table-bordered table-hover"  id="tr-client" cellspacing="0">
                             <thead>
                                 <tr>
@@ -73,12 +74,13 @@
                             <h5 class="text-danger">{{__('admin_documents.index-dossier')}}</h5>
                             <div ibox-tools="" class="ng-scope">
                                 <div dropdown="" class="ibox-tools dropdown">
-                                    <a href="{{ url('admin_dossiers/create') }}"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-create')}}"></i></span></a>
+                                    <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-dossier')}}"></i></span></a>
                                 </div>
                             </div>
                         </div>
                         <div class="">
                             <!-- DOSSIERS  -->
+                            <input type="hidden" id="dossier_id" value="0" />
                             <table class="table table-bordered table-hover" id="tr-dossier">
                                 <thead>
                                     <tr>
@@ -96,7 +98,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td>{{$dossiers->links()}}</td>
+                                        <td></td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -108,12 +110,13 @@
                             <h5 class="text-danger">{{__('admin_documents.index-document')}}</h5>
                             <div ibox-tools="" class="ng-scope">
                                 <div dropdown="" class="ibox-tools dropdown">
-                                    <a href="{{ url('admin_documents') }}"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-create')}}"></i></span></a>
+                                    <a data-url="{{ url('admin_documents/create') }}" class="call-document"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-document')}}"></i></span></a>
                                 </div>
                             </div>
                         </div>
                         <div class="">
                             <!-- DOCUMENTS  -->
+                            <input type="hidden" id="document_id" value="0"/>
                             <table class="table table-bordered table-hover" id="tr-document">
                                 <thead>
                                     <tr>
@@ -131,7 +134,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td>{{$documents->links()}}</td>
+                                        <td></td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -142,8 +145,56 @@
         </div>
     </div>
 </div>
+
+<div class="modal inmodal" id="showModal" tabindex="-1"  role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="modal-title" name="name"></h4>
+            </div>
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 $(document).ready(function () {
+
+    $('.call-dossier').click(function(e){
+        e.preventDefault();
+        var client_id = $('input#client_id').val();
+        if(client_id != 0){
+            var url = this.getAttribute('data-url');
+            url += '?client_id='+client_id;
+            location.replace(url);
+        } else {
+            toastr['error']("{{__('admin_documents.error_dossier')}}", "{{__('admin_documents.error_call_title')}}");
+        }
+
+    });
+
+    $('.call-document').click(function(e){
+        e.preventDefault();
+        var dossier_id = $('input#dossier_id').val();
+        if(dossier_id != 0){
+            var url = this.getAttribute('data-url');
+            url += '?dossier_id='+dossier_id;
+            location.replace(url);
+        } else {
+            toastr['error']("{{__('admin_documents.error_document')}}", "{{__('admin_documents.error_call_title')}}");
+        }
+
+    });
+
+
+
+
     var tbl_option = {
         "paging": true,
         "ordering": false,
@@ -176,8 +227,22 @@ $(document).ready(function () {
             });
     });
 
+
+    $(document).on('dblclick','.tab-client',function(e){
+        toastr['error']("{{__('admin_documents.error_document')}}", "Funzione da implementare");
+    });
+
+    $(document).on('dblclick','.tab-dossier',function(e){
+        toastr['error']("{{__('admin_documents.error_document')}}", "Funzione da implementare");
+    });
+
+    $(document).on('dblclick','.tab-client',function(e){
+        toastr['error']("{{__('admin_documents.error_document')}}", "Funzione da implementare");
+    });
+
     $(document).on('click','.tab-client',function(e){
         e.preventDefault();
+        $('input#client_id').val(this.id);
         $('.tab-client').removeClass('bg-success');
         $(this).addClass('bg-success');
         var url = '{{url('admin_documents')}}';
@@ -196,6 +261,7 @@ $(document).ready(function () {
 
     $(document).on('click','.tab-dossier',function(e){
         e.preventDefault();
+        $('input#dossier_id').val(this.id);
         $('.tab-dossier').removeClass('bg-success');
         $(this).addClass('bg-success');
         console.log(this.id);
@@ -215,30 +281,13 @@ $(document).ready(function () {
 
     $(document).on('click','.tab-document',function(e){
         e.preventDefault();
+        $('input #document_id').val(this.id);
         $('.tab-document').removeClass('bg-danger');
         $(this).addClass('bg-danger');
         console.log(this.id);
     });
 
-    $('.onoffswitch-checkbox').change(function (e) {
-        e.preventDefault();
-        var url = this.getAttribute('data-url');
-
-        $.ajax({
-            type: "PUT",
-            url: url,
-            data: {
-                _token: "{{csrf_token()}}",
-                active: $(this).is(':checked')?1:0
-            },
-            success: function(data){
-                console.log(data);
-                toastr['success']('', data['success']);
-            }
-        });
-    });
-
-    function getData(param,url,retData) {
+    function getData(param,url) {
 
         return $.ajax({
             type: "GET",
