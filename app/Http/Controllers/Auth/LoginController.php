@@ -56,6 +56,7 @@ class LoginController extends Controller
 
         Auth::user()->session_id = \Session::getId();
         Auth::user()->save();
+        \Artisan::call('view:clear');
         return ;//redirect()->intended($this->redirectPath());
     }
 

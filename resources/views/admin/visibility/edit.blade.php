@@ -51,7 +51,7 @@
                         <div class="col-md-8">
                             <select class="form-control col-md-8" name="parent_id" >
                                 @foreach($parent as $val)
-                                    <option class="form-control col-md-8" value="{{$val->id}}" @if($val->id == $acl->parent_id) selected @endif>{{$val->description}} </option>
+                                    <option class="form-control col-md-8" value="{{$val->id}}" @if($val->id == $acl->parent_id) selected @endif>{{$val->name}} </option>
                                 @endforeach
                             </select>
                         </div>

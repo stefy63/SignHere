@@ -51,7 +51,7 @@
                     <div class="col-md-8">
                         <select class="form-control col-md-8" name="parent_id" >
                             @foreach($acls as $acl)
-                                <option class="form-control col-md-8" value="{{$acl->id}}">{{$acl->description}} </option>
+                                <option class="form-control col-md-8" value="{{$acl->id}}">{{$acl->name}} </option>
                             @endforeach
                     </select>
                     </div>

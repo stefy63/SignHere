@@ -7,6 +7,7 @@ use App\Models\Visibility;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 use MongoDB\BSON\Javascript;
+use Illuminate\Support\Facades\Auth;
 
 class AdminAclController extends Controller
 {
@@ -82,9 +83,8 @@ class AdminAclController extends Controller
         $visibility->user_id = \Auth::user()->id;
         $visibility->save();
 
-        $users = (is_array($request->users))?$request->users:array();
-        //(array_key_exists('1',$users))?:$users = ['1' => '1'];
         $visibility->brands()->sync([$request->brand_id]);
+        $users = (is_array($request->users))?$request->users:array();
         ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
         ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
         ($request->profiles)?$visibility->profiles()->attach(array_keys($request->profiles)):$visibility->profiles()->detach();
@@ -118,9 +118,7 @@ class AdminAclController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Acl  $acl
-     * @return \Illuminate\Http\Response               dd($userAcls);
- dd($userAcls);
-
+     * @return \Illuminate\Http\Response
      */
     public function edit(Acl $acl,$id)
     {
@@ -159,22 +157,26 @@ class AdminAclController extends Controller
         if($visibility = Acl::find($id)) {
             $this->validate($request, Acl::$rules);
 
+            $myRoot = \Auth::user()->getMyRoot()->id;
             $visibility->name = $request->name;
             $visibility->description = $request->description;
             $visibility->user_id = \Auth::user()->id;
             $visibility->parent_id = $request->parent_id;
             $visibility->save();
 
+            $visibility->brands()->sync([$request->brand_id]);
             $users = (is_array($request->users))?$request->users:array();
-            //(array_key_exists('1',$users))?:$users = ['1' => '1'];
-            ($request->brand_id)?$visibility->brands()->sync([$request->brand_id]):$visibility->brands()->detach();
-            ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
-            ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
-            ($request->profiles)?$visibility->profiles()->sync(array_keys($request->profiles)):$visibility->profiles()->detach();
+            if($id == $myRoot){
+                (array_key_exists(Auth::user()->id,$users))?:$users = array_add($users,Auth::user()->id,'on');
+            } else {
+                ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
+                ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
+                ($request->profiles)?$visibility->profiles()->sync(array_keys($request->profiles)):$visibility->profiles()->detach();
+            }
             $visibility->users()->sync(array_keys($users));
 
             return redirect()->back()->with('success', __('admin_acls.success_acl_edit'));
-             }
+        }
         return redirect()->back()->with('warning', __('admin_acls.warning_acl_NOTupdated'));
     }
 
