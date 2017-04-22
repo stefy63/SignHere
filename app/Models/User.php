@@ -126,7 +126,12 @@ class User extends Authenticatable
     }
 
     public function getMyRoot() {
-        return Acl::getMyAcls()->orderBy('id')->first();
+        $forest = $this->getMyForest();
+        $arRoot = array();
+        foreach ($forest as $branch) {
+            array_push($arRoot,$branch['id']);
+        }
+        return $arRoot;
     }
 
     protected function remove_element_by_value($arr, $val) {

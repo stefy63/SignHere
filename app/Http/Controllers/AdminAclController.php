@@ -157,17 +157,17 @@ class AdminAclController extends Controller
         if($visibility = Acl::find($id)) {
             $this->validate($request, Acl::$rules);
 
-            $myRoot = \Auth::user()->getMyRoot()->id;
+            $myRoots = \Auth::user()->getMyRoot();//dd($myRoots,$id,$visibility->parent_id,array_search($id,$myRoots));
             $visibility->name = $request->name;
             $visibility->description = $request->description;
+            (array_search($id,$myRoots)>=0)? :$visibility->parent_id = $request->parent_id;
             $visibility->user_id = \Auth::user()->id;
-            $visibility->parent_id = $request->parent_id;
             $visibility->save();
 
             $visibility->brands()->sync([$request->brand_id]);
             $users = (is_array($request->users))?$request->users:array();
-            if($id == $myRoot){
-                (array_key_exists(Auth::user()->id,$users))?:$users = array_add($users,Auth::user()->id,'on');
+            if(array_search($id,$myRoots)>=0){
+                (array_key_exists(Auth::user()->id,$users))? :$users = array_add($users,Auth::user()->id,'on');
             } else {
                 ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
                 ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
