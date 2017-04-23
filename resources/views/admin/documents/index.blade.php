@@ -69,17 +69,17 @@
                     </div>
                 </div>
                 <div class="col-md-7 border-left" style="height: 80%;">
+                    <!-- DOSSIERS  -->
                     <div class="" style="height: 40%;">
                         <div class="ibox-title">
-                            <h5 class="text-danger">{{__('admin_documents.index-dossier')}}</h5>
+                            <h5 class="text-danger">{{__('admin_dossiers.index-dossier')}}</h5>
                             <div ibox-tools="" class="ng-scope">
                                 <div dropdown="" class="ibox-tools dropdown">
-                                    <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-dossier')}}"></i></span></a>
+                                    <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_dossiers.index-tooltip-dossier')}}"></i></span></a>
                                 </div>
                             </div>
                         </div>
                         <div class="">
-                            <!-- DOSSIERS  -->
                             <input type="hidden" id="dossier_id" value="0" />
                             <table class="table table-bordered table-hover" id="tr-dossier">
                                 <thead>
@@ -105,6 +105,7 @@
                         </div>
                     </div>
                     <hr>
+                    <!-- DOCUMENTS  -->
                     <div class="" style="height: 40%;">
                         <div class="ibox-title">
                             <h5 class="text-danger">{{__('admin_documents.index-document')}}</h5>
@@ -115,7 +116,6 @@
                             </div>
                         </div>
                         <div class="">
-                            <!-- DOCUMENTS  -->
                             <input type="hidden" id="document_id" value="0"/>
                             <table class="table table-bordered table-hover" id="tr-document">
                                 <thead>
@@ -192,9 +192,6 @@ $(document).ready(function () {
 
     });
 
-
-
-
     var tbl_option = {
         "paging": true,
         "ordering": false,
@@ -220,7 +217,7 @@ $(document).ready(function () {
             .success(function(data){
                     $('#tr-client').empty();
                     data[0].forEach(function(k){
-                        console.log(k);
+                        //console.log(k);
                         $('#tr-client').append('<tr class="tab-client" id="'+k['id']+'"><td>'+k['name']+'</td></tr>');
                     });
 
@@ -229,15 +226,17 @@ $(document).ready(function () {
 
 
     $(document).on('dblclick','.tab-client',function(e){
-        toastr['error']("{{__('admin_documents.error_document')}}", "Funzione da implementare");
+        e.preventDefault();
+        location.replace('{{ url('admin_clients/') }}/'+this.id+'/edit' );
     });
 
     $(document).on('dblclick','.tab-dossier',function(e){
-        toastr['error']("{{__('admin_documents.error_document')}}", "Funzione da implementare");
+        e.preventDefault();
+        location.replace('{{ url('admin_dossiers/') }}/'+this.id+'/edit' );
     });
 
-    $(document).on('dblclick','.tab-client',function(e){
-        toastr['error']("{{__('admin_documents.error_document')}}", "Funzione da implementare");
+    $(document).on('dblclick','.tab-document',function(e){
+        toastr['error']('',"Funzione da implementare");
     });
 
     $(document).on('click','.tab-client',function(e){
@@ -253,7 +252,7 @@ $(document).ready(function () {
             .success(function(data){
                     $('#tr-dossier').empty();
                     data[0].forEach(function(k){
-                        console.log(k);
+                        //console.log(k);
                         $('#tr-dossier').append('<tr class="tab-dossier" id="'+k['id']+'"><td>'+k['name']+'</td></tr>');
                     });
             });
@@ -273,7 +272,7 @@ $(document).ready(function () {
             .success(function(data){
                     $('#tr-document').empty();
                     data[0].forEach(function(k){
-                        console.log(k);
+                        //console.log(k);
                         $('#tr-document').append('<tr class="tab-document" id="'+k['id']+'"><td>'+k['name']+'</td></tr>');
                     });
             });

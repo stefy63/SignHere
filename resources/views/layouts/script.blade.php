@@ -15,8 +15,6 @@
 <script src="{{ asset('js/plugins/sweetalert/sweetalert.min.js') }}"></script>
 <!-- Switchery -->
 <script src="{{ asset('js/plugins/switchery/switchery.js') }}"></script>
-<!-- DROPZONE -->
-<script src="{{ asset('js/plugins/dropzone/dropzone.js') }}"></script>
 
 @stack('scripts')
 
@@ -48,6 +46,8 @@ $(function () {
         toastr['success']("{{ session('success') }}", "{{__('app.notify_success')}}");
     @elseif(session('warning'))
         toastr['warning']("{{ session('warning') }}", "{{__('app.notify_warning')}}");
+    @elseif(session('DB-error'))
+        toastr['error']("{{ session('error') }}", "{{$errors}}");
     @endif
 
 
@@ -125,12 +125,10 @@ $(function () {
 
     @if(count($errors) > 0)
         toastr['error']("{{__('app.notify_alert_field')}}", "{{__('app.notify_alert')}}");
-        var jCampi = [@foreach($errors->keys() as $k => $info)
-            '{{ $info }}',
-            @endforeach ];
-        for (var key in jCampi) {
-            $('label[for="'+jCampi[key]+'"]').css('color','red');
-        };
+
+        @foreach($errors->keys() as $k => $info)
+            $('label[for="{{$info}}"]').css('color','red');
+        @endforeach
     @endif
 
 })

@@ -6,8 +6,10 @@ use App\Models\Acl;
 use App\Models\Visibility;
 use App\Models\Brand;
 use Illuminate\Http\Request;
+use League\Flysystem\Exception;
 use MongoDB\BSON\Javascript;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminAclController extends Controller
 {
@@ -81,16 +83,23 @@ class AdminAclController extends Controller
         $visibility->description = $request->description;
         $visibility->parent_id = $request->parent_id;
         $visibility->user_id = \Auth::user()->id;
-        $visibility->save();
+        DB::beginTransaction();
+        try {
+            $visibility->save();
 
-        $visibility->brands()->sync([$request->brand_id]);
-        $users = (is_array($request->users))?$request->users:array();
-        ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
-        ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
-        ($request->profiles)?$visibility->profiles()->attach(array_keys($request->profiles)):$visibility->profiles()->detach();
-        $visibility->users()->sync(array_keys($users));
+            $visibility->brands()->sync([$request->brand_id]);
+            $users = (is_array($request->users)) ? $request->users : array();
+            ($request->locations) ? $visibility->locations()->sync(array_keys($request->locations)) : $visibility->locations()->detach();
+            ($request->devices) ? $visibility->devices()->sync(array_keys($request->devices)) : $visibility->devices()->detach();
+            ($request->profiles) ? $visibility->profiles()->attach(array_keys($request->profiles)) : $visibility->profiles()->detach();
+            $visibility->users()->sync(array_keys($users));
+            DB::commit();
 
-        return redirect()->back()->with('success', __('admin_acls.success_acl_create'));
+            return redirect()->back()->with('success', __('admin_acls.success_acl_create'));
+        } catch (Exception $e) {
+            DB::rollback();
+            return redirect()->back()->with('DB-error', $e->getMessage());
+        }
     }
 
     /**
@@ -157,25 +166,32 @@ class AdminAclController extends Controller
         if($visibility = Acl::find($id)) {
             $this->validate($request, Acl::$rules);
 
-            $myRoots = \Auth::user()->getMyRoot();//dd($myRoots,$id,$visibility->parent_id,array_search($id,$myRoots));
+            $myRoots = \Auth::user()->getMyRoot();//dd($myRoots,$id,$visibility->parent_id,in_array($id,$myRoots));
             $visibility->name = $request->name;
             $visibility->description = $request->description;
             (array_search($id,$myRoots)>=0)? :$visibility->parent_id = $request->parent_id;
             $visibility->user_id = \Auth::user()->id;
-            $visibility->save();
+            DB::beginTransaction();
+            try {
+                $visibility->save();
 
-            $visibility->brands()->sync([$request->brand_id]);
-            $users = (is_array($request->users))?$request->users:array();
-            if(array_search($id,$myRoots)>=0){
-                (array_key_exists(Auth::user()->id,$users))? :$users = array_add($users,Auth::user()->id,'on');
-            } else {
-                ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
-                ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
-                ($request->profiles)?$visibility->profiles()->sync(array_keys($request->profiles)):$visibility->profiles()->detach();
+                $visibility->brands()->sync([$request->brand_id]);
+                $users = (is_array($request->users))?$request->users:array();
+                if(in_array($id,$myRoots)){
+                    (array_key_exists(Auth::user()->id,$users))? :$users = array_add($users,Auth::user()->id,'on');
+                } else {
+                    ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
+                    ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
+                    ($request->profiles)?$visibility->profiles()->sync(array_keys($request->profiles)):$visibility->profiles()->detach();
+                }
+                $visibility->users()->sync(array_keys($users));
+                DB::commit();
+                return redirect()->back()->with('success', __('admin_acls.success_acl_edit'));
+            } catch (Exception $e) {
+                DB::rollback();
+                return redirect()->back()->with('DB-error', $e->getMessage());
             }
-            $visibility->users()->sync(array_keys($users));
 
-            return redirect()->back()->with('success', __('admin_acls.success_acl_edit'));
         }
         return redirect()->back()->with('warning', __('admin_acls.warning_acl_NOTupdated'));
     }

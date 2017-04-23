@@ -8,7 +8,7 @@
                 <h5>{{__('admin_clients.edit-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_clients') }}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
+                        <a href="{{ URL::previous() }}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
             </div>

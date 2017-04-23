@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Dossier;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,11 @@ class AdminDossierController extends Controller
      */
     public function create(Request $request)
     {
-        dd($request->all());
+        $client = Client::find($request->client_id);
+
+        return view('admin.dossiers.create',[
+            'client' => $client,
+        ]);
     }
 
     /**
@@ -35,7 +40,14 @@ class AdminDossierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, Dossier::$rules);
+
+        $dossier = new Dossier();
+        $dossier->fill($request->all());
+        $dossier->save();
+
+        return redirect()->back()->with('success', __('admin_dossiers.success_dossier_created'));
+
     }
 
     /**
@@ -44,7 +56,7 @@ class AdminDossierController extends Controller
      * @param  \App\Models\Dossier  $dossier
      * @return \Illuminate\Http\Response
      */
-    public function show(Dossier $dossier)
+    public function show(Request $request, Dossier $dossier, $id)
     {
         //
     }
@@ -55,9 +67,15 @@ class AdminDossierController extends Controller
      * @param  \App\Models\Dossier  $dossier
      * @return \Illuminate\Http\Response
      */
-    public function edit(Dossier $dossier)
+    public function edit(Request $request, Dossier $dossier, $id)
     {
-        //
+        //dd($request->all());
+        if ($dossier = Dossier::find($id)) {
+            return view('admin.dossiers.edit',[
+                'dossier' => $dossier,
+            ]);
+        }
+        return redirect()->back()->with('warning', __('admin_dossiers.warning_dossier_NOTfound'));
     }
 
     /**
@@ -69,7 +87,7 @@ class AdminDossierController extends Controller
      */
     public function update(Request $request, Dossier $dossier)
     {
-        //
+        dd($request->all());
     }
 
     /**
