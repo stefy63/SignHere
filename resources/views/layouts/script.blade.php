@@ -50,7 +50,6 @@ $(function () {
         toastr['error']("{{ session('error') }}", "{{$errors}}");
     @endif
 
-
     $('.confirm-toast').click(function () {
         var location =  this.getAttribute('data-location');
         swal({

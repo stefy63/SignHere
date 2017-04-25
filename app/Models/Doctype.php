@@ -19,7 +19,7 @@ class Doctype extends Model
     );
 
     public function documents() {
-        return $this->hasMany(\App\Models\Document::class);
+        return $this->hasMany(Document::class);
     }
 
 }

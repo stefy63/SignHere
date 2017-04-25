@@ -85,19 +85,24 @@
                                 <thead>
                                     <tr>
                                         <td></td>
+                                        <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($dossiers as $dossier)
                                     <tr class="tab-dossier" id="{{$dossier->id}}">
-                                        <td>
+                                        <td class="col-md-11">
                                            {{$dossier->name}}
+                                        </td>
+                                        <td class="text-center">
+                                            <a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        <td></td>
                                         <td></td>
                                     </tr>
                                 </tfoot>
@@ -121,19 +126,24 @@
                                 <thead>
                                     <tr>
                                         <td></td>
+                                        <td></td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($documents as $document)
                                     <tr class="tab-document" id="{{$document->id}}">
-                                        <td>
+                                        <td class="col-md-11">
                                             {{$document->name}}
+                                        </td>
+                                        <td class=" text-center">
+                                            <a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        <td></td>
                                         <td></td>
                                     </tr>
                                 </tfoot>
@@ -236,7 +246,9 @@ $(document).ready(function () {
     });
 
     $(document).on('dblclick','.tab-document',function(e){
-        toastr['error']('',"Funzione da implementare");
+        e.preventDefault();
+        location.replace('{{ url('admin_documents/') }}/'+this.id+'/edit' );
+        //toastr['error']('',"Funzione da implementare");
     });
 
     $(document).on('click','.tab-client',function(e){
@@ -244,19 +256,23 @@ $(document).ready(function () {
         $('input#client_id').val(this.id);
         $('.tab-client').removeClass('bg-success');
         $(this).addClass('bg-success');
+        getDossiers(this.id);
+    });
+
+    function getDossiers(client_id){
         var url = '{{url('admin_documents')}}';
         getData({
-                _token: "{{csrf_token()}}",
-                client_id: this.id
-        },url)
-            .success(function(data){
-                    $('#tr-dossier').empty();
-                    data[0].forEach(function(k){
-                        //console.log(k);
-                        $('#tr-dossier').append('<tr class="tab-dossier" id="'+k['id']+'"><td>'+k['name']+'</td></tr>');
-                    });
+            _token: "{{csrf_token()}}",
+            client_id: client_id
+        },url).success(function(data){
+            $('#tr-dossier').empty();
+            data[0].forEach(function(k){
+                //console.log(k);
+                $('#tr-dossier').append('<tr class="tab-dossier" id="'+k['id']+'"><td class="col-md-11">'+k['name']+'</td>' +
+                    '<td class=" text-center"><a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a></td></tr>');
             });
-    });
+        });
+    }
 
     $(document).on('click','.tab-dossier',function(e){
         e.preventDefault();
@@ -264,18 +280,50 @@ $(document).ready(function () {
         $('.tab-dossier').removeClass('bg-success');
         $(this).addClass('bg-success');
         console.log(this.id);
+        getDocuments(this.id);
+    });
+
+    function getDocuments(dossier_id){
         var url = '{{url('admin_documents')}}';
         getData({
-                _token: "{{csrf_token()}}",
-            dossier_id: this.id
-        },url)
-            .success(function(data){
-                    $('#tr-document').empty();
-                    data[0].forEach(function(k){
-                        //console.log(k);
-                        $('#tr-document').append('<tr class="tab-document" id="'+k['id']+'"><td>'+k['name']+'</td></tr>');
-                    });
+            _token: "{{csrf_token()}}",
+            dossier_id: dossier_id
+        },url).success(function(data){
+            $('#tr-document').empty();
+            data[0].forEach(function(k){
+                //console.log(k);
+                $('#tr-document').append('<tr class="tab-document" id="'+k['id']+'"><td class="col-md-11">'+k['name']+'</td>' +
+                    '<td class=" text-center"><a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o"></i></a></td></tr>');
             });
+        });
+    }
+
+    $(document).on('click','.tab-dossier_a',function(e){
+        e.stopPropagation();
+        var dossier = $(this).closest('tr').attr('id');
+        console.log(dossier);
+        var url = '{{url('admin_dossiers/destroy')}}/'+dossier;
+        swal({
+            title: '{{__('app.confirm-title')}}',
+            text: '{{__('app.confirm-message')}}',
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            closeOnConfirm: true
+        }, function (isConfirm) {
+            if(isConfirm) {
+                getData({
+                    _token: "{{csrf_token()}}",
+                },url).success(function (data) {
+                    toastr['success']('',data[0]);
+                    getDossiers($('input#client_id').val());
+                }).error(function (xhr, status, err) {
+                    console.log(JSON.parse(xhr.responseText)[0]);
+                    toastr['error']('',JSON.parse(xhr.responseText)[0]);
+                });
+            }
+        });
     });
 
     $(document).on('click','.tab-document',function(e){
@@ -286,6 +334,12 @@ $(document).ready(function () {
         console.log(this.id);
     });
 
+    $(document).on('click','.tab-document_a',function(e){
+        e.stopPropagation();
+        var dossier = $(this).closest('tr').attr('id');
+        alert(dossier);
+    });
+
     function getData(param,url) {
 
         return $.ajax({
@@ -293,6 +347,21 @@ $(document).ready(function () {
             url: url,
             data: param });
     }
+
+    function OKButton() {
+        swal({
+            title: '{{__('app.confirm-title')}}',
+            text: '{{__('app.confirm-message')}}',
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            closeOnConfirm: true
+        }, function (isConfirm) {
+            console.log(isConfirm);
+            return isConfirm;
+        });
+    };
 
 })
 

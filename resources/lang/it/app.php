@@ -24,6 +24,7 @@ return [
     'notify_success'    => 'Operazione Compleatata',
     'notify_warning'    => 'Avviso di Sistema',
     'confirm-title'     => 'Sei Sicuro?',
+    'confirm-message'     => 'Conferma Operazione',
     'error_operation'   => 'Operazione NON permessa',
     'notify_alert_field' => 'Campi obbligatori o formato errato!',
     '' => '',

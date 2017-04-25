@@ -8,28 +8,25 @@
     <script src="{{ asset('js/plugins/dropzone/dropzone.js') }}"></script>
 
 <script>
-
+$(function () {
 
     Dropzone.options.myAwesomeDropzone = {
         autoProcessQueue: false,
         uploadMultiple: true,
-        parallelUploads: 100,
-        maxFiles: 100,
+        parallelUploads: 10,
+        maxFiles: 10,
         maxFilesize: 8,
-        dictDefaultMessage:"trascina per caricare!",
-        method:"PUT",
-        //url: "{{ route('admin_dossiers.update',['id' => $dossier->id]) }}",
+        paramName: 'documents',
+        //method:"PUT",
+        //acceptedFiles: '',
+        url: "{{ route('admin_documents.update_file',['id' => $dossier->id]) }}",
         addRemoveLinks: true,
-        dictRemoveFile: 'Rimuovi',
-        dictFileTooBig: 'Immagine piu grande di 8M',
-        headers: {
+        dictRemoveFile: '{{__('admin_documents.thumbnail_remove')}}',
+        dictFileTooBig: '{{__('admin_documents.notify_alert_toobigfile')}}',
+        dictMaxFilesExceeded:'{{__('admin_documents.notify_alert_multiple')}}',
+        /*headers: {
             'X-CSRF-Token': $("[name=_token]").val(),
-        },
-        accept: function(file, done) {
-            // TODO: Image upload validation
-            done();
-        },
-
+        },*/
 
         // Dropzone settings
         init: function() {
@@ -38,28 +35,32 @@
             this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                myDropzone.processQueue();
+
+                swal({
+                    title: '{{__('app.confirm-title')}}',
+                    text: this.getAttribute('data-message'),
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Yes",
+                    closeOnConfirm: true
+                }, function () {
+                    myDropzone.processQueue();
+                });
             });
-            this.on("sendingmultiple", function() {
-                console.log('mandato');
+            this.on("success", function(files, response) {
+                toastr['success']("{{ session('success') }}", response.message);
             });
-            this.on("successmultiple", function(files, response) {
-                console.log('Mandato Multiplo');
-                toastr['success']("{{ session('success') }}", "{{__('admin_documents.notify_success')}}");
-            });
-            this.on("errormultiple", function(files, response) {
-                console.log('Errore Multiplo');
+            this.on("maxfilesexceeded", function(files, response) {
+                toastr['error']("{{ session('alert') }}", "{{__('admin_documents.notify_alert_multiple')}}");
             });
             this.on("error", function(files, response) {
-                console.log(response);
                 toastr['error']("{{ session('alert') }}", "{{__('admin_documents.notify_alert')}}");
                 myDropzone.removeFile(files);
             });
         },
-        sending: function (file, xhr, formData) {
-            //formData.append("_token", $("input[name=_token]").val());
-        }
     };
+})
 
 
 </script>
@@ -101,7 +102,7 @@
 
 
                 <div class="row">
-                    <div class="form-group">/file-upload
+                    <div class="form-group">
                         <div class="col-md-2 col-md-offset-1">
                             <label for="name" >{{__('admin_dossiers.db-name')}}</label>
                         </div>
@@ -154,27 +155,13 @@
             </form>
             <br><br>
 
-
             <div class="ibox-content">
-                <form id="my-awesome-dropzone" class="dropzone" action="{{ route('admin_dossiers.update',['id' => $dossier->id]) }}">
-                    <button type="submit" class="btn btn-primary pull-right">Submit this form!</button>
-                    <div class="dz-message text-center m-t-lg"><span><h1>{{__('admin_dossiers.drop_file')}}</h1></span></div>
+                <form id="my-awesome-dropzone" class="dropzone" action="#">
+                    {!! csrf_field() !!}{{ method_field('PUT') }}
+                    <button type="submit" class="btn btn-primary pull-right">{{__('admin_documents.drop_file_submit')}}</button>
+                    <div class="dz-message text-center m-t-lg"><span><h1>{{__('admin_documents.drop_file')}}</h1></span></div>
                 </form>
             <div>
-
-
-
-
-
-
-            <!--<div class="col-lg-12">
-                <form action="{{ route('admin_dossiers.update',['id' => $dossier->id]) }}" class="dropzone" id="mydropzone">
-                    {!! csrf_field() !!}{{ method_field('PUT') }}
-                <form action="#" class="dropzone" id="mydropzone">
-
-                    <button type="submit" class="btn btn-primary pull-right">Submit this form!</button>
-                </form>
-            </div>-->
 
         </div>
     </div>

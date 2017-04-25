@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Acl;
 use App\Models\Client;
+use App\Models\Doctype;
 use App\Models\Document;
 use App\Models\Dossier;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Http\File;
+use Mockery\Exception;
 
 class AdminDocumentController extends Controller
 {
@@ -114,9 +118,18 @@ class AdminDocumentController extends Controller
      * @param  \App\Models\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function edit(Document $document)
+    public function edit(Request $request,Document $document, $id)
     {
-        //
+        if ($document = Document::find($id)){
+            $docTypes = Doctype::all();
+            $dossier = $document->dossier()->first();
+
+            return view('admin.documents.edit',[
+                'document' => $document,
+                'doctypes'  => $docTypes,
+                'dossier'  => $dossier
+            ]);
+        }
     }
 
     /**
@@ -126,9 +139,62 @@ class AdminDocumentController extends Controller
      * @param  \App\Models\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Document $document)
+    public function update(Request $request, Document $document, $id)
     {
-        //
+
+
+    }
+
+
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Document  $document
+     * @return \Illuminate\Http\Response
+     */
+    public function update_file(Request $request, Document $document, $id)
+    {
+
+        if($files =$request->documents) {
+            \DB::beginTransaction();
+            try {
+                foreach ($files as $file) {
+                    if ($file->isValid() && $path = $file->store('documents')){
+                        $doc = new Document();
+                        $doc->name = $file->getClientOriginalName();
+                        $doc->date_doc = Carbon::now();
+                        $doc->filename = $path;
+                        $doc->dossier_id = $id;
+                        $doc->user_id = \Auth::user()->id;
+                        $doc->save();
+                    } else {
+                        return Response::json([
+                            'error' => true,
+                            'message' => __("admin_documents.notify_alert_filesystem"),
+                            'code' => 500], 500);
+                    }
+                }
+                \DB::commit();
+                return response()->json([
+                    'error' => false,
+                    'message' => __("admin_documents.notify_success"),
+                    'code'  => 200],200);
+            } catch (Exception $e) {
+                \DB::rollBack();
+                return response()->json([
+                    'error' => true,
+                    'message' => __("admin_documents.notify_alert"),
+                    'code'  => 400],400);
+            }
+        } else {
+            return response()->json([
+                'error' => true,
+                'message' => __("admin_documents.notify_alert"),
+                'code'  => 400],400);
+        }
     }
 
     /**

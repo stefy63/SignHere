@@ -46,7 +46,7 @@ class AdminDossierController extends Controller
         $dossier->fill($request->all());
         $dossier->save();
 
-        return redirect()->back()->with('success', __('admin_dossiers.success_dossier_created'));
+        return redirect('admin_dossiers/'.$dossier->id.'/edit')->with('success', __('admin_dossiers.success_dossier_created'));
 
     }
 
@@ -69,7 +69,6 @@ class AdminDossierController extends Controller
      */
     public function edit(Request $request, Dossier $dossier, $id)
     {
-        //dd($request->all());
         if ($dossier = Dossier::find($id)) {
             return view('admin.dossiers.edit',[
                 'dossier' => $dossier,
@@ -87,7 +86,14 @@ class AdminDossierController extends Controller
      */
     public function update(Request $request, Dossier $dossier, $id)
     {
-        return response()->json([dd($request->all())]);
+        $this->validate($request, Dossier::$rules);
+
+        if ($dossier = Dossier::find($id)){
+            $dossier->fill($request->all());
+            $dossier->save();
+            return redirect('admin_dossiers/'.$dossier->id.'/edit')->with('success', __('admin_dossiers.success_dossier_update'));
+        }
+        return redirect()->back()->with('warning', __('admin_dossiers.warning_dossier_NOTfound'));
     }
 
     /**
@@ -96,8 +102,13 @@ class AdminDossierController extends Controller
      * @param  \App\Models\Dossier  $dossier
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Dossier $dossier)
+    public function destroy(Request $request,Dossier $dossier, $id)
     {
-        //
+        if ($dossier = Dossier::find($id)){
+            $dossier->documents()->delete();
+            $dossier->delete();
+            return response()->json([ __('admin_dossiers.success_dossier_deleted')],200);
+        }
+        return response()->json([__('admin_dossiers.warning_dossier_NOTfound')],400);
     }
 }

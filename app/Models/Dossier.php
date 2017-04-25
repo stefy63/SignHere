@@ -21,6 +21,9 @@ class Dossier extends Model
         return $this->belongsTo(Client::class);
     }
 
+    public function documents(){
+        return $this->hasMany(Document::class);
+    }
 
 
     public function getDateDossierAttribute($value)

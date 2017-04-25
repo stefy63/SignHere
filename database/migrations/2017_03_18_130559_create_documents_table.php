@@ -20,7 +20,7 @@ class CreateDocumentsTable extends Migration
             $table->string('identifier')->nullable();
             $table->string('description')->nullable();
             $table->string('filename');
-            $table->integer('doctype_id')->unsigned();
+            $table->integer('doctype_id')->unsigned()->nullable();
             $table->integer('dossier_id')->unsigned();
             $table->boolean('signed')->default(false);
             $table->boolean('readonly')->default(false);
