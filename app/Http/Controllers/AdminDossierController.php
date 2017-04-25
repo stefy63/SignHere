@@ -58,7 +58,7 @@ class AdminDossierController extends Controller
      */
     public function show(Request $request, Dossier $dossier, $id)
     {
-        //
+        return response()->json([dd($request->all())]);
     }
 
     /**
@@ -85,9 +85,9 @@ class AdminDossierController extends Controller
      * @param  \App\Models\Dossier  $dossier
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Dossier $dossier)
+    public function update(Request $request, Dossier $dossier, $id)
     {
-        dd($request->all());
+        return response()->json([dd($request->all())]);
     }
 
     /**

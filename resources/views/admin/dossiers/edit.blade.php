@@ -6,6 +6,63 @@
    <script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
     <!-- DROPZONE -->
     <script src="{{ asset('js/plugins/dropzone/dropzone.js') }}"></script>
+
+<script>
+
+
+    Dropzone.options.myAwesomeDropzone = {
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 100,
+        maxFiles: 100,
+        maxFilesize: 8,
+        dictDefaultMessage:"trascina per caricare!",
+        method:"PUT",
+        //url: "{{ route('admin_dossiers.update',['id' => $dossier->id]) }}",
+        addRemoveLinks: true,
+        dictRemoveFile: 'Rimuovi',
+        dictFileTooBig: 'Immagine piu grande di 8M',
+        headers: {
+            'X-CSRF-Token': $("[name=_token]").val(),
+        },
+        accept: function(file, done) {
+            // TODO: Image upload validation
+            done();
+        },
+
+
+        // Dropzone settings
+        init: function() {
+            var myDropzone = this;
+
+            this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                myDropzone.processQueue();
+            });
+            this.on("sendingmultiple", function() {
+                console.log('mandato');
+            });
+            this.on("successmultiple", function(files, response) {
+                console.log('Mandato Multiplo');
+                toastr['success']("{{ session('success') }}", "{{__('admin_documents.notify_success')}}");
+            });
+            this.on("errormultiple", function(files, response) {
+                console.log('Errore Multiplo');
+            });
+            this.on("error", function(files, response) {
+                console.log(response);
+                toastr['error']("{{ session('alert') }}", "{{__('admin_documents.notify_alert')}}");
+                myDropzone.removeFile(files);
+            });
+        },
+        sending: function (file, xhr, formData) {
+            //formData.append("_token", $("input[name=_token]").val());
+        }
+    };
+
+
+</script>
 @endpush
 @push('assets')
    <!-- Data picker -->
@@ -87,6 +144,7 @@
                         </div>
                     </div>
                 </div>
+                <br><br>
 
                 <div class="row">
                     <div class="col-md-12 text-center">
@@ -94,45 +152,36 @@
                     </div>
                 </div>
             </form>
+            <br><br>
 
-            <div class="col-lg-12">
-                <form action="{{ route('admin_dossiers.update',['id' => $dossier->id]) }}" class="dropzone" id="my-dropzone">
-                {{ route('admin_dossiers.update',['id' => $dossier->id]) }}
+
+            <div class="ibox-content">
+                <form id="my-awesome-dropzone" class="dropzone" action="{{ route('admin_dossiers.update',['id' => $dossier->id]) }}">
+                    <button type="submit" class="btn btn-primary pull-right">Submit this form!</button>
+                    <div class="dz-message text-center m-t-lg"><span><h1>{{__('admin_dossiers.drop_file')}}</h1></span></div>
                 </form>
-            </div>
+            <div>
+
+
+
+
+
+
+            <!--<div class="col-lg-12">
+                <form action="{{ route('admin_dossiers.update',['id' => $dossier->id]) }}" class="dropzone" id="mydropzone">
+                    {!! csrf_field() !!}{{ method_field('PUT') }}
+                <form action="#" class="dropzone" id="mydropzone">
+
+                    <button type="submit" class="btn btn-primary pull-right">Submit this form!</button>
+                </form>
+            </div>-->
 
         </div>
     </div>
 
 </div>
 <script>
-$(function () {
-
-   Dropzone.options.MyDropzone = {
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        parallelUploads: 100,
-        maxFiles: 100,
-
-        // Dropzone settings
-        init: function() {
-            var myDropzone = this;
-
-            this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
-                e.preventDefault(); class="dropzone"
-                e.stopPropagation();
-                myDropzone.processQueue();
-            });
-            this.on("sendingmultiple", function() {
-            });
-            this.on("successmultiple", function(files, response) {
-            });
-            this.on("errormultiple", function(files, response) {
-            });
-        }
-
-    };
-
+$(document).ready(function() {
 
     $.fn.datepicker.dates['it'] = {
     days: ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"],

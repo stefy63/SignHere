@@ -51,7 +51,7 @@ return [
     '' => '',
     '' => '',
     '' => '',
-    '' => '',
+    'drop_file' => 'Trascina qui i file da inserire Oppure clicca',
     '' => '',
     '' => '',
     '' => '',

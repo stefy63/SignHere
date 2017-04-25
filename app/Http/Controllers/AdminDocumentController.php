@@ -38,21 +38,29 @@ class AdminDocumentController extends Controller
         }
 
         if ($request->has('client_id')) {
-            $dossiers = Dossier::where('client_id',$request->client_id);
-            if($request->ajax()) {
+            $dossiers = Dossier::where('client_id', $request->client_id);
+            if ($request->ajax()) {
                 return response()->json([$dossiers->get()]);
             }
         } else {
-            $dossiers = Dossier::where('client_id',$clients->first()->id);
+            if ($clients->count()) {
+                $dossiers = Dossier::where('client_id', $clients->first()->id);
+            } else {
+                return back()->with('alert',__('admin_documents.error_No_client'));
+            }
         }
 
         if ($request->has('dossier_id')) {
-            $documents = Document::where('dossier_id',$request->dossier_id);
-            if($request->ajax()) {
+            $documents = Document::where('dossier_id', $request->dossier_id);
+            if ($request->ajax()) {
                 return response()->json([$documents->get()]);
             }
         } else {
-            $documents = Dossier::where('client_id',$dossiers->first());
+            if ($dossiers) {
+                $documents = Dossier::where('client_id', $dossiers->first());
+            }else {
+                $documents = array();
+            }
         }
 
 
