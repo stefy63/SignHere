@@ -262,9 +262,9 @@ class Parser
                     $this->refs[$isRef] = $data[$key];
                 }
             } else {
-                // multiple documents are not supported
+                // multiple storage are not supported
                 if ('---' === $this->currentLine) {
-                    throw new ParseException('Multiple documents are not supported.', $this->currentLineNb + 1, $this->currentLine);
+                    throw new ParseException('Multiple storage are not supported.', $this->currentLineNb + 1, $this->currentLine);
                 }
 
                 // 1-liner optionally followed by newline(s)

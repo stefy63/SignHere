@@ -1907,7 +1907,7 @@ abstract class PHPUnit_Framework_Assert
     }
 
     /**
-     * Asserts that two XML documents are equal.
+     * Asserts that two XML storage are equal.
      *
      * @param string $expectedFile
      * @param string $actualXml
@@ -1922,7 +1922,7 @@ abstract class PHPUnit_Framework_Assert
     }
 
     /**
-     * Asserts that two XML documents are not equal.
+     * Asserts that two XML storage are not equal.
      *
      * @param string $expectedFile
      * @param string $actualXml
@@ -1937,7 +1937,7 @@ abstract class PHPUnit_Framework_Assert
     }
 
     /**
-     * Asserts that two XML documents are equal.
+     * Asserts that two XML storage are equal.
      *
      * @param string $expectedXml
      * @param string $actualXml
@@ -1952,7 +1952,7 @@ abstract class PHPUnit_Framework_Assert
     }
 
     /**
-     * Asserts that two XML documents are not equal.
+     * Asserts that two XML storage are not equal.
      *
      * @param string $expectedXml
      * @param string $actualXml

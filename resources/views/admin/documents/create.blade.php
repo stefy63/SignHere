@@ -22,8 +22,8 @@
             </div>
             <hr>
 
-            <form method="POST" action="{{ route('admin_documents.update',['id' => $document->id]) }}" id="toast-form">
-            {!! csrf_field() !!}{{ method_field('PUT') }}
+            <form method="POST" action="{{ route('admin_documents.store') }}" id="toast-form" enctype="multipart/form-data">
+            {!! csrf_field() !!}
 
                 <div class="row">
                     <div class="form-group">
@@ -56,7 +56,7 @@
                         </div>
                         <div class="col-md-8 input-group date">
                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                            <input class="form-control" type="text"  name="date_doc" value="{{$document->date_doc}}" />
+                            <input class="form-control" type="text"  name="date_doc" value="{{old('date_doc')}}" />
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                             <label for="name" >{{__('admin_documents.db-name')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <input class="form-control" size="50" type="text" name="name" value="{{$document->name}}" />
+                            <input class="form-control" size="50" type="text" name="name" value="{{old('name')}}" />
                         </div>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
                             <label for="identifier" >{{__('admin_documents.db-identifier')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <input class="form-control" size="50" type="text" name="identifier" value="{{$document->identifier}}" />
+                            <input class="form-control" size="50" type="text" name="identifier" value="{{old('identifier')}}" />
                         </div>
                     </div>
                 </div>
@@ -89,7 +89,7 @@
                             <label for="description" >{{__('admin_documents.db-description')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <input class="form-control" size="50" type="text" name="description" value="{{$document->description}}" />
+                            <input class="form-control" size="50" type="text" name="description" value="{{old('description')}}" />
                         </div>
                     </div>
                 </div>
@@ -102,7 +102,7 @@
                         <select class="form-control" name="doctype_id" id="select-doctype">
                             <option id="opt_doctype" value="0">{{__('admin_documents.select-doctype')}}</option>
                             @foreach($doctypes as $doctype)
-                                <option value="{{$doctype->id}}">{{$doctype->name}}</option>
+                                <option value="{{$doctype->id}}" >{{$doctype->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -114,7 +114,7 @@
                             <label for="signed" >{{__('admin_documents.db-signed')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <input class="js-switch-signed" type="checkbox" data-switchery="true" name="signed" value="1"  @if($document->signed == 1) checked @endif style="display: none;"/>
+                            <input class="js-switch-signed" type="checkbox" data-switchery="true" name="signed" value="1" style="display: none;"/>
                         </div>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                             <label for="readonly" >{{__('admin_documents.db-readonly')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <input class="js-switch-readonly" type="checkbox" data-switchery="true" name="readonly" value="1"  @if($document->readonly == 1) checked @endif style="display: none;"/>
+                            <input class="js-switch-readonly" type="checkbox" data-switchery="true" name="readonly" value="1" style="display: none;"/>
                         </div>
                     </div>
                 </div>
@@ -137,19 +137,19 @@
                             <label for="active" >{{__('admin_documents.db-active')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <input class="js-switch-active" type="checkbox" data-switchery="true" name="active" value="1"  @if($document->active == 1) checked @endif style="display: none;"/>
+                            <input class="js-switch-active" type="checkbox" data-switchery="true" name="active" value="1" style="display: none;"/>
                         </div>
                     </div>
                 </div>
 
+                <br>
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-2 col-md-offset-1">
                             <label for="filename" >{{__('admin_documents.db-filename')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <a href="{{asset('storage')}}/documents/{{$document->filename}}">
-                            <label class="form-control" >{{$document->filename}}</label></a>
+                            <input type="file" name="filename" />
                         </div>
                     </div>
                 </div>

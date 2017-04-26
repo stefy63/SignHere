@@ -132,7 +132,8 @@
                                 <tbody>
                                 @foreach($documents as $document)
                                     <tr class="tab-document" id="{{$document->id}}">
-                                        <td class="col-md-11">
+                                        <td class="col-md-1"><a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a></td>
+                                        <td class="col-md-11 tab-document" id="{{$document->id}}">
                                             {{$document->name}}
                                         </td>
                                         <td class=" text-center">
@@ -247,7 +248,7 @@ $(document).ready(function () {
 
     $(document).on('dblclick','.tab-document',function(e){
         e.preventDefault();
-        location.replace('{{ url('admin_documents/') }}/'+this.id+'/edit' );
+        location.replace('{{ url('admin_documents/') }}/'+$(this).closest('tr').attr('id')+'/edit' );
         //toastr['error']('',"Funzione da implementare");
     });
 
@@ -292,8 +293,12 @@ $(document).ready(function () {
             $('#tr-document').empty();
             data[0].forEach(function(k){
                 //console.log(k);
-                $('#tr-document').append('<tr class="tab-document" id="'+k['id']+'"><td class="col-md-11">'+k['name']+'</td>' +
-                    '<td class=" text-center"><a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o"></i></a></td></tr>');
+                $('#tr-document').append('<tr id="'+k['id']+'">' +
+                    '<td class="col-md-1"><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank">' +
+                    '<i class="fa fa-file-o"></i></a></td>' +
+                    '<td class="col-md-10 tab-document">'+k['name']+'</td>' +
+                    '<td class=" text-center"><a class="tab-document_a OK-button">' +
+                    '<i class="text-danger fa fa-trash-o"></i></a></td></tr>');
             });
         });
     }
@@ -328,16 +333,41 @@ $(document).ready(function () {
 
     $(document).on('click','.tab-document',function(e){
         e.preventDefault();
-        $('input #document_id').val(this.id);
-        $('.tab-document').removeClass('bg-danger');
-        $(this).addClass('bg-danger');
-        console.log(this.id);
+        var document = $(this).closest('tr').attr('id');
+        $('input #document_id').val(document);
+        $(this).closest('tbody').find('tr').removeClass('bg-danger');
+        $(this).closest('tr').addClass('bg-danger');
+        console.log(document);
+        //alert(document);
+
     });
 
     $(document).on('click','.tab-document_a',function(e){
         e.stopPropagation();
-        var dossier = $(this).closest('tr').attr('id');
-        alert(dossier);
+        var document = $(this).closest('tr').attr('id');
+        ///alert(document);
+        var url = '{{url('admin_documents/destroy')}}/'+document;
+        swal({
+            title: '{{__('app.confirm-title')}}',
+            text: '{{__('app.confirm-message')}}',
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            closeOnConfirm: true
+        }, function (isConfirm) {
+            if(isConfirm) {
+                getData({
+                    _token: "{{csrf_token()}}",
+                },url).success(function (data) {
+                    toastr['success']('',data[0]);
+                    getDocuments($('input#dossier_id').val());
+                }).error(function (xhr, status, err) {
+                    console.log(JSON.parse(xhr.responseText)[0]);
+                    toastr['error']('',JSON.parse(xhr.responseText)[0]);
+                });
+            }
+        });
     });
 
     function getData(param,url) {

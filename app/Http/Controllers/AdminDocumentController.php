@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
 use Mockery\Exception;
+use Illuminate\Support\Facades\Auth;
 
 class AdminDocumentController extends Controller
 {
@@ -85,20 +86,38 @@ class AdminDocumentController extends Controller
     public function create(Request $request)
     {
         //dd($request->all());
-
-
-        return view('admin.dossier.index');
+        if($dossier = Dossier::find($request->dossier_id)){
+            $docTypes = Doctype::all();
+            return view('admin.documents.create',[
+                'dossier' => $dossier,
+                'doctypes'  => $docTypes,
+            ]);
+        }
+        return redirect()->back()->with('error', __('admin_documents.warning_document_NOTfound'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in documents.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        //dd($request->filename);
+        if ($file = $request->filename) {
+            $document = new Document();
+            $document->fill($request->except('client_id'));
+            $document->user_id = Auth::user()->id;
+            $document->active = isset($request->active) ? 1 : 0;
+
+            if($file->isValid() && $path = $file->store($request->client_id."/".$request->dossier_id,'documents')){
+                $document->filename = $path;
+            }
+            $document->save();
+            return redirect()->back()->with('success', __('admin_documents.success_document_created'));
+        }
+        return redirect()->back()->with('warning', __('admin_documents.warning_document_NOTcreated'));
     }
 
     /**
@@ -133,7 +152,7 @@ class AdminDocumentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in documents.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Document  $document
@@ -141,7 +160,16 @@ class AdminDocumentController extends Controller
      */
     public function update(Request $request, Document $document, $id)
     {
+        //dd($request->all());
+        if ($document = Document::find($id)){
+            $document->fill($request->except('client_id'));
+            $document->user_id = Auth::user()->id;
+            $document->active = isset($request->active) ? 1 : 0;
+            $document->save();
 
+            return redirect()->back()->with('success', __('admin_documents.success_document_update'));
+        }
+        return redirect()->back()->with('error', __('admin_documents.error_document_NOTupdate'));
 
     }
 
@@ -149,7 +177,7 @@ class AdminDocumentController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in documents.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Document  $document
@@ -157,12 +185,12 @@ class AdminDocumentController extends Controller
      */
     public function update_file(Request $request, Document $document, $id)
     {
-
-        if($files =$request->documents) {
+        //dd($request->all(),documents_path('documents'));
+        if($files = $request->documents) {
             \DB::beginTransaction();
             try {
                 foreach ($files as $file) {
-                    if ($file->isValid() && $path = $file->store('documents')){
+                    if ($file->isValid() && $path = $file->store($request->client_id."/".$request->dossier_id,'documents')){
                         $doc = new Document();
                         $doc->name = $file->getClientOriginalName();
                         $doc->date_doc = Carbon::now();
@@ -171,7 +199,7 @@ class AdminDocumentController extends Controller
                         $doc->user_id = \Auth::user()->id;
                         $doc->save();
                     } else {
-                        return Response::json([
+                        return response()->json([
                             'error' => true,
                             'message' => __("admin_documents.notify_alert_filesystem"),
                             'code' => 500], 500);
@@ -187,7 +215,7 @@ class AdminDocumentController extends Controller
                 return response()->json([
                     'error' => true,
                     'message' => __("admin_documents.notify_alert"),
-                    'code'  => 400],400);
+                    'code'  => 300],300);
             }
         } else {
             return response()->json([
@@ -198,13 +226,19 @@ class AdminDocumentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource from documents.
      *
      * @param  \App\Models\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Document $document)
+    public function destroy(Document $document, $id)
     {
-        //
+        //dd($id);
+        if ($document = Document::find($id)){
+            $document->delete();
+
+            return response()->json([ __('admin_documents.success_document_deleted')],200);
+        }
+        return response()->json([__('admin_documents.warning_document_NOTfound')],400);
     }
 }

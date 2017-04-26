@@ -3476,7 +3476,7 @@
   }
 
   // Apply a change to a document, and add it to the document's
-  // history, and propagating it to all linked documents.
+  // history, and propagating it to all linked storage.
   function makeChange(doc, change, ignoreReadOnly) {
     if (doc.cm) {
       if (!doc.cm.curOp) return operation(doc.cm, makeChange)(doc, change, ignoreReadOnly);
@@ -3570,7 +3570,7 @@
       if (!i && doc.cm) doc.cm.scrollIntoView({from: change.from, to: changeEnd(change)});
       var rebased = [];
 
-      // Propagate to the linked documents
+      // Propagate to the linked storage
       linkedDocs(doc, function(doc, sharedHist) {
         if (!sharedHist && indexOf(rebased, doc.history) == -1) {
           rebaseHist(doc.history, change);
@@ -5207,7 +5207,7 @@
 
   // Create a marker, wire it up to the right lines, and
   function markText(doc, from, to, options, type) {
-    // Shared markers (across linked documents) are handled separately
+    // Shared markers (across linked storage) are handled separately
     // (markTextShared will call out to this again, once per
     // document).
     if (options && options.shared) return markTextShared(doc, from, to, options, type);
@@ -5277,7 +5277,7 @@
 
   // SHARED TEXTMARKERS
 
-  // A shared marker spans multiple linked documents. It is
+  // A shared marker spans multiple linked storage. It is
   // implemented as a meta-marker-object controlling multiple normal
   // markers.
   var SharedTextMarker = CodeMirror.SharedTextMarker = function(markers, primary) {
@@ -6684,7 +6684,7 @@
 
   eventMixin(Doc);
 
-  // Call f for all linked documents.
+  // Call f for all linked storage.
   function linkedDocs(doc, f, sharedHistOnly) {
     function propagate(doc, skip, sharedHist) {
       if (doc.linked) for (var i = 0; i < doc.linked.length; ++i) {

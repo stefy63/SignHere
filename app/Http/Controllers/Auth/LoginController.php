@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Artisan;
 
 class LoginController extends Controller
 {
@@ -51,12 +53,12 @@ class LoginController extends Controller
         $previous_session = $user->session_id;
 
         if ($previous_session) {
-            \Session::getHandler()->destroy($previous_session);
+            Session::getHandler()->destroy($previous_session);
         }
 
         Auth::user()->session_id = \Session::getId();
         Auth::user()->save();
-        \Artisan::call('view:clear');
+        Artisan::call('view:clear');
         return ;//redirect()->intended($this->redirectPath());
     }
 

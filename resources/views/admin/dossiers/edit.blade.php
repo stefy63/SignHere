@@ -2,10 +2,10 @@
 
 @section('content')
 @push('scripts')
-   <!-- Data picker -->
-   <script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
-    <!-- DROPZONE -->
-    <script src="{{ asset('js/plugins/dropzone/dropzone.js') }}"></script>
+<!-- Data picker -->
+<script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
+<!-- DROPZONE -->
+<script src="{{ asset('js/plugins/dropzone/dropzone.js') }}"></script>
 
 <script>
 $(function () {
@@ -58,7 +58,12 @@ $(function () {
                 toastr['error']("{{ session('alert') }}", "{{__('admin_documents.notify_alert')}}");
                 myDropzone.removeFile(files);
             });
+            this.on("sending",function(file, xhr, formData){
+                formData.append('client_id', '{{$dossier->client->id}}');
+                formData.append('dossier_id','{{$dossier->id}}')
+            });
         },
+
     };
 })
 

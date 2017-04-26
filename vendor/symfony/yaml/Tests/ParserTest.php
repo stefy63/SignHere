@@ -74,7 +74,7 @@ class ParserTest extends TestCase
         foreach ($files as $file) {
             $yamls = file_get_contents($path.'/'.$file.'.yml');
 
-            // split YAMLs documents
+            // split YAMLs storage
             foreach (preg_split('/^---( %YAML\:1\.0)?/m', $yamls) as $yaml) {
                 if (!$yaml) {
                     continue;
@@ -677,7 +677,7 @@ EOF;
 
     /**
      * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     * @expectedExceptionMessageRegExp /^Multiple documents are not supported.+/
+     * @expectedExceptionMessageRegExp /^Multiple storage are not supported.+/
      */
     public function testMultipleDocumentsNotSupportedException()
     {

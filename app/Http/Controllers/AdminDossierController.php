@@ -33,7 +33,7 @@ class AdminDossierController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in documents.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -58,7 +58,7 @@ class AdminDossierController extends Controller
      */
     public function show(Request $request, Dossier $dossier, $id)
     {
-        return response()->json([dd($request->all())]);
+        //
     }
 
     /**
@@ -78,7 +78,7 @@ class AdminDossierController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in documents.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Dossier  $dossier
@@ -97,7 +97,7 @@ class AdminDossierController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified resource from documents.
      *
      * @param  \App\Models\Dossier  $dossier
      * @return \Illuminate\Http\Response

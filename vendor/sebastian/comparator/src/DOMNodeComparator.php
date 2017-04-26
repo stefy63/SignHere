@@ -49,7 +49,7 @@ class DOMNodeComparator extends ObjectComparator
 
         if ($expectedAsString !== $actualAsString) {
             if ($expected instanceof DOMDocument) {
-                $type = 'documents';
+                $type = 'storage';
             } else {
                 $type = 'nodes';
             }
