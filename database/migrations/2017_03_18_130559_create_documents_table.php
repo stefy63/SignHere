@@ -13,7 +13,7 @@ class CreateDocumentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('storage', function (Blueprint $table) {
+        Schema::create('documents', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamp('date_doc')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->string('name');
@@ -40,6 +40,6 @@ class CreateDocumentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('storage');
+        Schema::dropIfExists('documents');
     }
 }
