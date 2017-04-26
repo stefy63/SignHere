@@ -58,7 +58,8 @@ return [
         'documents'  => [
             'driver' => 'local',
             'root'   => storage_path(env('DRIVE_DOCUMENT').'/documents'), //inserire in .env - 'DRIVE_DOCUMENT=storage'
-            'url' => env('APP_URL').'/storage/documents',
+            //'root'   => storage_path('app/public/documents'), //inserire in .env - 'DRIVE_DOCUMENT=app/public'
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
 

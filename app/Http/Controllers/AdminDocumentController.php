@@ -193,7 +193,7 @@ class AdminDocumentController extends Controller
                     if ($file->isValid() && $path = $file->store($request->client_id."/".$request->dossier_id,'documents')){
                         $doc = new Document();
                         $doc->name = $file->getClientOriginalName();
-                        $doc->date_doc = Carbon::now();
+                        $doc->date_doc = Carbon::now()->format('d/m/Y');
                         $doc->filename = $path;
                         $doc->dossier_id = $id;
                         $doc->user_id = \Auth::user()->id;
