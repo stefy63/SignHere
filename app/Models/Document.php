@@ -17,7 +17,7 @@ class Document extends Model
 
     public static $rules = array(
         'name'      => 'required',
-        'filename'  => 'required',
+        //data'filename'  => 'required',
     );
 
     public function doctype() {

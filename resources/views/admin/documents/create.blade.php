@@ -13,10 +13,10 @@
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>{{__('admin_documents.edit-title')}}</h5>
+                <h5>{{__('admin_documents.create-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ URL::previous() }}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
+                        <a href="{{url('admin_documents')}}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
             </div>

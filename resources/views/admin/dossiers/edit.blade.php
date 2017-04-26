@@ -84,7 +84,7 @@ $(function () {
                 <h5>{{__('admin_dossiers.create-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ URL::previous() }}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
+                        <a href="{{ url('admin_documents') }}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
             </div>

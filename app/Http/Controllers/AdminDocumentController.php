@@ -85,7 +85,6 @@ class AdminDocumentController extends Controller
      */
     public function create(Request $request)
     {
-        //dd($request->all());
         if($dossier = Dossier::find($request->dossier_id)){
             $docTypes = Doctype::all();
             return view('admin.documents.create',[
@@ -104,7 +103,6 @@ class AdminDocumentController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->filename);
         if ($file = $request->filename) {
             $document = new Document();
             $document->fill($request->except('client_id'));
@@ -160,7 +158,6 @@ class AdminDocumentController extends Controller
      */
     public function update(Request $request, Document $document, $id)
     {
-        //dd($request->all());
         if ($document = Document::find($id)){
             $document->fill($request->except('client_id'));
             $document->user_id = Auth::user()->id;
@@ -185,7 +182,6 @@ class AdminDocumentController extends Controller
      */
     public function update_file(Request $request, Document $document, $id)
     {
-        //dd($request->all(),documents_path('documents'));
         if($files = $request->documents) {
             \DB::beginTransaction();
             try {
@@ -233,7 +229,6 @@ class AdminDocumentController extends Controller
      */
     public function destroy(Document $document, $id)
     {
-        //dd($id);
         if ($document = Document::find($id)){
             $document->delete();
 
