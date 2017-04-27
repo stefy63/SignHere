@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Acl;
 use App\Models\Visibility;
 use App\Models\Brand;
+use App\Models\User;
 use Illuminate\Http\Request;
 use League\Flysystem\Exception;
 use MongoDB\BSON\Javascript;
@@ -180,18 +181,31 @@ class AdminAclController extends Controller
                 if(in_array($id,$myRoots)){
                     (array_key_exists(Auth::user()->id,$users))? :$users = array_add($users,Auth::user()->id,'on');
                 } else {
-                    ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
-                    ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
-                    ($request->profiles)?$visibility->profiles()->sync(array_keys($request->profiles)):$visibility->profiles()->detach();
+                    if($visibility->locations()->count()>0){
+                        ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
+                    }
+
+                    if($visibility->devices()->count()>0){
+                        ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
+                    }
+                    if($visibility->profiles()->count()>0){
+                        ($request->profiles)?$visibility->profiles()->sync(array_keys($request->profiles)):$visibility->profiles()->detach();
+                    }
                 }
-                $visibility->users()->sync(array_keys($users));
+                $myUsers = Acl::getMyUsers()->get();
+                if($visibility->users()->count()>0){
+                    $visibility->users()->sync(array_keys($users));
+                }
+                foreach ($myUsers as $user){
+                    if($user->acls()->get()->count()<1)
+                        $user->acls()->attach($myRoots[0]);
+                }
                 DB::commit();
                 return redirect()->back()->with('success', __('admin_acls.success_acl_edit'));
             } catch (Exception $e) {
                 DB::rollback();
                 return redirect()->back()->with('DB-error', $e->getMessage());
             }
-
         }
         return redirect()->back()->with('warning', __('admin_acls.warning_acl_NOTupdated'));
     }
