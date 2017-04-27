@@ -101,7 +101,8 @@
                                         <p class="text-center"><span>{{__('admin_acls.users-panel-title')}}</span></p>
                                         <br>
                                         <div class="input-group m-b col-md-offset-3"></div>
-                                        <br>
+                                        <br><br><br>
+                                            <button type="button" class="btn btn-outline btn-danger btn-xs pull-right" id="clear-users" ><small>{{__('admin_acls.users-panel-clear')}}</small></button>
                                     </div>
                                 </div>
                                 <!-- PROFILES TAB -->
@@ -126,65 +127,70 @@
     </div>
 </div>
 <script>
-    $(function () {
+$(function () {
 
-        $('#select-brands').change(function (e) {
-            e.preventDefault();
-            var url = this.getAttribute('data-url');
-            var brand = '/' + this.options[this.selectedIndex].value;
-            url = url + brand;
-            console.log(url);
-            $.ajax({
-                type: "GET",
-                url: url,
-                data: {
-                    _token: "{{csrf_token()}}",
-                },
-                success: function (data) {
-                    console.log(data);
-                    $('div#locations div div').empty();
-                    $('div#devices div div').empty();
-                    $('div#users div div').empty();
-                    $('div#profiles div div').empty();
-                    var arLocations = JSON.parse('{{$acl->locations()->get()->pluck('id')}}');
-                    var arDevides = JSON.parse('{{$acl->devices()->get()->pluck('id')}}');
-                    var arUsers = JSON.parse('{{$acl->users()->get()->pluck('id')}}');
-                    var arProfiles = JSON.parse('{{$acl->profiles()->get()->pluck('id')}}');
+    $('#select-brands').change(function (e) {
+        e.preventDefault();
+        var url = this.getAttribute('data-url');
+        var brand = '/' + this.options[this.selectedIndex].value;
+        url = url + brand;
+        console.log(url);
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: {
+                _token: "{{csrf_token()}}",
+            },
+            success: function (data) {
+                console.log(data);
+                $('div#locations div div').empty();
+                $('div#devices div div').empty();
+                $('div#users div div').empty();
+                $('div#profiles div div').empty();
+                var arLocations = JSON.parse('{{$acl->locations()->get()->pluck('id')}}');
+                var arDevides = JSON.parse('{{$acl->devices()->get()->pluck('id')}}');
+                var arUsers = JSON.parse('{{$acl->users()->get()->pluck('id')}}');
+                var arProfiles = JSON.parse('{{$acl->profiles()->get()->pluck('id')}}');
 
-                    console.log(data[0]);
-                    data[0].forEach(function(item){
-                        $('div#locations div div').append('<input name="locations['+item.id+']" class="tab-function" type="checkbox" ' +((arLocations.indexOf(item.id)!=-1)?'checked':'') +
-                            '>&nbsp;&nbsp;<label>'+item.description+'</label><br>');
-                    });
+                console.log(data[0]);
+                data[0].forEach(function(item){
+                    $('div#locations div div').append('<input name="locations['+item.id+']" class="tab-function" type="checkbox" ' +((arLocations.indexOf(item.id)!=-1)?'checked':'') +
+                        '>&nbsp;&nbsp;<label>'+item.description+'</label><br>');
+                });
 
-                    console.log(data[1]);
-                    data[1].forEach(function(item){
-                        $('div#devices div div').append('<input name="devices['+item.id+']" class="tab-function" type="checkbox" ' +((arDevides.indexOf(item.id)!=-1)?'checked':'') +
-                            '>&nbsp;&nbsp;<label>'+item.description+'</label><br>');
-                    });
+                console.log(data[1]);
+                data[1].forEach(function(item){
+                    $('div#devices div div').append('<input name="devices['+item.id+']" class="tab-function" type="checkbox" ' +((arDevides.indexOf(item.id)!=-1)?'checked':'') +
+                        '>&nbsp;&nbsp;<label>'+item.description+'</label><br>');
+                });
 
-                    console.log(data[2]);
-                    console.log(arUsers);
-                    data[2].forEach(function(item){
-                        $('div#users div div').append('<input name="users['+item.id+']" class="tab-function" type="checkbox" ' + ((arUsers.indexOf(item.id)!=-1)?'checked':'') +
-                        ' >&nbsp;&nbsp;<label>'+item.name+' '+item.surname+'</label><br>');
-                    });
+                console.log(data[2]);
+                console.log(arUsers);
+                data[2].forEach(function(item){
+                    $('div#users div div').append('<input name="users['+item.id+']" class="tab-function users" type="checkbox" ' + ((arUsers.indexOf(item.id)!=-1)?'checked':'') +
+                    ' >&nbsp;&nbsp;<label>'+item.name+' '+item.surname+'</label><br>');
+                });
 
-                    console.log(data[3]);
-                    data[3].forEach(function(item){
-                        $('div#profiles div div').append('<input name="profiles['+item.id+']" class="tab-function" type="checkbox" ' +((arProfiles.indexOf(item.id)!=-1)?'checked':'') +
-                            '>&nbsp;&nbsp;<label>'+item.name+'</label><br>');
-                    });
-
-
-                }
-            });
-        })
-        $('#select-brands').change();
+                console.log(data[3]);
+                data[3].forEach(function(item){
+                    $('div#profiles div div').append('<input name="profiles['+item.id+']" class="tab-function" type="checkbox" ' +((arProfiles.indexOf(item.id)!=-1)?'checked':'') +
+                        '>&nbsp;&nbsp;<label>'+item.name+'</label><br>');
+                });
 
 
+            }
+        });
     })
+    $('#select-brands').change();
 
+    $('#clear-users').click(function(e){
+        e.preventDefault();
+        var form = $('#toast-form');
+        $('.users').removeAttr('checked');
+        console.log(form.prop('action'));
+        form.submit();
+    });
 
+})
 </script>
 @endsection

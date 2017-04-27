@@ -167,7 +167,7 @@ class AdminAclController extends Controller
         if($visibility = Acl::find($id)) {
             $this->validate($request, Acl::$rules);
 
-            $myRoots = \Auth::user()->getMyRoot();//dd($myRoots,$id,$visibility->parent_id,in_array($id,$myRoots));
+            $myRoots = \Auth::user()->getMyRoot();
             $visibility->name = $request->name;
             $visibility->description = $request->description;
             (array_search($id,$myRoots)>=0)? :$visibility->parent_id = $request->parent_id;
