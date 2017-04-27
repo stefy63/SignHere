@@ -193,12 +193,12 @@ class AdminAclController extends Controller
                     }
                 }
                 $myUsers = Acl::getMyUsers()->get();
-                if($visibility->users()->count()>0){
-                    $visibility->users()->sync(array_keys($users));
-                }
+                $visibility->users()->sync(array_keys($users));
+
                 foreach ($myUsers as $user){
-                    if($user->acls()->get()->count()<1)
+                    if($user->acls()->get()->count()<1){
                         $user->acls()->attach($myRoots[0]);
+                    }
                 }
                 DB::commit();
                 return redirect()->back()->with('success', __('admin_acls.success_acl_edit'));
