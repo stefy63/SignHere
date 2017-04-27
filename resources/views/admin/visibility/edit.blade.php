@@ -141,29 +141,39 @@
                     _token: "{{csrf_token()}}",
                 },
                 success: function (data) {
+                    console.log(data);
                     $('div#locations div div').empty();
                     $('div#devices div div').empty();
                     $('div#users div div').empty();
                     $('div#profiles div div').empty();
+                    var arLocations = JSON.parse('{{$acl->locations()->get()->pluck('id')}}');
+                    var arDevides = JSON.parse('{{$acl->devices()->get()->pluck('id')}}');
+                    var arUsers = JSON.parse('{{$acl->users()->get()->pluck('id')}}');
+                    var arProfiles = JSON.parse('{{$acl->profiles()->get()->pluck('id')}}');
 
-                    console.log(data);
+                    console.log(data[0]);
                     data[0].forEach(function(item){
-                        $('div#locations div div').append('<input name="locations['+item.id+']" class="tab-function" type="checkbox" >&nbsp;&nbsp;<label>'+item.description+'</label><br>');
+                        $('div#locations div div').append('<input name="locations['+item.id+']" class="tab-function" type="checkbox" ' +((arLocations.indexOf(item.id)!=-1)?'checked':'') +
+                            '>&nbsp;&nbsp;<label>'+item.description+'</label><br>');
                     });
 
                     console.log(data[1]);
                     data[1].forEach(function(item){
-                        $('div#devices div div').append('<input name="devices['+item.id+']" class="tab-function" type="checkbox" >&nbsp;&nbsp;<label>'+item.description+'</label><br>');
+                        $('div#devices div div').append('<input name="devices['+item.id+']" class="tab-function" type="checkbox" ' +((arDevides.indexOf(item.id)!=-1)?'checked':'') +
+                            '>&nbsp;&nbsp;<label>'+item.description+'</label><br>');
                     });
 
                     console.log(data[2]);
+                    console.log(arUsers);
                     data[2].forEach(function(item){
-                        $('div#users div div').append('<input name="users['+item.id+']" class="tab-function" type="checkbox" >&nbsp;&nbsp;<label>'+item.name+' '+item.surname+'</label><br>');
+                        $('div#users div div').append('<input name="users['+item.id+']" class="tab-function" type="checkbox" ' + ((arUsers.indexOf(item.id)!=-1)?'checked':'') +
+                        ' >&nbsp;&nbsp;<label>'+item.name+' '+item.surname+'</label><br>');
                     });
 
                     console.log(data[3]);
                     data[3].forEach(function(item){
-                        $('div#profiles div div').append('<input name="profiles['+item.id+']" class="tab-function" type="checkbox" >&nbsp;&nbsp;<label>'+item.name+'</label><br>');
+                        $('div#profiles div div').append('<input name="profiles['+item.id+']" class="tab-function" type="checkbox" ' +((arProfiles.indexOf(item.id)!=-1)?'checked':'') +
+                            '>&nbsp;&nbsp;<label>'+item.name+'</label><br>');
                     });
 
 

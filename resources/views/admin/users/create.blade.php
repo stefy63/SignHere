@@ -60,18 +60,7 @@
                         </div>
                     </div>
                 </div>
-        <!--
-                <div class="row">
-                    <div class="form-group">
-                        <div class="col-md-2 col-md-offset-1">
-                            <label for="password" >{{__('admin_users.db-password')}}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <input class="form-control" size="50" type="text" name="password" value="{{old("password")}}" />
-                        </div>
-                    </div>
-                </div>
-        -->
+
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-2 col-md-offset-1">
@@ -98,21 +87,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!--<div class="row">
-                    <div class="form-group">
-                        <div class="col-md-2 col-md-offset-1">
-                            <label for="root" >{{__('admin_users.db-root')}}</label>
-                        </div>
-                        <div class="col-md-8">
-                            <select class="form-control" name="root" >
-                               {{-- @foreach($roots as $root)
-                                    <option value="{{$root->id}}">{{$root->name}}</option>
-                                @endforeach--}}
-                            </select>
-                        </div>
-                    </div>
-                </div>-->
 
                 <div class="row">
                     <div class="form-group">

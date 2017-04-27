@@ -60,7 +60,6 @@ class AdminUserController extends Controller
         $this->validate($request, array_add(User::$rules,'password','required|alpha_num|between:5,12'));
 
         $user = new User();
-        //$root = array_pull($request,'root');
         $user->fill($request->all());
         $user->active = isset($request->active) ? 1 : 0;
         $user->api_token = str_random(60);
@@ -80,7 +79,7 @@ class AdminUserController extends Controller
      */
     public function show($id)
     {
-        //
+        return redirect()->back();
     }
 
     /**
@@ -92,13 +91,11 @@ class AdminUserController extends Controller
     public function edit($id)
     {
         if($user = User::find($id)) {
-            //$roots = Auth::user()->getMyRoot()->get();
             $profiles = Acl::getMyProfiles()->get();
 
             return view('admin.users.edit',[
                 'user' => $user,
                 'profiles' => $profiles,
-                //'roots' => $roots,
             ]);
         }
 
@@ -126,12 +123,9 @@ class AdminUserController extends Controller
             }
 
              $this->validate($request, User::$rules);
-//dd($request->all());
              $user->fill($request->all());
              $user->active = ($id == 1)? 1 :isset($request->active) ? 1 : 0;
              $user->user_id = \Auth::user()->id;
-             //if (bcrypt($user->password) != bcrypt($request->password))
-             //$user->password = bcrypt($request->password);
              $user->profile_id = $request->profile_id;
              $user->save();
 
@@ -188,7 +182,6 @@ class AdminUserController extends Controller
         if($user = User::find($request->id)) {
             $this->validate($request, User::$rules_change_pwd);
 
-            //if(bcrypt($user->password) != bcrypt($request->new_password))
             $user->password = bcrypt($request->new_password);
             $user->save();
 
