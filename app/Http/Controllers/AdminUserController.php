@@ -42,12 +42,10 @@ class AdminUserController extends Controller
      */
     public function create()
     {
-        //$roots = Auth::user()->getMyRoot()->get();
         $profiles = Acl::getMyProfiles()->get();
 
         return view('admin.users.create',[
                 'profiles' => $profiles,
-                //'roots' => $roots,
             ]);
     }
 

@@ -45,6 +45,7 @@ return [
     'db-retype_password' => 'Controllo Password',
     'db-email' => 'E-mail',
     'db-profile' => 'Profilo',
+    'db-profile_select' => 'Seleziona Almeno un Profilo.....',
     'db-root' => 'Insieme Radice',
     'db-active' => 'Attivo',
     'submit' => 'Conferma',

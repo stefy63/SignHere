@@ -90,6 +90,7 @@
                         </div>
                         <div class="col-md-8">
                             <select class="form-control" name="profile_id" >
+                                <option value="">{{__('admin_users.db-profile_select')}}</option>
                                 @foreach($profiles as $profile)
                                     <option value="{{$profile->id}}">{{$profile->name}}</option>
                                 @endforeach
