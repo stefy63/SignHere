@@ -53,6 +53,7 @@ return [
     'db-email' => 'E-mail',
     'db-active' => 'Attivo',
     'db-brand_id' => 'Azienda',
+    'db-brand_select' => 'Selezionare almeno un\'Azienda....',
     'submit' => 'Conferma',
     'success_location_create' => 'Sito Creata con successo',
     'success_location_destroy' => 'Sito Cancellata con successo',

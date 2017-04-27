@@ -23,9 +23,10 @@
                             <label for="brand_id" >{{__('admin_locations.db-brand_id')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <select class="form-control" name="brand_id">
+                            <select class="form-control" name="brand_id" >
+                                <option value="">{{__('admin_locations.db-brand_select')}}</option>
                                 @foreach($brands as $brand)
-                                 <option value="{{ $brand->id }}">{{ $brand->description}}</option>
+                                 <option value="{{ $brand->id }}" @if(old('brand_id') == $brand->id) {{ 'selected' }} @endif>{{ $brand->description}}</option>
                                 @endforeach
                             </select>
                         </div>
