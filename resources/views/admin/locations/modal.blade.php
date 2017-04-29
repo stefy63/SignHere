@@ -173,9 +173,11 @@ $(function(){
             data['brand'] = data['brand'].description;
             for(var k in data) {
                 if($('#showModal input[name="'+k+'"]').attr('type') == 'checkbox') {
-                    elem.checked = (data[k] == 1)? true:false;
+                    $(elem).prop('disabled', false);
+                    $(elem).prop('checked',(data[k] == 1)? true:false);
                     switchery.setAttributes('checked',(data[k] == 1)? true:false);
                     switchery.handleOnchange(true);
+                    $(elem).prop('disabled', true);
                 } else {
                     $('#showModal input[name="'+k+'"]').val(data[k]);
                 }

@@ -73,7 +73,7 @@
                                 <label for="active" >{{__('admin_modules.db-active')}}</label>
                             </div>
                             <div class="col-md-7 col-md-offset-2">
-                                <input class="js-switch-modal form-control" type="checkbox" data-switchery="true" name="active" value="1" @if(old("active") == 1) checked @endif style="display: none;" disabled />
+                                <input class="js-switch-modal form-control" type="checkbox" data-switchery="true" name="active" checked style="display: none;" disabled />
                             </div>
                         </div>
                     </div>
@@ -110,9 +110,11 @@ $(function(){
                 }
 
                 if ($('#showModal input[name="' + k + '"]').attr('type') == 'checkbox') {
-                    elem.checked = (data[k] == 1) ? true : false;
-                    switchery.setAttributes('checked', (data[k] == 1) ? true : false);
+                    $(elem).prop('disabled', false);
+                    $(elem).prop('checked',(data[k] == 1)? true:false);
+                    switchery.setAttributes('checked',(data[k] == 1)? true:false);
                     switchery.handleOnchange(true);
+                    $(elem).prop('disabled', true);
                 } else {
                     $('#showModal input[name="' + k + '"]').val(data[k]);
                 }
