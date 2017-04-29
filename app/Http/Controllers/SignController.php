@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Acl;
 use App\Models\Document;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SignController extends Controller
 {
@@ -25,15 +26,43 @@ class SignController extends Controller
      */
     public function index()
     {
-        $documents = Acl::getMyClients()->first()->dossiers()->first()->documents()->get();
-
-        $documents = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
+        //dd(storage_path(env('DRIVE_DOCUMENT','app/public').'/documents'),asset('storage').'/documents');
+        /*$clients = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
             $qDossier->whereHas('documents', function($qDocument){
                 $qDocument->where('signed',false);
             });
-        });
+        })->where('active',true)->paginate(10);*/
 
-        dd($documents->where('active',true)->first()->dossiers()->first()->documents()->where('active',true)->get());
+
+        $clients = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
+            $qDossier->whereExists(function($qDocument){
+                $qDocument->select(DB::raw(1))
+                    ->from('documents')
+                    ->whereRaw('documents.dossier_id = dossiers.id')
+                    ->where('signed',false)
+                    ->whereNull('deleted_at');
+            });
+        })->where('active',true)->paginate(10);
+
+        $archives = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
+            $qDossier->whereNotExists(function($qDocument){
+                $qDocument->select(DB::raw(1))
+                    ->from('documents')
+                    ->whereRaw('documents.dossier_id = dossiers.id')
+                    ->where('signed',false)
+                    ->whereNull('deleted_at');
+            });
+        })->where('active',true)->paginate(10);
+
+
+
+
+        //dd($archives);
+
+        return view('frontend.sign.index',[
+            'archives' => $archives,
+            'clients' => $clients,
+        ]);
     }
 
     /**

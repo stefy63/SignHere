@@ -26,4 +26,8 @@ class Client extends Model
     public function dossiers() {
         return $this->hasMany(Dossier::class);
     }
+
+    public function documents() {
+        return $this->hasMany(Dossier::class)->with('documents');
+    }
 }

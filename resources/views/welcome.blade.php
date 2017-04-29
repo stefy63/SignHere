@@ -83,7 +83,8 @@
                 <div class="title m-b-md">
                     
                     Sign Here
-                </div>@yield('content')
+                </div>
+                @yield('content')
             </div>
         </div>
     </body>

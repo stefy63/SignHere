@@ -1,4 +1,4 @@
-@extends('frontend.front')
+@extends('login')
 
 @section('content')
 <div class="container">

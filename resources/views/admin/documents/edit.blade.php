@@ -148,7 +148,7 @@
                             <label for="filename" >{{__('admin_documents.db-filename')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <a href="{{asset('storage')}}/documents/{{$document->filename}}">
+                            <a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank">
                             <label class="form-control" >{{$document->filename}}</label></a>
                         </div>
                     </div>

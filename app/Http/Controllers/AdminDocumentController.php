@@ -108,6 +108,8 @@ class AdminDocumentController extends Controller
             $document->fill($request->except('client_id'));
             $document->user_id = Auth::user()->id;
             $document->active = isset($request->active) ? 1 : 0;
+            $document->signed = isset($request->signed) ? 1 : 0;
+            $document->readonly = isset($request->readonly) ? 1 : 0;
 
             if($file->isValid() && $path = $file->store($request->client_id."/".$request->dossier_id,'documents')){
                 $document->filename = $path;
@@ -162,6 +164,8 @@ class AdminDocumentController extends Controller
             $document->fill($request->except('client_id'));
             $document->user_id = Auth::user()->id;
             $document->active = isset($request->active) ? 1 : 0;
+            $document->signed = isset($request->signed) ? 1 : 0;
+            $document->readonly = isset($request->readonly) ? 1 : 0;
             $document->save();
 
             return redirect()->back()->with('success', __('admin_documents.success_document_update'));

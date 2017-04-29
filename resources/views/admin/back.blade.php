@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div id="wrapper">
+    <div id="wrapper full-height">
  
         @if(Auth::check())
             <!-- Section menu -->
