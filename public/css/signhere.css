@@ -31,3 +31,7 @@
 .half-height {
     height: 44vh;
 }
+
+.text-line-through {
+    text-decoration: line-through;
+}

@@ -5,12 +5,15 @@
     <div class="col-lg-12">
         <div class="ibox float-e-margins col-lg-12">
             <div class="ibox-content col-lg-12">
-                <div class="col-lg-4 full-height">
+                <div class="col-lg-5 full-height">
                     <div class="ibox-title">
                         <h5>{{__('sign.archive-title')}}</h5>
+                        <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                            <input type="search" class="form-control input-sm" placeholder="Search..." aria-controls="DataTables_Table_2">
+                        </div>
                     </div>
                     <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                        <table class="table table-bordered table-hover" >
+                        <table class="table table-bordered table-hover" id="DataTables_Table_2">
                             <thead>
                                 <tr role="row">
                                     <th class="col-md-5">{{__('sign.index-header-col-0')}}</th>
@@ -31,8 +34,10 @@
                                 </tr>
                                 @foreach($dossier->documents()->get() as $document)
                                 <tr class="bg-success tr-document document-{{$dossier->id}}"  data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
-                                    <td colspan="2">{{$document->name}}</td>
-                                    <td class="pull-right"><a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a></td>
+                                    <td colspan="3" @if($document->signed)class="text-line-through text-danger"@endif>{{$document->name}}
+                                    <div class="pull-right">
+                                        @if(!$document->readonly)<a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a>@endif
+                                    </div>
                                 </tr>
                                 @endforeach
                                 @endforeach
@@ -42,7 +47,7 @@
                     </div>
                     <div class="pull-right">{{ $archives->links() }}</div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-7">
                     <div class="ibox-title">
                         <h5>{{__('sign.sign-title')}}</h5>
                     </div>
@@ -68,8 +73,10 @@
                                 </tr>
                                 @foreach($dossier->documents()->get() as $document)
                                 <tr class="bg-success tr-document document-{{$dossier->id}}" data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
-                                    <td colspan="2">{{$document->name}}</td>
-                                    <td class="pull-right"><a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a></td>
+                                    <td colspan="3" @if($document->signed)class="text-line-through text-danger"@endif>{{$document->name}}
+                                    <div class="pull-right">
+                                        @if(!$document->readonly)<a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a>@endif
+                                    </div>
                                 </tr>
                                 @endforeach
                                 @endforeach
@@ -122,6 +129,11 @@ $(function () {
 
     });
 
+    $('.tr-document').dblclick(function(e){
+        e.stopPropagation();
+        alert('procedura di firma digitale');
+
+    });
     $('div').click(function(e){
         //e.preventDefault();
         $('.tr-dossier').hide(500);
