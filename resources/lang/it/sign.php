@@ -39,7 +39,7 @@ return [
     '' => '',
     '' => '',
     '' => '',
-    '' => '',
+    'confirm_delete' => 'Cancellazione del Documento',
     '' => '',
     '' => '',
     '' => '',

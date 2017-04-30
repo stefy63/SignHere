@@ -130,4 +130,15 @@ class SignController extends Controller
     {
         //
     }
+
+    /**
+     * Sign the specified document.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function signing($id)
+    {
+        dd($id);
+    }
 }
