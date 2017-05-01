@@ -10,6 +10,7 @@ use App\Models\Dossier;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
 use Mockery\Exception;
 use Illuminate\Support\Facades\Auth;
 
@@ -103,6 +104,9 @@ class AdminDocumentController extends Controller
      */
     public function store(Request $request)
     {
+
+        $this->validate($request, Document::$rules);
+
         if ($file = $request->filename) {
             $document = new Document();
             $document->fill($request->except('client_id'));
@@ -160,12 +164,21 @@ class AdminDocumentController extends Controller
      */
     public function update(Request $request, Document $document, $id)
     {
+
+        $this->validate($request, Document::$rules);
+
         if ($document = Document::find($id)){
-            $document->fill($request->except('client_id'));
+            $document->fill($request->except(['client_id','filename']));
             $document->user_id = Auth::user()->id;
             $document->active = isset($request->active) ? 1 : 0;
             $document->signed = isset($request->signed) ? 1 : 0;
             $document->readonly = isset($request->readonly) ? 1 : 0;
+            if ($file = $request->filename) {
+                if ($file->isValid() && $path = $file->store($request->client_id . "/" . $request->dossier_id, 'documents')) {
+                    Storage::disk('documents')->move($document->filename,'.trash/'.$document->name);
+                    $document->filename = $path;
+                }
+            }
             $document->save();
 
             return redirect()->back()->with('success', __('admin_documents.success_document_update'));
@@ -199,6 +212,7 @@ class AdminDocumentController extends Controller
                         $doc->user_id = \Auth::user()->id;
                         $doc->save();
                     } else {
+                        \DB::rollBack();
                         return response()->json([
                             'error' => true,
                             'message' => __("admin_documents.notify_alert_filesystem"),
@@ -234,6 +248,7 @@ class AdminDocumentController extends Controller
     public function destroy(Document $document, $id)
     {
         if ($document = Document::find($id)){
+            Storage::disk('documents')->move($document->filename,'.trash/'.$document->name);
             $document->delete();
 
             return response()->json([ __('admin_documents.success_document_deleted')],200);

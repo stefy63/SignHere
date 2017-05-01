@@ -21,7 +21,7 @@
         <div class="links text-right">
             @if (Auth::check())
                 @if(Auth::user()->isAdmin())
-                    <a href="{{ url('admin') }}">Admin</a>
+                    <a class="pull-left" href="{{ url('admin') }}">Admin</a>
                 @endif
                 <a href="{{ url('home') }}">Home</a>
                 <a href="{{ url('logout') }}">Logout</a>
@@ -33,6 +33,7 @@
     @endif
 
     <div class="content">
+        <!-- Section Container -->
         @yield('content')
     </div>
     <div class="footer">
@@ -40,7 +41,7 @@
         @include('layouts.footer')
     </div>
 </div>
-<!-- Section Java Script -->
-@include('layouts.script')
+    <!-- Section Java Script -->
+    @include('layouts.script')
 </body>
 </html>

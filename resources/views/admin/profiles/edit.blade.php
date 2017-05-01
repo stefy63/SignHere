@@ -49,8 +49,9 @@
                                                 <span class="input-group-addon">
                                                     <input name="permission[{{$module->id}}][{{$function}}]" class="tab-function" type="checkbox" @if(str_contains($permission,$function) || $permission == "ALL") checked @endif>
                                                 </span>
-                                                <!--<input type="text" class="form-control" value="{{__('admin_profiles.crud-'.$function)}}" disabled />-->
-                                                <label class="form-control"><i>{{__('admin_profiles.crud-'.$function)}}</i></label>
+                                                <!--<input type="text" class="form-control" value="{{__('admin_profiles.crud-'.$function)}}" disabled />
+                                                <label class="form-control"><i>{{__('admin_profiles.crud-'.$function)}}</i></label>-->
+                                                <label class="form-control"><i>{{__($module->short_name.'.crud-'.$function)}}</i></label>
                                             </div>
                                         @endforeach
                                         <!--<div class="input-group m-b">

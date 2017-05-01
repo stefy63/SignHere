@@ -1,22 +1,20 @@
 @extends('frontend.front')
 @push('assets')
 <style>
-#table-clients tr {
+#table-clients tbody tr {
     width: 100%;
-    display: inline-table;
+    display: table;
     table-layout: fixed;
 }
 
 #table-clients table{
-    #width: 100%;
-    #height:300%;
+    width: 30vh;
     display: -moz-groupbox;
 }
 
 #table-clients tbody{
     overflow-y: scroll;
-    height: 70%;
-    #width: 90%;
+    height: 30vh;
     position: absolute;
 }
 </style>
@@ -34,9 +32,9 @@
                         </div>
                     </div>
                     <div>
-                        <table class="table table-bordered table-hover" >
+                        <table class="table table-bordered table-hover">
                             <thead>
-                                <tr role="row">
+                                <tr>
                                     <th class="col-md-5">{{__('sign.index-header-col-0')}}</th>
                                     <th class="col-md-2">{{__('sign.index-header-col-1')}}</th>
                                     <th class="col-md-5">{{__('sign.index-header-col-2')}}</th>
@@ -45,16 +43,16 @@
                             <tbody>
                             @foreach($archives as $archive)
                                 <tr class="bg-info tr-client" id="{{$archive->id}}">
-                                    <td>{{$archive->surname}}&nbsp;{{$archive->name}}</td>
-                                    <td>@if($archive->mobile){{$archive->mobile}}@else{{$archive->phone}}@endif</td>
-                                    <td>{{$archive->email}}</td>
+                                    <td class="col-md-5">{{$archive->surname}}&nbsp;{{$archive->name}}</td>
+                                    <td class="col-md-2">@if($archive->mobile){{$archive->mobile}}@else{{$archive->phone}}@endif</td>
+                                    <td class="col-md-5">{{$archive->email}}</td>
                                 </tr>
                                 @foreach($archive->dossiers()->get() as $dossier)
-                                <tr class="bg-warning tr-dossier dossier-{{$archive->id}}" data-dossier="{{$dossier->id}}"  id="{{$dossier->id}}" style="display: none">
+                                <tr class="col-md-2 bg-warning tr-dossier dossier-{{$archive->id}}" data-dossier="{{$dossier->id}}"  id="{{$dossier->id}}" style="display: none">
                                     <td colspan="3">{{$dossier->name}}</td>
                                 </tr>
                                     @foreach($dossier->documents()->get() as $document)
-                                    <tr class="bg-success tr-document document-{{$dossier->id}}"  data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
+                                    <tr class="col-md-5 bg-success tr-document document-{{$dossier->id}}"  data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
                                         <td colspan="3" @if($document->signed)class="text-line-through text-danger"@endif>{{$document->name}}
                                         <div class="pull-right">
                                             <a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a>
@@ -72,7 +70,7 @@
                     <div class="ibox-title">
                         <h5>{{__('sign.sign-title')}}</h5>
                     </div>
-                    <div >
+                    <div>
                         <table class="table table-bordered table-hover" id="table-clients" >
                             <thead>
                                 <tr role="row">
@@ -84,9 +82,9 @@
                             <tbody>
                             @foreach($clients as $client)
                                 <tr class="bg-info tr-client" id="{{$client->id}}">
-                                    <td>{{$client->surname}}&nbsp;{{$client->name}}</td>
-                                    <td>@if($client->mobile){{$client->mobile}}@else{{$client->phone}}@endif</td>
-                                    <td>{{$client->email}}</td>
+                                    <td class="col-md-5">{{$client->surname}}&nbsp;{{$client->name}}</td>
+                                    <td class="col-md-2">@if($client->mobile){{$client->mobile}}@else{{$client->phone}}@endif</td>
+                                    <td class="col-md-5">{{$client->email}}</td>
                                 </tr>
                                 @foreach($client->dossiers()->get() as $dossier)
                                 <tr class="bg-warning tr-dossier dossier-{{$client->id}}" data-dossier="{{$dossier->id}}" id="{{$dossier->id}}" style="display: none">
@@ -113,7 +111,43 @@
                     <div class="ibox-title">
                         <h5>{{__('sign.last-title')}}</h5>
                     </div>
-
+                    <div>
+                        <table class="table table-bordered table-hover" id="table-clients" >
+                            <thead>
+                                <tr role="row">
+                                    <th class="col-md-5">{{__('sign.index-header-col-0')}}</th>
+                                    <th class="col-md-2">{{__('sign.index-header-col-1')}}</th>
+                                    <th class="col-md-5">{{__('sign.index-header-col-2')}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($clients as $client)
+                                <tr class="bg-info tr-client" id="{{$client->id}}">
+                                    <td class="col-md-5">{{$client->surname}}&nbsp;{{$client->name}}</td>
+                                    <td class="col-md-2">@if($client->mobile){{$client->mobile}}@else{{$client->phone}}@endif</td>
+                                    <td class="col-md-5">{{$client->email}}</td>
+                                </tr>
+                                @foreach($client->dossiers()->get() as $dossier)
+                                <tr class="bg-warning tr-dossier dossier-{{$client->id}}" data-dossier="{{$dossier->id}}" id="{{$dossier->id}}" style="display: none">
+                                    <td colspan="3">{{$dossier->name}}</td>
+                                </tr>
+                                    @foreach($dossier->documents()->get() as $document)
+                                    <tr class="bg-success tr-document document-{{$dossier->id}}" data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
+                                        <td colspan="3" @if($document->signed)class="text-line-through text-danger"@endif>{{$document->name}}
+                                        <div class="pull-right">
+                                            <a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <a data-message="{{__('sign.confirm_delete')}}" data-location="{{url('sign/destroy/'.$document->id)}}" class="confirm-toast"><i class="fa fa-trash-o text-danger"></i></a>
+                                        </div>
+                                    </tr>
+                                    @endforeach
+                                @endforeach
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pull-right">{{ $clients->links() }}</div>
+                </div>
                 </div>
             </div>
         </div>
@@ -161,8 +195,9 @@ $(function () {
         console.log(location);
         window.location.replace(location)
     });
-    $('div').click(function(e){
-        //e.preventDefault();
+
+    $('.content').click(function(e){
+        e.preventDefault();
         $('.tr-dossier').hide(500);
         $('.tr-document').hide(500);
     });

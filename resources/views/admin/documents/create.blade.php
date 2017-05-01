@@ -149,7 +149,7 @@
                             <label for="filename" >{{__('admin_documents.db-filename')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <input type="file" name="filename" />
+                            <input type="file" name="filename" accept=".pdf"/>
                         </div>
                     </div>
                 </div>

@@ -22,7 +22,7 @@
             </div>
             <hr>
 
-            <form method="POST" action="{{ route('admin_documents.update',['id' => $document->id]) }}" id="toast-form">
+            <form method="POST" action="{{ route('admin_documents.update',['id' => $document->id]) }}" id="toast-form" enctype="multipart/form-data">
             {!! csrf_field() !!}{{ method_field('PUT') }}
 
                 <div class="row">
@@ -141,15 +141,19 @@
                         </div>
                     </div>
                 </div>
+                <br>
 
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-2 col-md-offset-1">
                             <label for="filename" >{{__('admin_documents.db-filename')}}</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-5">
                             <a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank">
                             <label class="form-control" >{{$document->filename}}</label></a>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="file" name="filename" accept=".pdf" />
                         </div>
                     </div>
                 </div>

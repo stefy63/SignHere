@@ -6,6 +6,7 @@ use App\Models\Acl;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class SignController extends Controller
 {
@@ -128,7 +129,7 @@ class SignController extends Controller
      */
     public function destroy($id)
     {
-        //
+        echo "DESTROY --> ".$id;
     }
 
     /**
@@ -139,6 +140,15 @@ class SignController extends Controller
      */
     public function signing($id)
     {
-        dd($id);
+        if($document = Document::find($id)){
+            if(!Storage::disk('documents')->exists($document->filename)){
+                return redirect()->back()->with('alert',__('sign.sign_file_NOTFound'));
+            }
+            return view('frontend.sign.sign',[
+                'document' => $document,
+            ]);
+        }
+        return redirect()->back()->with('alert',__('sign.sign_document_NOTFound'));
+
     }
 }

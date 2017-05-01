@@ -11,6 +11,7 @@
 $(function () {
 
     Dropzone.options.myAwesomeDropzone = {
+        acceptedFiles: "application/pdf",
         autoProcessQueue: false,
         uploadMultiple: true,
         parallelUploads: 10,
