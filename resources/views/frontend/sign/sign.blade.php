@@ -26,11 +26,11 @@
                   &nbsp; &nbsp;
                   <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
                 </div>
-                <div style="height: 200px;">
+                <div style="height: 200px;"> class="pull-right"
 
                     <canvas id="canvas" width="200px" height="100px"></canvas>
 
-                    <object id="sigCtl1" style="width:60mm;height:35mm"
+                    <object id="sigCtl1" style="width:80mm;height:345mm"
                             type="application/x-florentis-signature">
                     </object>
                      <div  style="padding: 10px 50px;">
@@ -38,10 +38,10 @@
                         title="Starts signature capture" />
                      </div>
                 </div>
-                <br/>
-                <textarea cols="125" rows="15" id="txtDisplay"></textarea>
-                <br/>
-                <textarea cols="125" rows="15" id="txtSignature"></textarea>
+                <div class="pull-right">
+                    <br/>
+                    <textarea cols="30" rows="10" id="txtSignature"></textarea>
+                </div>
             </div>
         </div>
     </div>
@@ -68,8 +68,8 @@ $(function () {
         // Using promise to fetch the page
         pdfDoc.getPage(num).then(function(page) {
             var viewport = page.getViewport(scale);
-            //canvas.height = viewport.height;
-            //canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
             //canvas.height = '500px';
             //canvas.width = '500px';
 
