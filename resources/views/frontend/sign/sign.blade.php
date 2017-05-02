@@ -134,18 +134,13 @@
             </div>
             <hr>
             <div class="ibox-content col-lg-12">
-                <div style="height: 500px;overflow-y: auto" class="pull-left col-lg-6">
-
-                  <button id="prev" class="col-lg-6">Previous</button>
-                  <button id="next" class="col-lg-6">Next</button>
-                  &nbsp; &nbsp;
-                  <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
-
-
-                    <canvas id="pdf-canvas" class="pull-left" ></canvas>
-
+                <div class="pull-left col-lg-8">
+                    <button id="prev" class="col-lg-5 pull-left">Previous</button>
+                    <div class="col-lg-2 text-center"><span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div>
+                    <button id="next" class="col-lg-5 pull-right">Next</button>
                 </div>
-                <div class="pull-right col-lg-6">
+
+                <div class="pull-right col-lg-4">
                     <div>
                         <h2>Test Signature Control</h2>
                         <div id="not_ie_warning" style="display:none">
@@ -184,6 +179,12 @@
                         <textarea cols="50" rows="15" id="txtDisplay"></textarea>
                     </div>
                 </div>
+
+                <div style="height: 70vh;overflow: auto" class="pull-left col-lg-8">
+
+                    <canvas id="pdf-canvas"></canvas>
+
+                </div>
             </div>
         </div>
     </div>
@@ -197,7 +198,7 @@ $(function () {
         pageNum = 1,
         pageRendering = false,
         pageNumPending = null,
-        scale = 0.8,
+        scale = 1.5,
         canvas = document.getElementById('pdf-canvas'),
         ctx = canvas.getContext('2d');
 
