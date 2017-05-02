@@ -58,6 +58,14 @@ return [
     'sign_file_NOTFound' => 'File non Trovato o inesistente',
     'sign_document_NOTFound' => 'Documento non Trovato',
     '' => '',
+    'sign_proc_success_title' => 'Procedura di Firma',
+    'sign_proc_success' => 'Documento firmato con successo',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
+    '' => '',
 
 
 

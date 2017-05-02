@@ -24,6 +24,7 @@ class CreateDocumentsTable extends Migration
             $table->integer('dossier_id')->unsigned();
             $table->boolean('signed')->default(false);
             $table->boolean('readonly')->default(false);
+            $table->timestamp('date_sign')->default(null)->nullable();
             $table->integer('user_id')->unsigned();
             $table->boolean('active')->default(true);
             $table->timestamps();

@@ -19,6 +19,7 @@ class CreateDoctypesTable extends Migration
             $table->string('description')->nullable();
             $table->string('template')->nullable();
             $table->integer('user_id')->unsigned();
+            $table->boolean('single_sign')->default(true);
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();

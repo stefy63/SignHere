@@ -13,7 +13,13 @@
             var dc = new ActiveXObject("Florentis.DynamicCapture");
             var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}");
             if(rc != 0 )
+                toastr['success']("{{__('sign.sign_proc_success')}}", "{{__('sign.sign_proc_success_title')}}");
                 print("Capture returned: " + rc);
+
+                flags = 0x2000 + 0x80000 + 0x400000; //SigObj.outputBase64 | SigObj.color32BPP | SigObj.encodeData
+                b64 = sigCtl.Signature.RenderBitmap("", 300, 150, "image/png", 0.5, 0xff0000, 0xffffff, 0.0, 0.0, flags );
+
+                addSign64(b64);
             switch( rc ) {
                 case 0: // CaptureOK
                     print("Signature captured successfully");
@@ -114,7 +120,6 @@
     }
 
 
-    /////////////// JSPDF
 
 
 </script>
@@ -288,6 +293,18 @@ $(function () {
 ////////// WACOM
 
     OnLoad();
+
+/////////////// JSPDF
+
+    function addSign64(imgData) {
+        var doc = new jspdf();
+
+
+
+    }
+
+
+
 })
     
 </script>

@@ -29,15 +29,11 @@ class Document extends Model
         return $this->belongsTo(Dossier::class);
     }
 
-    public function getDateDocAttribute($value)
-    {
-        return $this->__getData($value);
-    }
+    public function getDateDocAttribute($value){return $this->__getData($value);}
+    public function setDateDocAttribute($value){$this->attributes['date_doc'] = $this->__setData($value);}
 
-    public function setDateDocAttribute($value)
-    {
-        $this->attributes['date_doc'] = $this->__setData($value);
-    }
+    public function getDateSignAttribute($value){return $this->__getData($value);}
+    public function setDateSignAttribute($value){$this->attributes['date_doc'] = $this->__setData($value);}
 
     private function __getData($data)
     {
