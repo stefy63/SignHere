@@ -2,6 +2,8 @@
 @push('scripts')
 <script src="{{ asset('js/pdf.js') }}"></script>
 <script src="{{ asset('js/compatibility.js') }}"></script>
+
+<script src="{{ asset('js/jspdf.min.js') }}"></script>
 @endpush
 @section('content')
 <div class="row">
@@ -18,25 +20,28 @@
             </div>
             <hr>
             <div class="ibox-content col-lg-12">
-                <!--<iframe src="{{ asset('storage')}}/documents/{{$document->filename}}" width="500" height="700"></iframe>
-                <div id="pdf" class="col-lg-10">
-                  <object width="80%" height="700px" type="application/pdf" data="{{ asset('storage')}}/documents/{{$document->filename}}" id="pdf_content">
-                    <p>ERROR. Object not found</p>
-                  </object>-->
-                    <div>
-                      <button id="prev">Previous</button>
-                      <button id="next">Next</button>
-                      &nbsp; &nbsp;
-                      <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
-                    </div>
-                    <canvas id="canvas"></canvas>
+                <div>
+                  <button id="prev">Previous</button>
+                  <button id="next">Next</button>
+                  &nbsp; &nbsp;
+                  <span>Page: <span id="page_num"></span> / <span id="page_count"></span></span>
                 </div>
-                    <object id="SigCtl" style="width:'80mm';height:'62mm'"
-                        classid="clsid:F5DC9DFE-FD38-4455-A783-4B3F31B2D229"
-                        codebase="wgssSig.cab">Unable to install/load Wacom Signature Components
-                    </object>
+                <div style="height: 200px;">
 
-                <input type="button" onclick="btn_onclick()" value="Click!"/>
+                    <canvas id="canvas" width="200px" height="100px"></canvas>
+
+                    <object id="sigCtl1" style="width:60mm;height:35mm"
+                            type="application/x-florentis-signature">
+                    </object>
+                     <div  style="padding: 10px 50px;">
+                        <input type="button" value="Sign" style="height:10mm;width:35mm" onclick="Capture()"
+                        title="Starts signature capture" />
+                     </div>
+                </div>
+                <br/>
+                <textarea cols="125" rows="15" id="txtDisplay"></textarea>
+                <br/>
+                <textarea cols="125" rows="15" id="txtSignature"></textarea>
             </div>
         </div>
     </div>
@@ -44,7 +49,7 @@
 
 <script>
 $(function () {
-
+///////// PDFJS
     var url = '{{ asset('storage')}}/documents/{{$document->filename}}';
     var pdfDoc = null,
         pageNum = 1,
@@ -63,8 +68,10 @@ $(function () {
         // Using promise to fetch the page
         pdfDoc.getPage(num).then(function(page) {
             var viewport = page.getViewport(scale);
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
+            //canvas.height = viewport.height;
+            //canvas.width = viewport.width;
+            //canvas.height = '500px';
+            //canvas.width = '500px';
 
             // Render PDF page into canvas context
             var renderContext = {
@@ -135,24 +142,78 @@ $(function () {
         renderPage(pageNum);
     });
 
+////////// WACOM
+    try {
+          print("CLEAR");
+          var sigCtl = document.getElementById("sigCtl1");
+          sigCtl.BackStyle = 1;
+          sigCtl.DisplayMode=0; // fit signature to control
+          print("Checking components...");
+          var sigcapt = new ActiveXObject('Florentis.DynamicCapture');  // force 'can't create object' error if components not yet installed
+          var lic = new ActiveXObject("Wacom.Signature.Licence");
+          print("DLL: Licence.dll   v" + lic.GetProperty("Component_FileVersion"));
+          print("DLL: flSigCOM.dll  v" +   sigCtl.GetProperty("Component_FileVersion"));
+          print("DLL: flSigCapt.dll v" + sigcapt.GetProperty("Component_FileVersion"));
+          print("Test application ready.");
+          print("Press 'Sign' to capture a signature.");
+        }
+        catch(ex) {
+          Exception("OnLoad() error: " + ex.message);
+        }
 
-    function btn_onclick() {
+        var Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA';
+
+        function Capture() {
         try {
-          var sigCtl = document.getElementById("SigCtl");
-
-          sigCtl.AboutBox();
+          print("Capturing signature...");
+          var sigCtl = document.getElementById("sigCtl1");
+          SigCtl.Licence = Licence;
+          var dc = new ActiveXObject("Florentis.DynamicCapture");
+          var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->name}}");
+          if(rc != 0 )
+            print("Capture returned: " + rc);
+          switch( rc ) {
+            case 0: // CaptureOK
+              print("Signature captured successfully");
+              var txtSignature = document.getElementById("txtSignature");
+              flags = 0x2000 + 0x80000 + 0x400000; //SigObj.outputBase64 | SigObj.color32BPP | SigObj.encodeData
+              b64 = sigCtl.Signature.RenderBitmap("", 300, 150, "image/png", 0.5, 0xff0000, 0xffffff, 0.0, 0.0, flags );
+              txtSignature.value=b64;
+              var imgSrcData = "data:image/png;base64,"+b64;
+              document.getElementById("b64image").src=imgSrcData;
+              break;
+            case 1: // CaptureCancel
+              print("Signature capture cancelled");
+              break;
+            case 100: // CapturePadError
+              print("No capture service available");
+              break;
+            case 101: // CaptureError
+              print("Tablet Error");
+              break;
+            case 102: // CaptureIntegrityKeyInvalid
+              print("The integrity key parameter is invalid (obsolete)");
+              break;
+            case 103: // CaptureNotLicensed
+              print("No valid Signature Capture licence found");
+              break;
+            case 200: // CaptureAbort
+              print("Error - unable to parse document contents");
+              break;
+            default:
+              print("Capture Error " + rc);
+              break;
+          }
         }
-        catch (e) {
-          alert(e);
-        }
-    }
-
-    function detect_ActiveX() {
-      if(typeof(window.ActiveXObject)=="undefined"){
-            alert("ActiveX is not supported by this browser!");
+        catch(ex) {
+          Exception("Capture() error: " + ex.message);
         }
       }
-    detect_ActiveX();
+
+/////////////// JSPDF
+
+
+
 })
     
 </script>
