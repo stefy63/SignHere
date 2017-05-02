@@ -4,6 +4,121 @@
 <script src="{{ asset('js/compatibility.js') }}"></script>
 
 <!--<script src="{{ asset('js/jspdf.min.js') }}"></script>-->
+<script>
+
+    var Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA';
+    function Capture() {
+        try {
+            print("Capturing signature...");
+            var sigCtl = document.getElementById("sigCtl1");
+            var dc = new ActiveXObject("Florentis.DynamicCapture");
+            var rc = dc.Capture(sigCtl, "who", "why");
+            if(rc != 0 )
+                print("Capture returned: " + rc);
+            switch( rc ) {
+                case 0: // CaptureOK
+                    print("Signature captured successfully");
+                    break;
+                case 1: // CaptureCancel
+                    print("Signature capture cancelled");
+                    break;
+                case 100: // CapturePadError
+                    print("No capture service available");
+                    break;
+                case 101: // CaptureError
+                    print("Tablet Error");
+                    break;
+                case 102: // CaptureIntegrityKeyInvalid
+                    print("The integrity key parameter is invalid (obsolete)");
+                    break;
+                case 103: // CaptureNotLicensed
+                    print("No valid Signature Capture licence found");
+                    break;
+                case 200: // CaptureAbort
+                    print("Error - unable to parse document contents");
+                    break;
+                default:
+                    print("Capture Error " + rc);
+                    break;
+            }
+        }
+        catch(ex) {
+            Exception("Capture() error: " + ex.message);
+        }
+    }
+
+    function DisplaySignatureDetails() {
+        try {
+            var sigCtl = document.getElementById("sigCtl1");
+            if (sigCtl.Signature.IsCaptured) {
+                print("Signature Information:");
+                print("  Name:   " + sigCtl.Signature.Who);
+                print("  Date:   " + sigCtl.Signature.When);
+                print("  Reason: " + sigCtl.Signature.Why);
+            }
+            else
+            {
+                print("No signature captured");
+            }
+        }
+        catch(ex) {
+            Exception("DisplaySignatureDetails() error: " + ex.message);
+        }
+    }
+
+    function AboutBox() {
+        try {
+            var sigCtl = document.getElementById("sigCtl1");
+            sigCtl.AboutBox();
+        }
+        catch(ex) {
+            Exception("About() error: " + ex.message);
+        }
+    }
+
+    function Exception(txt) {
+        print("Exception: " + txt);
+    }
+    function print(txt) {
+        var txtDisplay = document.getElementById("txtDisplay");
+        if(txt == "CLEAR" )
+            txtDisplay.value = "";
+        else {
+            txtDisplay.value += txt + "\n";
+            txtDisplay.scrollTop = txtDisplay.scrollHeight; // scroll to end
+        }
+    }
+
+    function OnLoad() {
+        try {
+            if( !("ActiveXObject" in window) ) {
+                document.getElementById("not_ie_warning").style.display="block";
+                return;
+            }
+            print("CLEAR");
+            var sigCtl = document.getElementById("sigCtl1");
+            //sigCtl.SetProperty("Licence","licence string");
+            sigCtl.BackStyle = 1;
+            sigCtl.DisplayMode=0; // fit signature to control
+            print("Checking components...");
+            var sigcapt = new ActiveXObject('Florentis.DynamicCapture');  // force 'can't create object' error if components not yet installed
+            var lic = new ActiveXObject("Wacom.Signature.Licence");
+            print("DLL: Licence.dll   v" + lic.GetProperty("Component_FileVersion"));
+            print("DLL: flSigCOM.dll  v" +   sigCtl.GetProperty("Component_FileVersion"));
+            print("DLL: flSigCapt.dll v" + sigcapt.GetProperty("Component_FileVersion"));
+            print("Test application ready.");
+            print("Press 'Start' to capture a signature.");
+        }
+        catch(ex) {
+            Exception("OnLoad() error: " + ex.message);
+        }
+    }
+
+
+    /////////////// JSPDF
+
+
+</script>
 @endpush
 @section('content')
 <div class="row">
@@ -172,119 +287,7 @@ $(function () {
 
 ////////// WACOM
 
-    var Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA';
-    function Capture() {
-        try {
-            print("Capturing signature...");
-            var sigCtl = document.getElementById("sigCtl1");
-            var dc = new ActiveXObject("Florentis.DynamicCapture");
-            var rc = dc.Capture(sigCtl, "who", "why");
-            if(rc != 0 )
-                print("Capture returned: " + rc);
-            switch( rc ) {
-                case 0: // CaptureOK
-                    print("Signature captured successfully");
-                    break;
-                case 1: // CaptureCancel
-                    print("Signature capture cancelled");
-                    break;
-                case 100: // CapturePadError
-                    print("No capture service available");
-                    break;
-                case 101: // CaptureError
-                    print("Tablet Error");
-                    break;
-                case 102: // CaptureIntegrityKeyInvalid
-                    print("The integrity key parameter is invalid (obsolete)");
-                    break;
-                case 103: // CaptureNotLicensed
-                    print("No valid Signature Capture licence found");
-                    break;
-                case 200: // CaptureAbort
-                    print("Error - unable to parse document contents");
-                    break;
-                default:
-                    print("Capture Error " + rc);
-                    break;
-            }
-        }
-        catch(ex) {
-            Exception("Capture() error: " + ex.message);
-        }
-    }
-
-    function DisplaySignatureDetails() {
-        try {
-            var sigCtl = document.getElementById("sigCtl1");
-            if (sigCtl.Signature.IsCaptured) {
-                print("Signature Information:");
-                print("  Name:   " + sigCtl.Signature.Who);
-                print("  Date:   " + sigCtl.Signature.When);
-                print("  Reason: " + sigCtl.Signature.Why);
-            }
-            else
-            {
-                print("No signature captured");
-            }
-        }
-        catch(ex) {
-            Exception("DisplaySignatureDetails() error: " + ex.message);
-        }
-    }
-
-    function AboutBox() {
-        try {
-            var sigCtl = document.getElementById("sigCtl1");
-            sigCtl.AboutBox();
-        }
-        catch(ex) {
-            Exception("About() error: " + ex.message);
-        }
-    }
-
-    function Exception(txt) {
-        print("Exception: " + txt);
-    }
-    function print(txt) {
-        var txtDisplay = document.getElementById("txtDisplay");
-        if(txt == "CLEAR" )
-            txtDisplay.value = "";
-        else {
-            txtDisplay.value += txt + "\n";
-            txtDisplay.scrollTop = txtDisplay.scrollHeight; // scroll to end
-        }
-    }
-
-    function OnLoad() {
-        try {
-            if( !("ActiveXObject" in window) ) {
-                document.getElementById("not_ie_warning").style.display="block";
-                return;
-            }
-            print("CLEAR");
-            var sigCtl = document.getElementById("sigCtl1");
-            //sigCtl.SetProperty("Licence","licence string");
-            sigCtl.BackStyle = 1;
-            sigCtl.DisplayMode=0; // fit signature to control
-            print("Checking components...");
-            var sigcapt = new ActiveXObject('Florentis.DynamicCapture');  // force 'can't create object' error if components not yet installed
-            var lic = new ActiveXObject("Wacom.Signature.Licence");
-            print("DLL: Licence.dll   v" + lic.GetProperty("Component_FileVersion"));
-            print("DLL: flSigCOM.dll  v" +   sigCtl.GetProperty("Component_FileVersion"));
-            print("DLL: flSigCapt.dll v" + sigcapt.GetProperty("Component_FileVersion"));
-            print("Test application ready.");
-            print("Press 'Start' to capture a signature.");
-        }
-        catch(ex) {
-            Exception("OnLoad() error: " + ex.message);
-        }
-    }
-
     OnLoad();
-/////////////// JSPDF
-
-
-
 })
     
 </script>
