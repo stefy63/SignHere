@@ -38,6 +38,8 @@
                     <div  style="padding: 10px 50px;">
                         <input type="button" value="Sign" style="height:10mm;width:35mm" onclick="Capture()"
                                title="Starts signature capture" />
+                        <br>
+                        <img id="b64image" style="width:300px;height:150px"></img>
                     </div>
                     <br/>
                     <textarea cols="30" rows="10" id="txtSignature"></textarea>
@@ -144,33 +146,34 @@ $(function () {
 
 ////////// WACOM
     var Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA';
-
-    try {
-          //print("CLEAR");
-          var sigCtl = document.getElementById("sigCtl1");
-          SigCtl.Licence = Licence;
-          sigCtl.BackStyle = 1;
-          sigCtl.DisplayMode=0; // fit signature to control
-          //print("Checking components...");
-          var sigcapt = new ActiveXObject('Florentis.DynamicCapture');  // force 'can't create object' error if components not yet installed
-          var lic = new ActiveXObject("Wacom.Signature.Licence");
-          //print("DLL: Licence.dll   v" + lic.GetProperty("Component_FileVersion"));
-          //print("DLL: flSigCOM.dll  v" +   sigCtl.GetProperty("Component_FileVersion"));
-          //print("DLL: flSigCapt.dll v" + sigcapt.GetProperty("Component_FileVersion"));
-          //print("Test application ready.");
-          //print("Press 'Sign' to capture a signature.");
-        }
-        catch(ex) {
-          Exception("OnLoad() error: " + ex.message);
-        }
-
+     function OnLoad() {
+         try {
+             //print("CLEAR");
+             var sigCtl = document.getElementById("sigCtl1");
+             sigCtl.Licence = Licence;
+             sigCtl.BackStyle = 1;
+             sigCtl.DisplayMode = 0; // fit signature to control
+             //print("Checking components...");
+             var sigcapt = new ActiveXObject('Florentis.DynamicCapture');  // force 'can't create object' error if components not yet installed
+             var lic = new ActiveXObject("Wacom.Signature.Licence");
+             //print("DLL: Licence.dll   v" + lic.GetProperty("Component_FileVersion"));
+             //print("DLL: flSigCOM.dll  v" +   sigCtl.GetProperty("Component_FileVersion"));
+             //print("DLL: flSigCapt.dll v" + sigcapt.GetProperty("Component_FileVersion"));
+             //print("Test application ready.");
+             //print("Press 'Sign' to capture a signature.");
+         }
+         catch (ex) {
+             Exception("OnLoad() error: " + ex.message);
+         }
+     }
 
         function Capture() {
         try {
           //print("Capturing signature...");
           var sigCtl = document.getElementById("sigCtl1");
           var dc = new ActiveXObject("Florentis.DynamicCapture");
-          var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->name}}");
+          //var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->name}}");
+          var rc = dc.Capture(sigCtl, "who", "why");
           if(rc != 0 )
             //print("Capture returned: " + rc);
           switch( rc ) {
@@ -211,6 +214,8 @@ $(function () {
         }
       }
 
+
+       OnLoad();
 /////////////// JSPDF
 
 
