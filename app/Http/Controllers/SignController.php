@@ -141,6 +141,7 @@ class SignController extends Controller
     public function signing($id)
     {
         if($document = Document::find($id)){
+            dd($document->dossier->client->name);
             if(!Storage::disk('documents')->exists($document->filename)){
                 return redirect()->back()->with('alert',__('sign.sign_file_NOTFound'));
             }

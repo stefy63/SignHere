@@ -2,8 +2,7 @@
 @push('scripts')
 <script src="{{ asset('js/pdf.js') }}"></script>
 <script src="{{ asset('js/compatibility.js') }}"></script>
-
-<!--<script src="{{ asset('js/jspdf.min.js') }}"></script>-->
+<script src="{{ asset('js/jspdf.min.js') }}"></script>
 <script>
 
     var Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA';
@@ -12,7 +11,7 @@
             print("Capturing signature...");
             var sigCtl = document.getElementById("sigCtl1");
             var dc = new ActiveXObject("Florentis.DynamicCapture");
-            var rc = dc.Capture(sigCtl, "who", "why");
+            var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}");
             if(rc != 0 )
                 print("Capture returned: " + rc);
             switch( rc ) {
@@ -97,7 +96,7 @@
             }
             print("CLEAR");
             var sigCtl = document.getElementById("sigCtl1");
-            //sigCtl.SetProperty("Licence","licence string");
+            sigCtl.SetProperty("Licence",Licence);
             sigCtl.BackStyle = 1;
             sigCtl.DisplayMode=0; // fit signature to control
             print("Checking components...");
