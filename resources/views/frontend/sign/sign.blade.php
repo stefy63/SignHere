@@ -2,7 +2,6 @@
 @push('scripts')
 <script src="{{ asset('js/pdf.js') }}"></script>
 <script src="{{ asset('js/compatibility.js') }}"></script>
-<script src="{{ asset('js/jspdf.min.js') }}"></script>
 <script>
 
     var Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA';
@@ -10,16 +9,18 @@
         try {
             print("Capturing signature...");
             var sigCtl = document.getElementById("sigCtl1");
+            var sc = new ActiveXObject("Florentis.SigCtl");
             var dc = new ActiveXObject("Florentis.DynamicCapture");
             var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}");
             if(rc != 0 )
                 toastr['success']("{{__('sign.sign_proc_success')}}", "{{__('sign.sign_proc_success_title')}}");
                 print("Capture returned: " + rc);
-
                 flags = 0x2000 + 0x80000 + 0x400000; //SigObj.outputBase64 | SigObj.color32BPP | SigObj.encodeData
                 b64 = sigCtl.Signature.RenderBitmap("", 300, 150, "image/png", 0.5, 0xff0000, 0xffffff, 0.0, 0.0, flags );
+                var imgSrcData = "data:image/png;base64,"+b64;
+                document.getElementById("b64image").src=imgSrcData;
 
-                addSign64(b64);
+                //addSign64(b64);
             switch( rc ) {
                 case 0: // CaptureOK
                     print("Signature captured successfully");
@@ -147,12 +148,14 @@
 
                 <div class="pull-right col-lg-4">
                     <div>
-                        <h2>Test Signature Control</h2>
+                        <h2>{{__('sign.sign_pdf_wacom_title')}}</h2>
+                        <!--[if !IE]>-->
                         <div id="not_ie_warning" style="display:none">
-                            <h2>WARNING:</h2>
+                            <h2 class="text-center">WARNING:</h2>
                             This application is only supported by Internet Explorer<br/>
                             (The Javascript uses ActiveX controls which are not supported by alternative browsers such as Firefox)<br/>
                         </div>
+                        <!--<![endif]-->
                         <table style="padding: 10px 90px;">
                             <tr>
                                 <td rowspan="3">
@@ -180,8 +183,13 @@
                                 </td>
                             </tr>
                         </table>
+
+                        <img id="b64image" style="width:300px;height:150px"></img>
+                        
+                        @if(config('app.debug'))
                         <br/>
                         <textarea cols="50" rows="15" id="txtDisplay"></textarea>
+                        @endif
                     </div>
                 </div>
 
@@ -293,17 +301,6 @@ $(function () {
 ////////// WACOM
 
     OnLoad();
-
-/////////////// JSPDF
-
-    function addSign64(imgData) {
-        var doc = new jspdf();
-
-
-
-    }
-
-
 
 })
     

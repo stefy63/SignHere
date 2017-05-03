@@ -45,7 +45,7 @@ return [
     'db-address' => 'Indirizzo',
     'db-city' => 'Città',
     'db-zip_code' => 'CAP',
-    'db-region' => 'Comune',
+    'db-region' => 'Provincia',
     'db-contact' => 'Contatto',
     'db-phone' => 'Telefono',
     'db-mobile' => 'Cellulare',

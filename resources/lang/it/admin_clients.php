@@ -45,7 +45,7 @@ return [
     'db-personal_vat' => 'Codice Fiscale',
     'db-address' => 'Indirizzo',
     'db-city' => 'Città',
-    'db-region' => 'Comune',
+    'db-region' => 'Provincia',
     'db-zip_code' => 'CAP',
     'db-contact' => 'Contatto',
     'db-phone' => 'Telefono',

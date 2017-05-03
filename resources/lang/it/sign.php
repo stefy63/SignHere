@@ -24,7 +24,7 @@ return [
     'last-title' => 'Ultimi Clienti Firmatari',
     'sign-title' => 'Clienti in Atesa di Firma',
     'sign-pdf-title' => 'Procedura di Firma Documento',
-    '' => '',
+    'sign_pdf_wacom_title' => 'Firma Grafometrica del Documento',
     '' => '',
     '' => '',
     '' => '',

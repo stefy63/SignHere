@@ -175,7 +175,8 @@ class AdminDocumentController extends Controller
             $document->readonly = isset($request->readonly) ? 1 : 0;
             if ($file = $request->filename) {
                 if ($file->isValid() && $path = $file->store($request->client_id . "/" . $request->dossier_id, 'documents')) {
-                    Storage::disk('documents')->move($document->filename,'.trash/'.$document->name);
+                    $old_filename = $document->name.'-'.basename($document->filename, ".pdf");
+                    Storage::disk('documents')->move($document->filename,'.trash/'.$old_filename);
                     $document->filename = $path;
                 }
             }
