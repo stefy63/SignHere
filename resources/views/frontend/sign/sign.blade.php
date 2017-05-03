@@ -142,7 +142,7 @@
             </div>
             <hr>
             <div class="ibox-content col-lg-12">
-                <div class="pull-left col-lg-8">
+                <div class="pull-left col-lg-8 ">
                     <button id="prev" class="col-lg-5 pull-left btn btn-info">Previous</button>
                     <div class="col-lg-2 text-center"><span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div>
                     <button id="next" class="col-lg-5 pull-right btn btn-info">Next</button>
