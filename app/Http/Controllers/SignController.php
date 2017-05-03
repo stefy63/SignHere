@@ -158,7 +158,7 @@ class SignController extends Controller
 
     public function store_signing(Request $request, $id)
     {
-        dd($request->all());
+        return redirect('sign');
     }
 
 }
