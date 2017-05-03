@@ -35,7 +35,20 @@
                         <p>
                         <div class="form-group">
                             <div class="col-md-5 ">
-                                <label for="active" >{{__('admin_brands.db-active')}}</label>
+                                <label for="single_sign" >{{__('admin_doctypes.db-single_sign')}}</label>
+                            </div>
+                            <div class="col-md-6 col-md-offset-1">
+                                <input class="js-switch-modal2" type="checkbox" data-switchery="true" name="single_sign" checked disabled style="..." />
+                            </div>
+                        </div>
+                        </p>
+                    </div>
+
+                    <div class="row">
+                        <p>
+                        <div class="form-group">
+                            <div class="col-md-5 ">
+                                <label for="active" >{{__('admin_doctypes.db-active')}}</label>
                             </div>
                             <div class="col-md-6 col-md-offset-1">
                                 <input class="js-switch-modal" type="checkbox" data-switchery="true" name="active" checked disabled style="..." />
@@ -59,6 +72,8 @@ $(function(){
 
     var elem = document.querySelector('.js-switch-modal');
     var switchery = new Switchery(elem);
+    var elem2 = document.querySelector('.js-switch-modal2');
+    var switchery2 = new Switchery(elem2);
 
     $('.open-modal').click(function(e){
         e.preventDefault();
@@ -71,11 +86,17 @@ $(function(){
             $('#showModal .modal-title').text(data['name']);
             for(var k in data) {
                 if ($('#showModal input[name="' + k + '"]').attr('type') == 'checkbox') {
-                    $(elem).prop('disabled', false);
-                    $(elem).prop('checked',(data[k] == 1)? true:false);
-                    switchery.setAttributes('checked',(data[k] == 1)? true:false);
-                    switchery.handleOnchange(true);
-                    $(elem).prop('disabled', true);
+                    var jswitch = $('#showModal input[name="' + k + '"]');
+                    $(jswitch).prop('disabled', false);
+                    $(jswitch).prop('checked',(data[k] == 1)? true:false);
+                    if (k == 'active') {
+                        switchery.setAttributes('checked',(data[k] == 1)? true:false);
+                        switchery.handleOnchange(true);
+                    } else {
+                        switchery2.setAttributes('checked',(data[k] == 1)? true:false);
+                        switchery2.handleOnchange(true);
+                    }
+                    $(jswitch).prop('disabled', true);
                 } else {
                     $('#showModal input[name="' + k + '"]').val(data[k]);
                 }

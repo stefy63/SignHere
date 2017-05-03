@@ -108,7 +108,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <!--<div class="row">
                     <div class="form-group">
                         <div class="col-md-2 col-md-offset-1">
                             <label for="signed" >{{__('admin_documents.db-signed')}}</label>
@@ -117,7 +117,7 @@
                             <input class="js-switch-signed" type="checkbox" data-switchery="true" name="signed" value="1"  @if($document->signed == 1) checked @endif style="display: none;"/>
                         </div>
                     </div>
-                </div>
+                </div>-->
 
                 <div class="row">
                     <div class="form-group">

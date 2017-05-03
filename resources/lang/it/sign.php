@@ -61,7 +61,7 @@ return [
     'sign_proc_success_title' => 'Procedura di Firma',
     'sign_proc_success' => 'Documento firmato con successo',
     '' => '',
-    '' => '',
+    'sign_doc_signed_alert' => 'Il Documento è già stato FIRMATO il: ',
     '' => '',
     '' => '',
     '' => '',

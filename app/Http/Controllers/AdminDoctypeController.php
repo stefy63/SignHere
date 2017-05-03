@@ -56,6 +56,7 @@ class AdminDoctypeController extends Controller
         $doctype->fill($request->all());
         $doctype->user_id = \Auth::user()->id;
         $doctype->active = isset($request->active) ? 1 : 0;
+        $doctype->single_sign = isset($request->single_sign) ? 1 : 0;
         $doctype->save();
 
         return redirect()->back()->with('success', __('admin_doctypes.success_user_create'));
@@ -118,6 +119,7 @@ class AdminDoctypeController extends Controller
             $doctype->fill($request->all());
             $doctype->user_id = \Auth::user()->id;
             $doctype->active = isset($request->active) ? $request->active : false;
+            $doctype->single_sign = isset($request->single_sign) ? $request->active : false;
             $doctype->save();
 
             return redirect()->back()->with('success', __('admin_doctypes.success_doctype_updated'));

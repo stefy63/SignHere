@@ -54,16 +54,25 @@
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-2 col-md-offset-1">
+                            <label for="single_sign" >{{__('admin_doctypes.db-single_sign')}}</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="js-switch-single_sign" type="checkbox" data-switchery="true" name="single_sign" value="1"  @if($doctype->single_sign == 1) checked @endif style="display: none;"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-md-offset-1">
                             <label for="active" >{{__('admin_doctypes.db-active')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <input class="js-switch" type="checkbox" data-switchery="true" name="active" value="1"  @if($doctype->active == 1) checked @endif style="display: none;"/>
+                            <input class="js-switch-active" type="checkbox" data-switchery="true" name="active" value="1"  @if($doctype->active == 1) checked @endif style="display: none;"/>
                         </div>
                     </div>
                 </div>
                 <br><br>
-
-
 
                 <div class="row">
                     <div class="col-md-12 text-center">
@@ -75,4 +84,16 @@
     </div>
 </div>
 
+<script>
+$(function() {
+
+    var elem_1 = document.querySelector('.js-switch-single_sign');
+    var switchery_1 = new Switchery(elem_1, {color: '#1AB394'});
+
+    var elem_2 = document.querySelector('.js-switch-active');
+    var switchery_2 = new Switchery(elem_2, {color: '#1AB394'});
+
+});
+
+</script>
 @endsection

@@ -133,7 +133,7 @@
                                 @foreach($documents as $document)
                                     <tr class="tab-document" id="{{$document->id}}">
                                         <td class="col-md-1"><a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a></td>
-                                        <td class="col-md-11 tab-document" id="{{$document->id}}">
+                                        <td class="col-md-11 tab-document @if($document->signed) text-line-through text-danger @endif" id="{{$document->id}}">
                                             {{$document->name}}
                                         </td>
                                         <td class=" text-center">
@@ -200,7 +200,6 @@ $(document).ready(function () {
         } else {
             toastr['error']("{{__('admin_documents.error_document')}}", "{{__('admin_documents.error_call_title')}}");
         }
-
     });
 
     var tbl_option = {
@@ -293,12 +292,16 @@ $(document).ready(function () {
             $('#tr-document').empty();
             data[0].forEach(function(k){
                 //console.log(k);
-                $('#tr-document').append('<tr id="'+k['id']+'">' +
-                    '<td class="col-md-1"><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank">' +
+                var elem = '<tr id="'+k['id'];
+                (k['signed'] == 1)? elem += '"  data-toggle="tooltip" title="'+k['date_sign']+'">':elem += '">';
+                    elem += '<td class="col-md-1"><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank">' +
                     '<i class="fa fa-file-o"></i></a></td>' +
-                    '<td class="col-md-10 tab-document">'+k['name']+'</td>' +
+                    '<td class="col-md-10 tab-document';
+                (k['signed'] == 1)?elem += ' text-line-through text-danger">':elem += '">';
+                 elem += k['name']+'</td>' +
                     '<td class=" text-center"><a class="tab-document_a OK-button">' +
-                    '<i class="text-danger fa fa-trash-o"></i></a></td></tr>');
+                    '<i class="text-danger fa fa-trash-o"></i></a></td></tr>'
+                $('#tr-document').append(elem);
             });
         });
     }

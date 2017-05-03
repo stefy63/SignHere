@@ -39,6 +39,7 @@ return [
     'db-description' => 'Descrizione',
     'db-template' => 'Template',
     'db-active' => 'Attivo',
+    'db-single_sign' => 'Firma singola/Multipla',
     'db-select_user' => 'Selezionare l\'Utente ......',
     'crud-index' => 'Elenco Completo',
     'crud-create' => 'Crea nuovo',

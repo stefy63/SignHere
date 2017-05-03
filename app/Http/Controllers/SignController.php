@@ -145,6 +145,9 @@ class SignController extends Controller
             if(!Storage::disk('documents')->exists($document->filename)){
                 return redirect()->back()->with('alert',__('sign.sign_file_NOTFound'));
             }
+            if($document->signed) {
+                return redirect()->back()->with('alert',__('sign.sign_doc_signed_alert').$document->date_sign);
+            }
             return view('frontend.sign.sign',[
                 'document' => $document,
             ]);

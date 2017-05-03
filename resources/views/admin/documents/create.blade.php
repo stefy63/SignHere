@@ -108,16 +108,17 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <!--<div class="row">
                     <div class="form-group">
                         <div class="col-md-2 col-md-offset-1">
                             <label for="signed" >{{__('admin_documents.db-signed')}}</label>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-2">
                             <input class="js-switch-signed" type="checkbox" data-switchery="true" name="signed" value="1" style="display: none;"/>
+
                         </div>
                     </div>
-                </div>
+                </div>-->
 
                 <div class="row">
                     <div class="form-group">
