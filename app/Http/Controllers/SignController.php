@@ -155,4 +155,10 @@ class SignController extends Controller
         return redirect()->back()->with('alert',__('sign.sign_document_NOTFound'));
 
     }
+
+    public function store_signing(Request $request, $id)
+    {
+        dd($request->all());
+    }
+
 }

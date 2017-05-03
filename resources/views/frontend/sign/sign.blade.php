@@ -5,7 +5,7 @@
 <script>
 
     var Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA';
-    function Capture() {
+    function Capture(e) {
         try {
             print("Capturing signature...");
             var sigCtl = document.getElementById("sigCtl1");
@@ -19,8 +19,8 @@
                 b64 = sigCtl.Signature.RenderBitmap("", 300, 150, "image/png", 0.5, 0xff0000, 0xffffff, 0.0, 0.0, flags );
                 var imgSrcData = "data:image/png;base64,"+b64;
                 document.getElementById("b64image").src=imgSrcData;
+                document.getElementById("imgB64").src=imgSrcData;
 
-                //addSign64(b64);
             switch( rc ) {
                 case 0: // CaptureOK
                     print("Signature captured successfully");
@@ -86,6 +86,7 @@
         print("Exception: " + txt);
     }
     function print(txt) {
+        @if(config('app.debug'))
         var txtDisplay = document.getElementById("txtDisplay");
         if(txt == "CLEAR" )
             txtDisplay.value = "";
@@ -93,6 +94,7 @@
             txtDisplay.value += txt + "\n";
             txtDisplay.scrollTop = txtDisplay.scrollHeight; // scroll to end
         }
+        @endif
     }
 
     function OnLoad() {
@@ -141,9 +143,9 @@
             <hr>
             <div class="ibox-content col-lg-12">
                 <div class="pull-left col-lg-8">
-                    <button id="prev" class="col-lg-5 pull-left">Previous</button>
+                    <button id="prev" class="col-lg-5 pull-left btn btn-info">Previous</button>
                     <div class="col-lg-2 text-center"><span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div>
-                    <button id="next" class="col-lg-5 pull-right">Next</button>
+                    <button id="next" class="col-lg-5 pull-right btn btn-info">Next</button>
                 </div>
 
                 <div class="pull-right col-lg-4">
@@ -156,36 +158,42 @@
                             (The Javascript uses ActiveX controls which are not supported by alternative browsers such as Firefox)<br/>
                         </div>
                         <!--<![endif]-->
-                        <table style="padding: 10px 90px;">
+                        <form method="POST" action="{{ route('sign.store_signing',['id' => $document->id]) }}" id="toast-form">
+                        {!! csrf_field() !!}{{ method_field('PUT') }}
+                        <table>
                             <tr>
                                 <td rowspan="3">
-                                    <div>
+                                    <div class="hidden">
                                         <object id="sigCtl1" style="width:60mm;height:35mm"
                                                 type="application/x-florentis-signature">
                                         </object>
+                                        <input type="hidden" name="imgB64"  id="imgB64"/>
                                     </div>
+                                    <img name="img64" id="b64image" style="width:300px;height:150px"></img>
                                 </td>
                                 <td  style="padding: 10px 50px;">
-                                    <input type="button" value="Start" style="height:10mm;width:35mm" onclick="Capture()"
-                                           title="Starts signature capture" />
+                                    <!--<input type="button" value="Start" style="height:10mm;width:35mm" onclick="Capture()"
+                                           title="Starts signature capture" />-->
+                                    <input type="button" class="btn btn-block btn-outline btn-warning"  title="Starts signature capture" onclick="Capture();" value="Start" />
                                 </td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 50px;">
-                                    <input type="button" value="About" style="height:10mm;width:35mm" onclick="AboutBox()"
-                                           title="Displays the Help About box" />
+                                    <!--<input type="button" value="About" style="height:10mm;width:35mm" onclick="AboutBox()"
+                                           title="Displays the Help About box" />-->
                                 </td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 50px;">
-                                    <input type="button" value="Info" style="height:10mm;width:35mm" onclick="DisplaySignatureDetails()"
-                                           title="Displays the signature details" />
+                                    <!--<input type="button" value="Info" style="height:10mm;width:35mm" onclick="DisplaySignatureDetails()"
+                                           title="Displays the signature details" />-->
+                                    <button class="btn btn-block btn-outline btn-primary"  title="Starts signature capture"   data-form-id="toast-form">Submit</button>
+                                </td>
                                 </td>
                             </tr>
                         </table>
+                        </form>
 
-                        <img id="b64image" style="width:300px;height:150px"></img>
-                        
                         @if(config('app.debug'))
                         <br/>
                         <textarea cols="50" rows="15" id="txtDisplay"></textarea>
@@ -302,6 +310,13 @@ $(function () {
 
     OnLoad();
 
+///////////// FORM
+
+    /*$('form#toast-form').submit(function(e){
+        e.preventDefault();
+        $('input[name=imgB64]').val($('img#b64image').src);
+    });*/
+    $('#imgB64').val("FDKSJFKDSJFJSDLFKSDLKFJSDKLFJLDSKJFLSD");
 })
     
 </script>

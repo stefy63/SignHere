@@ -70,7 +70,7 @@ class User extends Authenticatable
     */
     public function hasRole($module, $op)
     {
-        if($userPermission = $this->profile()->first()->getModules($module))
+        if($userPermission = $this->profile->getModules($module))
         {
             if($userPermission = $userPermission->first()) {
                 $role = $userPermission->pivot->permission;
