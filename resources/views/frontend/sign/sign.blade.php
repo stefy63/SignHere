@@ -60,6 +60,7 @@
         hash.Clear();
         hash.Type=1; // MD5
         var url = $('#pdf-canvas').attr('data-url');
+        print(url);
 
           var fileReader = new FileReader();
           fileReader.onload = function() {
