@@ -71,7 +71,8 @@
           };
 
           // Read the file into array buffer.
-          fileReader.readAsArrayBuffer(url);
+          //fileReader.readAsArrayBuffer(url);
+          fileReader.readAsArrayBuffer('{{ storage_path()}}/documents/{{$document->filename}}');
 
         print("hash: " + hash.Hash);
       }
