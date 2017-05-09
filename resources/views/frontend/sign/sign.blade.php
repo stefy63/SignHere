@@ -227,7 +227,7 @@
 
                 <div style="height: 70vh;overflow: auto" class="pull-left col-lg-8">
 
-                    <canvas id="pdf-canvas" data-url="{{ asset('storage')}}/documents/{{$document->filename}}"></canvas>
+                    <canvas id="pdf-canvas" data-url="{{ basename(storage_path())}}/documents/{{$document->filename}}"></canvas>
 
                 </div>
             </div>
@@ -239,6 +239,8 @@
 $(function () {
 ///////// PDFJS
 
+    //console.log({{asset('/')}});
+
     var pdfDoc = null,
         pageNum = 1,
         pageRendering = false,
@@ -246,7 +248,7 @@ $(function () {
         scale = 1.0,
         //canvas = document.getElementById('pdf-canvas'),
         canvas = $('#pdf-canvas').get(0),
-        url = $('#pdf-canvas').attr('data-url'),
+        url = '{{asset('/')}}'+$('#pdf-canvas').attr('data-url'),
         ctx = canvas.getContext('2d');
 
     /**
