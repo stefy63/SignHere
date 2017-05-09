@@ -12,6 +12,7 @@
             var sc = new ActiveXObject("Florentis.SigCtl");
             var dc = new ActiveXObject("Florentis.DynamicCapture");
             var hash = new ActiveXObject('Florentis.Hash');
+            GetHash(hash);
             var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}");
             if(rc != 0 )
                 toastr['success']("{{__('sign.sign_proc_success')}}", "{{__('sign.sign_proc_success_title')}}");
