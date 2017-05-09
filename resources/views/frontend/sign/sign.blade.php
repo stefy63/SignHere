@@ -8,9 +8,8 @@
     function Capture(e) {
         try {
             print("Capturing signature...");
-            var sigCtl = document.getElementById("sigCtl1");
-            //var sc = new ActiveXObject("Florentis.SigCtl");
-            var dc = new ActiveXObject("Florentis.DynamicCapture");
+           // var sigCtl = document.getElementById("sigCtl1");
+            //var dc = new ActiveXObject("Florentis.DynamicCapture");
             var hash = new ActiveXObject('Florentis.Hash');
             GetHash(hash);
             var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}");
@@ -61,18 +60,22 @@
         hash.Type=1; // MD5
         var url = $('#pdf-canvas').attr('data-url');
         print(url);
+        var fileReader = new FileReader();
+        fileReader.onload = function() {
 
-          var fileReader = new FileReader();
-          fileReader.onload = function() {
+            var typedarray = new Uint8Array(this.result);
+            hash.Add(typedarray);
 
-              var typedarray = new Uint8Array(this.result);
-              hash.Add(typedarray);
+        };
 
-          };
-
-          // Read the file into array buffer.
-          //fileReader.readAsArrayBuffer(url);
-          fileReader.readAsArrayBuffer('{{ storage_path()}}/documents/{{$document->filename}}');
+        $.ajax({
+            type:    "GET",
+            url:     url,
+            success: function(text) {
+                // Read the file into array buffer.
+                fileReader.readAsArrayBuffer(text);
+            }
+        });
 
         print("hash: " + hash.Hash);
       }
@@ -228,7 +231,7 @@
 
                 <div style="height: 70vh;overflow: auto" class="pull-left col-lg-8">
 
-                    <canvas id="pdf-canvas" data-url="{{ basename(storage_path())}}/documents/{{$document->filename}}"></canvas>
+                    <canvas id="pdf-canvas" data-url="{{ asset('storage')}}/documents/{{$document->filename}}"></canvas>
 
                 </div>
             </div>
@@ -249,7 +252,7 @@ $(function () {
         scale = 1.0,
         //canvas = document.getElementById('pdf-canvas'),
         canvas = $('#pdf-canvas').get(0),
-        url = '{{asset('/')}}'+$('#pdf-canvas').attr('data-url'),
+        url = $('#pdf-canvas').attr('data-url'),
         ctx = canvas.getContext('2d');
 
     /**
