@@ -11,6 +11,7 @@
             var sigCtl = document.getElementById("sigCtl1");
             var sc = new ActiveXObject("Florentis.SigCtl");
             var dc = new ActiveXObject("Florentis.DynamicCapture");
+            var hash = new ActiveXObject('Florentis.Hash');
             var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}");
             if(rc != 0 )
                 toastr['success']("{{__('sign.sign_proc_success')}}", "{{__('sign.sign_proc_success_title')}}");
@@ -52,6 +53,27 @@
             Exception("Capture() error: " + ex.message);
         }
     }
+
+    function GetHash(hash) {
+        print("Creating document hash:");
+        hash.Clear();
+        hash.Type=1; // MD5
+        var url = $('#pdf-canvas').attr('data-url');
+
+          var fileReader = new FileReader();
+          fileReader.onload = function() {
+
+              var typedarray = new Uint8Array(this.result);
+              hash.Add(typedarray);
+
+          };
+
+          // Read the file into array buffer.
+          fileReader.readAsArrayBuffer(url);
+
+        print("hash: " + hash.Hash);
+      }
+
 
     function DisplaySignatureDetails() {
         try {
@@ -203,7 +225,7 @@
 
                 <div style="height: 70vh;overflow: auto" class="pull-left col-lg-8">
 
-                    <canvas id="pdf-canvas"></canvas>
+                    <canvas id="pdf-canvas" data-url="{{ asset('storage')}}/documents/{{$document->filename}}"></canvas>
 
                 </div>
             </div>
@@ -214,13 +236,15 @@
 <script>
 $(function () {
 ///////// PDFJS
-    var url = '{{ asset('storage')}}/documents/{{$document->filename}}';
+
     var pdfDoc = null,
         pageNum = 1,
         pageRendering = false,
         pageNumPending = null,
-        scale = 1.5,
-        canvas = document.getElementById('pdf-canvas'),
+        scale = 1.0,
+        //canvas = document.getElementById('pdf-canvas'),
+        canvas = $('#pdf-canvas').get(0),
+        url = $('#pdf-canvas').attr('data-url'),
         ctx = canvas.getContext('2d');
 
     /**
