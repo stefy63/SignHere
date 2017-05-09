@@ -190,7 +190,7 @@
                         {!! csrf_field() !!}{{ method_field('PUT') }}
                         <table>
                             <tr>
-                                <td rowspan="3" class="col-md-3">
+                                <td rowspan="3" class="col-md-2">
                                     <div class="hidden">
                                         <object id="sigCtl1" class="col-md-3" type="application/x-florentis-signature">
                                         </object>
