@@ -170,13 +170,13 @@
             </div>
             <hr>
             <div class="ibox-content col-lg-12">
-                <div class="pull-left col-lg-8 ">
+                <div class="pull-left col-lg-9 ">
                     <button id="prev" class="col-lg-5 pull-left btn btn-info">Previous</button>
                     <div class="col-lg-2 text-center"><span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div>
                     <button id="next" class="col-lg-5 pull-right btn btn-info">Next</button>
                 </div>
 
-                <div class="pull-right col-lg-4">
+                <div class="pull-right col-lg-3">
                     <div>
                         <h2>{{__('sign.sign_pdf_wacom_title')}}</h2>
                         <!--[if !IE]>-->
@@ -190,14 +190,13 @@
                         {!! csrf_field() !!}{{ method_field('PUT') }}
                         <table>
                             <tr>
-                                <td rowspan="3">
+                                <td rowspan="3" class="col-md-3">
                                     <div class="hidden">
-                                        <object id="sigCtl1" style="width:60mm;height:35mm"
-                                                type="application/x-florentis-signature">
+                                        <object id="sigCtl1" class="col-md-3" type="application/x-florentis-signature">
                                         </object>
                                         <input type="hidden" name="imgB64"  id="imgB64"/>
                                     </div>
-                                    <img name="img64" id="b64image" style="width:300px;height:150px"></img>
+                                    <img name="img64" id="b64image" style="width:210px;height:150px"></img>
                                 </td>
                                 <td  style="padding: 10px 50px;">
                                     <!--<input type="button" value="Start" style="height:10mm;width:35mm" onclick="Capture()"
@@ -209,14 +208,14 @@
                                 <td style="padding: 10px 50px;">
                                     <!--<input type="button" value="About" style="height:10mm;width:35mm" onclick="AboutBox()"
                                            title="Displays the Help About box" />-->
+                                    <button class="btn btn-block btn-outline btn-danger"  title="Starts signature capture"   data-form-id="toast-form">Info</button>
                                 </td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 50px;">
-                                    <input type="button" value="Info" style="height:10mm;width:35mm" onclick="DisplaySignatureDetails()"
-                                           title="Displays the signature details" />
+                                    @if(config('app.debug'))
                                     <button class="btn btn-block btn-outline btn-primary"  title="Starts signature capture"   data-form-id="toast-form">Submit</button>
-                                </td>
+                                    @endif
                                 </td>
                             </tr>
                         </table>
@@ -224,12 +223,12 @@
 
                         @if(config('app.debug'))
                         <br/>
-                        <textarea cols="50" rows="15" id="txtDisplay"></textarea>
+                        <textarea cols="40" rows="10" id="txtDisplay"></textarea>
                         @endif
                     </div>
                 </div>
 
-                <div style="height: 70vh;overflow: auto" class="pull-left col-lg-8">
+                <div style="height: 70vh;overflow: auto" class="pull-left col-lg-9">
 
                     <canvas id="pdf-canvas" data-url="{{ asset('storage')}}/documents/{{$document->filename}}"></canvas>
 
@@ -249,7 +248,7 @@ $(function () {
         pageNum = 1,
         pageRendering = false,
         pageNumPending = null,
-        scale = 1.0,
+        scale = 1.4,
         //canvas = document.getElementById('pdf-canvas'),
         canvas = $('#pdf-canvas').get(0),
         url = $('#pdf-canvas').attr('data-url'),
