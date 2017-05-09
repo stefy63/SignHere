@@ -192,27 +192,27 @@
                             <tr>
                                 <td rowspan="3" class="col-md-2">
                                     <div class="hidden">
-                                        <object id="sigCtl1" class="col-md-3" type="application/x-florentis-signature">
+                                        <object id="sigCtl1" type="application/x-florentis-signature">
                                         </object>
                                         <input type="hidden" name="imgB64"  id="imgB64"/>
                                     </div>
-                                    <img name="img64" id="b64image" style="width:210px;height:150px"></img>
+                                    <img name="img64" id="b64image" style="width:12vw;height:12vh"></img>
                                 </td>
-                                <td  style="padding: 10px 50px;">
+                                <td  style="padding: 10px 10px;">
                                     <!--<input type="button" value="Start" style="height:10mm;width:35mm" onclick="Capture()"
                                            title="Starts signature capture" />-->
                                     <input type="button" class="btn btn-block btn-outline btn-warning"  title="Starts signature capture" onclick="Capture();" value="Start" />
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 10px 50px;">
+                                <td style="padding: 10px 10px;">
                                     <!--<input type="button" value="About" style="height:10mm;width:35mm" onclick="AboutBox()"
                                            title="Displays the Help About box" />-->
                                     <button class="btn btn-block btn-outline btn-danger"  title="Starts signature capture"   data-form-id="toast-form">Info</button>
                                 </td>
                             </tr>
                             <tr>
-                                <td style="padding: 10px 50px;">
+                                <td style="padding: 10px 10px;">
                                     @if(config('app.debug'))
                                     <button class="btn btn-block btn-outline btn-primary"  title="Starts signature capture"   data-form-id="toast-form">Submit</button>
                                     @endif
