@@ -8,8 +8,8 @@
     function Capture(e) {
         try {
             print("Capturing signature...");
-           // var sigCtl = document.getElementById("sigCtl1");
-            //var dc = new ActiveXObject("Florentis.DynamicCapture");
+            var sigCtl = document.getElementById("sigCtl1");
+            var dc = new ActiveXObject("Florentis.DynamicCapture");
             var hash = new ActiveXObject('Florentis.Hash');
             GetHash(hash);
             var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}");
