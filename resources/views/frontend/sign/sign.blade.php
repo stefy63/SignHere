@@ -9,7 +9,7 @@
         try {
             print("Capturing signature...");
             var sigCtl = document.getElementById("sigCtl1");
-            var sc = new ActiveXObject("Florentis.SigCtl");
+            //var sc = new ActiveXObject("Florentis.SigCtl");
             var dc = new ActiveXObject("Florentis.DynamicCapture");
             var hash = new ActiveXObject('Florentis.Hash');
             GetHash(hash);
