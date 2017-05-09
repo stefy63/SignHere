@@ -213,8 +213,8 @@
                             </tr>
                             <tr>
                                 <td style="padding: 10px 50px;">
-                                    <!--<input type="button" value="Info" style="height:10mm;width:35mm" onclick="DisplaySignatureDetails()"
-                                           title="Displays the signature details" />-->
+                                    <input type="button" value="Info" style="height:10mm;width:35mm" onclick="DisplaySignatureDetails()"
+                                           title="Displays the signature details" />
                                     <button class="btn btn-block btn-outline btn-primary"  title="Starts signature capture"   data-form-id="toast-form">Submit</button>
                                 </td>
                                 </td>
