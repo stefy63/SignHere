@@ -1,20 +1,27 @@
 @extends('frontend.front')
 @push('assets')
 <style>
-#table-clients tbody tr {
+.tab-right tbody tr,
+.tab-left tbody tr{
     width: 100%;
     display: table;
     table-layout: fixed;
 }
-
-#table-clients table{
-    width: 30vh;
-    display: -moz-groupbox;
+.tab-right,
+.tab-left {
+    width: 110%;
+    height: 100%;
 }
 
-#table-clients tbody{
+.tab-right tbody{
     overflow-y: scroll;
-    height: 30vh;
+    height: 78%;
+    position: absolute;
+}
+
+.tab-left tbody{
+    overflow-y: scroll;
+    height: 85%;
     position: absolute;
 }
 </style>
@@ -32,7 +39,7 @@
                         </div>
                     </div>
                     <div>
-                        <table class="table table-bordered table-hover">
+                        <table class="table table-bordered table-hover tab-left" >
                             <thead>
                                 <tr>
                                     <th class="col-md-5">{{__('sign.index-header-col-0')}}</th>
@@ -71,7 +78,7 @@
                         <h5>{{__('sign.sign-title')}}</h5>
                     </div>
                     <div>
-                        <table class="table table-bordered table-hover" id="table-clients" >
+                        <table class="table table-bordered table-hover tab-right">
                             <thead>
                                 <tr role="row">
                                     <th class="col-md-5">{{__('sign.index-header-col-0')}}</th>
@@ -112,7 +119,7 @@
                         <h5>{{__('sign.last-title')}}</h5>
                     </div>
                     <div>
-                        <table class="table table-bordered table-hover" id="table-clients" >
+                        <table class="table table-bordered table-hover tab-right">
                             <thead>
                                 <tr role="row">
                                     <th class="col-md-5">{{__('sign.index-header-col-0')}}</th>

@@ -56,6 +56,7 @@ return [
     'crud-visibility' => 'Assegnazione Visibilità',
     'crud-getitem' => 'Ottiene Elenchi Personali Risorse',
     'crud-file' => 'Gestione File',
+    'crud-upload_file' => 'Caricamento File',
     'crud-ALL' => 'TUTTI',
     'select-doctype' => 'Selezionare un tipo di documento....',
     '' => '',

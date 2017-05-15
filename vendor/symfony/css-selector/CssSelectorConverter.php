@@ -29,7 +29,7 @@ class CssSelectorConverter
     private $translator;
 
     /**
-     * @param bool $html Whether HTML support should be enabled. Disable it for XML storage
+     * @param bool $html Whether HTML support should be enabled. Disable it for XML documents
      */
     public function __construct($html = true)
     {

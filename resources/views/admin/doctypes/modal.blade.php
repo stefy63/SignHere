@@ -11,10 +11,10 @@
 
                     <div class="row">
                         <div class="form-group">
-                            <div class="col-md-5 ">
+                            <div class="col-md-3 ">
                                 <label for="description" >{{__('admin_doctypes.index-header-col-2')}}</label>
                             </div>
-                            <div class="col-md-6 col-md-offset-1">
+                            <div class="col-md-9">
                                 <input class="form-control" size="50" type="text" name="description" value="" disabled/>
                             </div>
                         </div>
@@ -22,11 +22,22 @@
 
                     <div class="row">
                         <div class="form-group">
-                            <div class="col-md-5 ">
+                            <div class="col-md-3 ">
                                 <label for="template" >{{__('admin_doctypes.index-header-col-3')}}</label>
                             </div>
-                            <div class="col-md-6 col-md-offset-1">
-                                <input class="form-control" size="50" type="text" name="template" value="" disabled/>
+                            <div class="col-md-9">
+                                <textarea class="form-control" cols="50" rows="3" name="template" readonly style="resize: vertical;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-3 ">
+                                <label for="questions" >{{__('admin_doctypes.db-questions')}}</label>
+                            </div>
+                            <div class="col-md-9">
+                                <textarea class="form-control" cols="50" rows="3" name="questions" readonly style="resize: vertical;"></textarea>
                             </div>
                         </div>
                     </div>
@@ -37,7 +48,7 @@
                             <div class="col-md-5 ">
                                 <label for="single_sign" >{{__('admin_doctypes.db-single_sign')}}</label>
                             </div>
-                            <div class="col-md-6 col-md-offset-1">
+                            <div class="col-md-7">
                                 <input class="js-switch-modal2" type="checkbox" data-switchery="true" name="single_sign" checked disabled style="..." />
                             </div>
                         </div>
@@ -50,7 +61,7 @@
                             <div class="col-md-5 ">
                                 <label for="active" >{{__('admin_doctypes.db-active')}}</label>
                             </div>
-                            <div class="col-md-6 col-md-offset-1">
+                            <div class="col-md-7">
                                 <input class="js-switch-modal" type="checkbox" data-switchery="true" name="active" checked disabled style="..." />
                             </div>
                         </div>
@@ -98,7 +109,10 @@ $(function(){
                     }
                     $(jswitch).prop('disabled', true);
                 } else {
-                    $('#showModal input[name="' + k + '"]').val(data[k]);
+                    if(k == 'template' || k == 'questions')
+                        $('#showModal textarea[name="' + k + '"]').text(data[k]);
+                    else
+                        $('#showModal input[name="' + k + '"]').val(data[k]);
                 }
             }
         })

@@ -112,7 +112,7 @@ EOF;
         foreach ($files as $file) {
             $yamls = file_get_contents($this->path.'/'.$file.'.yml');
 
-            // split YAMLs storage
+            // split YAMLs documents
             foreach (preg_split('/^---( %YAML\:1\.0)?/m', $yamls) as $yaml) {
                 if (!$yaml) {
                     continue;

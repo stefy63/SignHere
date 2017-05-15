@@ -242,8 +242,6 @@
 $(function () {
 ///////// PDFJS
 
-    //console.log({{asset('/')}});
-
     var pdfDoc = null,
         pageNum = 1,
         pageRendering = false,
@@ -336,6 +334,7 @@ $(function () {
         // Initial/first page rendering
         renderPage(pageNum);
     });
+
 
 ////////// WACOM
 

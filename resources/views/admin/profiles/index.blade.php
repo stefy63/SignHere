@@ -42,7 +42,7 @@
                                                     <input name="{{$function}}" class="tab-function" type="checkbox" disabled>
                                                 </span>
                                                 <!--<input type="text" class="form-control" value="{{__('admin_profiles.crud-'.$function)}}" disabled />-->
-                                                <label class="form-control"><i>{{__('admin_profiles.crud-'.$function)}}</i></label>
+                                                <label class="form-control"><i>{{__($module->short_name.'.crud-'.$function)}}</i></label>
                                             </div>
                                         @endforeach
                                         <br>

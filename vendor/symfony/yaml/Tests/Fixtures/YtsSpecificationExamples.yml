@@ -157,7 +157,7 @@ php: |
       array( 'hr' => 63, 'avg' => 0.288 )
   )
 ---
-test: Two storage in a stream each with a leading comment
+test: Two documents in a stream each with a leading comment
 todo: true
 spec: 2.7
 yaml: |
@@ -899,7 +899,7 @@ php: |
       'total' => 4443.52
    )
 ---
-test: Single-line storage
+test: Single-line documents
 todo: true
 yaml: |
   # The following is a sequence of three documents.
