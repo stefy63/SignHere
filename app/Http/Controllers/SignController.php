@@ -45,6 +45,17 @@ class SignController extends Controller
             });
         })->where('active',true)->paginate(10);
 
+        $last = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
+            $qDossier->whereExists(function($qDocument){
+                $qDocument->select(DB::raw(1))
+                    ->from('documents')
+                    ->whereRaw('documents.dossier_id = dossiers.id')
+                    //->where('signed',false)
+                    ->whereNull('deleted_at')
+                    ->OrderBy('date_sign','DESC');
+            });
+        })->where('active',true)->take(5)->get();
+
         $archives = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
             $qDossier->whereNotExists(function($qDocument){
                 $qDocument->select(DB::raw(1))
@@ -55,14 +66,12 @@ class SignController extends Controller
             });
         })->where('active',true)->paginate(10);
 
-
-
-
         //dd($archives);
 
         return view('frontend.sign.index',[
             'archives' => $archives,
             'clients' => $clients,
+            'last'   => $last,
         ]);
     }
 
@@ -148,8 +157,11 @@ class SignController extends Controller
             if($document->signed) {
                 return redirect()->back()->with('alert',__('sign.sign_doc_signed_alert').$document->date_sign);
             }
+            $path = storage_path('app/public/documents/').$document->filename;
+            $hash = md5_file($path);
             return view('frontend.sign.sign',[
                 'document' => $document,
+                'hash' => $hash,
             ]);
         }
         return redirect()->back()->with('alert',__('sign.sign_document_NOTFound'));
@@ -158,6 +170,7 @@ class SignController extends Controller
 
     public function store_signing(Request $request, $id)
     {
+        dd($request->all());
         return redirect('sign');
     }
 

@@ -14,13 +14,13 @@
 }
 
 .tab-right tbody{
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 78%;
     position: absolute;
 }
 
 .tab-left tbody{
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 85%;
     position: absolute;
 }
@@ -128,7 +128,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach($clients as $client)
+                            @foreach($last as $client)
                                 <tr class="bg-info tr-client" id="{{$client->id}}">
                                     <td class="col-md-5">{{$client->surname}}&nbsp;{{$client->name}}</td>
                                     <td class="col-md-2">@if($client->mobile){{$client->mobile}}@else{{$client->phone}}@endif</td>
@@ -153,7 +153,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="pull-right">{{ $clients->links() }}</div>
                 </div>
                 </div>
             </div>

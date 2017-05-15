@@ -12,7 +12,7 @@
             var dc = new ActiveXObject("Florentis.DynamicCapture");
             var hash = new ActiveXObject('Florentis.Hash');
             GetHash(hash);
-            var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}");
+            var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}",hash);
             if(rc != 0 )
                 toastr['success']("{{__('sign.sign_proc_success')}}", "{{__('sign.sign_proc_success_title')}}");
                 print("Capture returned: " + rc);
@@ -60,22 +60,26 @@
         hash.Type=1; // MD5
         var url = $('#pdf-canvas').attr('data-url');
         print(url);
-        var fileReader = new FileReader();
+        //hash.Add("{{$hash}}");
+        //hash.Hash = "{{$hash}}";
+        var fileReader = new FileReader(url);
         fileReader.onload = function() {
 
             var typedarray = new Uint8Array(this.result);
             hash.Add(typedarray);
 
         };
-
+        fileReader.readAsArrayBuffer();
+         /*
         $.ajax({
             type:    "GET",
             url:     url,
             success: function(text) {
+                console.log(text);
                 // Read the file into array buffer.
                 fileReader.readAsArrayBuffer(text);
             }
-        });
+        });*/
 
         print("hash: " + hash.Hash);
       }
@@ -196,7 +200,7 @@
                                         </object>
                                         <input type="hidden" name="imgB64"  id="imgB64"/>
                                     </div>
-                                    <img name="img64" id="b64image" style="width:12vw;height:12vh"></img>
+                                    <img name="img64" id="b64image" style="width:12vw;height:12vh">
                                 </td>
                                 <td  style="padding: 10px 10px;">
                                     <!--<input type="button" value="Start" style="height:10mm;width:35mm" onclick="Capture()"
@@ -247,7 +251,6 @@ $(function () {
         pageRendering = false,
         pageNumPending = null,
         scale = 1.4,
-        //canvas = document.getElementById('pdf-canvas'),
         canvas = $('#pdf-canvas').get(0),
         url = $('#pdf-canvas').attr('data-url'),
         ctx = canvas.getContext('2d');
