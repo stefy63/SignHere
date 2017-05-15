@@ -5,6 +5,9 @@
 <script>
 
     var Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA';
+
+
+
     function Capture(e) {
         try {
             print("Capturing signature...");
@@ -59,29 +62,21 @@
         hash.Clear();
         hash.Type=1; // MD5
         var url = $('#pdf-canvas').attr('data-url');
-        print(url);
-        //hash.Add("{{$hash}}");
-        //hash.Hash = "{{$hash}}";
-        var fileReader = new FileReader(url);
-        fileReader.onload = function() {
-
-            var typedarray = new Uint8Array(this.result);
-            hash.Add(typedarray);
-
-        };
-        fileReader.readAsArrayBuffer();
-         /*
-        $.ajax({
-            type:    "GET",
-            url:     url,
-            success: function(text) {
-                console.log(text);
-                // Read the file into array buffer.
-                fileReader.readAsArrayBuffer(text);
+        var blob = null;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", url);
+        xhr.responseType = "blob";
+        xhr.onload = function()
+            {
+                blob = xhr.response;//xhr.response is now a blob object
+                var fileReader = new FileReader();
+                fileReader.readAsArrayBuffer(blob);
+                fileReader.onload = function() {
+                    var typedarray = new Uint8Array(this.result);
+                    hash.Add(typedarray);
+                };
             }
-        });*/
-
-        print("hash: " + hash.Hash);
+        xhr.send();
       }
 
 
@@ -198,28 +193,24 @@
                                     <div class="hidden">
                                         <object id="sigCtl1" type="application/x-florentis-signature">
                                         </object>
-                                        <input type="hidden" name="imgB64"  id="imgB64"/>
+                                        <input type="hidden" name="imgB64[]"  id="imgB64"/>
                                     </div>
-                                    <img name="img64" id="b64image" style="width:12vw;height:12vh">
+                                    <img name="img64[]" id="b64image" style="width:12vw;height:12vh">
                                 </td>
                                 <td  style="padding: 10px 10px;">
-                                    <!--<input type="button" value="Start" style="height:10mm;width:35mm" onclick="Capture()"
-                                           title="Starts signature capture" />-->
                                     <input type="button" class="btn btn-block btn-outline btn-warning"  title="Starts signature capture" onclick="Capture();" value="Start" />
                                 </td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 10px;">
-                                    <!--<input type="button" value="About" style="height:10mm;width:35mm" onclick="AboutBox()"
-                                           title="Displays the Help About box" />-->
-                                    <button class="btn btn-block btn-outline btn-danger"  title="Starts signature capture"   data-form-id="toast-form">Info</button>
+                                @if(config('app.debug'))
+                                    <button class="btn btn-block btn-outline btn-danger"  title="Starts signature capture" onclick="AboutBox()">Info</button>
+                                @endif
                                 </td>
                             </tr>
                             <tr>
                                 <td style="padding: 10px 10px;">
-                                    @if(config('app.debug'))
                                     <button class="btn btn-block btn-outline btn-primary"  title="Starts signature capture"   data-form-id="toast-form">Submit</button>
-                                    @endif
                                 </td>
                             </tr>
                         </table>

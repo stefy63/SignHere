@@ -157,11 +157,18 @@ class SignController extends Controller
             if($document->signed) {
                 return redirect()->back()->with('alert',__('sign.sign_doc_signed_alert').$document->date_sign);
             }
-            $path = storage_path('app/public/documents/').$document->filename;
-            $hash = md5_file($path);
+            //$path = storage_path('app/public/documents/').$document->filename;
+            //$hash = md5_file($path);
+
+            $arrayTpl = $this->_getTemplate($document->doctype->template);
+            $arrayQuestion = $this->_getTemplate($document->doctype->questions);
+
             return view('frontend.sign.sign',[
                 'document' => $document,
-                'hash' => $hash,
+                'template' => json_encode($arrayTpl),
+                'questions' => json_encode($arrayQuestion),
+
+                //'hash' => $hash,
             ]);
         }
         return redirect()->back()->with('alert',__('sign.sign_document_NOTFound'));
@@ -172,6 +179,17 @@ class SignController extends Controller
     {
         dd($request->all());
         return redirect('sign');
+    }
+
+    protected function _getTemplate($tpl)
+    {
+        $tplLine = explode("\n",$tpl);
+        $return = array();
+        foreach($tplLine as $line) {
+            $line = str_replace("\r",'',$line);
+            array_push($return,explode('|',$line));
+        }
+        return $return;
     }
 
 }
