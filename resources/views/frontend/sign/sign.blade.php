@@ -22,14 +22,17 @@
             print("Capturing signature...");
             var sigCtl = document.getElementById("sigCtl1");
             var dc = new ActiveXObject("Florentis.DynamicCapture");
-            var hash = new ActiveXObject('Florentis.Hash');
-            GetHash(hash);
-            var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}",hash);
+            var hasher = new ActiveXObject('Florentis.Hash');
+            GenerateHash(hasher);
+            var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}", hasher);
+            if(rc != 0)
+                print("Capture returned: " + rc);
             switch( rc ) {
                 case 0: // CaptureOK
-                    print("Signature captured successfully");
-                    toastr['success']("{{__('sign.sign_proc_success')}}", "{{__('sign.sign_proc_success_title')}}");
                     print("Capture returned: " + rc);
+                    print("Signature captured successfully");
+                    print(hasher.Hash.toString());
+                    toastr['success']("{{__('sign.sign_proc_success')}}", "{{__('sign.sign_proc_success_title')}}");
                     flags = 0x2000 + 0x80000 + 0x400000; //SigObj.outputBase64 | SigObj.color32BPP | SigObj.encodeData
                     b64 = sigCtl.Signature.RenderBitmap("", 300, 150, "image/png", 0.5, 0xff0000, 0xffffff, 0.0, 0.0, flags );
                     var imgSrcData = "data:image/png;base64,"+b64;
@@ -64,27 +67,18 @@
         }
     }
 
-    function GetHash(hash) {
-        print("Creating document hash:");
-        hash.Clear();
-        hash.Type=1; // MD5
-        var url = $('#pdf-canvas').attr('data-url');
-        var blob = null;
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", url);
-        xhr.responseType = "blob";
-        xhr.onload = function()
-            {
-                blob = xhr.response;//xhr.response is now a blob object
-                var fileReader = new FileReader();
-                fileReader.readAsArrayBuffer(blob);
-                fileReader.onload = function() {
-                    var typedarray = new Uint8Array(this.result);
-                    hash.Add(typedarray);
-                };
-            }
-        xhr.send();
-      }
+    function GenerateHash(hasher) {
+            print("Creating document hash:");
+            hasher.Clear();
+            hasher.Type = 1; // MD5
+
+            var base64 = '{{$b64doc}}';
+            //print(base64);
+            hasher.add(base64);
+
+            print("hash: "+hasher.Hash);
+
+    }
 
 
     function DisplaySignatureDetails() {
@@ -198,8 +192,8 @@
                             <tr>
                                 <td rowspan="3" class="col-md-2">
                                     <div class="hidden">
-                                        <object id="sigCtl1" type="application/x-florentis-signature">
-                                        </object>
+                                        <!--<object id="sigCtl1" type="application/x-florentis-signature"></object>-->
+                                        <object id="sigCtl1" classid="clsid:963B1D81-38B8-492E-ACBE-74801D009E9E"></object>
                                         <input type="hidden" name="imgB64[]"  id="imgB64"/>
                                     </div>
                                     <img name="img64[]" id="b64image" style="width:12vw;height:12vh">
@@ -248,7 +242,7 @@ $(function () {
         pageNum = 1,
         pageRendering = false,
         pageNumPending = null,
-        scale = 1.7,
+        scale = 1.5,
         canvas = $('#pdf-canvas').get(0),
         canvasContainer = $('#div-pdf-canvas').get(0)
         url = $('#pdf-canvas').attr('data-url'),

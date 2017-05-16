@@ -165,8 +165,11 @@ class SignController extends Controller
             if($document->signed) {
                 return redirect()->back()->with('alert',__('sign.sign_doc_signed_alert').$document->date_sign);
             }
-            //$path = storage_path('app/public/documents/').$document->filename;
+            $path = storage_path('app/public/documents/').$document->filename;
             //$hash = md5_file($path);
+            $b64Doc = file_get_contents($path);
+            //$b64Doc = json_decode(str_replace("'", "\'", $b64Doc),true);
+
             if($document->doctype) {
                 $arrayTpl = $this->_getTemplate($document->doctype->template);
                 $arrayQuestion = $this->_getTemplate($document->doctype->questions);
@@ -180,6 +183,7 @@ class SignController extends Controller
                 'document' => $document,
                 'template' => json_encode($arrayTpl),
                 'questions' => json_encode($arrayQuestion),
+                'b64doc' => $b64Doc
 
                 //'hash' => $hash,
             ]);
