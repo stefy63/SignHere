@@ -45,7 +45,7 @@ class SignController extends Controller
             });
         })->where('active',true)->paginate(10);
 
-        $last = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
+        /*$last = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
             $qDossier->whereExists(function($qDocument){
                 $qDocument->select(DB::raw(1))
                     ->from('documents')
@@ -54,7 +54,15 @@ class SignController extends Controller
                     ->whereNull('deleted_at')
                     ->OrderBy('date_sign','DESC');
             });
-        })->where('active',true)->take(5)->get();
+        })->where('active',true)->take(5)->get();*/
+
+        $last = Acl::getMyClients()
+            ->join('dossiers','clients.id','=','dossiers.client_id')
+            ->join('documents','dossiers.id','=','documents.dossier_id')
+            ->orderBy('documents.date_sign','DESC')
+            ->whereNotNull('date_sign')
+            ->take(5)
+            ->get();
 
         $archives = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
             $qDossier->whereNotExists(function($qDocument){
@@ -159,9 +167,14 @@ class SignController extends Controller
             }
             //$path = storage_path('app/public/documents/').$document->filename;
             //$hash = md5_file($path);
+            if($document->doctype) {
+                $arrayTpl = $this->_getTemplate($document->doctype->template);
+                $arrayQuestion = $this->_getTemplate($document->doctype->questions);
+            } else {
+                $arrayTpl = array();
+                $arrayQuestion = array();
+            }
 
-            $arrayTpl = $this->_getTemplate($document->doctype->template);
-            $arrayQuestion = $this->_getTemplate($document->doctype->questions);
 
             return view('frontend.sign.sign',[
                 'document' => $document,

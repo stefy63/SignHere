@@ -6,7 +6,16 @@
 
     var Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA';
 
-
+    function Start() {
+        /*
+        - richiesta autorizzazione firma digitale documento
+        - ciclo richieste da DB e memorizzazione risposte
+        - ciclo firme se multiple o firma se singola
+        - elaborazione documento firmato con risposte facoltative e firme
+        - richiesta conferma firma con visualizzazione
+        - fine
+        */
+    }
 
     function Capture(e) {
         try {
@@ -16,18 +25,16 @@
             var hash = new ActiveXObject('Florentis.Hash');
             GetHash(hash);
             var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}",hash);
-            if(rc != 0 )
-                toastr['success']("{{__('sign.sign_proc_success')}}", "{{__('sign.sign_proc_success_title')}}");
-                print("Capture returned: " + rc);
-                flags = 0x2000 + 0x80000 + 0x400000; //SigObj.outputBase64 | SigObj.color32BPP | SigObj.encodeData
-                b64 = sigCtl.Signature.RenderBitmap("", 300, 150, "image/png", 0.5, 0xff0000, 0xffffff, 0.0, 0.0, flags );
-                var imgSrcData = "data:image/png;base64,"+b64;
-                document.getElementById("b64image").src=imgSrcData;
-                document.getElementById("imgB64").src=imgSrcData;
-
             switch( rc ) {
                 case 0: // CaptureOK
                     print("Signature captured successfully");
+                    toastr['success']("{{__('sign.sign_proc_success')}}", "{{__('sign.sign_proc_success_title')}}");
+                    print("Capture returned: " + rc);
+                    flags = 0x2000 + 0x80000 + 0x400000; //SigObj.outputBase64 | SigObj.color32BPP | SigObj.encodeData
+                    b64 = sigCtl.Signature.RenderBitmap("", 300, 150, "image/png", 0.5, 0xff0000, 0xffffff, 0.0, 0.0, flags );
+                    var imgSrcData = "data:image/png;base64,"+b64;
+                    document.getElementById("b64image").src=imgSrcData;
+                    document.getElementById("imgB64").src=imgSrcData;
                     break;
                 case 1: // CaptureCancel
                     print("Signature capture cancelled");
@@ -204,7 +211,7 @@
                             <tr>
                                 <td style="padding: 10px 10px;">
                                 @if(config('app.debug'))
-                                    <button class="btn btn-block btn-outline btn-danger"  title="Starts signature capture" onclick="AboutBox()">Info</button>
+                                    <input type="button" class="btn btn-block btn-outline btn-danger"  title="Starts signature capture" onclick="AboutBox()" value="Info" />
                                 @endif
                                 </td>
                             </tr>
@@ -223,9 +230,9 @@
                     </div>
                 </div>
 
-                <div style="height: 70vh;overflow: auto" class="pull-left col-lg-9">
+                <div style="height: 70vh;overflow: auto" class="pull-left col-lg-9" id="div-pdf-canvas">
 
-                    <canvas id="pdf-canvas" data-url="{{ asset('storage')}}/documents/{{$document->filename}}"></canvas>
+                    <canvas id="pdf-canvas" data-url="{{ asset('storage')}}/documents/{{$document->filename}}" height="100%" width="100%"></canvas>
 
                 </div>
             </div>
@@ -241,8 +248,9 @@ $(function () {
         pageNum = 1,
         pageRendering = false,
         pageNumPending = null,
-        scale = 1.4,
+        scale = 1.7,
         canvas = $('#pdf-canvas').get(0),
+        canvasContainer = $('#div-pdf-canvas').get(0)
         url = $('#pdf-canvas').attr('data-url'),
         ctx = canvas.getContext('2d');
 
@@ -254,17 +262,28 @@ $(function () {
         pageRendering = true;
         // Using promise to fetch the page
         pdfDoc.getPage(num).then(function(page) {
+
+            var canvas = document.createElement('canvas');
+
             var viewport = page.getViewport(scale);
             canvas.height = viewport.height;
             canvas.width = viewport.width;
-            //canvas.height = '500px';
-            //canvas.width = '500px';
+            /*console.log(viewport);
+            canvas.height = 500;
+            canvas.width = 500;*/
+
+
+            ctx = canvas.getContext('2d');
 
             // Render PDF page into canvas context
             var renderContext = {
                 canvasContext: ctx,
                 viewport: viewport
             };
+
+
+            canvasContainer.appendChild(canvas);
+
             var renderTask = page.render(renderContext);
 
             // Wait for rendering to finish
@@ -342,7 +361,36 @@ $(function () {
     });*/
     $('#imgB64').val("FDKSJFKDSJFJSDLFKSDLKFJSDKLFJLDSKJFLSD");
 })
-    
+
+/*
+    function renderPDF(url, canvasContainer, options) {
+    var options = options || { scale: 1 };
+
+    function renderPage(page) {
+        var viewport = page.getViewport(options.scale);
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
+        var renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        canvasContainer.appendChild(canvas);
+
+        page.render(renderContext);
+    }
+
+    function renderPages(pdfDoc) {
+        for(var num = 1; num <= pdfDoc.numPages; num++)
+            pdfDoc.getPage(num).then(renderPage);
+    }
+    PDFJS.disableWorker = true;
+    PDFJS.getDocument(url).then(renderPages);
+}
+*/
+
 </script>
 
 @endsection
