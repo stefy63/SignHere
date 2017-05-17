@@ -166,9 +166,9 @@ class SignController extends Controller
                 return redirect()->back()->with('alert',__('sign.sign_doc_signed_alert').$document->date_sign);
             }
             $path = storage_path('app/public/documents/').$document->filename;
-            //$hash = md5_file($path);
             $b64Doc = file_get_contents($path);
-            //$b64Doc = json_decode(str_replace("'", "\'", $b64Doc),true);
+            $b64Doc = base64_encode(file_get_contents($path));
+            //$b64Doc = str_replace("'", "\'", $b64Doc);
 
             if($document->doctype) {
                 $arrayTpl = $this->_getTemplate($document->doctype->template);
@@ -178,14 +178,12 @@ class SignController extends Controller
                 $arrayQuestion = array();
             }
 
-
+            ob_start();
             return view('frontend.sign.sign',[
                 'document' => $document,
                 'template' => json_encode($arrayTpl),
                 'questions' => json_encode($arrayQuestion),
                 'b64doc' => $b64Doc
-
-                //'hash' => $hash,
             ]);
         }
         return redirect()->back()->with('alert',__('sign.sign_document_NOTFound'));

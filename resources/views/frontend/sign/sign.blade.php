@@ -4,7 +4,30 @@
 <script src="{{ asset('js/compatibility.js') }}"></script>
 <script>
 
-    var Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA';
+    var Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA',
+        //var sigCtl = document.getElementById("sigCtl1"),
+        sigCtl = new ActiveXObject("Florentis.SigCtl"),
+        dc = new ActiveXObject("Florentis.DynamicCapture"),
+        hasher = new ActiveXObject('Florentis.Hash'),
+        WizCtl = new ActiveXObject("Florentis.WizCtl");
+
+    // Wizard control enum values
+    var WizObject = {
+        Text:0,
+        Button:1,
+        Checkbox:2,
+        Signature:3,
+        ObjectHash:6
+    };
+
+    // Wizard control enum values
+    var WizCheckboxOptions = {
+        Checked:0,
+        DisplayCross:1,
+        DisplayTick:2,
+        Unchecked:3
+    };
+
 
     function Start() {
         /*
@@ -15,14 +38,34 @@
         - richiesta conferma firma con visualizzazione
         - fine
         */
+        sendQuestions();
+        Capture();
+
+
     }
+
+    function sendQuestions() {
+        var questions = "{{$questions}}";
+        console.log(questions);
+    }
+    /**
+     * Save configuration of a Wacom Pad
+     * */
+    function TPad(model, signatureLineY, whoY, whyY, textFontSize, buttonFontSize, signLineSize, buttonWith) {
+        this.model = model;
+        this.signatureLineY = signatureLineY;
+        this.whoY = whoY;
+        this.whyY = whyY;
+        this.buttonWith = buttonWith;
+        this.textFontSize = textFontSize;
+        this.buttonFontSize = buttonFontSize;
+        this.signLineSize = signLineSize;
+    }
+
 
     function Capture(e) {
         try {
             print("Capturing signature...");
-            var sigCtl = document.getElementById("sigCtl1");
-            var dc = new ActiveXObject("Florentis.DynamicCapture");
-            var hasher = new ActiveXObject('Florentis.Hash');
             GenerateHash(hasher);
             var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}", hasher);
             if(rc != 0)
@@ -72,9 +115,10 @@
             hasher.Clear();
             hasher.Type = 1; // MD5
 
-            var base64 = '{{$b64doc}}';
+            //var base64 = '{{$b64doc}}';
             //print(base64);
-            hasher.add(base64);
+            //hasher.add(base64);
+            hasher.add(pdfData);
 
             print("hash: "+hasher.Hash);
 
@@ -110,6 +154,9 @@
         }
     }
 
+    function Error(txt) {
+        print("Error: " + txt);
+    }
     function Exception(txt) {
         print("Exception: " + txt);
     }
@@ -199,7 +246,7 @@
                                     <img name="img64[]" id="b64image" style="width:12vw;height:12vh">
                                 </td>
                                 <td  style="padding: 10px 10px;">
-                                    <input type="button" class="btn btn-block btn-outline btn-warning"  title="Starts signature capture" onclick="Capture();" value="Start" />
+                                    <input type="button" class="btn btn-block btn-outline btn-warning"  title="Starts signature capture" onclick="sendQuestions();" value="Start" />
                                 </td>
                             </tr>
                             <tr>
@@ -224,9 +271,9 @@
                     </div>
                 </div>
 
-                <div style="height: 70vh;overflow: auto" class="pull-left col-lg-9" id="div-pdf-canvas">
+                <div style="height: 70vh;overflow: auto" class="pull-left col-lg-9 text-center" id="div-pdf-canvas">
 
-                    <canvas id="pdf-canvas" data-url="{{ asset('storage')}}/documents/{{$document->filename}}" height="100%" width="100%"></canvas>
+                    <canvas id="pdf-canvas" height="100%" width="100%"></canvas>
 
                 </div>
             </div>
@@ -239,13 +286,14 @@ $(function () {
 ///////// PDFJS
 
     var pdfDoc = null,
+        pdfData = atob("{{$b64doc}}"),
         pageNum = 1,
         pageRendering = false,
         pageNumPending = null,
-        scale = 1.5,
+        //scale = 1.5,
         canvas = $('#pdf-canvas').get(0),
-        canvasContainer = $('#div-pdf-canvas').get(0)
-        url = $('#pdf-canvas').attr('data-url'),
+        //canvasContainer = $('#div-pdf-canvas').get(0)
+        //url = $('#pdf-canvas').attr('data-url'),
         ctx = canvas.getContext('2d');
 
     /**
@@ -257,16 +305,14 @@ $(function () {
         // Using promise to fetch the page
         pdfDoc.getPage(num).then(function(page) {
 
-            var canvas = document.createElement('canvas');
+            //var canvas = document.createElement('canvas');
+            var desiredWidth = 1100;
+            var viewport2 = page.getViewport(1);
+            var scale = desiredWidth / viewport2.width;
 
             var viewport = page.getViewport(scale);
             canvas.height = viewport.height;
             canvas.width = viewport.width;
-            /*console.log(viewport);
-            canvas.height = 500;
-            canvas.width = 500;*/
-
-
             ctx = canvas.getContext('2d');
 
             // Render PDF page into canvas context
@@ -274,9 +320,6 @@ $(function () {
                 canvasContext: ctx,
                 viewport: viewport
             };
-
-
-            canvasContainer.appendChild(canvas);
 
             var renderTask = page.render(renderContext);
 
@@ -334,12 +377,17 @@ $(function () {
     /**
      * Asynchronously downloads PDF.
      */
-    PDFJS.getDocument(url).then(function(pdfDoc_) {
+    //PDFJS.getDocument(url).then(function(pdfDoc_) {
+    PDFJS.getDocument({data: pdfData}).then(function(pdfDoc_) {
         pdfDoc = pdfDoc_;
         document.getElementById('page_count').textContent = pdfDoc.numPages;
 
         // Initial/first page rendering
         renderPage(pageNum);
+    });
+
+    $('#pdf-canvas').change(function(e){
+        console.log('canvas changed.......');
     });
 
 
@@ -349,11 +397,11 @@ $(function () {
 
 ///////////// FORM
 
-    /*$('form#toast-form').submit(function(e){
+    $('form#toast-form').submit(function(e){
         e.preventDefault();
         $('input[name=imgB64]').val($('img#b64image').src);
-    });*/
-    $('#imgB64').val("FDKSJFKDSJFJSDLFKSDLKFJSDKLFJLDSKJFLSD");
+    });
+    //$('#imgB64').val("FDKSJFKDSJFJSDLFKSDLKFJSDKLFJLDSKJFLSD");
 })
 
 /*
