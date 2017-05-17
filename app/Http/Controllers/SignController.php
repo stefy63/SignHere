@@ -165,9 +165,10 @@ class SignController extends Controller
             if($document->signed) {
                 return redirect()->back()->with('alert',__('sign.sign_doc_signed_alert').$document->date_sign);
             }
-            $path = storage_path('app/public/documents/').$document->filename;
-            $b64Doc = file_get_contents($path);
-            $b64Doc = base64_encode(file_get_contents($path));
+            //$path = storage_path('app/public/documents/').$document->filename;
+            $b64Doc = Storage::disk('documents')->get($document->filename);
+            //$b64Doc = file_get_contents($path);
+            $b64Doc = base64_encode($b64Doc);
             //$b64Doc = str_replace("'", "\'", $b64Doc);
 
             if($document->doctype) {

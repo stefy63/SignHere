@@ -5,11 +5,13 @@
 <script>
 
     var Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA',
-        //var sigCtl = document.getElementById("sigCtl1"),
-        sigCtl = new ActiveXObject("Florentis.SigCtl"),
-        dc = new ActiveXObject("Florentis.DynamicCapture"),
-        hasher = new ActiveXObject('Florentis.Hash'),
-        WizCtl = new ActiveXObject("Florentis.WizCtl");
+        StepHandler,
+        ctlScript = 0,
+        AuthSign = false,
+        questions = JSON.parse('{!! $questions !!}'),
+        responseQuestions = [];
+
+        console.log(questions);
 
     // Wizard control enum values
     var WizObject = {
@@ -28,7 +30,18 @@
         Unchecked:3
     };
 
+//================================ PadEventHandler ================================
+    function PadEventHandler( Ctl, Id, Type ) {
+        //setTimeout("StepHandler('" + Id + "')",0);
+        StepHandler(Ctl,Id,Type);
+    }
 
+    function SetEventHandler( handler ) {
+      WizCtl.SetEventHandler( PadEventHandler );
+      StepHandler = handler;
+    }
+
+//================================ StepControl     ================================
     function Start() {
         /*
         - richiesta autorizzazione firma digitale documento
@@ -38,16 +51,99 @@
         - richiesta conferma firma con visualizzazione
         - fine
         */
-        sendQuestions();
-        Capture();
+    }
 
+    function SendQuestionsAuth() {
+        console.log(questions);
+        try {
+            //setPadPage(questions[ctlScript][3]);
+            WizCtl.Reset();
+            WizCtl.Font.Name = "Verdana";
+            WizCtl.Font.Bold = false;
+            WizCtl.Font.Size = Pad.textFontSize;
 
+            WizCtl.AddObject(WizObject.Checkbox, "chk", "left", "middle", "Autorizza firma autografa elettronica?", null );
+
+            WizCtl.Font.Size = Pad.buttonFontSize;
+            WizCtl.AddObject(WizObject.Button, "Cancel", "left", "bottom", "Cancel", Pad.buttonWith );
+            WizCtl.AddObject(WizObject.Button, "Next", "right", "bottom", "Next", Pad.buttonWith );
+
+            WizCtl.Display();
+            SetEventHandler(Auth_Hendler);
+        } catch ( ex ) {
+            Exception( "questionsAuth() " + ex.message);
+        }
+    }
+    function Auth_Hendler(Ctl, Id, Type) {
+        switch(Id) {
+            case "Next":
+                if (WizCtl.GetObjectState("chk")){
+                    AuthSign = true;
+                    sendQuestions(ctlScript);
+                } else stopWizard();
+                break;
+            case "Cancel":
+                print("Cancel");
+                stopWizard();
+                break;
+            default:
+                Error("Unexpected Step1 event: " + Id);
+                break;
+        }
     }
 
     function sendQuestions() {
-        var questions = "{{$questions}}";
-        console.log(questions);
+        try {
+            if (ctlScript < questions.length){
+                WizCtl.Reset();
+                WizCtl.Font.Name = "Verdana";
+                WizCtl.Font.Bold = false;
+                WizCtl.Font.Size = Pad.textFontSize;
+
+                WizCtl.AddObject(WizObject.Checkbox, "chk", "left", "middle", questions[ctlScript][3], null );
+
+                WizCtl.Font.Size = Pad.buttonFontSize;
+                WizCtl.AddObject(WizObject.Button, "Cancel", "left", "bottom", "Cancel", Pad.buttonWith );
+                WizCtl.AddObject(WizObject.Button, "Next", "right", "bottom", "Next", Pad.buttonWith );
+
+                WizCtl.Display();
+                SetEventHandler(Step_Handler);
+            } else {
+                stopWizard();
+                $('#questions').val(JSON.stringify(responseQuestions));
+                Capture();
+            }
+        } catch ( ex ) {
+            Exception( "questions("+ctlScript+") " + ex.message);
+        }
     }
+
+    function Step_Handler(Ctl,Id,Type) {
+        console.log(Ctl);
+        print(Type);
+        switch(Id) {
+            case "Next":
+                if (WizCtl.GetObjectState("chk")){
+                    responseQuestions[ctlScript] = true;
+                    sendQuestions(++ctlScript);
+                } else stopWizard();
+                break;
+            case "Cancel":
+                print("Cancel");
+                stopWizard();
+                break;
+            default:
+                Error("Unexpected Step1 event: " + Id);
+                break;
+        }
+    }
+
+    function stopWizard() {
+        WizCtl.Reset();
+        WizCtl.PadDisconnect();
+        print("Pad disconnected");
+    }
+
     /**
      * Save configuration of a Wacom Pad
      * */
@@ -62,6 +158,38 @@
         this.signLineSize = signLineSize;
     }
 
+    var Pad = (function () {
+        rc = WizCtl.PadConnect();
+        if( rc != true ) {
+          print("Unable to make connection to the Pad");
+          WizCtl.Reset();
+          Pad = false;
+        }
+        else {
+          var zoom=50; // set default
+          print("Pad detected: " + WizCtl.PadWidth + " x " + WizCtl.PadHeight);
+          ScriptIsRunning = true;
+          document.getElementById("btnStartStopWizard").value = "Stop Wizard";
+
+          switch (WizCtl.PadWidth) {
+              case 396:    Pad = new TPad("STU-300", 60, 200, 200, 8, 8, 16, 70, 100, 200, 35, 30, 10);
+                           zoom = 100;
+                           break;
+              case 640:    Pad = new TPad("STU-500", 300, 360, 390, 16, 22, 32, 110, 260, 0, 180, 30, 100);
+                           zoom = 50;
+                           break;
+              case 800:    Pad = new TPad("STU-520 or STU-530", 300, 360, 390, 16, 22, 32, 110, 340, 0, 180, 50, 100);
+                           zoom = 50;
+                           break;
+              case 320:    Pad = new TPad("STU-430 or ePad", 100, 130, 150, 10, 12, 16, 110, 120, 0, 45, 30, 15);
+                           zoom = 100;
+                           break;
+               default: Pad = false;
+		  }
+		  WizCtl.Zoom = zoom;
+		  return this;
+          }
+    })();
 
     function Capture(e) {
         try {
@@ -75,12 +203,12 @@
                     print("Capture returned: " + rc);
                     print("Signature captured successfully");
                     print(hasher.Hash.toString());
-                    toastr['success']("{{__('sign.sign_proc_success')}}", "{{__('sign.sign_proc_success_title')}}");
                     flags = 0x2000 + 0x80000 + 0x400000; //SigObj.outputBase64 | SigObj.color32BPP | SigObj.encodeData
                     b64 = sigCtl.Signature.RenderBitmap("", 300, 150, "image/png", 0.5, 0xff0000, 0xffffff, 0.0, 0.0, flags );
                     var imgSrcData = "data:image/png;base64,"+b64;
                     document.getElementById("b64image").src=imgSrcData;
                     document.getElementById("imgB64").src=imgSrcData;
+                    toastr['success']("{{__('sign.sign_proc_success')}}", "{{__('sign.sign_proc_success_title')}}");
                     break;
                 case 1: // CaptureCancel
                     print("Signature capture cancelled");
@@ -114,34 +242,8 @@
             print("Creating document hash:");
             hasher.Clear();
             hasher.Type = 1; // MD5
-
-            //var base64 = '{{$b64doc}}';
-            //print(base64);
-            //hasher.add(base64);
             hasher.add(pdfData);
-
             print("hash: "+hasher.Hash);
-
-    }
-
-
-    function DisplaySignatureDetails() {
-        try {
-            var sigCtl = document.getElementById("sigCtl1");
-            if (sigCtl.Signature.IsCaptured) {
-                print("Signature Information:");
-                print("  Name:   " + sigCtl.Signature.Who);
-                print("  Date:   " + sigCtl.Signature.When);
-                print("  Reason: " + sigCtl.Signature.Why);
-            }
-            else
-            {
-                print("No signature captured");
-            }
-        }
-        catch(ex) {
-            Exception("DisplaySignatureDetails() error: " + ex.message);
-        }
     }
 
     function AboutBox() {
@@ -179,14 +281,22 @@
                 return;
             }
             print("CLEAR");
-            var sigCtl = document.getElementById("sigCtl1");
+
+            //var sigCtl = document.getElementById("sigCtl1"),
+            var sigCtl = new ActiveXObject("Florentis.SigCtl"),
+                dc = new ActiveXObject("Florentis.DynamicCapture"),
+                hasher = new ActiveXObject('Florentis.Hash'),
+                WizCtl = new ActiveXObject("Florentis.WizCtl");
+
             sigCtl.SetProperty("Licence",Licence);
             sigCtl.BackStyle = 1;
             sigCtl.DisplayMode=0; // fit signature to control
+
+
             print("Checking components...");
-            var sigcapt = new ActiveXObject('Florentis.DynamicCapture');  // force 'can't create object' error if components not yet installed
+            //var sigcapt = new ActiveXObject('Florentis.DynamicCapture');  // force 'can't create object' error if components not yet installed
             var lic = new ActiveXObject("Wacom.Signature.Licence");
-            print("DLL: Licence.dll   v" + lic.GetProperty("Component_FileVersion"));
+            print("DLL: Licence.dll   v" + dc.GetProperty("Component_FileVersion"));
             print("DLL: flSigCOM.dll  v" +   sigCtl.GetProperty("Component_FileVersion"));
             print("DLL: flSigCapt.dll v" + sigcapt.GetProperty("Component_FileVersion"));
             print("Test application ready.");
@@ -197,14 +307,10 @@
         }
     }
 
-
-
-
 </script>
 @endpush
 @section('content')
 <div class="row">
-    @if($document->doctype){{ $document->doctype->template }}@endif
     <div class="col-lg-12">
         <div class="ibox float-e-margins col-lg-12">
             <div class="ibox-title">
@@ -244,9 +350,10 @@
                                         <input type="hidden" name="imgB64[]"  id="imgB64"/>
                                     </div>
                                     <img name="img64[]" id="b64image" style="width:12vw;height:12vh">
+                                    <input id="questions" type="hidden" name="questions" value="" />
                                 </td>
                                 <td  style="padding: 10px 10px;">
-                                    <input type="button" class="btn btn-block btn-outline btn-warning"  title="Starts signature capture" onclick="sendQuestions();" value="Start" />
+                                    <input type="button" class="btn btn-block btn-outline btn-warning"  title="Starts signature capture" onclick="SendQuestionsAuth();" value="Start" />
                                 </td>
                             </tr>
                             <tr>
@@ -397,10 +504,10 @@ $(function () {
 
 ///////////// FORM
 
-    $('form#toast-form').submit(function(e){
+    /*$('form#toast-form').submit(function(e){
         e.preventDefault();
         $('input[name=imgB64]').val($('img#b64image').src);
-    });
+    });*/
     //$('#imgB64').val("FDKSJFKDSJFJSDLFKSDLKFJSDKLFJLDSKJFLSD");
 })
 
