@@ -331,7 +331,7 @@
 
                 <div class="pull-right col-lg-3">
                     <div>
-                        <h2>{{__('sign.sign_pdf_wacom_title')}}</h2>
+                        <h2 class="text-center">{{__('sign.sign_pdf_wacom_title')}}</h2>
                         <!--[if !IE]>-->
                         <div id="not_ie_warning" style="display:none">
                             <h2 class="text-center">WARNING:</h2>
