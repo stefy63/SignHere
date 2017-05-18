@@ -27,14 +27,6 @@ class SignController extends Controller
      */
     public function index()
     {
-        //dd(storage_path(env('DRIVE_DOCUMENT','app/public').'/documents'),asset('storage').'/documents');
-        /*$clients = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
-            $qDossier->whereHas('documents', function($qDocument){
-                $qDocument->where('signed',false);
-            });
-        })->where('active',true)->paginate(10);*/
-
-
         $clients = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
             $qDossier->whereExists(function($qDocument){
                 $qDocument->select(DB::raw(1))
@@ -44,17 +36,6 @@ class SignController extends Controller
                     ->whereNull('deleted_at');
             });
         })->where('active',true)->paginate(10);
-
-        /*$last = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
-            $qDossier->whereExists(function($qDocument){
-                $qDocument->select(DB::raw(1))
-                    ->from('documents')
-                    ->whereRaw('documents.dossier_id = dossiers.id')
-                    //->where('signed',false)
-                    ->whereNull('deleted_at')
-                    ->OrderBy('date_sign','DESC');
-            });
-        })->where('active',true)->take(5)->get();*/
 
         $last = Acl::getMyClients()
             ->join('dossiers','clients.id','=','dossiers.client_id')
@@ -73,8 +54,6 @@ class SignController extends Controller
                     ->whereNull('deleted_at');
             });
         })->where('active',true)->paginate(10);
-
-        //dd($archives);
 
         return view('frontend.sign.index',[
             'archives' => $archives,
@@ -179,7 +158,6 @@ class SignController extends Controller
                 $arrayQuestion = array();
             }
 
-            ob_start();
             return view('frontend.sign.sign',[
                 'document' => $document,
                 'template' => json_encode($arrayTpl),

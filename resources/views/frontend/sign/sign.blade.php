@@ -13,14 +13,13 @@ $(function () {
         Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA',
         hasher,
         ctlScript = 0,
-        AuthSign = false,
         questions = JSON.parse('{!! $questions !!}'),
         responseQuestions = [],
         Pad,
         StepHandler,
         pdfData = atob("{{$b64doc}}");
 
-    print(questions);
+print(questions);
 
     // Wizard control enum values
     var WizObject = {
@@ -88,7 +87,6 @@ $(function () {
         fPad();
         toastr['info']("{{__('sign.sign_proc_start')}}", "{{__('sign.sign_proc_start_title')}}");
         SendQuestionsAuth();
-        //Capture();
     });
     $('#about').click(function () {
         AboutBox();
@@ -97,13 +95,12 @@ $(function () {
 
     function SendQuestionsAuth() {
         try {
-            //setPadPage(questions[ctlScript][3]);
             WizCtl.Reset();
             WizCtl.Font.Name = "Verdana";
             WizCtl.Font.Bold = false;
             WizCtl.Font.Size = Pad.textFontSize;
 
-            WizCtl.AddObject(WizObject.Checkbox, "chk", "left", "middle", "Autorizza firma autografa elettronica?", null );
+            WizCtl.AddObject(WizObject.Checkbox, "chk", "center", "middle", "{{__('sign.sign_proc_auth_question')}}", null );
 
             WizCtl.Font.Size = Pad.buttonFontSize;
             WizCtl.AddObject(WizObject.Button, "Cancel", "left", "bottom", "Cancel", Pad.buttonWith );
@@ -119,15 +116,19 @@ $(function () {
         switch(Id) {
             case "Next":
                 if (WizCtl.GetObjectState("chk")){
-                    AuthSign = true;
-                    sendQuestions(ctlScript);
+                    print('Next');
+                    sendQuestions();
                 } else {
+                    print('NoNext');
                     stopWizard();
                 }
                 break;
             case "Cancel":
                 print("Cancel");
                 stopWizard();
+                break;
+            case "chk":
+                print(WizCtl.GetObjectState("chk"));
                 break;
             default:
                 Error("Unexpected Step1 event: " + Id);
@@ -136,14 +137,15 @@ $(function () {
     }
 
     function sendQuestions() {
+        print('questions :'+questions.length);
         try {
-            if (ctlScript < questions.length){
+            if (ctlScript < questions.length && questions[ctlScript] != ""){
                 WizCtl.Reset();
                 WizCtl.Font.Name = "Verdana";
                 WizCtl.Font.Bold = false;
                 WizCtl.Font.Size = Pad.textFontSize;
 
-                WizCtl.AddObject(WizObject.Checkbox, "chk", "left", "middle", questions[ctlScript][3], null );
+                WizCtl.AddObject(WizObject.Checkbox, "chk2", "center", "middle", questions[ctlScript][3], null );
 
                 WizCtl.Font.Size = Pad.buttonFontSize;
                 WizCtl.AddObject(WizObject.Button, "Cancel", "left", "bottom", "Cancel", Pad.buttonWith );
@@ -152,27 +154,36 @@ $(function () {
                 WizCtl.Display();
                 SetEventHandler(Step_Handler);
             } else {
-                WizCtl.Reset();
                 $('#questions').val(JSON.stringify(responseQuestions));
-                toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_title')}}");
+                ctlScript = 0;
                 stopWizard();
-                Capture();
+                toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_title')}}");
+                setTimeout(function() {
+                    Capture()
+                }, 1000);
             }
         } catch ( ex ) {
             Exception( "questions("+ctlScript+") " + ex.message);
         }
     }
     function Step_Handler(Ctl,Id,Type) {
-        console.log(Ctl);
-        print(Type);
         switch(Id) {
             case "Next":
-                responseQuestions[ctlScript] = (WizCtl.GetObjectState("chk"))?true:false;
-                sendQuestions(++ctlScript);
+                if (WizCtl.GetObjectState("chk2")) {
+                    responseQuestions[ctlScript] = true;
+                } else {
+                    responseQuestions[ctlScript] = false;
+                }
+                print("ctlScript: "+ctlScript);
+                ctlScript++;
+                sendQuestions();
                 break;
             case "Cancel":
                 print("Cancel");
                 stopWizard();
+                break;
+            case "chk2":
+                print(WizCtl.GetObjectState("chk2"));
                 break;
             default:
                 Error("Unexpected Step1 event: " + Id);
@@ -201,7 +212,7 @@ $(function () {
         this.signLineSize = signLineSize;
     }
 
-    function Capture(e) {
+    function Capture() {
 
         toastr['info']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_title')}}");
         sigCtl = new ActiveXObject("Florentis.SigCtl");
@@ -213,11 +224,9 @@ $(function () {
             print("Capturing signature...");
             hasher = GenerateHash();
             var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}", hasher, null);
-            if(rc != 0)
-                print("Capture returned: " + rc);
+            print("Capture returned: " + rc);
             switch( rc ) {
                 case 0: // CaptureOK
-                    print("Capture returned: " + rc);
                     print("Signature captured successfully");
                     flags = 0x2000 + 0x80000 + 0x400000; //SigObj.outputBase64 | SigObj.color32BPP | SigObj.encodeData
                     b64 = sigCtl.Signature.RenderBitmap("", 300, 150, "image/png", 0.5, 0xff0000, 0xffffff, 0.0, 0.0, flags );
@@ -331,7 +340,7 @@ $(function () {
         pdfDoc.getPage(num).then(function(page) {
 
             //var canvas = document.createElement('canvas');
-            var desiredWidth = 1000;
+            var desiredWidth = 900;
             var viewport2 = page.getViewport(1);
             var scale = desiredWidth / viewport2.width;
 
