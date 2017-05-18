@@ -62,7 +62,8 @@
                                     <tr class="col-md-5 bg-success tr-document document-{{$dossier->id}}"  data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
                                         <td colspan="3" @if($document->signed)class="text-line-through text-danger"@endif>{{$document->name}}
                                         <div class="pull-right">
-                                            <a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a>
+                                            <!--<a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a>-->
+                                            <a href="{{Storage::disk('documents')->url($document->filename) }}" target="_blank"><i class="fa fa-file-o"></i></a>
                                         </div>
                                     </tr>
                                     @endforeach
@@ -101,8 +102,8 @@
                                     <tr class="bg-success tr-document document-{{$dossier->id}}" data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
                                         <td colspan="3" @if($document->signed)class="text-line-through text-danger"@endif>{{$document->name}}
                                         <div class="pull-right">
-                                            <a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a>
-                                            &nbsp;&nbsp;&nbsp;
+                                        <!--<a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a>-->
+                                            <a href="{{Storage::disk('documents')->url($document->filename) }}" target="_blank"><i class="fa fa-file-o"></i></a>&nbsp;&nbsp;&nbsp;
                                             <a data-message="{{__('sign.confirm_delete')}}" data-location="{{url('sign/destroy/'.$document->id)}}" class="confirm-toast"><i class="fa fa-trash-o text-danger"></i></a>
                                         </div>
                                     </tr>
@@ -142,8 +143,8 @@
                                     <tr class="bg-success tr-document document-{{$dossier->id}}" data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
                                         <td colspan="3" @if($document->signed)class="text-line-through text-danger"@endif>{{$document->name}}
                                         <div class="pull-right">
-                                            <a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a>
-                                            &nbsp;&nbsp;&nbsp;
+                                        <!--<a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a>-->
+                                            <a href="{{Storage::disk('documents')->url($document->filename) }}" target="_blank"><i class="fa fa-file-o"></i></a>
                                             <a data-message="{{__('sign.confirm_delete')}}" data-location="{{url('sign/destroy/'.$document->id)}}" class="confirm-toast"><i class="fa fa-trash-o text-danger"></i></a>
                                         </div>
                                     </tr>
