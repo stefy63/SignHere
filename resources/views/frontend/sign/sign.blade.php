@@ -195,7 +195,7 @@ print(questions);
         WizCtl.Reset();
         WizCtl.PadDisconnect();
         print("Pad disconnected");
-        toastr['error']("{{__('sign.sign_proc_drop')}}", "{{__('sign.sign_proc_start_title')}}");
+        //toastr['error']("{{__('sign.sign_proc_drop')}}", "{{__('sign.sign_proc_start_title')}}");
     }
 
     /**
@@ -216,6 +216,7 @@ print(questions);
 
         toastr['info']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_title')}}");
         sigCtl = new ActiveXObject("Florentis.SigCtl");
+        //sigCtl = new ActiveXObject("Florentis.SigCtlXHTML");
         dc = new ActiveXObject("Florentis.DynamicCapture");
         sigCtl.SetProperty("Licence",Licence);
         sigCtl.BackStyle = 1;
@@ -231,6 +232,7 @@ print(questions);
                     flags = 0x2000 + 0x80000 + 0x400000; //SigObj.outputBase64 | SigObj.color32BPP | SigObj.encodeData
                     b64 = sigCtl.Signature.RenderBitmap("", 300, 150, "image/png", 0.5, 0xff0000, 0xffffff, 0.0, 0.0, flags );
                     var imgSrcData = "data:image/png;base64,"+b64;
+                    //var imgSrcData = b64;
                     //document.getElementById("b64image").src=imgSrcData;
                     $('#b64image').attr("src",imgSrcData);
                     $("#imgB64").val(imgSrcData);

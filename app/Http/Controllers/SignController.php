@@ -7,6 +7,8 @@ use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use FPDI;
+use TCPDF;
 
 class SignController extends Controller
 {
@@ -171,7 +173,24 @@ class SignController extends Controller
 
     public function store_signing(Request $request, $id)
     {
-        dd($request->all());
+        //dd($request->all());
+        if($document = Document::find($id)){
+            $base64 = explode(',', $request->imgB64[0]);
+            $data = base64_decode($base64[1]);
+
+
+            $pdf = new FPDI();
+            $pdf->AddPage();
+            $pdf->setSourceFile(public_path('storage/documents/'.$document->filename));
+            $tplIdx = $pdf->importPage(1);
+            $pdf->useTemplate($tplIdx, 0, 0, 0, 0, true);
+
+            $pdf->Image('@' . $data, 30, 245, 30, 15, '', '', '', false, 300, '', false, false);
+
+            $pdf->Output();
+
+        }
+
         return redirect('sign');
     }
 
