@@ -146,11 +146,8 @@ class SignController extends Controller
             if($document->signed) {
                 return redirect()->back()->with('alert',__('sign.sign_doc_signed_alert').$document->date_sign);
             }
-            //$path = storage_path('app/public/documents/').$document->filename;
             $b64Doc = Storage::disk('documents')->get($document->filename);
-            //$b64Doc = file_get_contents($path);
             $b64Doc = base64_encode($b64Doc);
-            //$b64Doc = str_replace("'", "\'", $b64Doc);
 
             if($document->doctype) {
                 $arrayTpl = $this->_getTemplate($document->doctype->template);
@@ -173,19 +170,47 @@ class SignController extends Controller
 
     public function store_signing(Request $request, $id)
     {
-        //dd($request->all());
         if($document = Document::find($id)){
-            $base64 = explode(',', $request->imgB64[0]);
-            $data = base64_decode($base64[1]);
+            $origin = $request->imgB64[0];
+            $arrayTpl = $this->_getTemplate($document->doctype->template);
+            $arrayQuestion = $this->_getTemplate($document->doctype->questions);
+            $base64 = substr($origin,strpos($origin,",")+1);
+            $resource = base64_decode($base64);
+            $returnTemplates = json_decode($request->templates);
+            $returnQuestions = json_decode($request->questions);
 
-
+            class_exists('TCPDF', true);
             $pdf = new FPDI();
-            $pdf->AddPage();
-            $pdf->setSourceFile(public_path('storage/documents/'.$document->filename));
-            $tplIdx = $pdf->importPage(1);
-            $pdf->useTemplate($tplIdx, 0, 0, 0, 0, true);
+            $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
 
-            $pdf->Image('@' . $data, 30, 245, 30, 15, '', '', '', false, 300, '', false, false);
+            $pdf->SetFont('dejavusans', '', 9);
+            $html = "<h1><b>X</b></h1>";
+            for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
+                $tplIdx = $pdf->importPage($pageNo, '/MediaBox');
+                $pdf->AddPage();
+                $pdf->useTemplate($tplIdx, 0, 0, 0, 0, true);
+
+                foreach ($arrayTpl as $iOptSign=>$arItem) {
+                    if ($arItem[0] == $pageNo) {
+                        if(strtoupper($arItem[3]) == 'O') {
+                            if($returnTemplates[$iOptSign] == true){
+                                $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 30, 15, 'PNG');
+                            }
+                        } else {
+                            $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 30, 15, 'PNG');
+                        }
+                    }
+                }
+                foreach ($arrayQuestion as $iOptQuestion=>$arItem) {
+                    if ($arItem[0] == $pageNo) {
+                        if ($returnQuestions[$iOptQuestion] == true) {
+                            $pdf->writeHTMLCell(10,10,$arItem[1],$arItem[2],$html);
+                        } else {
+                            $pdf->writeHTMLCell(10,10,$arItem[3],$arItem[4],$html);
+                        }
+                    }
+                }
+            }
 
             $pdf->Output();
 
@@ -200,9 +225,11 @@ class SignController extends Controller
         $return = array();
         foreach($tplLine as $line) {
             $line = str_replace("\r",'',$line);
-            array_push($return,explode('|',$line));
+            array_push($return,explode('|',htmlentities($line,ENT_QUOTES)));
+
         }
         return $return;
     }
+
 
 }

@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Blade;
 use App\Support\Helpers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +31,27 @@ class AppServiceProvider extends ServiceProvider
             } else {
                 return '';
             }
+        });
+
+        Validator::extend('sign_format', function($attribute, $value, $parameters, $validator) {
+            $tplLine = explode("\n",$value);
+            $ret = true;
+            foreach ($tplLine as $line) {
+                if(!preg_match_all('/(\d+)\|(\d+)\|(\d+)\|[OM]\|*/s',$line)) {
+                    $ret = false;
+                }
+            }
+            return $ret;
+        });
+        Validator::extend('question_format', function($attribute, $value, $parameters, $validator) {
+            $tplLine = explode("\n",$value);
+            $ret = true;
+            foreach ($tplLine as $line) {
+                if($line != "" && !preg_match_all('/(\d+)\|(\d+)\|(\d+)\|(\d+)\|(\d+)\|.*/',$line)) {
+                    $ret = false;
+                }
+            }
+            return $ret;
         });
     }
 

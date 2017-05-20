@@ -13,14 +13,23 @@ $(function () {
         Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA',
         hasher,
         ctlScript = 0,
-        questions = JSON.parse('{!! $questions !!}'),
+        questions = JSON.parse('{!! html_entity_decode($questions) !!}'),
+        templates = JSON.parse('{!! html_entity_decode($template) !!}'),
         responseQuestions = [],
+        responseTemplates = [],
         Pad,
         StepHandler,
         pdfData = atob("{{$b64doc}}");
 
-print(questions);
 
+    function escapeHtml(unsafe) {
+        return unsafe
+            .replace(/&amp;/g, "&")
+            .replace(/&lt;/g, "<")
+            .replace(/&gt;/g, ">")
+            .replace(/&quot;/g, "\"")
+            .replace(/&#039;/g, "'");
+    }
     // Wizard control enum values
     var WizObject = {
         Text:0,
@@ -137,7 +146,7 @@ print(questions);
     }
 
     function sendQuestions() {
-        print('questions :'+questions.length);
+        //print('questions :'+questions.length);
         try {
             if (ctlScript < questions.length && questions[ctlScript] != ""){
                 WizCtl.Reset();
@@ -145,7 +154,7 @@ print(questions);
                 WizCtl.Font.Bold = false;
                 WizCtl.Font.Size = Pad.textFontSize;
 
-                WizCtl.AddObject(WizObject.Checkbox, "chk2", "center", "middle", questions[ctlScript][3], null );
+                WizCtl.AddObject(WizObject.Checkbox, "chk2", "center", "middle", escapeHtml(questions[ctlScript][5]), null );
 
                 WizCtl.Font.Size = Pad.buttonFontSize;
                 WizCtl.AddObject(WizObject.Button, "Cancel", "left", "bottom", "Cancel", Pad.buttonWith );
@@ -156,11 +165,8 @@ print(questions);
             } else {
                 $('#questions').val(JSON.stringify(responseQuestions));
                 ctlScript = 0;
-                stopWizard();
-                toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_title')}}");
-                setTimeout(function() {
-                    Capture()
-                }, 1000);
+                toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_sign_optional')}}");
+                sendOptionalSign()
             }
         } catch ( ex ) {
             Exception( "questions("+ctlScript+") " + ex.message);
@@ -186,7 +192,69 @@ print(questions);
                 print(WizCtl.GetObjectState("chk2"));
                 break;
             default:
-                Error("Unexpected Step1 event: " + Id);
+                Error("Unexpected Step2 event: " + Id);
+                break;
+        }
+    }
+
+
+    function sendOptionalSign() {
+        //print('questions :'+templates.length);
+        try {
+            if (ctlScript < templates.length && templates[ctlScript] != ""){
+                if(templates[ctlScript][3].toUpperCase() == 'O'){
+                    WizCtl.Reset();
+                    WizCtl.Font.Name = "Verdana";
+                    WizCtl.Font.Bold = false;
+                    WizCtl.Font.Size = Pad.textFontSize;
+
+                    WizCtl.AddObject(WizObject.Checkbox, "chk3", "center", "middle", escapeHtml(templates[ctlScript][4]), null );
+
+                    WizCtl.Font.Size = Pad.buttonFontSize;
+                    WizCtl.AddObject(WizObject.Button, "Cancel", "left", "bottom", "Cancel", Pad.buttonWith );
+                    WizCtl.AddObject(WizObject.Button, "Next", "right", "bottom", "Next", Pad.buttonWith );
+
+                    WizCtl.Display();
+                    SetEventHandler(StepOptional_Handler);
+                } else {
+                    responseTemplates[ctlScript] = false;
+                    ctlScript++;
+                    sendOptionalSign();
+                }
+            } else {
+                $('#templates').val(JSON.stringify(responseTemplates));
+                ctlScript = 0;
+                stopWizard();
+                toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_title')}}");
+                setTimeout(function() {
+                    Capture()
+                }, 1000);
+            }
+        } catch ( ex ) {
+            Exception( "questions("+ctlScript+") " + ex.message);
+        }
+    }
+    function StepOptional_Handler(Ctl,Id,Type) {
+        switch(Id) {
+            case "Next":
+                if (WizCtl.GetObjectState("chk3")) {
+                    responseTemplates[ctlScript] = true;
+                } else {
+                    responseTemplates[ctlScript] = false;
+                }
+                print("ctlScript: "+ctlScript);
+                ctlScript++;
+                sendOptionalSign();
+                break;
+            case "Cancel":
+                print("Cancel");
+                stopWizard();
+                break;
+            case "chk3":
+                print(WizCtl.GetObjectState("chk3"));
+                break;
+            default:
+                Error("Unexpected Step3 event: " + Id);
                 break;
         }
     }
@@ -216,7 +284,6 @@ print(questions);
 
         toastr['info']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_title')}}");
         sigCtl = new ActiveXObject("Florentis.SigCtl");
-        //sigCtl = new ActiveXObject("Florentis.SigCtlXHTML");
         dc = new ActiveXObject("Florentis.DynamicCapture");
         sigCtl.SetProperty("Licence",Licence);
         sigCtl.BackStyle = 1;
@@ -224,16 +291,15 @@ print(questions);
         try {
             print("Capturing signature...");
             hasher = GenerateHash();
+            //sigCtl.WhenFormat=
             var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}", hasher, null);
             print("Capture returned: " + rc);
             switch( rc ) {
                 case 0: // CaptureOK
                     print("Signature captured successfully");
-                    flags = 0x2000 + 0x80000 + 0x400000; //SigObj.outputBase64 | SigObj.color32BPP | SigObj.encodeData
-                    b64 = sigCtl.Signature.RenderBitmap("", 300, 150, "image/png", 0.5, 0xff0000, 0xffffff, 0.0, 0.0, flags );
+                    flags = 0x2000 + 0x80000 + 0x400000 + 0x10000; //SigObj.outputBase64 | SigObj.color32BPP | SigObj.encodeData | SigObj.BackgroundTransparent
+                    b64 = sigCtl.Signature.RenderBitmap("", 300, 150, "image/png", 1, 0xff0000, 0xffffff, 0.0, 0.0, flags );
                     var imgSrcData = "data:image/png;base64,"+b64;
-                    //var imgSrcData = b64;
-                    //document.getElementById("b64image").src=imgSrcData;
                     $('#b64image').attr("src",imgSrcData);
                     $("#imgB64").val(imgSrcData);
                     toastr['success']("{{__('sign.sign_proc_success')}}", "{{__('sign.sign_proc_success_title')}}");
@@ -270,7 +336,7 @@ print(questions);
             var hash = new ActiveXObject('Florentis.Hash');
             print("Creating document hash:");
             hash.Clear();
-            hash.Type = 1; // MD5
+            hash.Type = 4; // MD5
             hash.add(pdfData);
             print("hash: "+hash.Hash);
             return hash;
@@ -311,6 +377,7 @@ print(questions);
                 return;
             }
             print("CLEAR");
+            lic.SetLicence(Licence);
         }
         catch(ex) {
             Exception("OnLoad() error: " + ex.message);
@@ -471,6 +538,7 @@ print(questions);
                                     </div>
                                     <img name="img64[]" id="b64image" style="width:12vw;height:12vh">
                                     <input id="questions" type="hidden" name="questions" value="" />
+                                    <input id="templates" type="hidden" name="templates" value="" />
                                 </td>
                                 <td  style="padding: 10px 10px;">
                                     <input id="start" type="button" class="btn btn-block btn-outline btn-warning"  title="Starts signature capture" value="Start" />

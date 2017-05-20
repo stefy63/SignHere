@@ -68,7 +68,7 @@ return [
     'sign_proc_drop' => 'Annullamento della Procedura Guidata',
     'sign_proc_sign_start' => 'Inizio Procedura di Firma Grafometrica',
     'sign_proc_auth_question' => 'Autorizza firma autografa elettronica?',
-    '' => '',
+    'sign_proc_start_sign_optional' => 'Richieste Firme Opzionali',
     '' => '',
     '' => '',
     '' => '',

@@ -15,7 +15,8 @@ class Doctype extends Model
 
     public static $rules = array(
         'name'      => 'required',
-        'template'  => 'required',
+        'template'  => 'required|sign_format',
+        'questions' => 'question_format'
     );
 
     public function documents() {
