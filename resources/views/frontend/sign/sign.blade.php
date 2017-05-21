@@ -6,12 +6,10 @@
 $(function () {
 
 
-    var sigCtl,
-        dc,
-        WizCtl = new ActiveXObject("Florentis.WizCtl"),
+    var WizCtl = new ActiveXObject("Florentis.WizCtl"),
         lic  = new ActiveXObject("Wacom.Signature.Licence"),
         Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA',
-        hasher,
+        hash = new ActiveXObject('Florentis.Hash'),
         ctlScript = 0,
         questions = JSON.parse('{!! html_entity_decode($questions) !!}'),
         templates = JSON.parse('{!! html_entity_decode($template) !!}'),
@@ -197,7 +195,6 @@ $(function () {
         }
     }
 
-
     function sendOptionalSign() {
         //print('questions :'+templates.length);
         try {
@@ -223,12 +220,9 @@ $(function () {
                 }
             } else {
                 $('#templates').val(JSON.stringify(responseTemplates));
-                ctlScript = 0;
                 stopWizard();
                 toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_title')}}");
-                setTimeout(function() {
-                    Capture()
-                }, 1000);
+                Capture();
             }
         } catch ( ex ) {
             Exception( "questions("+ctlScript+") " + ex.message);
@@ -260,6 +254,7 @@ $(function () {
     }
 
     function stopWizard() {
+        ctlScript = 0;
         WizCtl.Reset();
         WizCtl.PadDisconnect();
         print("Pad disconnected");
@@ -283,16 +278,15 @@ $(function () {
     function Capture() {
 
         toastr['info']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_title')}}");
-        sigCtl = new ActiveXObject("Florentis.SigCtl");
-        dc = new ActiveXObject("Florentis.DynamicCapture");
+        var sigCtl = new ActiveXObject("Florentis.SigCtl");
+        var dc = new ActiveXObject("Florentis.DynamicCapture");
         sigCtl.SetProperty("Licence",Licence);
         sigCtl.BackStyle = 1;
         sigCtl.DisplayMode=0; // fit signature to control
         try {
             print("Capturing signature...");
-            hasher = GenerateHash();
-            //sigCtl.WhenFormat=
-            var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}", hasher, null);
+            GenerateHash();
+            var rc = dc.Capture(sigCtl, "{{$document->name}}", "{{$document->dossier->client->surname.' '.$document->dossier->client->name}}", hash, null);
             print("Capture returned: " + rc);
             switch( rc ) {
                 case 0: // CaptureOK
@@ -333,13 +327,12 @@ $(function () {
     }
 
     function GenerateHash() {
-            var hash = new ActiveXObject('Florentis.Hash');
             print("Creating document hash:");
             hash.Clear();
             hash.Type = 4; // MD5
             hash.add(pdfData);
             print("hash: "+hash.Hash);
-            return hash;
+            //return hash;
     }
 
     function AboutBox() {
@@ -353,10 +346,14 @@ $(function () {
     }
 
     function Error(txt) {
+        stopWizard();
         print("Error: " + txt);
+        toastr['error'](txt, "{{__('sign.sign_proc_start_title')}}");
     }
     function Exception(txt) {
+        stopWizard();
         print("Exception: " + txt);
+        toastr['error'](txt, "{{__('sign.sign_proc_start_title')}}");
     }
     function print(txt) {
         @if(config('app.debug'))

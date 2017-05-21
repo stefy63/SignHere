@@ -114,6 +114,7 @@ return [
     |
     */
 
-    'attributes' => [],
+    'sign_format' => 'Il formato di una riga in :attribute è errato. eg: pg|x|y|{M-O}|se O stringa',
+    'question_format' => 'Il formato di una riga in :attribute è errato. eg: pg|xYes|yYes|xNo|yNo|testo',
 
 ];

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Acl;
+use App\Models\Brand;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -171,6 +172,7 @@ class SignController extends Controller
     public function store_signing(Request $request, $id)
     {
         if($document = Document::find($id)){
+            $brand = Acl::getMyBrands()->first();
             $origin = $request->imgB64[0];
             $arrayTpl = $this->_getTemplate($document->doctype->template);
             $arrayQuestion = $this->_getTemplate($document->doctype->questions);
@@ -179,28 +181,38 @@ class SignController extends Controller
             $returnTemplates = json_decode($request->templates);
             $returnQuestions = json_decode($request->questions);
 
-            class_exists('TCPDF', true);
+            //class_exists('TCPDF', true);
             $pdf = new FPDI();
+            // set document information
+            $pdf->SetCreator(PDF_CREATOR);
+            $pdf->SetAuthor(\Auth::user()->surname.' '.\Auth::user()->name);
+            $pdf->SetTitle($document->name);
+            $pdf->SetSubject($document->description);
+
             $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
 
-            $pdf->SetFont('dejavusans', '', 9);
+            $pub_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.crt';
+            $priv_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.key';
+            $info = array(
+                'Name' => $brand->description,
+                'Location' => $brand->city,
+                'Address' => $brand->address,
+                'VAT' => $brand->vat,
+                'Regio' => $brand->region,
+                'ContactInfo' => $brand->email,
+                'Document' => $document->name,
+                'Client' => $document->dossier->client->surname.' '.$document->dossier->client->name,
+                'ENC' => $resource,
+                );
+            $pdf->setSignature($pub_cert, $priv_cert, '3punto6', '', 1, $info);
+
+            $pdf->SetFont('helvetica', '', 9);
             $html = "<h1><b>X</b></h1>";
             for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
-                $tplIdx = $pdf->importPage($pageNo, '/MediaBox');
+                $tplIdx = $pdf->importPage($pageNo);
                 $pdf->AddPage();
                 $pdf->useTemplate($tplIdx, 0, 0, 0, 0, true);
 
-                foreach ($arrayTpl as $iOptSign=>$arItem) {
-                    if ($arItem[0] == $pageNo) {
-                        if(strtoupper($arItem[3]) == 'O') {
-                            if($returnTemplates[$iOptSign] == true){
-                                $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 30, 15, 'PNG');
-                            }
-                        } else {
-                            $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 30, 15, 'PNG');
-                        }
-                    }
-                }
                 foreach ($arrayQuestion as $iOptQuestion=>$arItem) {
                     if ($arItem[0] == $pageNo) {
                         if ($returnQuestions[$iOptQuestion] == true) {
@@ -210,9 +222,23 @@ class SignController extends Controller
                         }
                     }
                 }
-            }
 
-            $pdf->Output();
+                foreach ($arrayTpl as $iOptSign=>$arItem) {
+                    if ($arItem[0] == $pageNo) {
+                        if(strtoupper($arItem[3]) == 'O') {
+                            if($returnTemplates[$iOptSign] == true){
+                                $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 30, 15, 'PNG');
+                            }
+                        } else {
+                            $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 30, 15, 'PNG');
+                            $lastItem = $arItem;
+                        }
+                    }
+                }
+
+            }
+            $pdf->setSignatureAppearance($lastItem[1], $lastItem[2], 30, 15,$lastItem[0]);
+            $pdf->Output($document->name,'I');
 
         }
 
