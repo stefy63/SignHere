@@ -236,11 +236,10 @@ class SignController extends Controller
                                 }
                             } else {
                                 $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 30, 15, 'PNG');
-                                $lastItem = $arItem;
                             }
                         }
                     }
-                    $pdf->setSignatureAppearance($lastItem[1], $lastItem[2], 30, 15,$lastItem[0]);
+                    $pdf->setSignatureAppearance($arItem[1], $arItem[2], 30, 15,$arItem[0]);
                 }
 
             }
