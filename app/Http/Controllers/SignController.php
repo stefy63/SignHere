@@ -244,7 +244,7 @@ class SignController extends Controller
 
             }
             //$certPDF = $pdf->Output($document->name,'S');
-            $pdf->Output($document->name,'I');
+            $pdf->Output(Storage::disk('documents')->get($document->filename),'FI');
 
 
         }
