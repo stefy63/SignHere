@@ -67,6 +67,27 @@ class SignController extends Controller
     }
 
     /**
+     * Send the Document to client.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function send($id)
+    {
+        $content = [
+    		'title'=> '',
+    		'body'=> 'The body of your message.',
+    		'button' => 'Click Here'
+    		];
+
+    	$receiverAddress = 'your email';
+
+    	Mail::to($receiverAddress)->send(new OrderShipped($content));
+
+    	dd('mail send successfully');
+
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -245,7 +266,7 @@ class SignController extends Controller
 
             }
             //$certPDF = $pdf->Output($document->name,'S');
-            $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'FI');
+            $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
             $document->signed = true;
             $document->readonly = true;
             $document->date_sign = Carbon::now()->format('d/m/Y');
