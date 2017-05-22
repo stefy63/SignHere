@@ -205,7 +205,7 @@ class SignController extends Controller
                 'ENC' => $resource,
                 );
             $pdf->setSignature($pub_cert, $priv_cert, '3punto6', '', 1, $info);
-
+            $pdf->SetAutoPageBreak(TRUE, 0);
             $pdf->SetFont('helvetica', '', 9);
             $html = "<h1><b>X</b></h1>";
             for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
