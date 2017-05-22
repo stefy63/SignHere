@@ -192,7 +192,7 @@ class SignController extends Controller
             $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
 
             $pub_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.crt';
-            $priv_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.key';
+            $priv_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.p12';
             $info = array(
                 'Name' => $brand->description,
                 'Location' => $brand->city,
