@@ -7,6 +7,17 @@ $(function () {
 
     var pdfData = atob("{{$b64doc}}");
 
+    var WizCtl = new ActiveXObject("Florentis.WizCtl"),
+        lic  = new ActiveXObject("Wacom.Signature.Licence"),
+        Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA',
+        hash = new ActiveXObject('Florentis.Hash'),
+        ctlScript = 0,
+        questions = JSON.parse('{!! html_entity_decode($questions) !!}'),
+        templates = JSON.parse('{!! html_entity_decode($template) !!}'),
+        responseQuestions = [],
+        responseTemplates = [],
+        Pad,
+        StepHandler;
 
 
     function escapeHtml(unsafe) {
@@ -363,17 +374,6 @@ $(function () {
                 return;
             }
             print("CLEAR");
-        var WizCtl = new ActiveXObject("Florentis.WizCtl"),
-            lic  = new ActiveXObject("Wacom.Signature.Licence"),
-            Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA',
-            hash = new ActiveXObject('Florentis.Hash'),
-            ctlScript = 0,
-            questions = JSON.parse('{!! html_entity_decode($questions) !!}'),
-            templates = JSON.parse('{!! html_entity_decode($template) !!}'),
-            responseQuestions = [],
-            responseTemplates = [],
-            Pad,
-            StepHandler;
 
             lic.SetLicence(Licence);
         }
