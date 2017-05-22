@@ -218,7 +218,8 @@ class SignController extends Controller
                         if ($returnQuestions[$iOptQuestion] == true) {
                             $pdf->writeHTMLCell(10,10,$arItem[1],$arItem[2],$html);
                         } else {
-                            $pdf->writeHTMLCell(10,10,$arItem[3],$arItem[4],$html);
+                            if((int)$arItem[3] != 0)
+                                $pdf->writeHTMLCell(10,10,$arItem[3],$arItem[4],$html);
                         }
                     }
                 }
