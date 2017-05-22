@@ -171,12 +171,14 @@ class SignController extends Controller
 
     public function store_signing(Request $request, $id)
     {
+
         if($document = Document::find($id)){
             $brand = Acl::getMyBrands()->first();
             $origin = $request->imgB64[0];
             $arrayTpl = $this->_getTemplate($document->doctype->template);
             $arrayQuestion = $this->_getTemplate($document->doctype->questions);
-            $base64 = substr($origin,strpos($origin,",")+1);
+            $base64 = ($origin)?substr($origin,strpos($origin,",")+1):'';
+
             $resource = base64_decode($base64);
             $returnTemplates = json_decode($request->templates);
             $returnQuestions = json_decode($request->questions);
@@ -213,33 +215,38 @@ class SignController extends Controller
                 $pdf->AddPage();
                 $pdf->useTemplate($tplIdx, 0, 0, 0, 0, true);
 
-                foreach ($arrayQuestion as $iOptQuestion=>$arItem) {
-                    if ($arItem[0] == $pageNo) {
-                        if ($returnQuestions[$iOptQuestion] == true) {
-                            $pdf->writeHTMLCell(10,10,$arItem[1],$arItem[2],$html);
-                        } else {
-                            if((int)$arItem[3] != 0)
-                                $pdf->writeHTMLCell(10,10,$arItem[3],$arItem[4],$html);
+                if(!is_null($returnQuestions)){
+                    foreach ($arrayQuestion as $iOptQuestion=>$arItem) {
+                        if ($arItem[0] == $pageNo) {
+                            if ($returnQuestions[$iOptQuestion] == true) {
+                                $pdf->writeHTMLCell(10,10,$arItem[1],$arItem[2],$html);
+                            } else {
+                                if((int)$arItem[3] != 0)
+                                    $pdf->writeHTMLCell(10,10,$arItem[3],$arItem[4],$html);
+                            }
                         }
                     }
                 }
-
-                foreach ($arrayTpl as $iOptSign=>$arItem) {
-                    if ($arItem[0] == $pageNo) {
-                        if(strtoupper($arItem[3]) == 'O') {
-                            if($returnTemplates[$iOptSign] == true){
+                if(!is_null($returnTemplates)) {
+                    foreach ($arrayTpl as $iOptSign=>$arItem) {
+                        if ($arItem[0] == $pageNo) {
+                            if(strtoupper($arItem[3]) == 'O') {
+                                if($returnTemplates[$iOptSign] == true){
+                                    $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 30, 15, 'PNG');
+                                }
+                            } else {
                                 $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 30, 15, 'PNG');
+                                $lastItem = $arItem;
                             }
-                        } else {
-                            $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 30, 15, 'PNG');
-                            $lastItem = $arItem;
                         }
                     }
+                    $pdf->setSignatureAppearance($lastItem[1], $lastItem[2], 30, 15,$lastItem[0]);
                 }
 
             }
-            $pdf->setSignatureAppearance($lastItem[1], $lastItem[2], 30, 15,$lastItem[0]);
-            $pdf->Output($document->name,'I');
+            //$certPDF = $pdf->Output($document->name,'S');
+            $pdf->Output($document->name,'S');
+
 
         }
 
