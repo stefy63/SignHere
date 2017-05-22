@@ -244,9 +244,12 @@ class SignController extends Controller
 
             }
             //$certPDF = $pdf->Output($document->name,'S');
-            $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'FI');
-
-
+            $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
+            $document->signed = true;
+            $document->readonly = true;
+            $document->date_sign = Carbon::now()->format('d/m/Y');
+            $document->user_id = \Auth::user()->id;
+            $document->save();
         }
 
         return redirect('sign');
