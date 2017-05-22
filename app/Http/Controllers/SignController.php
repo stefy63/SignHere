@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use FPDI;
 use TCPDF;
+use Carbon\Carbon;
 
 class SignController extends Controller
 {
@@ -244,7 +245,7 @@ class SignController extends Controller
 
             }
             //$certPDF = $pdf->Output($document->name,'S');
-            $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
+            $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'FI');
             $document->signed = true;
             $document->readonly = true;
             $document->date_sign = Carbon::now()->format('d/m/Y');
