@@ -42,9 +42,9 @@
                                 <thead>
                                     <tr role="row">
                                         <th class="col-md-1">{{__('admin_doctypes.index-header-col-0')}}</th>
-                                        <th class="col-md-2">{{__('admin_doctypes.index-header-col-1')}}</th>
-                                        <th class="col-md-3">{{__('admin_doctypes.index-header-col-2')}}</th>
-                                        <th class="col-md-4">{{__('admin_doctypes.index-header-col-3')}}</th>
+                                        <th class="col-md-3">{{__('admin_doctypes.index-header-col-1')}}</th>
+                                        <th class="col-md-5">{{__('admin_doctypes.index-header-col-2')}}</th>
+                                        <th class="col-md-2">{{__('admin_doctypes.index-header-col-3')}}</th>
                                         <th class="col-md-1">{{__('admin_doctypes.index-header-col-4')}}</th>
                                     </tr>
                                 </thead>
@@ -66,7 +66,16 @@
                                             </a>
                                         </td>
                                         <td>{{$doctype->description}}</td>
-                                        <td>{{$doctype->template}}</td>
+                                        <!--<td>{{$doctype->template}}</td>-->
+                                        <td>
+                                            <div class="onoffswitch" >
+                                                <input type="checkbox" class="onoffswitch-checkbox" @if($doctype->single_sign == 1) checked @endif id="{{$doctype->id}}">
+                                                <label class="onoffswitch-label" for="{{$doctype->single_sign}}">
+                                                    <span class="onoffswitch-inner"></span>
+                                                    <span class="onoffswitch-switch"></span>
+                                                </label>
+                                            </div>
+                                        </td>
                                         <td class="text-center">
                                             <a href="{{ url('admin_doctypes/'.$doctype->id.'/edit') }}" >
                                                 <i class="fa fa-pencil"  data-toggle="tooltip" title="{{__('admin_doctypes.index-tooltip-update')}}"></i>

@@ -51,6 +51,7 @@ return [
     'db-phone' => 'Telefono',
     'db-mobile' => 'Cellulare',
     'db-active' => 'Attivo',
+    'db-profile_select' => 'Selezionare almeno una visibilità....',
     'submit' => 'Conferma',
     'crud-index' => 'Elenco Completo',
     'crud-create' => 'Crea nuovo',

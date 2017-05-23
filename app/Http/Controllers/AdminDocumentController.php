@@ -69,8 +69,6 @@ class AdminDocumentController extends Controller
             }
         }
 
-
-
         return view('admin.documents.index',[
             'acls'      => $acls->get(),
             'clients'   => $clients->paginate(10),
@@ -145,12 +143,14 @@ class AdminDocumentController extends Controller
     {
         if ($document = Document::find($id)){
             $docTypes = Doctype::all();
-            $dossier = $document->dossier()->first();
+            $dossier = $document->dossier;
+            $dossiers = Dossier::where('client_id',$document->dossier->client->id)->get();
 
             return view('admin.documents.edit',[
                 'document' => $document,
                 'doctypes'  => $docTypes,
-                'dossier'  => $dossier
+                'dossier'  => $dossier,
+                'dossiers'  => $dossiers
             ]);
         }
     }
@@ -164,14 +164,13 @@ class AdminDocumentController extends Controller
      */
     public function update(Request $request, Document $document, $id)
     {
-
         $this->validate($request, Document::$rules);
 
         if ($document = Document::find($id)){
             $document->fill($request->except(['client_id','filename']));
             $document->user_id = Auth::user()->id;
             $document->active = isset($request->active) ? 1 : 0;
-            $document->signed = isset($request->signed) ? 1 : 0;
+            //$document->signed = isset($request->signed) ? 1 : 0;
             $document->readonly = isset($request->readonly) ? 1 : 0;
             if ($file = $request->filename) {
                 if ($file->isValid() && $path = $file->store($request->client_id . "/" . $request->dossier_id, 'documents')) {

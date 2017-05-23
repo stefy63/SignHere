@@ -38,6 +38,7 @@
                     </div>
                     <div class="col-md-8">
                         <select class="form-control col-md-8" name="brand_id" id="select-brands" data-url="{{ url('admin_acls/store_getitem') }}">
+                            <option value="">{{__('admin_acls.db-profile_select')}}</option>
                             @foreach($brands as $brand)
                                 <option class="form-control col-md-8" value="{{$brand->id}}">{{$brand->description}} </option>
                             @endforeach
@@ -50,6 +51,7 @@
                     </div>
                     <div class="col-md-8">
                         <select class="form-control col-md-8" name="parent_id" >
+                            <option value="">{{__('admin_acls.db-profile_select')}}</option>
                             @foreach($acls as $acl)
                                 <option class="form-control col-md-8" value="{{$acl->id}}">{{$acl->name}} </option>
                             @endforeach

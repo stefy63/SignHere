@@ -55,7 +55,7 @@
                             @foreach($clients as $client)
                                 <tr class="tab-client" id="{{$client->id}}">
                                     <td>
-                                        {{$client->name}}
+                                        <i class="fa fa-user"></i>&nbsp;&nbsp; {{$client->surname}} {{$client->name}}
                                     </td>
                                 </tr>
                             @endforeach
@@ -75,7 +75,7 @@
                             <h5 class="text-danger">{{__('admin_dossiers.index-dossier')}}</h5>
                             <div ibox-tools="" class="ng-scope">
                                 <div dropdown="" class="ibox-tools dropdown">
-                                    <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_dossiers.index-tooltip-dossier')}}"></i></span></a>
+                                    <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_dossiers.index-tooltip-dossier')}}"></i> {{__('admin_brands.index-new')}}</span></a>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +92,7 @@
                                 @foreach($dossiers as $dossier)
                                     <tr class="tab-dossier" id="{{$dossier->id}}">
                                         <td class="col-md-11">
-                                           {{$dossier->name}}
+                                           <i class="fa fa-archive"></i> {{$dossier->name}}
                                         </td>
                                         <td class="text-center">
                                             <a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>
@@ -116,7 +116,7 @@
                             <h5 class="text-danger">{{__('admin_documents.index-document')}}</h5>
                             <div ibox-tools="" class="ng-scope">
                                 <div dropdown="" class="ibox-tools dropdown">
-                                    <a data-url="{{ url('admin_documents/create') }}" class="call-document"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-document')}}"></i></span></a>
+                                    <a data-url="{{ url('admin_documents/create') }}" class="call-document"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-document')}}"></i> {{__('admin_brands.index-new')}}</span></a>
                                 </div>
                             </div>
                         </div>
@@ -176,10 +176,6 @@
 
 <script>
 $(document).ready(function () {
-
-    $('#div-dossier').hide();
-    $('#div-documents').hide();
-
 
     $('.call-dossier').click(function(e){
         e.preventDefault();
@@ -271,12 +267,13 @@ $(document).ready(function () {
             _token: "{{csrf_token()}}",
             client_id: client_id
         },url).success(function(data){
-            $('#tr-dossier').empty();
+            $('#tr-dossier > tbody').empty();
+            var body='';
             data[0].forEach(function(k){
-                //console.log(k);
-                $('#tr-dossier').append('<tr class="tab-dossier" id="'+k['id']+'"><td class="col-md-11">'+k['name']+'</td>' +
-                    '<td class=" text-center"><a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a></td></tr>');
+                body+='<tr class="tab-dossier" id="'+k['id']+'"><td class="col-md-11"><i class="fa fa-archive"></i> '+k['name']+'</td>' +
+                    '<td class="col-md-1 text-center"><a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a></td></tr>';
             });
+            $('#tr-dossier > tbody').html(body);
             $('#div-dossier').show();
         });
     }
@@ -296,20 +293,22 @@ $(document).ready(function () {
             _token: "{{csrf_token()}}",
             dossier_id: dossier_id
         },url).success(function(data){
-            $('#tr-document').empty();
+            $('#tr-document tbody').empty();
+            var elem=''
             data[0].forEach(function(k){
                 //console.log(k);
-                var elem = '<tr id="'+k['id'];
+                elem += '<tr id="'+k['id'];
                 (k['signed'] == 1)? elem += '"  data-toggle="tooltip" title="'+k['date_sign']+'">':elem += '">';
                     elem += '<td class="col-md-1"><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank">' +
                     '<i class="fa fa-download"></i></a></td>' +
-                    '<td class="col-md-10 tab-document';
-                (k['signed'] == 1)?elem += ' text-line-through text-danger">':elem += '">';
-                 elem += k['name']+'</td>' +
-                    '<td class=" text-center"><a class="tab-document_a OK-button">' +
+                    '<td class="col-md-10 tab-document"><i ';
+                //(k['signed'] == 1)?elem += ' text-line-through text-danger">':elem += '">';
+                elem += (k['signed'] == 1)?'class="fa fa-check-square-o" style="color: green;"':'class="fa fa fa-minus-square-o" style="color: red;"';
+                 elem += '></i>  '+k['name']+'</td>' +
+                    '<td class="col-md-1 text-center"><a class="tab-document_a OK-button">' +
                     '<i class="text-danger fa fa-trash-o"></i></a></td></tr>'
-                $('#tr-document').append(elem);
             });
+            $('#tr-document tbody').html(elem);
             $('#div-documents').show();
         });
     }

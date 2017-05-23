@@ -99,7 +99,7 @@
                     </div>
                     <div class="col-md-8">
                         <select class="form-control" name="doctype_id" id="select-doctype">
-                            <option id="opt_doctype" value="0">{{__('admin_documents.select-doctype')}}</option>
+                            <option id="opt_doctype">{{__('admin_documents.select-doctype')}}</option>
                             @foreach($doctypes as $doctype)
                                 <option value="{{$doctype->id}}" >{{$doctype->name}}</option>
                             @endforeach

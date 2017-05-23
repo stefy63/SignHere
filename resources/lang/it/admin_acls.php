@@ -44,6 +44,7 @@ return [
     'db-select-acls' => 'Seleziona Visibility',
     'db-serial' => 'Seriale',
     'db-active' => 'Attivo',
+    'db-profile_select' => 'Selezionare ......',
     'submit' => 'Conferma',
     'success_acl_create' => 'Visibilità Creata con successo',
     'success_acl_destroy' => 'Visibilità Cancellata con successo',

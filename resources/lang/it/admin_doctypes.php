@@ -25,7 +25,7 @@ return [
     'index-header-col-0' => 'Enabled',
     'index-header-col-1' => 'Nome',
     'index-header-col-2' => 'Descrizione',
-    'index-header-col-3' => 'Template',
+    'index-header-col-3' => 'Firma Singola/Multipla',
     'index-header-col-4' => 'Azioni',
     'index-title' => 'Elenco Tipi Documenti',
     'index-tooltip-col1' => 'Visualizza dati Documento',

@@ -219,8 +219,8 @@ class SignController extends Controller
 
             $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
 
-            $pub_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.crt';
-            $priv_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.crt';
+            $pub_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'ssl.crt';
+            $priv_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'ssl.key';
             $info = array(
                 'Name' => $brand->description,
                 'Location' => $brand->city,
@@ -232,7 +232,8 @@ class SignController extends Controller
                 'Client' => $document->dossier->client->surname.' '.$document->dossier->client->name,
                 'ENC' => $resource,
                 );
-            $pdf->setSignature($pub_cert, $priv_cert, '3punto6', '', 1, $info);
+            //$pdf->setSignature($pub_cert, $priv_cert, '3punto6', '', 1, $info);
+            $pdf->setSignature($pub_cert, $priv_cert, '', '', 1, $info);
             $pdf->SetAutoPageBreak(TRUE, 0);
             $pdf->SetFont('helvetica', '', 9);
             $html = "<h1><b>X</b></h1>";

@@ -23,7 +23,8 @@ class Acl extends Model
 
     public static $rules = array(
         'name'          => 'required',
-        'brand_id'      => 'required|integer'
+        'brand_id'      => 'required|integer',
+        'acl_id'        => 'required|integer'
     );
 
     public function devices(){

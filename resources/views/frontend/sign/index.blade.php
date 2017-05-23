@@ -14,13 +14,13 @@
 }
 
 .tab-right tbody{
-    overflow-y: auto;
+    overflow-y: scroll;
     height: 78%;
     position: absolute;
 }
 
 .tab-left tbody{
-    overflow-y: auto;
+    overflow-y: scroll;
     height: 85%;
     position: absolute;
 }
@@ -50,21 +50,29 @@
                             <tbody>
                             @foreach($archives as $archive)
                                 <tr class="bg-info tr-client" id="{{$archive->id}}">
-                                    <td class="col-md-5">{{$archive->surname}}&nbsp;{{$archive->name}}</td>
+                                    <td class="col-md-5"><i class="fa fa-user"> {{$archive->surname}}&nbsp;{{$archive->name}}</i></td>
                                     <td class="col-md-2">@if($archive->mobile){{$archive->mobile}}@else{{$archive->phone}}@endif</td>
-                                    <td class="col-md-5">{{$archive->email}}</td>
+                                    <td class="col-md-5">{{$archive->email}} <i class="fa fa-chevron-down pull-right"></i></td>
                                 </tr>
                                 @foreach($archive->dossiers()->get() as $dossier)
                                 <tr class="col-md-2 bg-warning tr-dossier dossier-{{$archive->id}}" data-dossier="{{$dossier->id}}"  id="{{$dossier->id}}" style="display: none">
-                                    <td colspan="3">{{$dossier->name}}</td>
+                                    <td colspan="3"><i class="fa fa-archive"></i> {{$dossier->name}}<i class="fa fa-chevron-down pull-right"></i></td>
                                 </tr>
                                     @foreach($dossier->documents()->get() as $document)
                                     <tr class="col-md-5 bg-success tr-document document-{{$dossier->id}}"  data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
-                                        <td colspan="3" @if($document->signed)class="text-line-through text-danger"@endif>{{$document->name}}
+                                        <td colspan="3">
+                                            @if($document->signed)
+                                                <i class="fa fa-check-square-o" style="color: green;"></i>&nbsp;&nbsp;{{$document->name}}
+                                            @else
+                                                <i class="fa fa-minus-square-o" style="color: red;"></i>&nbsp;&nbsp;{{$document->name}}
+                                            @endif
                                         <div class="pull-right">
-                                            <!--<a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-download"></i></a>-->
+                                            @if($document->signed)
+                                                <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="confirm-toast"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;
+                                            @endif
                                             <a href="{{Storage::disk('documents')->url($document->filename) }}" target="_blank"><i class="fa fa-download"></i></a>
                                         </div>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 @endforeach
@@ -74,7 +82,7 @@
                     </div>
                     <div class="pull-right">{{ $archives->links() }}</div>
                 </div>
-                <div class="col-lg-7 half-height">
+                <div class="col-lg-7 full-height">
                     <div class="ibox-title">
                         <h5>{{__('sign.sign-title')}}</h5>
                     </div>
@@ -90,25 +98,30 @@
                             <tbody>
                             @foreach($clients as $client)
                                 <tr class="bg-info tr-client" id="{{$client->id}}">
-                                    <td class="col-md-5">{{$client->surname}}&nbsp;{{$client->name}}</td>
+                                    <td class="col-md-5"><i class="fa fa-user"> {{$client->surname}}&nbsp;{{$client->name}}</i></td>
                                     <td class="col-md-2">@if($client->mobile){{$client->mobile}}@else{{$client->phone}}@endif</td>
-                                    <td class="col-md-5">{{$client->email}}</td>
+                                    <td class="col-md-5">{{$client->email}} <i class="fa fa-chevron-down pull-right"></i></td>
                                 </tr>
                                 @foreach($client->dossiers()->get() as $dossier)
                                 <tr class="bg-warning tr-dossier dossier-{{$client->id}}" data-dossier="{{$dossier->id}}" id="{{$dossier->id}}" style="display: none">
-                                    <td colspan="3">{{$dossier->name}}</td>
+                                    <td colspan="3"><i class="fa fa-archive"></i> {{$dossier->name}}<i class="fa fa-chevron-down pull-right"></i></td>
                                 </tr>
                                     @foreach($dossier->documents()->get() as $document)
                                     <tr class="bg-success tr-document document-{{$dossier->id}}" data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
-                                        <td colspan="3" @if($document->signed)class="text-line-through text-danger"@endif>{{$document->name}}
-                                        <div class="pull-right">
+                                        <td colspan="3">
                                             @if($document->signed)
-                                                <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="confirm-toast"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;
+                                                <i class="fa fa-check-square-o" style="color: green;"></i>&nbsp;&nbsp;{{$document->name}}
+                                            @else
+                                                <i class="fa fa-minus-square-o" style="color: red;"></i>&nbsp;&nbsp;{{$document->name}}
                                             @endif
-                                        <!--<a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-download"></i></a>-->
-                                            <a href="{{Storage::disk('documents')->url($document->filename) }}" target="_blank"><i class="fa fa-download"></i></a>&nbsp;&nbsp;&nbsp;
-                                            <a data-message="{{__('sign.confirm_delete')}}" data-location="{{url('sign/destroy/'.$document->id)}}" class="confirm-toast"><i class="fa fa-trash-o text-danger"></i></a>
-                                        </div>
+                                            <div class="pull-right">
+                                                @if($document->signed)
+                                                    <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="confirm-toast"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;
+                                                @endif
+                                                <a href="{{Storage::disk('documents')->url($document->filename) }}" target="_blank"><i class="fa fa-download"></i></a>&nbsp;&nbsp;&nbsp;
+                                                <a data-message="{{__('sign.confirm_delete')}}" data-location="{{url('sign/destroy/'.$document->id)}}" class="confirm-toast"><i class="fa fa-trash-o text-danger"></i></a>
+                                            </div>
+                                        </td>
                                     </tr>
                                     @endforeach
                                 @endforeach
@@ -118,7 +131,7 @@
                     </div>
                     <div class="pull-right">{{ $clients->links() }}</div>
                 </div>
-                <div class="col-lg-7 half-height">
+                <!--<div class="col-lg-7 half-height">
                     <div class="ibox-title">
                         <h5>{{__('sign.last-title')}}</h5>
                     </div>
@@ -147,7 +160,7 @@
                                         <td colspan="3" @if($document->signed)class="text-line-through text-danger"@endif>{{$document->name}}
                                         <div class="pull-right">
                                         <!--<a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-download"></i></a>-->
-                                            <a href="{{Storage::disk('documents')->url($document->filename) }}" target="_blank"><i class="fa fa-download"></i></a>
+                                        <!--    <a href="{{Storage::disk('documents')->url($document->filename) }}" target="_blank"><i class="fa fa-download"></i></a>
                                             <a data-message="{{__('sign.confirm_delete')}}" data-location="{{url('sign/destroy/'.$document->id)}}" class="confirm-toast"><i class="fa fa-trash-o text-danger"></i></a>
                                         </div>
                                     </tr>
@@ -157,7 +170,7 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
+                </div>-->
                 </div>
             </div>
         </div>

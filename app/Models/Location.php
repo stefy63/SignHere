@@ -16,7 +16,7 @@ class Location extends Model
     use SoftDeletes;
 
     public static $rules = array(
-        'brand_id'           => 'required|integer',
+        'brand_id'          => 'required|integer',
         'description'       => 'required',
         'address'           => 'required',
         'city'              => 'required',

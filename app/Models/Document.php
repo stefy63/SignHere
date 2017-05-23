@@ -16,9 +16,9 @@ class Document extends Model
     use SoftDeletes;
 
     public static $rules = array(
-        'name'      => 'required',
-        'doctype_id' => 'required',
-        'filename'      => 'file|mimes:pdf',
+        'name'       => 'required',
+        'doctype_id' => 'required|integer',
+        'filename'   => 'file|mimes:pdf',
     );
 
     public function doctype() {

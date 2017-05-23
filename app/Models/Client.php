@@ -17,6 +17,7 @@ class Client extends Model
     public static $rules = array(
         'name'      => 'required',
         'email'     => 'required|email',
+        'acl_id'    => 'required|integer',
     );
 
     public function acls() {

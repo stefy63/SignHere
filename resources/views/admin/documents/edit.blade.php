@@ -43,8 +43,13 @@
                             <label >{{__('admin_documents.db-dossier-name')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <input class="form-control" size="50" type="text"  value="{{$dossier->name}}" disabled/>
-                            <input type="hidden" name="dossier_id" value="{{$dossier->id}}">
+                            <select class="form-control" name="dossier_id" id="select-doctype">
+                                @foreach($dossiers as $dos)
+                                    <option value="{{$dos->id}}" @if($dos->id==$dossier->id) selected @endif>{{$dos->name}}</option>
+                                @endforeach
+                            </select>
+                            <!--<input class="form-control" size="50" type="text"  value="{{$dossier->name}}" />
+                            <input type="hidden" name="dossier_id" value="{{$dossier->id}}">-->
                         </div>
                     </div>
                 </div>
@@ -99,7 +104,7 @@
                     </div>
                     <div class="col-md-8">
                         <select class="form-control" name="doctype_id" id="select-doctype">
-                            <option id="opt_doctype" value="0">{{__('admin_documents.select-doctype')}}</option>
+                            <option id="opt_doctype">{{__('admin_documents.select-doctype')}}</option>
                             @foreach($doctypes as $doctype)
                                 <option value="{{$doctype->id}}">{{$doctype->name}}</option>
                             @endforeach
