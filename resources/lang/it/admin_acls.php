@@ -73,7 +73,7 @@ return [
     'profiles-panel-title' => 'Elenco Profili',
     'warning_acl_brands_necessity' => 'Non ci sono aziende disponibili per questa Visibility',
     'users-panel-clear' => 'Reset Users',
-    '' => '',
+    'index-new' => 'Nuovo',
     '' => '',
     '' => '',
     '' => '',

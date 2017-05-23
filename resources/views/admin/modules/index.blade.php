@@ -12,14 +12,14 @@
                 <h5>{{__('admin_modules.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_modules/create') }}"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-create')}}"></i></span></a>
+                        <a href="{{ url('admin_modules/create') }}"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_modulesindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</span></a>
                     </div>
                 </div>
             </div>
             <div class="ibox-content">
 
                 <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="col-sm-6">
                             <div class="dataTables_length" id="DataTables_Table_2_length">
                                 <label>Show
@@ -39,7 +39,7 @@
                                 </label>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="row">
                         <div class="col-sm-12 " >
                             <table class="table table-striped table-bordered table-hover dataTables-example ng-isolate-scope dataTable" datatable="" style="display: table;" id="DataTables_Table_2" role="grid" aria-describedby="DataTables_Table_2_info">
@@ -81,11 +81,11 @@
                                                         <div class=" col-md-1 text-center"><i class="fa fa-dot-circle-o @if($module->isadmin == 1) text-success @else text-danger @endif"></i> </div>
                                                         <div class=" col-md-1 text-center">
                                                             <a href="{{ url('admin_modules/'.$module->id.'/edit') }}" >
-                                                                <i class="fa fa-wrench"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-update')}}"></i>
+                                                                <i class="fa fa-pencil"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-update')}}"></i>
                                                             </a>
                                                             &nbsp;&nbsp;
                                                             <a  class="confirm-toast"  data-message="{{__('admin_modules.index-confirm-message')}}"  data-location="{{ url('admin_modules/destroy/'.$module->id) }}">
-                                                                <i class="fa fa-trash"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-delete')}}"></i>
+                                                                <i class="fa fa-trash-o text-danger"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-delete')}}"></i>
                                                             </a>
                                                         </div>
                                                     </li>
@@ -97,15 +97,15 @@
 
                                 </tbody>
                                 <tfoot>
-                                    <tr role="row">
-                                        <th>{{__('admin_modules.index-header-col-0')}}</th>
-                                        <th>{{__('admin_modules.index-header-col-1')}}</th>
-                                        <th>{{__('admin_modules.index-header-col-2')}}</th>
-                                        <th>{{__('admin_modules.index-header-col-3')}}</th>
-                                        <th>{{__('admin_modules.index-header-col-4')}}</th>
-                                        <th>{{__('admin_modules.index-header-col-5')}}</th>
-                                        <th>{{__('admin_modules.index-header-col-6')}}</th>
-                                    </tr>
+                                <tr role="row">
+                                    <th class="col-md-1">{{__('admin_modules.index-header-col-0-bis')}}</th>
+                                    <th class="col-md-1">{{__('admin_modules.index-header-col-0')}}</th>
+                                    <th class="col-md-2">{{__('admin_modules.index-header-col-1')}}</th>
+                                    <th class="col-md-2">{{__('admin_modules.index-header-col-2')}}</th>
+                                    <th class="col-md-2">{{__('admin_modules.index-header-col-3')}}</th>
+                                    <th class="col-md-1">{{__('admin_modules.index-header-col-5')}}</th>
+                                    <th class="col-md-1">{{__('admin_modules.index-header-col-6')}}</th>
+                                </tr>
                                 </tfoot>
                             </table>
                         </div>

@@ -9,7 +9,7 @@
                 <h5>{{__('admin_modules.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_modules/create') }}"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-create')}}"></i></a>
+                        <a href="{{ url('admin_modules/create') }}"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-create')}}"></i></a>
                     </div>
                 </div>
             </div>
@@ -74,11 +74,11 @@
                                         <td class="text-center">@if($module->isadmin == 1) Yes @else No @endif</td>
                                         <td class="text-center">
                                             <a href="{{ url('admin_modules/'.$module->id.'/edit') }}" >
-                                                <i class="fa fa-wrench"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-update')}}"></i>
+                                                <i class="fa fa-pencil"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-update')}}"></i>
                                             </a>
                                             &nbsp;&nbsp;
                                             <a  class="confirm-toast"  data-message="{{__('admin_modules.index-confirm-message')}}"  data-location="{{ url('admin_modules/destroy/'.$module->id) }}">
-                                                <i class="fa fa-trash"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-delete')}}"></i>
+                                                <i class="fa fa-trash-o text-danger"  data-toggle="tooltip" title="{{__('admin_modules.index-tooltip-delete')}}"></i>
                                             </a>
                                         </td>
                                     </tr>

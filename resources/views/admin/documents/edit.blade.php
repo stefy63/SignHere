@@ -16,7 +16,7 @@
                 <h5>{{__('admin_documents.edit-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_documents') }}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
+                        <a href="{{ url('admin_documents') }}"><span class="btn btn-primary"> <i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
             </div>
@@ -52,10 +52,9 @@
                 <div class="row">
                     <div class="form-group" id="date_doc">
                         <div class="col-md-2 col-md-offset-1">
-                            <label for="date_doc" >{{__('admin_documents.db-date_doc')}}</label>
+                            <label for="date_doc" ><i class="fa fa-calendar"></i> {{__('admin_documents.db-date_doc')}}</label>
                         </div>
-                        <div class="col-md-8 input-group date">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <div class="col-md-8 date">
                             <input class="form-control" type="text"  name="date_doc" value="{{$document->date_doc}}" />
                         </div>
                     </div>

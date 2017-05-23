@@ -10,12 +10,12 @@
             </form>-->
         </div>
         @if(Auth::check())
-        <ul class="nav navbar-top-links navbar-right">
+        <!--<ul class="nav navbar-top-links navbar-right">
             <li>
                 <a class="confirm-toast"  data-message="{{__('menu.confirmLogout')}}"  data-location="{{url('logout')}}">
-                    <i class='fa fa-sign-out'></i><span class='nav-label'>{{__('menu.logout')}}</span></a>
+                    <span class='btn btn-default'><i class='fa fa-sign-out'></i> {{__('menu.logout')}}</span></a>
             </li>
-        </ul>
+        </ul>-->
         @endif
 
     </nav>

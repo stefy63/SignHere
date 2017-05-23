@@ -18,6 +18,7 @@ return [
     'index-header-col-5' => 'Telefono',
     'index-header-col-6' => 'Azioni',
     'index-title' => 'Elenco Aziende',
+    'index-new' => 'Nuovo',
     'create-title' => 'Nuova Azienda',
     'index-tooltip-col1' => 'Visualizza dati Azienda',
     'index-tooltip-update' => 'Modifica dati',

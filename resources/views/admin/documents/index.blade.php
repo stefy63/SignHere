@@ -20,7 +20,7 @@
                 <h5>{{__('admin_documents.index-title')}}</h5>
                 <!--<div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_documents') }}"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-create')}}"></i></span></a>
+                        <a href="{{ url('admin_documents') }}"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_documentsindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</span></a>
                     </div>
                 </div>-->
             </div>
@@ -38,7 +38,7 @@
                         <h5 class="text-danger">{{__('admin_documents.index-client')}}</h5>
                         <div ibox-tools="" class="ng-scope">
                             <div dropdown="" class="ibox-tools dropdown">
-                                <a href="{{ url('admin_clients/create') }}"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_clients.index-tooltip-create')}}"></i></span></a>
+                                <a href="{{ url('admin_clients/create') }}"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_clientsindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</span></a>
                             </div>
                         </div>
                     </div>
@@ -70,12 +70,12 @@
                 </div>
                 <div class="col-md-7 border-left" style="height: 80%;">
                     <!-- DOSSIERS  -->
-                    <div class="" style="height: 40%;">
+                    <div class="" style="height: 40%;" id="div-dossier" hidden>
                         <div class="ibox-title">
                             <h5 class="text-danger">{{__('admin_dossiers.index-dossier')}}</h5>
                             <div ibox-tools="" class="ng-scope">
                                 <div dropdown="" class="ibox-tools dropdown">
-                                    <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_dossiers.index-tooltip-dossier')}}"></i></span></a>
+                                    <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_dossiers.index-tooltip-dossier')}}"></i></span></a>
                                 </div>
                             </div>
                         </div>
@@ -111,12 +111,12 @@
                     </div>
                     <hr>
                     <!-- DOCUMENTS  -->
-                    <div class="" style="height: 40%;">
+                    <div class="" style="height: 40%;" id="div-documents" hidden>
                         <div class="ibox-title">
                             <h5 class="text-danger">{{__('admin_documents.index-document')}}</h5>
                             <div ibox-tools="" class="ng-scope">
                                 <div dropdown="" class="ibox-tools dropdown">
-                                    <a data-url="{{ url('admin_documents/create') }}" class="call-document"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-document')}}"></i></span></a>
+                                    <a data-url="{{ url('admin_documents/create') }}" class="call-document"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-document')}}"></i></span></a>
                                 </div>
                             </div>
                         </div>
@@ -132,7 +132,7 @@
                                 <tbody>
                                 @foreach($documents as $document)
                                     <tr class="tab-document" id="{{$document->id}}">
-                                        <td class="col-md-1"><a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-file-o"></i></a></td>
+                                        <td class="col-md-1"><a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-download"></i></a></td>
                                         <td class="col-md-11 tab-document @if($document->signed) text-line-through text-danger @endif" id="{{$document->id}}">
                                             {{$document->name}}
                                         </td>
@@ -176,6 +176,10 @@
 
 <script>
 $(document).ready(function () {
+
+    $('#div-dossier').hide();
+    $('#div-documents').hide();
+
 
     $('.call-dossier').click(function(e){
         e.preventDefault();
@@ -253,6 +257,8 @@ $(document).ready(function () {
 
     $(document).on('click','.tab-client',function(e){
         e.preventDefault();
+        $('#div-documents').hide();
+        $('#div-dossier').hide();
         $('input#client_id').val(this.id);
         $('.tab-client').removeClass('bg-success');
         $(this).addClass('bg-success');
@@ -271,6 +277,7 @@ $(document).ready(function () {
                 $('#tr-dossier').append('<tr class="tab-dossier" id="'+k['id']+'"><td class="col-md-11">'+k['name']+'</td>' +
                     '<td class=" text-center"><a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a></td></tr>');
             });
+            $('#div-dossier').show();
         });
     }
 
@@ -295,7 +302,7 @@ $(document).ready(function () {
                 var elem = '<tr id="'+k['id'];
                 (k['signed'] == 1)? elem += '"  data-toggle="tooltip" title="'+k['date_sign']+'">':elem += '">';
                     elem += '<td class="col-md-1"><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank">' +
-                    '<i class="fa fa-file-o"></i></a></td>' +
+                    '<i class="fa fa-download"></i></a></td>' +
                     '<td class="col-md-10 tab-document';
                 (k['signed'] == 1)?elem += ' text-line-through text-danger">':elem += '">';
                  elem += k['name']+'</td>' +
@@ -303,6 +310,7 @@ $(document).ready(function () {
                     '<i class="text-danger fa fa-trash-o"></i></a></td></tr>'
                 $('#tr-document').append(elem);
             });
+            $('#div-documents').show();
         });
     }
 

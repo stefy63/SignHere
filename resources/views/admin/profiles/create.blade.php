@@ -8,7 +8,7 @@
                 <h5>{{__('admin_profiles.create-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_profiles') }}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
+                        <a href="{{ url('admin_profiles') }}"><span class="btn btn-primary"> <i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
             </div>

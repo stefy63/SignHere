@@ -85,7 +85,7 @@ $(function () {
                 <h5>{{__('admin_dossiers.create-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_documents') }}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
+                        <a href="{{ url('admin_documents') }}"><span class="btn btn-primary"> <i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
             </div>
@@ -132,10 +132,9 @@ $(function () {
                 <div class="row">
                     <div class="form-group" id="data_dossier">
                         <div class="col-md-2 col-md-offset-1">
-                            <label for="date_dossier" >{{__('admin_dossiers.db-date_dossier')}}</label>
+                            <label for="date_dossier" ><i class="fa fa-calendar"></i> {{__('admin_dossiers.db-date_dossier')}}</label>
                         </div>
-                        <div class="col-md-8 input-group date">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        <div class="col-md-8 date">
                             <input class="form-control" type="text"  name="date_dossier" value="{{$dossier->date_dossier}}" />
                         </div>
                     </div>

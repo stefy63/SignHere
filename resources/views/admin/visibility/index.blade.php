@@ -13,7 +13,7 @@
                 <h5>{{__('admin_acls.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_acls/create') }}"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_acls.index-tooltip-create')}}"></i></span></a>
+                        <a href="{{ url('admin_acls/create') }}"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_acls.index-tooltip-create')}}"></i> {{__('admin_acls.index-new')}}</span></a>
                     </div>
                 </div>
             </div>
@@ -35,9 +35,9 @@
                             <li class="" id="tab-index">
                                 <a data-toggle="tab" href="#locations">{{__('admin_locations.admin_locations')}}</a>
                             </li>
-                            <li class="" id="tab-index">
+                            <!--<li class="" id="tab-index">
                                 <a data-toggle="tab" href="#devices">{{__('admin_devices.admin_devices')}}</a>
-                            </li>
+                            </li>-->
                             <li class="" id="tab-index">
                                 <a data-toggle="tab" href="#users">{{__('admin_users.admin_users')}}</a>
                             </li>
@@ -72,7 +72,7 @@
                                     <br>
                                 </div>
                             </div>
-                            <!-- LOCATIONS TAB-->
+                            <!-- DEVICES TAB
                             <div id="devices" class="tab-pane">
                                 <div class="panel-body">
                                     <p class="text-center"><span>{{__('admin_acls.devices-panel-title')}}</span></p>
@@ -84,8 +84,8 @@
                                     </div>
                                     <br>
                                 </div>
-                            </div>
-                            <!-- LOCATIONS TAB -->
+                            </div>-->
+                            <!-- USERS TAB -->
                             <div id="users" class="tab-pane">
                                 <div class="panel-body">
                                     <p class="text-center"><span>{{__('admin_acls.users-panel-title')}}</span></p>

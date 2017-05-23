@@ -8,14 +8,14 @@
                 <h5>{{__('admin_users.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_users/create') }}"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_users.index-tooltip-create')}}"></i></span></a>
+                        <a href="{{ url('admin_users/create') }}"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_usersindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</span></a>
                     </div>
                 </div>
             </div>
             <div class="ibox-content">
 
                 <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="col-sm-6">
                             <div class="dataTables_length" id="DataTables_Table_2_length">
                                 <label>Show
@@ -35,7 +35,7 @@
                                 </label>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="row">
                         <div class="col-sm-12">
                             <table class="table table-striped table-bordered table-hover dataTables-example ng-isolate-scope dataTable" datatable="" style="display: table;" id="DataTables_Table_2" role="grid" aria-describedby="DataTables_Table_2_info">
@@ -67,19 +67,13 @@
                                         <td>{{$user->email}}</td>
                                         <td class="text-center">
                                             <a href="{{ url('admin_users/'.$user->id.'/edit') }}" >
-                                                <i class="fa fa-wrench"  data-toggle="tooltip" title="{{__('admin_users.index-tooltip-update')}}"></i>
-                                            </a>
-                                            &nbsp;&nbsp;
-                                            <a  class="confirm-toast"  data-message="{{__('admin_users.index-confirm-message')}}"  data-location="{{ url('admin_users/destroy/'.$user->id) }}">
-                                                <i class="fa fa-trash"  data-toggle="tooltip" title="{{__('admin_users.index-tooltip-delete')}}"></i>
-                                            </a>
-                                            &nbsp;&nbsp;
-                                            <!--<a  class="confirm-toast"  data-message="{{__('admin_users.index-confirm-message')}}"  data-location="{{ url('admin_users/permission/'.$user->id) }}">
-                                                <i class="fa fa-cubes"  data-toggle="tooltip" title="{{__('admin_users.index-tooltip-modules')}}"></i>
-                                            </a>-->
-                                            &nbsp;
+                                                <i class="fa fa-pencil"  data-toggle="tooltip" title="{{__('admin_users.index-tooltip-update')}}"></i>
+                                            </a>&nbsp;
                                             <a class="open-modal" data-url="{{ url('admin_users/resetPwd/'.$user->id) }}" data-toggle="modal" data-target="#showModal" title="{{__('admin_users.index-tooltip-password')}}" id="{{$user->id}}">
-                                                <i class="fa fa-flash"  data-toggle="tooltip" title="{{__('admin_users.index-tooltip-password')}}"></i>
+                                                <i class="fa fa-unlock-alt"  data-toggle="tooltip" title="{{__('admin_users.index-tooltip-password')}}"></i>
+                                            </a>&nbsp;
+                                            <a  class="confirm-toast"  data-message="{{__('admin_users.index-confirm-message')}}"  data-location="{{ url('admin_users/destroy/'.$user->id) }}">
+                                                <i class="fa fa-trash-o text-danger"  data-toggle="tooltip" title="{{__('admin_users.index-tooltip-delete')}}"></i>
                                             </a>
 
                                         </td>

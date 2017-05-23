@@ -80,7 +80,7 @@ class AdminAclController extends Controller
         $this->validate($request, Acl::$rules);
 
         $visibility = new Acl();
-        $visibility->name = $request->nsigname;
+        $visibility->name = $request->name;
         $visibility->description = $request->description;
         $visibility->parent_id = $request->parent_id;
         $visibility->user_id = \Auth::user()->id;

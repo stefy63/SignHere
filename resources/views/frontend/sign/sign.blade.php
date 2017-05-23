@@ -502,7 +502,7 @@ $(function () {
                 <h5>{{__('sign.sign-pdf-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('sign') }}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
+                        <a href="{{ url('sign') }}"><span class="btn btn-primary"> <i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
             </div>

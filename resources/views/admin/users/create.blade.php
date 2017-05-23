@@ -8,7 +8,7 @@
                 <h5>{{__('admin_users.create-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_users') }}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
+                        <a href="{{ url('admin_users') }}"><span class="btn btn-primary"> <i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                             <label for="password" >{{__('admin_users.db-password')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <input class="form-control" size="50" type="password" name="password" value="{{old("password")}}" />
+                            <input class="form-control" size="50" type="password" name="password" value="{{old("password")}}" autocomplete="off" />
                         </div>
                     </div>
                 </div>

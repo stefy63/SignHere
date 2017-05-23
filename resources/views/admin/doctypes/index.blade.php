@@ -8,14 +8,14 @@
                 <h5>{{__('admin_doctypes.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_doctypes/create') }}"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_doctypes.index-tooltip-create')}}"></i></span></a>
+                        <a href="{{ url('admin_doctypes/create') }}"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_doctypesindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</span></a>
                     </div>
                 </div>
             </div>
             <div class="ibox-content">
 
                 <div id="DataTables_Table_2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                    <div class="row">
+                    <!--<div class="row">
                         <div class="col-sm-6">
                             <div class="dataTables_length" id="DataTables_Table_2_length">
                                 <label>Show
@@ -35,7 +35,7 @@
                                 </label>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                     <div class="row">
                         <div class="col-sm-12">
                             <table class="table table-striped table-bordered table-hover dataTables-example ng-isolate-scope dataTable" datatable="" style="display: table;" id="DataTables_Table_2" role="grid" aria-describedby="DataTables_Table_2_info">
@@ -69,11 +69,11 @@
                                         <td>{{$doctype->template}}</td>
                                         <td class="text-center">
                                             <a href="{{ url('admin_doctypes/'.$doctype->id.'/edit') }}" >
-                                                <i class="fa fa-wrench"  data-toggle="tooltip" title="{{__('admin_doctypes.index-tooltip-update')}}"></i>
+                                                <i class="fa fa-pencil"  data-toggle="tooltip" title="{{__('admin_doctypes.index-tooltip-update')}}"></i>
                                             </a>
                                             &nbsp;&nbsp;
                                             <a  class="confirm-toast"  data-message="{{__('admin_doctypes.index-confirm-message')}}"  data-location="{{ url('admin_doctypes/destroy/'.$doctype->id) }}">
-                                                <i class="fa fa-trash"  data-toggle="tooltip" title="{{__('admin_doctypes.index-tooltip-delete')}}"></i>
+                                                <i class="fa fa-trash-o text-danger"  data-toggle="tooltip" title="{{__('admin_doctypes.index-tooltip-delete')}}"></i>
                                             </a>
                                    <!--         &nbsp;&nbsp;
                                             <a  class="confirm-toast"  data-message="{{__('admin_doctypes.index-confirm-message')}}"  data-location="{{ url('admin_doctypes/permission/'.$doctype->id) }}">

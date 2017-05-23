@@ -8,7 +8,7 @@
                 <h5>{{__('admin_devices.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_devices/create') }}"><span class="badge badge-info"> <i class="fa fa-plus-square-o"   data-toggle="tooltip" title="{{__('admin_devices.index-tooltip-create')}}"></i></span></a>
+                        <a href="{{ url('admin_devices/create') }}"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_devicesindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</span></a>
                     </div>
                 </div>
             </div>
@@ -69,11 +69,11 @@
                                         <td>{{$device->user()->count()}}</td>
                                         <td class="text-center">
                                             <a href="{{ url('admin_devices/'.$device->id.'/edit') }}" >
-                                                <i class="fa fa-wrench"  data-toggle="tooltip" title="{{__('admin_devices.index-tooltip-update')}}"></i>
+                                                <i class="fa fa-pencil"  data-toggle="tooltip" title="{{__('admin_devices.index-tooltip-update')}}"></i>
                                             </a>
                                             &nbsp;&nbsp;
                                             <a  class="confirm-toast"  data-message="{{__('admin_devices.index-confirm-message')}}"  data-location="{{ url('admin_devices/destroy/'.$device->id) }}">
-                                                <i class="fa fa-trash"  data-toggle="tooltip" title="{{__('admin_devices.index-tooltip-delete')}}"></i>
+                                                <i class="fa fa-trash-o text-danger"  data-toggle="tooltip" title="{{__('admin_devices.index-tooltip-delete')}}"></i>
                                             </a>
                                    <!--         &nbsp;&nbsp;
                                             <a  class="confirm-toast"  data-message="{{__('admin_devices.index-confirm-message')}}"  data-location="{{ url('admin_devices/permission/'.$device->id) }}">

@@ -81,7 +81,11 @@ class SignController extends Controller
 
     	$receiverAddress = 'your email';
 
-    	Mail::to($receiverAddress)->send(new OrderShipped($content));
+    	Mail::send('emails.send', ['title' => $title, 'message' => $message], function ($message)
+        {
+            $message->from('no-reply@scotch.io', 'Scotch.IO');
+            $message->to('batman@batcave.io');
+        });
 
     	dd('mail send successfully');
 

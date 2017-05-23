@@ -8,7 +8,7 @@
                 <h5>{{__('admin_acls.edit-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_acls') }}"><span class="badge badge-info"> <i class="fa fa-arrow-left"></i></span></a>
+                        <a href="{{ url('admin_acls') }}"><span class="btn btn-primary"> <i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
             </div>
@@ -64,9 +64,9 @@
                                 <li class="active" id="tab-index">
                                     <a data-toggle="tab" href="#locations">{{__('admin_locations.admin_locations')}}</a>
                                 </li>
-                                <li class="" id="tab-index">
+                                <!--<li class="" id="tab-index">
                                     <a data-toggle="tab" href="#devices">{{__('admin_devices.admin_devices')}}</a>
-                                </li>
+                                </li>-->
                                 <li class="" id="tab-index">
                                     <a data-toggle="tab" href="#users">{{__('admin_users.admin_users')}}</a>
                                 </li>
@@ -86,7 +86,7 @@
                                         <br>
                                     </div>
                                 </div>
-                                <!-- DEVICES TAB-->
+                                <!-- DEVICES TAB
                                 <div id="devices" class="tab-pane">
                                     <div class="panel-body">
                                         <p class="text-center"><span>{{__('admin_acls.devices-panel-title')}}</span></p>
@@ -94,7 +94,7 @@
                                         <div class="input-group m-b col-md-offset-3"></div>
                                         <br>
                                     </div>
-                                </div>
+                                </div>-->
                                 <!-- USERS TAB -->
                                 <div id="users" class="tab-pane">
                                     <div class="panel-body">
