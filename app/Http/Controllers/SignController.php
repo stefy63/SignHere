@@ -275,7 +275,7 @@ class SignController extends Controller
             $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
             $document->signed = true;
             $document->readonly = true;
-            $document->date_sign = Carbon::now();
+            $document->date_sign = Carbon::now()->format('y-m-d');
             $document->user_id = \Auth::user()->id;
             $document->save();
         }
