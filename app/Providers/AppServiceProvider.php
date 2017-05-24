@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Blade;
 use App\Support\Helpers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,9 +18,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Blade::directive('menu', function (){
-
-            if($menus = \Auth::user()->profile()->first()->getModules()->orderBy('order')->get()){
+        /*Blade::directive('menu', function (){
+            if($menus = \Auth::user()->profile->getModules()->orderBy('order')->get()){
                 $ret = "";
 
                 foreach($menus as $menu) {
@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
             } else {
                 return '';
             }
-        });
+        });*/
 
         Validator::extend('sign_format', function($attribute, $value, $parameters, $validator) {
             $tplLine = explode("\n",$value);
