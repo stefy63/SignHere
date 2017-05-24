@@ -197,7 +197,8 @@ class SignController extends Controller
 
     public function store_signing(Request $request, $id)
     {
-
+        if(!$request->imgB64[0])
+            return redirect()->back()->with('alert',__('sign.document_unsigned'));
         if($document = Document::find($id)){
             $brand = Acl::getMyBrands()->first();
             $origin = $request->imgB64[0];

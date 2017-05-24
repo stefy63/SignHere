@@ -2,6 +2,10 @@
 
 namespace App\Mail;
 
+use App\models\Acl;
+use App\Models\Brand;
+use App\Models\Document;
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -11,14 +15,16 @@ class SendDocument extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $document;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Document $document)
     {
-        //
+        $this->document = $document;
     }
 
     /**
@@ -28,6 +34,11 @@ class SendDocument extends Mailable
      */
     public function build()
     {
+        $sender = \Auth::user();
+        $brand = Brand::where('id',$sender->getMyRoot())->get();
+
+
+
         return $this->view('view.name');
     }
 }

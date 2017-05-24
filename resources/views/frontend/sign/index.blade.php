@@ -34,9 +34,9 @@
                 <div class="col-lg-5 full-height">
                     <div class="ibox-title">
                         <h5>{{__('sign.archive-title')}}</h5>
-                        <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                        <!--<div id="DataTables_Table_0_filter" class="dataTables_filter">
                             <input type="search" class="form-control input-sm" placeholder="Search..." aria-controls="DataTables_Table_2">
-                        </div>
+                        </div>-->
                     </div>
                     <div>
                         <table class="table table-bordered table-hover tab-left" >

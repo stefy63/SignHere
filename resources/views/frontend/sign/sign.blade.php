@@ -144,7 +144,6 @@ $(function () {
     }
 
     function sendQuestions() {
-        //print('questions :'+questions.length);
         try {
             if (ctlScript < questions.length && questions[ctlScript] != ""){
                 WizCtl.Reset();
@@ -196,7 +195,6 @@ $(function () {
     }
 
     function sendOptionalSign() {
-        //print('questions :'+templates.length);
         try {
             if (ctlScript < templates.length && templates[ctlScript] != ""){
                 if(templates[ctlScript][3].toUpperCase() == 'O'){
