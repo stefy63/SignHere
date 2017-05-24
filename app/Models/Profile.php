@@ -13,7 +13,7 @@ class Profile extends Model
     use SoftDeletes;
 
     public static $rules = array(
-        'name'          => 'required',
+        'name'    => 'required',
     );
 
     public function users() {

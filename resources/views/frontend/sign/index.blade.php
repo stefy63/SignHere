@@ -3,26 +3,26 @@
 <style>
 .tab-right tbody tr,
 .tab-left tbody tr{
-    width: 100%;
-    display: table;
-    table-layout: fixed;
+    //width: 100%;
+    //display: table;
+    //table-layout: fixed;
 }
 .tab-right,
 .tab-left {
-    width: 110%;
-    height: 100%;
+    //width: 110%;
+    //height: 100%;
 }
 
 .tab-right tbody{
-    overflow-y: scroll;
-    height: 78%;
-    position: absolute;
+    overflow-y: auto;
+    //height: 85%;
+    //position: absolute;
 }
 
 .tab-left tbody{
-    overflow-y: scroll;
-    height: 85%;
-    position: absolute;
+    overflow-y: auto;
+    //height: 85%;
+    //position: absolute;
 }
 </style>
 @endpush
@@ -131,47 +131,7 @@
                     </div>
                     <div class="pull-right">{{ $clients->links() }}</div>
                 </div>
-                <!--<div class="col-lg-7 half-height">
-                    <div class="ibox-title">
-                        <h5>{{__('sign.last-title')}}</h5>
-                    </div>
-                    <div>
-                        <table class="table table-bordered table-hover tab-right">
-                            <thead>
-                                <tr role="row">
-                                    <th class="col-md-5">{{__('sign.index-header-col-0')}}</th>
-                                    <th class="col-md-2">{{__('sign.index-header-col-1')}}</th>
-                                    <th class="col-md-5">{{__('sign.index-header-col-2')}}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($last as $client)
-                                <tr class="bg-info tr-client" id="{{$client->id}}">
-                                    <td class="col-md-5">{{$client->surname}}&nbsp;{{$client->name}}</td>
-                                    <td class="col-md-2">@if($client->mobile){{$client->mobile}}@else{{$client->phone}}@endif</td>
-                                    <td class="col-md-5">{{$client->email}}</td>
-                                </tr>
-                                @foreach($client->dossiers()->get() as $dossier)
-                                <tr class="bg-warning tr-dossier dossier-{{$client->id}}" data-dossier="{{$dossier->id}}" id="{{$dossier->id}}" style="display: none">
-                                    <td colspan="3">{{$dossier->name}}</td>
-                                </tr>
-                                    @foreach($dossier->documents()->get() as $document)
-                                    <tr class="bg-success tr-document document-{{$dossier->id}}" data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
-                                        <td colspan="3" @if($document->signed)class="text-line-through text-danger"@endif>{{$document->name}}
-                                        <div class="pull-right">
-                                        <!--<a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-download"></i></a>-->
-                                        <!--    <a href="{{Storage::disk('documents')->url($document->filename) }}" target="_blank"><i class="fa fa-download"></i></a>
-                                            <a data-message="{{__('sign.confirm_delete')}}" data-location="{{url('sign/destroy/'.$document->id)}}" class="confirm-toast"><i class="fa fa-trash-o text-danger"></i></a>
-                                        </div>
-                                    </tr>
-                                    @endforeach
-                                @endforeach
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>-->
-                </div>
+
             </div>
         </div>
     </div>
@@ -179,7 +139,6 @@
 
 <script>
 $(function () {
-
 
     $('.tr-client, .tr-dossier, .tr-document').hover(function() {
             $(this).css('cursor','pointer');
@@ -194,7 +153,7 @@ $(function () {
         var id = this.id;
         ($(this).parent().find('.dossier-'+id).is(':visible'))?
                 $(this).parent().find('.dossier-'+id).hide():
-                $(this).parent().find('.dossier-'+id).show(500);
+                $(this).parent().find('.dossier-'+id).show();
     });
 
     $('.tr-dossier').click(function(e){
@@ -203,7 +162,7 @@ $(function () {
         var dossier = this.id;
         ($(this).parent().find('.document-'+dossier).is(':visible'))?
                 $(this).parent().find('.document-'+dossier).hide():
-                $(this).parent().find('.document-'+dossier).show(500);
+                $(this).parent().find('.document-'+dossier).show();
     });
 
     $('.tr-document').click(function(e){

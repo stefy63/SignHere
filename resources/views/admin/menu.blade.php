@@ -22,9 +22,6 @@
                     3.6
                 </div>
             </li>
-            <!--<li class="active" data-toggle='tooltip' title='{{__('menu.main_tooltip')}}'>
-                <a href="{{url('home')}}"><i class="fa fa-th-large"></i><span class="nav-label">{{__('menu.main')}}</span></a>
-            </li>-->
             @foreach(Auth::user()->profile->getModules()->orderBy('order')->get() as $menu)
                 <li data-toggle='tooltip' title='{{__($menu->short_name.".".$menu->short_name.'_tooltip')}}'>
                     <a href='{{url($menu->short_name)}}'><i class='{{$menu->icon}}'></i>

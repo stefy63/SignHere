@@ -48,7 +48,7 @@
                         <table class="table table-bordered table-hover"  id="tr-client" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <td></td>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody class="tbody-client" >
@@ -62,7 +62,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td></td>
+                                    <th></th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -79,13 +79,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="">
+                        <div class="table-responsive">
                             <input type="hidden" id="dossier_id" value="0" />
                             <table class="table table-bordered table-hover" id="tr-dossier">
                                 <thead>
                                     <tr>
-                                        <td></td>
-                                        <td></td>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -102,8 +102,8 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td></td>
-                                        <td></td>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -125,8 +125,9 @@
                             <table class="table table-bordered table-hover" id="tr-document">
                                 <thead>
                                     <tr>
-                                        <td></td>
-                                        <td></td>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -144,8 +145,9 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td></td>
-                                        <td></td>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -206,9 +208,9 @@ $(document).ready(function () {
         "paging": true,
         "ordering": false,
         "info": false,
-        "searching": false,
+        "searching": true,
         "pagingType": "numbers",
-        "scrollY": "200px",
+        //"scrollY": "auto",
         "scrollCollapse": true
     };
 
@@ -228,7 +230,7 @@ $(document).ready(function () {
                     $('#tr-client').empty();
                     data[0].forEach(function(k){
                         //console.log(k);
-                        $('#tr-client').append('<tr class="tab-client" id="'+k['id']+'"><td>'+k['name']+'</td></tr>');
+                        $('#tr-client').append('<tr class="tab-client" id="'+k['id']+'"><td><i class="fa fa-user"></i>&nbsp;&nbsp;'+k['name']+'</td></tr>');
                     });
 
             });
