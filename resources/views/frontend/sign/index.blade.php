@@ -55,11 +55,11 @@
                                     <td class="col-md-5">{{$archive->email}} <i class="fa fa-chevron-down pull-right"></i></td>
                                 </tr>
                                 @foreach($archive->dossiers()->get() as $dossier)
-                                <tr class="col-md-2 bg-warning tr-dossier dossier-{{$archive->id}}" data-dossier="{{$dossier->id}}"  id="{{$dossier->id}}" style="display: none">
+                                <tr class="bg-warning tr-dossier dossier-{{$archive->id}}" data-dossier="{{$dossier->id}}"  id="{{$dossier->id}}" style="display: none">
                                     <td colspan="3"><i class="fa fa-archive"></i> {{$dossier->name}}<i class="fa fa-chevron-down pull-right"></i></td>
                                 </tr>
                                     @foreach($dossier->documents()->get() as $document)
-                                    <tr class="col-md-5 bg-success tr-document document-{{$dossier->id}}"  data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
+                                    <tr class="bg-success tr-document document-{{$dossier->id}}"  data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
                                         <td colspan="3">
                                             @if($document->signed)
                                                 <i class="fa fa-check-square-o" style="color: green;"></i>&nbsp;&nbsp;{{$document->name}}
@@ -108,7 +108,7 @@
                                 </tr>
                                     @foreach($dossier->documents()->get() as $document)
                                     <tr class="bg-success tr-document document-{{$dossier->id}}" data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
-                                        <td colspan="3">
+                                        <td class="col-md-12" colspan="3">
                                             @if($document->signed)
                                                 <i class="fa fa-check-square-o" style="color: green;"></i>&nbsp;&nbsp;{{$document->name}}
                                             @else
