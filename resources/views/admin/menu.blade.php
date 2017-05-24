@@ -22,9 +22,9 @@
                     3.6
                 </div>
             </li>
-            <li class="active" data-toggle='tooltip' title='{{__('menu.main_tooltip')}}'>
+            <!--<li class="active" data-toggle='tooltip' title='{{__('menu.main_tooltip')}}'>
                 <a href="{{url('home')}}"><i class="fa fa-th-large"></i><span class="nav-label">{{__('menu.main')}}</span></a>
-            </li>
+            </li>-->
             @menu
             <li data-toggle='tooltip' title='{{__('menu.logout_tooltip')}}'>
                 <a class="confirm-toast"  data-message="{{__('menu.confirmLogout')}}"  data-location="{{url('logout')}}">
