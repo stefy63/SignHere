@@ -82,7 +82,7 @@ class AdminAclController extends Controller
         $visibility = new Acl();
         $visibility->name = $request->name;
         $visibility->description = $request->description;
-        $visibility->parent_id = $request->parent_id;
+        $visibility->parent_id = ($request->parent_id)?$request->parent_id:1;
         $visibility->user_id = \Auth::user()->id;
         DB::beginTransaction();
         try {

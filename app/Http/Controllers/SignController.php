@@ -220,8 +220,8 @@ class SignController extends Controller
 
             $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
 
-            $pub_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'ssl.crt';
-            $priv_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'ssl.key';
+            $pub_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.crt';
+            $priv_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.crt';
             $info = array(
                 'Name' => $brand->description,
                 'Location' => $brand->city,
@@ -234,7 +234,7 @@ class SignController extends Controller
                 'ENC' => $resource,
                 );
             //$pdf->setSignature($pub_cert, $priv_cert, '3punto6', '', 1, $info);
-            $pdf->setSignature($pub_cert, $priv_cert, '', '', 1, $info);
+            $pdf->setSignature($pub_cert, $priv_cert, '3punto6', '', 1, $info);
             $pdf->SetAutoPageBreak(TRUE, 0);
             $pdf->SetFont('helvetica', '', 9);
             $html = "<h1><b>X</b></h1>";
@@ -275,7 +275,7 @@ class SignController extends Controller
             $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
             $document->signed = true;
             $document->readonly = true;
-            $document->date_sign = Carbon::now()->format('d/m/Y');
+            $document->date_sign = Carbon::now();
             $document->user_id = \Auth::user()->id;
             $document->save();
         }

@@ -19,6 +19,7 @@ $(function () {
         Pad,
         StepHandler;
 
+    print(questions);
 
     function escapeHtml(unsafe) {
         return unsafe
