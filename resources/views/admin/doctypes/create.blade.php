@@ -45,6 +45,7 @@
                             <label for="template" >{{__('admin_doctypes.db-template')}}</label>
                         </div>
                         <div class="col-md-8">
+                            <h6>{{__('admin_doctypes.db-template_format')}}</h6>
                             <textarea class="form-control" cols="50" rows="3" name="template">{{old("template")}}</textarea>
                         </div>
                     </div>
@@ -56,6 +57,7 @@
                             <label for="questions" >{{__('admin_doctypes.db-questions')}}</label>
                         </div>
                         <div class="col-md-8">
+                            <h6>{{__('admin_doctypes.db-questions_format')}}</h6>
                             <textarea class="form-control" cols="50" rows="3" name="questions">{{old("questions")}}</textarea>
                         </div>
                     </div>
