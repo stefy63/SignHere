@@ -8,7 +8,7 @@
                 <h5>{{__('admin_profiles.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_profiles/create') }}"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_profilesindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</span></a>
+                        <a href="{{ url('admin_profiles/create') }}"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_profilesindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</button></a>
                     </div>
                 </div>
             </div>

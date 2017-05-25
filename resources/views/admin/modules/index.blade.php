@@ -12,7 +12,7 @@
                 <h5>{{__('admin_modules.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_modules/create') }}"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_modulesindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</span></a>
+                        <a href="{{ url('admin_modules/create') }}"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_modulesindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</button></a>
                     </div>
                 </div>
             </div>

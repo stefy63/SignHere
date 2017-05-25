@@ -27,9 +27,9 @@ class User extends Authenticatable
     ];
 
     public static $rules = array(
-            'username'  =>'required',
+            'username'  =>'required|unique:users',
             //'password'  =>'required|alpha_num|between:5,12',
-            'email'     => 'required|email',
+            'email'     => 'required|email|unique:users',
         );
 
     public static $rules_change_pwd = array(

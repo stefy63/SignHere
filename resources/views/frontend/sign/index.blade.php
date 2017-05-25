@@ -108,7 +108,7 @@
                                 </tr>
                                     @foreach($dossier->documents()->get() as $document)
                                     <tr class="bg-success tr-document document-{{$dossier->id}}" data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
-                                        <td class="col-md-12" colspan="3">
+                                        <td colspan="3">
                                             @if($document->signed)
                                                 <i class="fa fa-check-square-o" style="color: green;"></i>&nbsp;&nbsp;{{$document->name}}
                                             @else

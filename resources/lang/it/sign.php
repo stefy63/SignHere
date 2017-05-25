@@ -64,7 +64,7 @@ return [
     '' => '',
     'sign_doc_signed_alert' => 'Il Documento è già stato FIRMATO il: ',
     'document_unsigned' => 'Il documento non è stato firmato',
-    '' => '',
+    'sign_document_send' => 'Documento Firmato Inviato al Cliente.',
     '' => '',
     '' => '',
     '' => '',

@@ -13,7 +13,7 @@
                 <h5>{{__('admin_acls.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_acls/create') }}"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_acls.index-tooltip-create')}}"></i> {{__('admin_acls.index-new')}}</span></a>
+                        <a href="{{ url('admin_acls/create') }}"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_acls.index-tooltip-create')}}"></i> {{__('admin_acls.index-new')}}</button></a>
                     </div>
                 </div>
             </div>

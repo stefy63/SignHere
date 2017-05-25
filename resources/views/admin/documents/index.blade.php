@@ -20,7 +20,7 @@
                 <h5>{{__('admin_documents.index-title')}}</h5>
                 <!--<div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_documents') }}"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_documentsindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</span></a>
+                        <a href="{{ url('admin_documents') }}"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_documentsindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</button></a>
                     </div>
                 </div>-->
             </div>
@@ -38,7 +38,7 @@
                         <h5 class="text-danger">{{__('admin_documents.index-client')}}</h5>
                         <div ibox-tools="" class="ng-scope">
                             <div dropdown="" class="ibox-tools dropdown">
-                                <a href="{{ url('admin_clients/create') }}"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_clientsindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</span></a>
+                                <a href="{{ url('admin_clients/create') }}"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_clientsindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</button></a>
                             </div>
                         </div>
                     </div>
@@ -68,30 +68,30 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-md-7 border-left" style="height: 80%;">
+                <div class="col-md-7 border-left">
                     <!-- DOSSIERS  -->
-                    <div class="" style="height: 40%;" id="div-dossier" hidden>
+                    <div class="ol-md-12" style="height: 40%;" id="div-dossier" hidden>
                         <div class="ibox-title">
                             <h5 class="text-danger">{{__('admin_dossiers.index-dossier')}}</h5>
                             <div ibox-tools="" class="ng-scope">
                                 <div dropdown="" class="ibox-tools dropdown">
-                                    <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_dossiers.index-tooltip-dossier')}}"></i> {{__('admin_brands.index-new')}}</span></a>
+                                    <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_dossiers.index-tooltip-dossier')}}"></i> {{__('admin_brands.index-new')}}</button></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="table-responsive">
+                        <div class="">
                             <input type="hidden" id="dossier_id" value="0" />
                             <table class="table table-bordered table-hover" id="tr-dossier">
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <th></th>
+                                        <th class="col-md-11"></th>
+                                        <th class="col-md-1"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($dossiers as $dossier)
                                     <tr class="tab-dossier" id="{{$dossier->id}}">
-                                        <td class="col-md-11">
+                                        <td>
                                            <i class="fa fa-archive"></i> {{$dossier->name}}
                                         </td>
                                         <td class="text-center">
@@ -116,7 +116,7 @@
                             <h5 class="text-danger">{{__('admin_documents.index-document')}}</h5>
                             <div ibox-tools="" class="ng-scope">
                                 <div dropdown="" class="ibox-tools dropdown">
-                                    <a data-url="{{ url('admin_documents/create') }}" class="call-document"><span class="btn btn-primary"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-document')}}"></i> {{__('admin_brands.index-new')}}</span></a>
+                                    <a data-url="{{ url('admin_documents/create') }}" class="call-document"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-document')}}"></i> {{__('admin_brands.index-new')}}</button></a>
                                 </div>
                             </div>
                         </div>

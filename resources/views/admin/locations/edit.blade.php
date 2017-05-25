@@ -8,7 +8,7 @@
                 <h5>{{__('admin_locations.edit-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_locations') }}"><span class="btn btn-primary"> <i class="fa fa-arrow-left"></i></span></a>
+                        <a href="{{ url('admin_locations') }}"><button class="btn btn-primary dim"> <i class="fa fa-arrow-left"></i></button></a>
                     </div>
                 </div>
             </div>

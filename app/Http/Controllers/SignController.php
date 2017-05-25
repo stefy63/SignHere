@@ -73,22 +73,11 @@ class SignController extends Controller
      */
     public function send($id)
     {
-        $content = [
-    		'title'=> '',
-    		'body'=> 'The body of your message.',
-    		'button' => 'Click Here'
-    		];
+        $document = Document::findOrFail($id);
+        Mail::to($document->dossier->client->email)->send(new SendDocument($document));
 
-    	$receiverAddress = 'your email';
-
-    	Mail::send('emails.send', ['title' => $title, 'message' => $message], function ($message)
-        {
-            $message->from('no-reply@scotch.io', 'Scotch.IO');
-            $message->to('batman@batcave.io');
-        });
-
-    	dd('mail send successfully');
-
+        session(['success' => __('sign.sign_document_send')]);
+        $this->index();
     }
 
     /**
