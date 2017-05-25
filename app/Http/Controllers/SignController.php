@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use FPDI;
 use TCPDF;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendDocument;
 
 class SignController extends Controller
 {
@@ -186,6 +188,7 @@ class SignController extends Controller
 
     public function store_signing(Request $request, $id)
     {
+        $this->send($id);
         if(!$request->imgB64[0])
             return redirect()->back()->with('alert',__('sign.document_unsigned'));
         if($document = Document::find($id)){

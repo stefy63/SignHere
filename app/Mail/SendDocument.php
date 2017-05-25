@@ -35,11 +35,14 @@ class SendDocument extends Mailable
     public function build()
     {
         $sender = \Auth::user();
-        $brand = Acl::getMyBrands()->first();
+        $client_acl = $this->document->dossier->client->acls;
+
+        //$brand = Acl::getMyBrands()->get();
+        $brand = $client_acl->brand;
         $client = $this->document->dossier->client;
 
 
-dd($brand);
+dd($client_acl);
         return $this->from(['from' => ['address' => 'example@example.com', 'name' => 'App Name']])
             ->subject()
             ->attach()
