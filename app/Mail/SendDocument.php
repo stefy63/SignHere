@@ -2,10 +2,7 @@
 
 namespace App\Mail;
 
-use App\models\Acl;
-use App\Models\Brand;
 use App\Models\Document;
-use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -35,20 +32,20 @@ class SendDocument extends Mailable
     public function build()
     {
         $sender = \Auth::user();
-        $client_acl = $this->document->dossier->client->acls;
-
-        //$brand = Acl::getMyBrands()->get();
-        $brand = $client_acl->brand;
         $client = $this->document->dossier->client;
+        $acl_client = $client->acls()->first();
+        $brand = $acl_client->brands()->first();
+
+        dd($brand->description);
 
 
-dd($client_acl);
-        return $this->from(['from' => ['address' => 'example@example.com', 'name' => 'App Name']])
-            ->subject()
-            ->attach()
-            ->view('view.name')
-            ->with([
+        return $this->from(['from' => ['address' => $brand->email, 'name' => $brand->description]])
+            //->subject('mail di prova')
+            //->attach()
+            //->view('view.name')
+            //->with([
 
-            ]);
+            //])
+            ;
     }
 }

@@ -2,12 +2,17 @@
 
 @section('content')
 @push('scripts')
-   <!-- Data picker -->
+<!-- Data picker -->
 <script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
+<!-- Spinner -->
+<script src="{{ asset('js/g-spinner.min.js') }}"></script>
+
 @endpush
 @push('assets')
-   <!-- Data picker -->
-    <link href="{{ asset('css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
+<!-- Data picker -->
+<link href="{{ asset('css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
+<!-- Spinner -->
+<link href="{{ asset('css/gspinner.min.css') }}" rel="stylesheet">
 @endpush
 <div class="row">
     <div class="col-lg-12">
@@ -165,8 +170,10 @@
 
         </div>
     </div>
-
 </div>
+
+<div id="showModal"></div>
+
 <script>
 $(document).ready(function() {
 
@@ -180,19 +187,6 @@ $(document).ready(function() {
     var switchery_3 = new Switchery(elem_3, { color: '#1AB394' });
 
 
-
-    $.fn.datepicker.dates['it'] = {
-    days: ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"],
-    daysShort: ["Dom", "Lun", "Mar", "Mer", "Gio", "Ven", "Sab"],
-    daysMin: ["Do", "Lu", "Ma", "Me", "Gi", "Ve", "Sa"],
-    months: ["Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno", "Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"],
-    monthsShort: ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"],
-    today: "Oggi",
-    clear: "Clear",
-    format: "dd/mm/yyyy",
-    titleFormat: "MM yyyy", /* Leverages same syntax as 'format' */
-    weekStart: 1
-    };
      $('#date_doc input').datepicker({
         language: "it",
         todayBtn: "linked",
@@ -201,6 +195,27 @@ $(document).ready(function() {
         calendarWeeks: false,
         autoclose: true
     });
+
+     $('#toast-form').submit(function (e) {
+        e.preventDefault();
+        $('#showModal').modal({
+            fadeDuration: 1000,
+            escapeClose: false,
+            clickClose: false,
+            showClose: false,
+            backdrop: "static"
+        });
+        var $loader = $("#showModal");
+        $loader.gSpinner();
+        $loader.css({
+            'position': 'absolute',
+            'top' : '20%',
+            'left' : '30%',
+            'zoom' : '2'
+     });
+        this.submit();
+     });
+
 
 })
 </script>

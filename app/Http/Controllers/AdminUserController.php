@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Acl;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Validator;
 
 class AdminUserController extends Controller
 {
@@ -57,7 +59,8 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, array_add(User::$rules,'password','required|alpha_num|between:5,12'));
+
+        $this->validate($request,User::$rules);
 
         $user = new User();
         $user->fill($request->all());
@@ -121,8 +124,7 @@ class AdminUserController extends Controller
                     return response()->json(['warning' => __('admin_users.warning_user_NOTupdated')]);
                 }
             }
-
-             $this->validate($request, User::$rules);
+             Validator::make($request->all(),['username'=>['required',Rule::unique('users')->ignore($id)],'email'=>['required',Rule::unique('users')->ignore($id)]])->validate();
              $user->fill($request->all());
              $user->active = ($id == 1)? 1 :isset($request->active) ? 1 : 0;
              $user->user_id = \Auth::user()->id;

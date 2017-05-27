@@ -1,8 +1,34 @@
 @extends('frontend.front')
+@push('assets')
+<link href="{{ asset('css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css') }}" rel="stylesheet">
+<link href="{{ asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+<link href="{{ asset('css/plugins/iCheck/custom.css') }}" rel="stylesheet">
+
+<style>
+#signature{
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    color: blue;
+    background-color:lightgrey;
+    z-index: -1;
+}
+</style>
+@endpush
 @push('scripts')
+<script src="{{ asset('js/jSignature/libs/jSignature.min.js') }}"></script>
+<!--<script src="{{ asset('js/jSignature/libs/modernizr.js') }}"></script>-->
+<!--[if lt IE 9]>
+<script src="{{ asset('js/jSignature/libs/flashcanvas.js') }}"></script>
+<![endif]-->
+
+
 <script src="{{ asset('js/pdf.js') }}"></script>
 <script src="{{ asset('js/compatibility.js') }}"></script>
-<script>
+<!-- iCheck -->
+<script src="{{ asset('js/plugins/iCheck/icheck.min.js') }}"></script>
+
+<script type="text/javascript">
 $(function () {
 
     var pdfData = atob("{{$b64doc}}");
@@ -17,10 +43,175 @@ $(function () {
         responseQuestions = [],
         responseTemplates = [],
         Pad,
-        StepHandler;
+        StepHandler,
+        WacomCtl,
+        $sigdiv = false;
 
     print(questions);
 
+
+    $('#start').click(function () {
+        toastr['info']("{{__('sign.sign_proc_start')}}", "{{__('sign.sign_proc_start_title')}}");
+        if(WacomCtl) {
+            fPad();
+            SendQuestionsAuth();
+        } else {
+            SendQuestionsAuthSign();
+
+
+/*
+            var imgSrcData;
+            $('#Sig-Reset').bind('click', function(e) {
+                $sigdiv.jSignature('reset');
+            });
+            $('#Sig-Save').bind('click', function(e){
+                imgSrcData = 'data:'+$sigdiv.jSignature('getData', 'image');
+                $('#b64image').attr("src",imgSrcData);
+                $("#imgB64").val(imgSrcData);
+                console.log(imgSrcData);
+                $('#showModal').modal('hide');
+            });
+
+            $('#showModal').modal();
+            $('#showModal').on('shown.bs.modal', function() {
+                if(!$sigdiv){
+                    $sigdiv = $("#signature").jSignature({'UndoButton':false});
+                    $sigdiv.jSignature("reset");
+                }
+            })
+*/
+        }
+    });
+
+    $('#about').click(function () {
+        if(WacomCtl)
+            AboutBox();
+    })
+
+//////////////// SIGN SCRIPT //////////////////////////
+
+    function SendQuestionsAuthSign() {
+        var content = $('<div class="i-checks"></div>');
+        content.html('<label><input type="checkbox" id="chkAuth">' +
+            '<i></i>&nbsp;&nbsp;&nbsp;  {{__('sign.sign_proc_auth_question')}}</label>');
+
+        $('#Sig-Reset').bind('click', function(e) {
+            $('#showModal').modal('hide');
+        });
+        $('#Sig-Save').bind('click', function(e){
+            console.log($('#chkAuth').is(':checked'));
+            if($('#chkAuth').is(':checked')) {
+                $('#showModal').modal('hide');
+                sendQuestionsSign();
+            } else $('#showModal').modal('hide');
+        });
+        addElement2Modal(content);
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+        });
+        $('.i-checks input').on('ifChecked ifUnchecked', function(event) {
+            console.log(event.type);
+            if (event.type == 'ifChecked') {
+                $('#chkAuth').prop("checked",true);
+            } else {
+                $('#chkAuth').prop("checked",false);
+            }
+        });
+    }
+
+    function sendQuestionsSign() {
+        console.log(questions);
+        var content = $('<div></div>');
+        if (questions.length > 1){
+            $(questions).each(function (index) {
+                console.log(questions[index]);
+                var item = $('<div class="i-checks"></div>');
+                item.html('<label><input type="checkbox" class="chkAuth" value="">' +
+                    '<i></i>&nbsp;&nbsp;&nbsp;'+questions[index][5]+'</label>');
+                content.append(item);
+
+
+                /*content.append('<input type="checkbox" class="chkAuth" />');
+                content.append("  "+questions[index][5]);
+                content.append("<br/>");*/
+            });
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+            });
+            $('#Sig-Reset').bind('click', function(e) {
+                $('#showModal').modal('hide');
+            });
+            $('#Sig-Save').bind('click', function(e){
+                $('.chkAuth').each(function (index) {
+                    console.log(questions[index]);
+                    if($(this).is(':checked')) {
+                        responseQuestions[index] = true;
+                    } else {
+                        responseQuestions[index] = false;
+                    }
+                });
+                console.log(responseQuestions);
+                $('#questions').val(JSON.stringify(responseQuestions));
+                toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_sign_optional')}}");
+                $('#showModal').modal('hide');
+                sendOptionalSignSign();
+            });
+            addElement2Modal(content);
+        } else {
+            toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_sign_optional')}}");
+            $('#showModal').modal('hide');
+            sendOptionalSignSign();
+        }
+    }
+
+    function sendOptionalSignSign() {
+        console.log(templates);
+        var content = $('<div class="text-primary"></div>');
+        if (templates.length > 1){
+            $(templates).each(function (index) {
+                if(templates[index][3].toUpperCase() == 'O'){
+                    console.log(templates[index]);
+                    content.append('<input type="checkbox" class="chkAuth" />');
+                    content.append("  "+templates[index][4]);
+                    content.append("<br/>");
+                }
+            });
+            $('#Sig-Reset').bind('click', function(e) {
+                $('#showModal').modal('hide');
+            });
+            $('#Sig-Save').bind('click', function(e){
+                $('.chkAuth').each(function (index) {
+                    console.log(templates[index]);
+                    if($(this).is(':checked')) {
+                        responseTemplates[index] = true;
+                    } else {
+                        responseTemplates[index] = false;
+                    }
+                });
+                console.log(responseTemplates);
+                $('#templates').val(JSON.stringify(responseTemplates));
+                toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_title')}}");
+                $('#showModal').modal('hide');
+                CaptureSign();
+            });
+            addElement2Modal(content);
+        }
+    }
+
+    function CaptureSign() {
+
+    }
+
+
+
+
+    function addElement2Modal(elem) {
+        $('.modal-body').html('');
+        $('.modal-body').html(elem);
+        $('#showModal').modal('toggle');
+    }
+
+//////////////// WACOM SCRIPT //////////////////////////
     function escapeHtml(unsafe) {
         return unsafe
             .replace(/&amp;/g, "&")
@@ -90,16 +281,6 @@ $(function () {
     }
 
 //================================ StepControl     ================================
-
-    $('#start').click(function () {
-        fPad();
-        toastr['info']("{{__('sign.sign_proc_start')}}", "{{__('sign.sign_proc_start_title')}}");
-        SendQuestionsAuth();
-    });
-    $('#about').click(function () {
-        AboutBox();
-    })
-
 
     function SendQuestionsAuth() {
         try {
@@ -334,16 +515,6 @@ $(function () {
             //return hash;
     }
 
-    function AboutBox() {
-        try {
-            var sigCtl = document.getElementById("sigCtl1");
-            sigCtl.AboutBox();
-        }
-        catch(ex) {
-            Exception("About() error: " + ex.message);
-        }
-    }
-
     function Error(txt) {
         stopWizard();
         print("Error: " + txt);
@@ -369,17 +540,19 @@ $(function () {
     function OnLoad() {
         try {
             if( !("ActiveXObject" in window) ) {
-                document.getElementById("not_ie_warning").style.display="block";
-                return;
+                //document.getElementById("not_ie_warning").style.display="block";
+                WacomCtl=false;
+            } else {
+                WacomCtl=true;
+                WizCtl = new ActiveXObject("Florentis.WizCtl"),
+                lic  = new ActiveXObject("Wacom.Signature.Licence"),
+                Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA',
+                hash = new ActiveXObject('Florentis.Hash');
+
+                lic.SetLicence(Licence);
             }
             print("CLEAR");
 
-            WizCtl = new ActiveXObject("Florentis.WizCtl"),
-            lic  = new ActiveXObject("Wacom.Signature.Licence"),
-            Licence = 'AgAkAMlv5nGdAQVXYWNvbQ1TaWduYXR1cmUgU0RLAgOBAgJkAACIAwEDZQA',
-            hash = new ActiveXObject('Florentis.Hash');
-
-            lic.SetLicence(Licence);
         }
         catch(ex) {
             Exception("OnLoad() error: " + ex.message);
@@ -495,6 +668,12 @@ $(function () {
         console.log('canvas changed.......');
     });
 
+
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green',
+    });
+
 })
 </script>
 @endpush
@@ -534,7 +713,6 @@ $(function () {
                             <tr>
                                 <td rowspan="3" class="col-md-2">
                                     <div class="hidden">
-                                        <!--<object id="sigCtl1" type="application/x-florentis-signature"></object>-->
                                         <object id="sigCtl1" classid="clsid:963B1D81-38B8-492E-ACBE-74801D009E9E"></object>
                                         <input type="hidden" name="imgB64[]"  id="imgB64"/>
                                     </div>
@@ -571,7 +749,33 @@ $(function () {
                 <div style="height: 70vh;overflow: auto" class="pull-left col-lg-9 text-center" id="div-pdf-canvas">
 
                     <canvas id="pdf-canvas" height="100%" width="100%"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+
+<div class="modal inmodal fade in" id="showModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="modal-title" name="name">Firma del Documento</h4>
+            </div>
+            <div class="modal-body" style="height: 30vh">
+                <!--<div id="signature"></div>-->
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div id="tools" class="form-group">
+                        <div class="col-lg-5 pull-right">
+                            <button class="btn btn-block btn-outline btn-primary col-md-5 pull-right" id="Sig-Save">Save</button>
+                        </div>
+                        <div class="col-lg-5">
+                            <button class="btn btn-block btn-outline btn-danger" id="Sig-Reset">Reset</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

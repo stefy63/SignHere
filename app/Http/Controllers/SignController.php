@@ -188,7 +188,6 @@ class SignController extends Controller
 
     public function store_signing(Request $request, $id)
     {
-        $this->send($id);
         if(!$request->imgB64[0])
             return redirect()->back()->with('alert',__('sign.document_unsigned'));
         if($document = Document::find($id)){
@@ -197,11 +196,10 @@ class SignController extends Controller
             $arrayTpl = $this->_getTemplate($document->doctype->template);
             $arrayQuestion = $this->_getTemplate($document->doctype->questions);
             $base64 = ($origin)?substr($origin,strpos($origin,",")+1):'';
-
             $resource = base64_decode($base64);
             $returnTemplates = json_decode($request->templates);
             $returnQuestions = json_decode($request->questions);
-
+dd($returnTemplates);
             //class_exists('TCPDF', true);
             $pdf = new FPDI();
             // set document information
@@ -213,7 +211,7 @@ class SignController extends Controller
             $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
 
             $pub_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.crt';
-            $priv_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.crt';
+            $priv_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.key';
             $info = array(
                 'Name' => $brand->description,
                 'Location' => $brand->city,
