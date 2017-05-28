@@ -2,14 +2,10 @@
 
 @section('content')
 @push('scripts')
-   <!-- Data picker -->
-<script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 <!-- Spinner -->
 <script src="{{ asset('js/g-spinner.min.js') }}"></script>
 @endpush
 @push('assets')
-<!-- Data picker -->
-<link href="{{ asset('css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
 <!-- Spinner -->
 <link href="{{ asset('css/gspinner.min.css') }}" rel="stylesheet">
 @endpush

@@ -1,4 +1,10 @@
 
+<script>
+    window.Laravel = {!! json_encode([
+        'csrfToken' => csrf_token(),
+    ]) !!};
+
+</script>
 <!-- Styles -->
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
@@ -18,14 +24,10 @@
 
 <!-- Switchery -->
 <link href="{{ asset('css/plugins/switchery/switchery.css') }}" rel="stylesheet">
+<!-- Data picker -->
+<link href="{{ asset('css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
 
 @stack('assets')
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
-<script>
-    window.Laravel = {!! json_encode([
-        'csrfToken' => csrf_token(),
-    ]) !!};
-
-</script>

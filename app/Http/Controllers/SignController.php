@@ -199,7 +199,7 @@ class SignController extends Controller
             $resource = base64_decode($base64);
             $returnTemplates = json_decode($request->templates);
             $returnQuestions = json_decode($request->questions);
-dd($returnTemplates);
+
             //class_exists('TCPDF', true);
             $pdf = new FPDI();
             // set document information

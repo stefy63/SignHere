@@ -15,6 +15,8 @@
 <script src="{{ asset('js/plugins/sweetalert/sweetalert.min.js') }}"></script>
 <!-- Switchery -->
 <script src="{{ asset('js/plugins/switchery/switchery.js') }}"></script>
+<!-- Data picker -->
+<script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 
 @stack('scripts')
 

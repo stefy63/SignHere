@@ -57,29 +57,6 @@ $(function () {
             SendQuestionsAuth();
         } else {
             SendQuestionsAuthSign();
-
-
-/*
-            var imgSrcData;
-            $('#Sig-Reset').bind('click', function(e) {
-                $sigdiv.jSignature('reset');
-            });
-            $('#Sig-Save').bind('click', function(e){
-                imgSrcData = 'data:'+$sigdiv.jSignature('getData', 'image');
-                $('#b64image').attr("src",imgSrcData);
-                $("#imgB64").val(imgSrcData);
-                console.log(imgSrcData);
-                $('#showModal').modal('hide');
-            });
-
-            $('#showModal').modal();
-            $('#showModal').on('shown.bs.modal', function() {
-                if(!$sigdiv){
-                    $sigdiv = $("#signature").jSignature({'UndoButton':false});
-                    $sigdiv.jSignature("reset");
-                }
-            })
-*/
         }
     });
 
@@ -93,20 +70,11 @@ $(function () {
     function SendQuestionsAuthSign() {
         var content = $('<div class="i-checks"></div>');
         content.html('<label><input type="checkbox" id="chkAuth">' +
-            '<i></i>&nbsp;&nbsp;&nbsp;  {{__('sign.sign_proc_auth_question')}}</label>');
+            '<i></i>&nbsp;&nbsp;&nbsp;  {!! __('sign.sign_proc_auth_question') !!}'+pdfDoc.numPages+'</label>');
 
-        $('#Sig-Reset').bind('click', function(e) {
-            $('#showModal').modal('hide');
-        });
-        $('#Sig-Save').bind('click', function(e){
-            console.log($('#chkAuth').is(':checked'));
-            if($('#chkAuth').is(':checked')) {
-                $('#showModal').modal('hide');
-                sendQuestionsSign();
-            } else $('#showModal').modal('hide');
-        });
         addElement2Modal(content);
-        $('.i-checks').iCheck({
+        $('#showModal').modal();
+        $('.i-checks input').iCheck({
             checkboxClass: 'icheckbox_square-green',
         });
         $('.i-checks input').on('ifChecked ifUnchecked', function(event) {
@@ -117,6 +85,20 @@ $(function () {
                 $('#chkAuth').prop("checked",false);
             }
         });
+        //// event click ////
+        $('#Sig-Reset').bind('click', function(e) {
+            $('#showModal').modal('hide');
+        });
+        $('#Sig-Save').bind('click', function(e){
+            e.stopPropagation();
+            console.log($('#chkAuth').is(':checked'));
+            if($('#chkAuth').is(':checked')) {
+                //$('#showModal').modal('hide');
+                $('#Sig-Save').unbind('click');
+                $('.i-checks input').iCheck('destroy');
+                sendQuestionsSign();
+            } else $('#showModal').modal('hide');
+        });
     }
 
     function sendQuestionsSign() {
@@ -126,23 +108,20 @@ $(function () {
             $(questions).each(function (index) {
                 console.log(questions[index]);
                 var item = $('<div class="i-checks"></div>');
-                item.html('<label><input type="checkbox" class="chkAuth" value="">' +
+                item.html('<label><input type="checkbox" class="chkAuth" />' +
                     '<i></i>&nbsp;&nbsp;&nbsp;'+questions[index][5]+'</label>');
                 content.append(item);
-
-
-                /*content.append('<input type="checkbox" class="chkAuth" />');
-                content.append("  "+questions[index][5]);
-                content.append("<br/>");*/
             });
-            $('.i-checks').iCheck({
+            addElement2Modal(content);
+            $('.i-checks input').iCheck({
                 checkboxClass: 'icheckbox_square-green',
             });
             $('#Sig-Reset').bind('click', function(e) {
                 $('#showModal').modal('hide');
             });
             $('#Sig-Save').bind('click', function(e){
-                $('.chkAuth').each(function (index) {
+                e.stopPropagation();
+                $('input.chkAuth').each(function (index) {
                     console.log(questions[index]);
                     if($(this).is(':checked')) {
                         responseQuestions[index] = true;
@@ -153,52 +132,91 @@ $(function () {
                 console.log(responseQuestions);
                 $('#questions').val(JSON.stringify(responseQuestions));
                 toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_sign_optional')}}");
-                $('#showModal').modal('hide');
+                //$('#showModal').modal('toggle');
+                $('#Sig-Save').unbind('click');
+                $('.i-checks input').iCheck('destroy');
+                console.log('Fine');
                 sendOptionalSignSign();
             });
-            addElement2Modal(content);
         } else {
             toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_sign_optional')}}");
-            $('#showModal').modal('hide');
             sendOptionalSignSign();
         }
     }
 
     function sendOptionalSignSign() {
         console.log(templates);
-        var content = $('<div class="text-primary"></div>');
+        var opt = false;
+        var content = $('<div></div>');
         if (templates.length > 1){
             $(templates).each(function (index) {
                 if(templates[index][3].toUpperCase() == 'O'){
+                    opt = true;
                     console.log(templates[index]);
-                    content.append('<input type="checkbox" class="chkAuth" />');
-                    content.append("  "+templates[index][4]);
-                    content.append("<br/>");
+                    var item = $('<div class="i-checks"></div>');
+                    item.html('<label><input type="checkbox" class="chkAuth" />' +
+                        '<i></i>&nbsp;&nbsp;&nbsp;'+templates[index][4]+'</label>');
+                    content.append(item);
+                } else {
+                    console.log(templates[index]);
+                    content.append('<input type="checkbox" class="chkAuth" hidden/>');
                 }
             });
-            $('#Sig-Reset').bind('click', function(e) {
-                $('#showModal').modal('hide');
-            });
-            $('#Sig-Save').bind('click', function(e){
-                $('.chkAuth').each(function (index) {
-                    console.log(templates[index]);
-                    if($(this).is(':checked')) {
-                        responseTemplates[index] = true;
-                    } else {
-                        responseTemplates[index] = false;
-                    }
+            if(opt == true){
+                addElement2Modal(content);
+                $('.i-checks input').iCheck({
+                    checkboxClass: 'icheckbox_square-green',
                 });
-                console.log(responseTemplates);
-                $('#templates').val(JSON.stringify(responseTemplates));
+                $('#Sig-Reset').bind('click', function(e) {
+                    $('#showModal').modal('hide');
+                });
+                $('#Sig-Save').bind('click', function(e){
+                    e.stopPropagation();
+                    $('.chkAuth').each(function (index) {
+                        if($(this).is(':checked')) {
+                            responseTemplates[index] = true;
+                        } else {
+                            responseTemplates[index] = false;
+                        }
+                    });
+                    console.log(responseTemplates);
+                    $('#templates').val(JSON.stringify(responseTemplates));
+                    toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_title')}}");
+                    //$('#showModal').modal('hide');
+                    $('#Sig-Reset').unbind('click');
+                    $('#Sig-Save').unbind('click');
+                    $('.i-checks input').iCheck('destroy');
+                    CaptureSign();
+                });
+            } else {
                 toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_title')}}");
-                $('#showModal').modal('hide');
                 CaptureSign();
-            });
-            addElement2Modal(content);
+            }
+        } else {
+            toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_title')}}");
+            CaptureSign();
         }
     }
 
     function CaptureSign() {
+        var content = $('<div id="signature"></div>');
+        addElement2Modal(content);
+        if(!$sigdiv){
+            $sigdiv = $("#signature").jSignature({'UndoButton':false});
+            $sigdiv.jSignature("reset");
+        }
+        var imgSrcData;
+        $('#Sig-Reset').bind('click', function(e) {
+            $sigdiv.jSignature('reset');
+        });
+        $('#Sig-Save').bind('click', function(e){
+            imgSrcData = 'data:'+$sigdiv.jSignature('getData', 'image');
+            $('#b64image').attr("src",imgSrcData);
+            $("#imgB64").val(imgSrcData);
+            console.log(imgSrcData);
+            $('#showModal').modal('hide');
+        });
+
 
     }
 
@@ -208,7 +226,7 @@ $(function () {
     function addElement2Modal(elem) {
         $('.modal-body').html('');
         $('.modal-body').html(elem);
-        $('#showModal').modal('toggle');
+        //$('#showModal').modal();
     }
 
 //////////////// WACOM SCRIPT //////////////////////////
@@ -289,7 +307,7 @@ $(function () {
             WizCtl.Font.Bold = false;
             WizCtl.Font.Size = Pad.textFontSize;
 
-            WizCtl.AddObject(WizObject.Checkbox, "chk", "center", "middle", "{{__('sign.sign_proc_auth_question')}}", null );
+            WizCtl.AddObject(WizObject.Checkbox, "chk", "center", "middle", "{{ __('sign.sign_proc_auth_question')}} ", null );
 
             WizCtl.Font.Size = Pad.buttonFontSize;
             WizCtl.AddObject(WizObject.Button, "Cancel", "left", "bottom", "Cancel", Pad.buttonWith );
@@ -344,7 +362,7 @@ $(function () {
             } else {
                 $('#questions').val(JSON.stringify(responseQuestions));
                 ctlScript = 0;
-                toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_sign_optional')}}");
+                toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{ __('sign.sign_proc_start_sign_optional') }}");
                 sendOptionalSign()
             }
         } catch ( ex ) {
@@ -659,7 +677,6 @@ $(function () {
     PDFJS.getDocument({data: pdfData}).then(function(pdfDoc_) {
         pdfDoc = pdfDoc_;
         document.getElementById('page_count').textContent = pdfDoc.numPages;
-
         // Initial/first page rendering
         renderPage(pageNum);
     });
