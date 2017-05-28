@@ -76,10 +76,10 @@ class SignController extends Controller
     public function send($id)
     {
         $document = Document::findOrFail($id);
-        Mail::to($document->dossier->client->email)->send(new SendDocument($document));
 
-        session(['success' => __('sign.sign_document_send')]);
-        $this->index();
+        Mail::send(new SendDocument($document));
+
+        return back()->with(['success' => __('sign.sign_document_send')]);
     }
 
     /**
@@ -265,7 +265,7 @@ class SignController extends Controller
             $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
             $document->signed = true;
             $document->readonly = true;
-            $document->date_sign = Carbon::now()->format('y-m-d');
+            $document->date_sign = Carbon::now()->format('d/m/y');
             $document->user_id = \Auth::user()->id;
             $document->save();
         }

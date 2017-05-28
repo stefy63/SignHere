@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Document;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -12,7 +13,7 @@ class SendDocument extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $document;
+    protected $document;
 
     /**
      * Create a new message instance.
@@ -36,16 +37,19 @@ class SendDocument extends Mailable
         $acl_client = $client->acls()->first();
         $brand = $acl_client->brands()->first();
 
-        dd($brand->description);
+        //dd($client->name);
 
 
-        return $this->from(['from' => ['address' => $brand->email, 'name' => $brand->description]])
-            //->subject('mail di prova')
-            //->attach()
-            //->view('view.name')
-            //->with([
-
-            //])
-            ;
+        return $this->view('mail.sendDoc')
+           ->with([
+                    'brand'     =>  $brand,
+                    'client'    =>  $client,
+                    'sender'    =>  $sender,
+                    'document'  =>  $this->document,
+                ])
+            ->to($this->document->dossier->client->email)
+            ->from($brand->email,$brand->description)
+            ->subject(__('sign.send_doc_mail',['doc'=>$this->document->name,'date' => $this->document->date_sign]))
+            ->attach(storage_path('app/public/documents/').'/'.$this->document->filename);
     }
 }

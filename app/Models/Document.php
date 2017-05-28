@@ -33,7 +33,7 @@ class Document extends Model
     public function setDateDocAttribute($value){$this->attributes['date_doc'] = $this->__setData($value);}
 
     public function getDateSignAttribute($value){return $this->__getData($value);}
-    public function setDateSignAttribute($value){$this->attributes['date_doc'] = $this->__setData($value);}
+    public function setDateSignAttribute($value){$this->attributes['date_sign'] = $this->__setData($value);}
 
     private function __getData($data)
     {
