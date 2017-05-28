@@ -1,5 +1,5 @@
-//const { mix } = require('laravel-mix');
-let mix = require('laravel-mix').mix;
+const { mix } = require('laravel-mix');
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management

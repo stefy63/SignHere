@@ -87,6 +87,7 @@ $(function () {
         });
         //// event click ////
         $('#Sig-Reset').bind('click', function(e) {
+            e.stopPropagation();
             $('#showModal').modal('hide');
         });
         $('#Sig-Save').bind('click', function(e){
@@ -117,6 +118,7 @@ $(function () {
                 checkboxClass: 'icheckbox_square-green',
             });
             $('#Sig-Reset').bind('click', function(e) {
+                e.stopPropagation();
                 $('#showModal').modal('hide');
             });
             $('#Sig-Save').bind('click', function(e){
@@ -168,6 +170,7 @@ $(function () {
                     checkboxClass: 'icheckbox_square-green',
                 });
                 $('#Sig-Reset').bind('click', function(e) {
+                    e.stopPropagation();
                     $('#showModal').modal('hide');
                 });
                 $('#Sig-Save').bind('click', function(e){
@@ -201,19 +204,21 @@ $(function () {
     function CaptureSign() {
         var content = $('<div id="signature"></div>');
         addElement2Modal(content);
-        if(!$sigdiv){
-            $sigdiv = $("#signature").jSignature({'UndoButton':false});
-            $sigdiv.jSignature("reset");
-        }
+        $sigdiv = $("#signature").jSignature({'UndoButton':false});
+        $sigdiv.jSignature("reset");
         var imgSrcData;
         $('#Sig-Reset').bind('click', function(e) {
+            e.stopPropagation();
             $sigdiv.jSignature('reset');
         });
         $('#Sig-Save').bind('click', function(e){
+            e.stopPropagation();
             imgSrcData = 'data:'+$sigdiv.jSignature('getData', 'image');
             $('#b64image').attr("src",imgSrcData);
             $("#imgB64").val(imgSrcData);
             console.log(imgSrcData);
+            $('#Sig-Reset').unbind('click');
+            $('#Sig-Save').unbind('click');
             $('#showModal').modal('hide');
         });
 
