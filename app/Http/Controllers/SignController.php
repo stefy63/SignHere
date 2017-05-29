@@ -10,16 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use FPDI;
-use TCPDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendDocument;
-use Swift_Mailer;
-use Swift_SmtpTransport as SmtpTransport;
-use Swift_Message;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\App;
-
 
 class SignController extends Controller
 {
@@ -85,13 +78,15 @@ class SignController extends Controller
         try{
             $document = Document::findOrFail($id);
 
-            $acl_client = $document->dossier->client->acls()->first();
+                Mail::send(new SendDocument($document));
+                return back()->with(['success' => __('sign.sign_document_send')]);
+            /*$acl_client = $document->dossier->client->acls()->first();
             $brand = $acl_client->brands()->first();
             if ($brand->smtp_host && $brand->smtp_port && $brand->smtp_username && $brand->smtp_password ) {
                 Mail::send(new SendDocument($document));
                 return back()->with(['success' => __('sign.sign_document_send')]);
             }
-            return back()->with(['alert' =>  __('sign.sign_document_NOTsend')]);
+            return back()->with(['alert' =>  __('sign.sign_document_NOTsend')]);*/
 
         } catch (Exception $e){
              return back()->with(['alert' => $e->getMessage()]);

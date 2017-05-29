@@ -3,16 +3,12 @@
 namespace App\Mail;
 
 use App\Models\Document;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailer;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Swift_Mailer;
 use Swift_SmtpTransport as SmtpTransport;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\App;
 
 class SendDocument extends Mailable
 {
@@ -35,21 +31,34 @@ class SendDocument extends Mailable
         $this->client = $this->document->dossier->client;
         $this->acl_client = $this->client->acls()->first();
         $this->brand = $this->acl_client->brands()->first();
-        
-        Config::set('mail.driver',env('MAIL_DRIVER', 'smtp'));
-        Config::set('mail.host',$this->brand->smtp_host);
-        Config::set('mail.port',$this->brand->smtp_port);
-        Config::set('mail.username',$this->brand->smtp_username);
-        Config::set('mail.password',$this->brand->smtp_password);
+
+        $host = ($this->brand->smtp_host)?$this->brand->smtp_host:config('mail.host');
+        $port = ($this->brand->smtp_port)?$this->brand->smtp_port:config('mail.port');
+        $username = ($this->brand->smtp_username)?$this->brand->smtp_username:config('mail.username');
+        $password = ($this->brand->smtp_password)?$this->brand->smtp_password:config('mail.password');
+
+
+        $transport = SmtpTransport::newInstance( $host, $port);
+        $transport->setUsername($username);
+        $transport->setPassword($password);
+        $transport->setEncryption(config('mail.encryption'));
+
+
+        /*Config::set('mail.driver',env('MAIL_DRIVER', 'smtp'));
+        Config::set('mail.host',($this->brand->smtp_host != null)?$this->brand->smtp_host:env('MAIL_HOST'));
+        Config::set('mail.port',($this->brand->smtp_port)?$this->brand->smtp_port:env('MAIL_PORT'));
+        Config::set('mail.username',($this->brand->smtp_username)?$this->brand->smtp_username:env('MAIL_USERNAME'));
+        Config::set('mail.password',($this->brand->smtp_password)?$this->brand->smtp_password:env('MAIL_PASSWORD'));
         Config::set('mail.encryption','tls');
         Config::set('mail.sendmail','/usr/sbin/sendmail -bs');
 
         $app = App::getInstance();
         $app->singleton('swift.transport',function ($app) {
             return new TransportManager($app);
-        });
+        });*/
         // Assign a new SmtpTransport to SwiftMailer
-        $brand_transport = new Swift_Mailer($app['swift.transport']->driver());
+        //$brand_transport = new Swift_Mailer($app['swift.transport']->driver());
+        $brand_transport = new Swift_Mailer($transport);
         // Assign it to the Laravel Mailer
         \Mail::setSwiftMailer($brand_transport);
     }
