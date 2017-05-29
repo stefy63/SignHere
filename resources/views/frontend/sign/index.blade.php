@@ -1,5 +1,12 @@
 @extends('frontend.front')
+@push('scripts')
+<!-- Spinner -->
+<script src="{{ asset('js/g-spinner.min.js') }}"></script>
+
+@endpush
 @push('assets')
+<!-- Spinner -->
+<link href="{{ asset('css/gspinner.min.css') }}" rel="stylesheet">
 <style>
 .tab-right tbody{
     overflow-y: auto;
@@ -104,11 +111,11 @@
                                             @endif
                                             <div class="pull-right">
                                                 @if($document->signed)
-                                                    <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="confirm-toast"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="sendmail"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                 @else
-                                                    <a href="{{url('sign/signing/'.$document->id)}}"><i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <a data-location="{{url('sign/signing/'.$document->id)}}" class="href"><i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                 @endif
-                                                <a href="{{Storage::disk('documents')->url($document->filename) }}" target="_blank"><i class="fa fa-download"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <a data-location="{{Storage::disk('documents')->url($document->filename) }}" target="_blank" class="href"><i class="fa fa-download"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <a data-message="{{__('sign.confirm_delete')}}" data-location="{{url('sign/destroy/'.$document->id)}}" class="confirm-toast"><i class="fa fa-trash-o text-danger"></i></a>
                                             </div>
                                         </td>
@@ -127,10 +134,21 @@
     </div>
 </div>
 
+<div id="showModal"></div>
 <script>
 $(function () {
 
-    $('.tr-client, .tr-dossier, .tr-document').hover(function() {
+    $('.href').click(function(e){
+        e.preventDefault();
+        var location =  this.getAttribute('data-location');
+        var target = this.getAttribute('target');
+        if(target)
+            window.open(location);
+        else
+            window.location = location;
+    });
+
+    $('.tr-client, .tr-dossier').hover(function() {
             $(this).css('cursor','pointer');
         }, function() {
             $(this).css('cursor','auto');
@@ -155,16 +173,47 @@ $(function () {
                 $(this).parent().find('.document-'+dossier).show();
     });
 
-    $('.tr-document').click(function(e){
-        e.stopPropagation();
+    /*$('.tr-document').click(function(e){
+        e.preventDefault();
         //$(this).dblclick();
+    });*/
+
+    $('.sendmail').click(function(e){
+        e.preventDefault();
+        var location =  this.getAttribute('data-location');
+        swal({
+            title: '{{__('app.confirm-title')}}',
+            text: this.getAttribute('data-message'),
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            closeOnConfirm: true
+        }, function () {
+            $('#showModal').modal({
+                fadeDuration: 1000,
+                escapeClose: false,
+                clickClose: false,
+                showClose: false,
+                backdrop: "static"
+            });
+            var $loader = $("#showModal");
+            $loader.gSpinner();
+            $loader.css({
+                'position': 'absolute',
+                'top' : '20%',
+                'left' : '30%',
+                'zoom' : '2'
+            });
+            window.location = location;
+        });
     });
 
     $('.tr-document').dblclick(function(e){
         e.stopPropagation();
         var location = '{{url('sign/signing')}}'+'/'+this.id;
         console.log(location);
-        window.location.replace(location)
+        window.location = location;
     });
 
     $('.content').click(function(e){

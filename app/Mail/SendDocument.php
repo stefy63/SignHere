@@ -6,14 +6,22 @@ use App\Models\Document;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailer;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Swift_Mailer;
+use Swift_SmtpTransport as SmtpTransport;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\App;
 
 class SendDocument extends Mailable
 {
     use Queueable, SerializesModels;
 
     protected $document;
+    protected $sender;
+    protected $client;
+    protected $brand;
 
     /**
      * Create a new message instance.
@@ -23,6 +31,31 @@ class SendDocument extends Mailable
     public function __construct(Document $document)
     {
         $this->document = $document;
+        $this->sender = \Auth::user();
+        $this->client = $this->document->dossier->client;
+        $this->acl_client = $this->client->acls()->first();
+        $this->brand = $this->acl_client->brands()->first();
+
+
+        Config::set('mail.driver',env('MAIL_DRIVER', 'smtp'));
+        Config::set('mail.host','smtp.gmail.com');
+        Config::set('mail.port',587);
+        Config::set('mail.username','stefano.sca@gmail.com');
+        Config::set('mail.password','19stefy63');
+        Config::set('mail.encryption','tls');
+        Config::set('mail.sendmail','/usr/sbin/sendmail -bs');
+
+        $app = App::getInstance();
+        $app->singleton('swift.transport',function ($app) {
+            return new TransportManager($app);
+        });
+
+        // Assign a new SmtpTransport to SwiftMailer
+        $brand_transport = new Swift_Mailer($app['swift.transport']->driver());
+
+        // Assign it to the Laravel Mailer
+        \Mail::setSwiftMailer($brand_transport);
+
     }
 
     /**
@@ -32,23 +65,16 @@ class SendDocument extends Mailable
      */
     public function build()
     {
-        $sender = \Auth::user();
-        $client = $this->document->dossier->client;
-        $acl_client = $client->acls()->first();
-        $brand = $acl_client->brands()->first();
-
-        //dd($client->name);
-
 
         return $this->view('mail.sendDoc')
-           ->with([
-                    'brand'     =>  $brand,
-                    'client'    =>  $client,
-                    'sender'    =>  $sender,
+            ->with([
+                    'brand'     =>  $this->brand,
+                    'client'    =>  $this->client,
+                    'sender'    =>  $this->sender,
                     'document'  =>  $this->document,
                 ])
             ->to($this->document->dossier->client->email)
-            ->from($brand->email,$brand->description)
+            ->from($this->brand->email,$this->brand->description)
             ->subject(__('sign.send_doc_mail',['doc'=>$this->document->name,'date' => $this->document->date_sign]))
             ->attach(storage_path('app/public/documents/').'/'.$this->document->filename);
     }

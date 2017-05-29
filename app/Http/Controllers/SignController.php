@@ -13,6 +13,12 @@ use TCPDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendDocument;
+use Swift_Mailer;
+use Swift_SmtpTransport as SmtpTransport;
+use Swift_Message;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\App;
+
 
 class SignController extends Controller
 {
@@ -75,8 +81,8 @@ class SignController extends Controller
      */
     public function send($id)
     {
-        $document = Document::findOrFail($id);
         try{
+            $document = Document::findOrFail($id);
             Mail::send(new SendDocument($document));
             return back()->with(['success' => __('sign.sign_document_send')]);
         } catch (Exception $e){
