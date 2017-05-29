@@ -65,7 +65,7 @@
                                             @if($document->signed)
                                                 <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="confirm-toast"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;
                                             @endif
-                                            <a href="{{Storage::disk('documents')->url($document->filename) }}" target="_blank"><i class="fa fa-download"></i></a>
+                                            <a data-location="{{Storage::disk('documents')->url($document->filename) }}" target="_blank" class="href"><i class="fa fa-download"></i></a>
                                         </div>
                                         </td>
                                     </tr>
@@ -97,7 +97,7 @@
                                     <td class="col-md-2">@if($client->mobile){{$client->mobile}}@else{{$client->phone}}@endif</td>
                                     <td class="col-md-5">{{$client->email}} <i class="fa fa-chevron-down pull-right"></i></td>
                                 </tr>
-                                @foreach($client->dossiers()->get() as $dossier)
+                                @foreach($client->dossiers()->get() as $dossier) class="href"
                                 <tr class="bg-warning tr-dossier dossier-{{$client->id}}" data-dossier="{{$dossier->id}}" id="{{$dossier->id}}" style="display: none">
                                     <td colspan="3"><i class="fa fa-archive"></i> {{$dossier->name}}<i class="fa fa-chevron-down pull-right"></i></td>
                                 </tr>
