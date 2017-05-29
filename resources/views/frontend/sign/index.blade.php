@@ -1,18 +1,6 @@
 @extends('frontend.front')
 @push('assets')
 <style>
-.tab-right tbody tr,
-.tab-left tbody tr{
-    //width: 100%;
-    //display: table;
-    //table-layout: fixed;
-}
-.tab-right,
-.tab-left {
-    //width: 110%;
-    //height: 100%;
-}
-
 .tab-right tbody{
     overflow-y: auto;
     //height: 85%;
@@ -116,9 +104,11 @@
                                             @endif
                                             <div class="pull-right">
                                                 @if($document->signed)
-                                                    <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="confirm-toast"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;
+                                                    <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="confirm-toast"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                @else
+                                                    <a href="{{url('sign/signing/'.$document->id)}}"><i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                 @endif
-                                                <a href="{{Storage::disk('documents')->url($document->filename) }}" target="_blank"><i class="fa fa-download"></i></a>&nbsp;&nbsp;&nbsp;
+                                                <a href="{{Storage::disk('documents')->url($document->filename) }}" target="_blank"><i class="fa fa-download"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                 <a data-message="{{__('sign.confirm_delete')}}" data-location="{{url('sign/destroy/'.$document->id)}}" class="confirm-toast"><i class="fa fa-trash-o text-danger"></i></a>
                                             </div>
                                         </td>
@@ -167,12 +157,11 @@ $(function () {
 
     $('.tr-document').click(function(e){
         e.stopPropagation();
-
+        //$(this).dblclick();
     });
 
     $('.tr-document').dblclick(function(e){
         e.stopPropagation();
-        //alert('procedura di firma digitale');
         var location = '{{url('sign/signing')}}'+'/'+this.id;
         console.log(location);
         window.location.replace(location)

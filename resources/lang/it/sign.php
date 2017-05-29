@@ -65,7 +65,7 @@ return [
     'sign_doc_signed_alert' => 'Il Documento è già stato FIRMATO il: ',
     'document_unsigned' => 'Il documento non è stato firmato',
     'sign_document_send' => 'Documento Firmato Inviato al Cliente.',
-    '' => '',
+    'sign_document_NOTsend' => 'Impossibile inviare il documento. Errore SMTP',
     '' => '',
     '' => '',
     'sign_proc_start' => 'Inizio Procedura Guidata. Utilizzare il Tablet.',

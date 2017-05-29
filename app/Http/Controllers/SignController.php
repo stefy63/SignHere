@@ -76,10 +76,12 @@ class SignController extends Controller
     public function send($id)
     {
         $document = Document::findOrFail($id);
-
-        Mail::send(new SendDocument($document));
-
-        return back()->with(['success' => __('sign.sign_document_send')]);
+        try{
+            Mail::send(new SendDocument($document));
+            return back()->with(['success' => __('sign.sign_document_send')]);
+        } catch (Exception $e){
+             return back()->with(['error' => $e->getMessage()]);
+        }
     }
 
     /**
