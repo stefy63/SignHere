@@ -323,7 +323,6 @@ $(function () {
             SetEventHandler(Auth_Hendler);
         } catch ( ex ) {
             Exception( "questionsAuth() " + ex.message);
-            SendQuestionsAuth();
         }
     }
     function Auth_Hendler(Ctl, Id, Type) {
@@ -549,6 +548,8 @@ $(function () {
         stopWizard();
         print("Exception: " + txt);
         toastr['error'](txt, "{{__('sign.sign_proc_start_title')}}");
+        WacomCtl=false;
+
     }
     function print(txt) {
         @if(config('app.debug'))
