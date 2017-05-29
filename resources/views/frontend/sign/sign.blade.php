@@ -303,6 +303,7 @@ $(function () {
       StepHandler = handler;
     }
 
+    /////////////////////////// WACOM SCRIPT //////////////////////
 //================================ StepControl     ================================
 
     function SendQuestionsAuth() {
@@ -322,6 +323,7 @@ $(function () {
             SetEventHandler(Auth_Hendler);
         } catch ( ex ) {
             Exception( "questionsAuth() " + ex.message);
+            SendQuestionsAuth();
         }
     }
     function Auth_Hendler(Ctl, Id, Type) {
