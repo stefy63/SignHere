@@ -28,6 +28,12 @@ class CreateBrandsTable extends Migration
             $table->string('mobile')->nullable();
             $table->string('fax')->nullable();
             $table->string('email');
+
+            $table->string('smtp_host', 100)->nullable();
+            $table->integer('smtp_port')->nullable();
+            $table->string('smtp_username',100)->nullable();
+            $table->string('smtp_password',100)->nullable();
+
             $table->integer('user_id')->unsigned();
             $table->boolean('active')->default(true);
             $table->timestamps();

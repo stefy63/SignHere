@@ -159,6 +159,49 @@
                     </div>
                 </div>
 
+                <hr>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-md-offset-1">
+                            <label for="smtp_host" >{{__('admin_brands.db-smtp_host')}}</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control" size="50" type="text" name="smtp_host" value="{{$brand->smtp_host}}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-md-offset-1">
+                            <label for="smtp_port" >{{__('admin_brands.db-smtp_port')}}</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control" size="50" type="text" name="smtp_port" value="{{$brand->smtp_port}}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-md-offset-1">
+                            <label for="smtp_username" >{{__('admin_brands.db-smtp_username')}}</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control" size="50" type="text" name="smtp_username" value="{{$brand->smtp_username}}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-2 col-md-offset-1">
+                            <label for="smtp_password" >{{__('admin_brands.db-smtp_password')}}</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control" size="50" type="password" name="smtp_password" value="{{$brand->smtp_password}}" />
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-2 col-md-offset-1">

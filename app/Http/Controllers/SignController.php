@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Acl;
 use App\Models\Brand;
 use App\Models\Document;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -83,10 +84,17 @@ class SignController extends Controller
     {
         try{
             $document = Document::findOrFail($id);
-            Mail::send(new SendDocument($document));
-            return back()->with(['success' => __('sign.sign_document_send')]);
+
+            $acl_client = $document->dossier->client->acls()->first();
+            $brand = $acl_client->brands()->first();
+            if ($brand->smtp_host && $brand->smtp_port && $brand->smtp_username && $brand->smtp_password ) {
+                Mail::send(new SendDocument($document));
+                return back()->with(['success' => __('sign.sign_document_send')]);
+            }
+            return back()->with(['alert' =>  __('sign.sign_document_NOTsend')]);
+
         } catch (Exception $e){
-             return back()->with(['error' => $e->getMessage()]);
+             return back()->with(['alert' => $e->getMessage()]);
         }
     }
 

@@ -35,13 +35,12 @@ class SendDocument extends Mailable
         $this->client = $this->document->dossier->client;
         $this->acl_client = $this->client->acls()->first();
         $this->brand = $this->acl_client->brands()->first();
-
-
+        
         Config::set('mail.driver',env('MAIL_DRIVER', 'smtp'));
-        Config::set('mail.host','smtp.gmail.com');
-        Config::set('mail.port',587);
-        Config::set('mail.username','stefano.sca@gmail.com');
-        Config::set('mail.password','19stefy63');
+        Config::set('mail.host',$this->brand->smtp_host);
+        Config::set('mail.port',$this->brand->smtp_port);
+        Config::set('mail.username',$this->brand->smtp_username);
+        Config::set('mail.password',$this->brand->smtp_password);
         Config::set('mail.encryption','tls');
         Config::set('mail.sendmail','/usr/sbin/sendmail -bs');
 
@@ -49,13 +48,10 @@ class SendDocument extends Mailable
         $app->singleton('swift.transport',function ($app) {
             return new TransportManager($app);
         });
-
         // Assign a new SmtpTransport to SwiftMailer
         $brand_transport = new Swift_Mailer($app['swift.transport']->driver());
-
         // Assign it to the Laravel Mailer
         \Mail::setSwiftMailer($brand_transport);
-
     }
 
     /**

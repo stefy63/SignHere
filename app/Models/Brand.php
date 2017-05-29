@@ -20,6 +20,10 @@ class Brand extends Model
         'city'              => 'required',
         'region'            => 'required',
         'email'             => 'required|email',
+        'smtp_host'         => 'required',
+        'smtp_port'         => 'required|integer',
+        'smtp_username'     => 'required',
+        'smtp_password'     => 'required',
     );
 
     public function acls() {
