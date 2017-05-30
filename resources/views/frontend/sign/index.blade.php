@@ -97,7 +97,7 @@
                                     <td class="col-md-2">@if($client->mobile){{$client->mobile}}@else{{$client->phone}}@endif</td>
                                     <td class="col-md-5">{{$client->email}} <i class="fa fa-chevron-down pull-right"></i></td>
                                 </tr>
-                                @foreach($client->dossiers()->get() as $dossier) class="href"
+                                @foreach($client->dossiers()->get() as $dossier)
                                 <tr class="bg-warning tr-dossier dossier-{{$client->id}}" data-dossier="{{$dossier->id}}" id="{{$dossier->id}}" style="display: none">
                                     <td colspan="3"><i class="fa fa-archive"></i> {{$dossier->name}}<i class="fa fa-chevron-down pull-right"></i></td>
                                 </tr>
