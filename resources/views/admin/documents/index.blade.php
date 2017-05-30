@@ -14,7 +14,7 @@
 @endpush
 @section('content')
 <div class="row" style="height: 100%">
-    <div class="col-lg-12">
+    <div class="col-lg-12 col-md-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>{{__('admin_documents.index-title')}}</h5>
