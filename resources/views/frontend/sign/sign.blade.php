@@ -704,8 +704,8 @@ $(function () {
 @endpush
 @section('content')
 <div class="row">
-    <div class="col-lg-12">
-        <div class="ibox float-e-margins col-lg-12">
+    <div class="col-md-12">
+        <div class="ibox float-e-margins col-md-12">
             <div class="ibox-title">
                 <h5>{{__('sign.sign-pdf-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
@@ -715,14 +715,14 @@ $(function () {
                 </div>
             </div>
             <hr>
-            <div class="ibox-content col-lg-12">
-                <div class="pull-left col-lg-9 ">
-                    <button id="prev" class="col-lg-5 pull-left btn btn-info">Previous</button>
-                    <div class="col-lg-2 text-center"><span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div>
-                    <button id="next" class="col-lg-5 pull-right btn btn-info">Next</button>
+            <div class="ibox-content col-md-12">
+                <div class="pull-left col-md-9 ">
+                    <button id="prev" class="col-md-5 pull-left btn btn-info">Previous</button>
+                    <div class="col-md-2 text-center"><span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div>
+                    <button id="next" class="col-md-5 pull-right btn btn-info">Next</button>
                 </div>
 
-                <div class="pull-right col-lg-3">
+                <div class="pull-right col-md-3">
                     <div>
                         <h2 class="text-center">{{__('sign.sign_pdf_wacom_title')}}</h2>
                         <!--[if !IE]>-->
@@ -771,7 +771,7 @@ $(function () {
                     </div>
                 </div>
 
-                <div style="height: 70vh;overflow: auto" class="pull-left col-lg-9 text-center" id="div-pdf-canvas">
+                <div class="pull-left col-md-9 text-center" id="div-pdf-canvas">
 
                     <canvas id="pdf-canvas" height="100%" width="100%"></canvas>
                 </div>
@@ -794,10 +794,10 @@ $(function () {
             <div class="modal-footer">
                 <div class="row">
                     <div id="tools" class="form-group">
-                        <div class="col-lg-5 pull-right">
+                        <div class="col-md-5 pull-right">
                             <button class="btn btn-block btn-outline btn-primary col-md-5 pull-right" id="Sig-Save">Save</button>
                         </div>
-                        <div class="col-lg-5">
+                        <div class="col-md-5">
                             <button class="btn btn-block btn-outline btn-danger" id="Sig-Reset">Reset</button>
                         </div>
                     </div>
