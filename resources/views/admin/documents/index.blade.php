@@ -48,14 +48,15 @@
                         <table class="table table-bordered table-hover"  id="tr-client" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th class="col-md-12"></th>
                                 </tr>
                             </thead>
                             <tbody class="tbody-client" >
                             @foreach($clients as $client)
-                                <tr class="tab-client" id="{{$client->id}}">
+                                <tr class="tab-client"  id="{{$client->id}}">
                                     <td>
                                         <i class="fa fa-user"></i>&nbsp;&nbsp; {{$client->surname}} {{$client->name}}
+                                        <a data-url="{{ url('admin_clients/')}}/{{$client->id}}/edit" class="href"><i class="fa fa-pencil pull-right"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -84,8 +85,8 @@
                             <table class="table table-bordered table-hover" id="tr-dossier">
                                 <thead>
                                     <tr>
-                                        <th class="col-md-11"></th>
-                                        <th class="col-md-1"></th>
+                                        <th class="col-md-10"></th>
+                                        <th class="col-md-2"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -95,6 +96,7 @@
                                            <i class="fa fa-archive"></i> {{$dossier->name}}
                                         </td>
                                         <td class="text-center">
+                                            <a data-url="{{ url('admin_dossiers/')}}/{{$dossier->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>
                                             <a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>
                                         </td>
                                     </tr>
@@ -125,19 +127,20 @@
                             <table class="table table-bordered table-hover" id="tr-document">
                                 <thead>
                                     <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
+                                        <th class="col-md-1"></th>
+                                        <th class="col-md-10"></th>
+                                        <th class="col-md-1"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($documents as $document)
                                     <tr class="tab-document" id="{{$document->id}}">
-                                        <td class="col-md-1"><a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-download"></i></a></td>
-                                        <td class="col-md-11 tab-document @if($document->signed) text-line-through text-danger @endif" id="{{$document->id}}">
+                                        <td><a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-download"></i></a></td>
+                                        <td class="tab-document @if($document->signed) text-line-through text-danger @endif" id="{{$document->id}}">
                                             {{$document->name}}
                                         </td>
-                                        <td class=" text-center">
+                                        <td>
+                                            <a data-url="{{ url('admin_documents/')}}/{{$document->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>
                                             <a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>
                                         </td>
                                     </tr>
@@ -162,6 +165,15 @@
 
 <script>
 $(document).ready(function () {
+
+    $(document).on('click','.href',function(e){
+        e.preventDefault();
+        var location =  this.getAttribute('data-url');
+        console.log(location);
+
+        window.location = location;
+    });
+
 
     $('.call-dossier').click(function(e){
         e.preventDefault();
@@ -211,10 +223,11 @@ $(document).ready(function () {
                 acl_id: this.value
         },url)
             .success(function(data){
-                    $('#tr-client').empty();
+                    $('#tr-client tbody').empty();
                     data[0].forEach(function(k){
                         //console.log(k);
-                        $('#tr-client').append('<tr class="tab-client" id="'+k['id']+'"><td><i class="fa fa-user"></i>&nbsp;&nbsp;'+k['name']+'</td></tr>');
+                        $('#tr-client').append('<tr id="'+k['id']+'"><td class="tab-client"><i class="fa fa-user"></i>&nbsp;&nbsp;'+k['name']+
+                            '<a href="{{ url('admin_clients/')}}'+'/'+k['id']+'/edit"><i class="fa fa-pencil pull-right"></i></a></td></tr>');
                     });
 
             });
@@ -231,11 +244,11 @@ $(document).ready(function () {
         location.replace('{{ url('admin_dossiers/') }}/'+this.id+'/edit' );
     });
 
-    $(document).on('click','.tab-document',function(e){
+    /*$(document).on('click','.tab-document',function(e){
         e.preventDefault();
         location.replace('{{ url('admin_documents/') }}/'+$(this).closest('tr').attr('id')+'/edit' );
         //toastr['error']('',"Funzione da implementare");
-    });
+    });*/
 
     $(document).on('click','.tab-client',function(e){
         e.preventDefault();
@@ -253,11 +266,12 @@ $(document).ready(function () {
             _token: "{{csrf_token()}}",
             client_id: client_id
         },url).success(function(data){
-            $('#tr-dossier > tbody').empty();
+            $('#tr-dossier tbody').empty();
             var body='';
             data[0].forEach(function(k){
                 body+='<tr class="tab-dossier" id="'+k['id']+'"><td class="col-md-11"><i class="fa fa-archive"></i> '+k['name']+'</td>' +
-                    '<td class="col-md-1 text-center"><a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a></td></tr>';
+                    '<td class="col-md-1 text-center"><a data-url="{{ url('admin_dossiers/')}}/'+k['id']+'/edit" class="href pull-left">'+
+                    '<i class="fa fa-pencil"></i></a>  <a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a></td></tr>';
             });
             $('#tr-dossier > tbody').html(body);
             $('#div-dossier').show();
@@ -288,11 +302,11 @@ $(document).ready(function () {
                     elem += '<td class="col-md-1"><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank">' +
                     '<i class="fa fa-download"></i></a></td>' +
                     '<td class="col-md-10 tab-document"><i ';
-                //(k['signed'] == 1)?elem += ' text-line-through text-danger">':elem += '">';
                 elem += (k['signed'] == 1)?'class="fa fa-check-square-o" style="color: green;"':'class="fa fa fa-minus-square-o" style="color: red;"';
                  elem += '></i>  '+k['name']+'</td>' +
-                    '<td class="col-md-1 text-center"><a class="tab-document_a OK-button">' +
-                    '<i class="text-danger fa fa-trash-o"></i></a></td></tr>'
+                    '<td class="col-md-1"><a class="tab-document_a OK-button">' +
+                     '<a data-url="{{ url('admin_documents/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>'+
+                    '<i class="text-danger fa fa-trash-o pull-right"></i></a></td></tr>'
             });
             $('#tr-document tbody').html(elem);
             $('#div-documents').show();
