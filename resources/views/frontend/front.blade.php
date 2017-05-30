@@ -39,10 +39,10 @@
         <!-- Section Container -->
         @yield('content')
     </div>
-    <div class="footer">
-        <!-- Section Footer -->
+    <!--<div class="footer">
+         Section Footer
         @include('layouts.footer')
-    </div>
+    </div> -->
 </div>
     <!-- Section Java Script -->
     @include('layouts.script')
