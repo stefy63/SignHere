@@ -221,7 +221,7 @@ $(function () {
             $('#Sig-Save').unbind('click');
             $('#showModal').modal('hide');
         });
-
+        $('#signature canvas').css('height','100%');
 
     }
 
@@ -610,14 +610,16 @@ $(function () {
         pdfDoc.getPage(num).then(function(page) {
 
             //var canvas = document.createElement('canvas');
-            var desiredWidth = 900;
-            var viewport2 = page.getViewport(1);
-            var scale = desiredWidth / viewport2.width;
+            var container = document.getElementById('div-pdf-canvas');
+            var canvas = document.getElementById('pdf-canvas');
+            ctx = canvas.getContext('2d');
 
-            var viewport = page.getViewport(scale);
+            var viewport = page.getViewport(1);
+            var scale = container.clientWidth / viewport.width;
+            viewport = page.getViewport(scale);
+
             canvas.height = viewport.height;
             canvas.width = viewport.width;
-            ctx = canvas.getContext('2d');
 
             // Render PDF page into canvas context
             var renderContext = {
@@ -715,11 +717,12 @@ $(function () {
                 </div>
             </div>
             <hr>
+
             <div class="ibox-content col-lg-12 col-md-12 col-xs-12">
-                <div class="pull-left col-md-9 ">
-                    <button id="prev" class="col-md-5 pull-left btn btn-info">Previous</button>
-                    <div class="col-md-2 text-center"><span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div>
-                    <button id="next" class="col-md-5 pull-right btn btn-info">Next</button>
+                <div class="pull-left col-lg-9 col-md-9 col-xs-9 ">
+                    <button id="prev" class="col-lg-4 col-md-4 col-xs-4 pull-left btn btn-info">Previous</button>
+                    <div class="col-lg-4 col-md-4 col-xs-4 text-center"><span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div>
+                    <button id="next" class="col-lg-4 col-md-4 col-xs-4 pull-right btn btn-info">Next</button>
                 </div>
 
                 <div class="pull-right col-lg-3 col-md-3 col-xs-3">
@@ -775,6 +778,7 @@ $(function () {
 
                     <canvas id="pdf-canvas" height="100%" width="100%"></canvas>
                 </div>
+
             </div>
         </div>
     </div>
@@ -794,11 +798,11 @@ $(function () {
             <div class="modal-footer">
                 <div class="row">
                     <div id="tools" class="form-group">
-                        <div class="col-md-5 pull-right">
-                            <button class="btn btn-block btn-outline btn-primary col-md-5 pull-right" id="Sig-Save">Save</button>
-                        </div>
-                        <div class="col-md-5">
+                        <div class="col-lg-5 col-md-5 col-xs-5 pull-left">
                             <button class="btn btn-block btn-outline btn-danger" id="Sig-Reset">Reset</button>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-xs-5 pull-right">
+                            <button class="btn btn-block btn-outline btn-primary col-md-5 pull-right" id="Sig-Save">Save</button>
                         </div>
                     </div>
                 </div>
