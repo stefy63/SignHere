@@ -704,9 +704,9 @@ $(function () {
 @endpush
 @section('content')
 <div class="row">
-    <div class="col-md-12">
-        <div class="ibox float-e-margins col-md-12">
-            <div class="ibox-title">
+    <div class="col-lg-12 col-md-12 col-xs-12">
+        <div class="ibox float-e-margins col-lg-12 col-md-12 col-xs-12">
+            <div class="ibox-title col-lg-12 col-md-12 col-xs-12">
                 <h5>{{__('sign.sign-pdf-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
@@ -715,14 +715,14 @@ $(function () {
                 </div>
             </div>
             <hr>
-            <div class="ibox-content col-md-12">
+            <div class="ibox-content col-lg-12 col-md-12 col-xs-12">
                 <div class="pull-left col-md-9 ">
                     <button id="prev" class="col-md-5 pull-left btn btn-info">Previous</button>
                     <div class="col-md-2 text-center"><span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div>
                     <button id="next" class="col-md-5 pull-right btn btn-info">Next</button>
                 </div>
 
-                <div class="pull-right col-md-3">
+                <div class="pull-right col-lg-3 col-md-3 col-xs-3">
                     <div>
                         <h2 class="text-center">{{__('sign.sign_pdf_wacom_title')}}</h2>
                         <!--[if !IE]>-->
@@ -771,7 +771,7 @@ $(function () {
                     </div>
                 </div>
 
-                <div class="pull-left col-md-9 text-center" id="div-pdf-canvas">
+                <div class="pull-left col-lg-9 col-md-9 col-xs-9 text-center" id="div-pdf-canvas">
 
                     <canvas id="pdf-canvas" height="100%" width="100%"></canvas>
                 </div>
