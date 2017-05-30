@@ -14,7 +14,7 @@
 @endpush
 @section('content')
 <div class="row" style="height: 100%">
-    <div class="col-lg-12 col-md-12">
+    <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>{{__('admin_documents.index-title')}}</h5>
@@ -33,7 +33,7 @@
                 </select>
             </div>
             <div class="ibox-content">
-                <div class="col-md-5" style="height: 80%;">
+                <div class="col-lg-5 col-md-5 col-xs-5" style="height: 80%;">
                     <div class="ibox-title">
                         <h5 class="text-danger">{{__('admin_documents.index-client')}}</h5>
                         <div ibox-tools="" class="ng-scope">
@@ -48,7 +48,7 @@
                         <table class="table table-bordered table-hover"  id="tr-client" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th class="col-md-12"></th>
+                                    <th class="col-lg-12 col-md-12 col-xs-12"></th>
                                 </tr>
                             </thead>
                             <tbody class="tbody-client" >
@@ -69,9 +69,9 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-md-7 border-left">
+                <div class="col-lg-7 col-md-7 col-xs-7 border-left">
                     <!-- DOSSIERS  -->
-                    <div class="ol-md-12" style="height: 40%;" id="div-dossier" hidden>
+                    <div class="col-lg-12 col-md-12 col-xs-12" style="height: 40%;" id="div-dossier" hidden>
                         <div class="ibox-title">
                             <h5 class="text-danger">{{__('admin_dossiers.index-dossier')}}</h5>
                             <div ibox-tools="" class="ng-scope">
@@ -85,8 +85,8 @@
                             <table class="table table-bordered table-hover" id="tr-dossier">
                                 <thead>
                                     <tr>
-                                        <th class="col-md-10"></th>
-                                        <th class="col-md-2"></th>
+                                        <th class="col-lg-10 col-md-10 col-xs-10"></th>
+                                        <th class="col-lg-2 col-md-2 col-xs-2"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -113,7 +113,7 @@
                     </div>
                     <hr>
                     <!-- DOCUMENTS  -->
-                    <div class="" style="height: 40%;" id="div-documents" hidden>
+                    <div class="col-lg-12 col-md-12 col-xs-12" style="height: 40%;"  id="div-documents" hidden>
                         <div class="ibox-title">
                             <h5 class="text-danger">{{__('admin_documents.index-document')}}</h5>
                             <div ibox-tools="" class="ng-scope">
@@ -127,9 +127,9 @@
                             <table class="table table-bordered table-hover" id="tr-document">
                                 <thead>
                                     <tr>
-                                        <th class="col-md-1"></th>
-                                        <th class="col-md-10"></th>
-                                        <th class="col-md-1"></th>
+                                        <th class="col-lg-1 col-md-1 col-xs-1"></th>
+                                        <th class="col-lg-9 col-md-9 col-xs-9"></th>
+                                        <th class="col-lg-2 col-md-2 col-xs-2"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -148,9 +148,9 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th></th>
-                                        <th></th>
-                                        <th></th>
+                                        <th class="col-lg-1 col-md-1 col-xs-1"></th>
+                                        <th class="col-lg-9 col-md-9 col-xs-9"></th>
+                                        <th class="col-lg-2 col-md-2 col-xs-2"></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -299,12 +299,12 @@ $(document).ready(function () {
                 //console.log(k);
                 elem += '<tr id="'+k['id'];
                 (k['signed'] == 1)? elem += '"  data-toggle="tooltip" title="'+k['date_sign']+'">':elem += '">';
-                    elem += '<td class="col-md-1"><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank">' +
+                    elem += '<td><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank">' +
                     '<i class="fa fa-download"></i></a></td>' +
-                    '<td class="col-md-10 tab-document"><i ';
+                    '<td class=" tab-document"><i ';
                 elem += (k['signed'] == 1)?'class="fa fa-check-square-o" style="color: green;"':'class="fa fa fa-minus-square-o" style="color: red;"';
                  elem += '></i>  '+k['name']+'</td>' +
-                    '<td class="col-md-1"><a class="tab-document_a OK-button">' +
+                    '<td ><a class="tab-document_a OK-button">' +
                      '<a data-url="{{ url('admin_documents/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>'+
                     '<i class="text-danger fa fa-trash-o pull-right"></i></a></td></tr>'
             });

@@ -16,7 +16,7 @@
 </head>
 
 <body>
-    <div id="wrapper full-height">
+    <div id="wrapper full-height col-lg-12 col-md-12 col-xs-12">
  
         @if(Auth::check())
             <!-- Section menu -->
@@ -30,7 +30,7 @@
             </div>
             <div class="row wrapper wrapper-content animated fadeInRight">
                 @yield('content')
-            </div>                
+            </div>
             <div class="footer">
                 <!-- Section Footer -->
                 @include('layouts.footer')

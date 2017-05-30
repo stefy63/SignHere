@@ -21,7 +21,7 @@
 <div class="wrapper">
     <br>
     @if (Route::has('login'))
-        <div class="links text-right">
+        <div class="links text-right col-lg-12 col-md-12 col-xs-12">
             @if (Auth::check())
                 @if(Auth::user()->isAdmin())
                     <a class="pull-left" href="{{ url('admin') }}">Admin</a>
@@ -35,14 +35,14 @@
         </div>
     @endif
 
-    <div class="content">
+    <div class="content col-lg-12 col-md-12 col-xs-12">
         <!-- Section Container -->
         @yield('content')
     </div>
-    <!--<div class="footer">
-         Section Footer
+    <div class="footer col-lg-12 col-md-12 col-xs-12">
+         <!-- Section Footer-->
         @include('layouts.footer')
-    </div> -->
+    </div>
 </div>
     <!-- Section Java Script -->
     @include('layouts.script')

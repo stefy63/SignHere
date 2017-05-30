@@ -147,5 +147,31 @@ $(function () {
     };
 
 
+    $(window).resize(function(){
+        adjust_footer();
+    });
+
+
+    function adjust_footer() {
+        var footer = $('.footer');
+        var theDocument = $('body');
+        var theWindow = $(window);
+        if (theDocument.height() + footer.height() < theWindow.height()) {
+            footer.css({
+                'position': 'fixed',
+                'bottom': 0
+            });
+        } else {
+            theWindow.height();
+            footer.css({
+                'position': 'absolute',
+                'bottom': -footer.height()
+            });
+        }
+    }
+
+
+
 })
+
 </script>
