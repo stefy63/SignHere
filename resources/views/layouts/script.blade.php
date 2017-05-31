@@ -147,31 +147,33 @@ $(function () {
     };
 
 
-    $(window).resize(function(){
-        adjust_footer();
-    });
-
-
-    function adjust_footer() {
-        var footer = $('.footer');
-        var theDocument = $('body');
-        var theWindow = $(window);
-        if (theDocument.height() + footer.height() < theWindow.height()) {
-            footer.css({
-                'position': 'fixed',
-                'bottom': 0
-            });
-        } else {
-            theWindow.height();
-            footer.css({
-                'position': 'absolute',
-                'bottom': -footer.height()
-            });
+    var lastScroll = 0;
+    $(window).scroll(function(event){
+        //Sets the current scroll position
+        var st = $(this).scrollTop();
+console.log(st);
+        //Determines up-or-down scrolling
+        if (st > lastScroll){
+            $(".footer").css("display",'inline')
         }
-    }
+        if(st == 0){
+            $(".footer").css("display",'none')
+        }
+        //Updates scroll position
+        lastScroll = st;
+    });
 
 
 
 })
 
+    $(window).scroll(function(event){
+        //Sets the current scroll position
+        var st = $(this).scrollTop();
+
+        //Determines up-or-down scrolling
+        if(st == 0){
+            $(".footer").css("display",'none')
+        }
+    });
 </script>
