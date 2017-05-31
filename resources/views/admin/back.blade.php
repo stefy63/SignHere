@@ -16,14 +16,14 @@
 </head>
 
 <body>
-    <div id="wrapper full-height col-lg-12 col-md-12 col-xs-12">
+    <div id="wrapper">
  
         @if(Auth::check())
             <!-- Section menu -->
             @include('admin.menu')
         @endif
 
-        <div id="page-wrapper" class=" white-bg">
+        <div id="page-wrapper" class="white-bg" style="min-height: 490px;">
             <div class="page-heading">
                 <!-- Section header -->
                 @include('layouts.header')
@@ -31,7 +31,7 @@
             <div class="row wrapper wrapper-content animated fadeInRight">
                 @yield('content')
             </div>
-            <div class="footer">
+            <div class="footer fixed">
                 <!-- Section Footer -->
                 @include('layouts.footer')
             </div>

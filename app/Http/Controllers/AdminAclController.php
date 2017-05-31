@@ -181,16 +181,9 @@ class AdminAclController extends Controller
                 if(in_array($id,$myRoots)){
                     (array_key_exists(Auth::user()->id,$users))? :$users = array_add($users,Auth::user()->id,'on');
                 } else {
-                    if($visibility->locations()->count()>0){
-                        ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
-                    }
-
-                    if($visibility->devices()->count()>0){
-                        ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
-                    }
-                    if($visibility->profiles()->count()>0){
-                        ($request->profiles)?$visibility->profiles()->sync(array_keys($request->profiles)):$visibility->profiles()->detach();
-                    }
+                    ($request->locations)?$visibility->locations()->sync(array_keys($request->locations)):$visibility->locations()->detach();
+                    ($request->devices)?$visibility->devices()->sync(array_keys($request->devices)):$visibility->devices()->detach();
+                    ($request->profiles)?$visibility->profiles()->sync(array_keys($request->profiles)):$visibility->profiles()->detach();
                 }
                 $myUsers = Acl::getMyUsers()->get();
                 $visibility->users()->sync(array_keys($users));

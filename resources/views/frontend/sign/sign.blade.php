@@ -13,6 +13,7 @@
     background-color:lightgrey;
     z-index: -1;
 }
+
 </style>
 @endpush
 @push('scripts')
@@ -27,6 +28,8 @@
 <script src="{{ asset('js/compatibility.js') }}"></script>
 <!-- iCheck -->
 <script src="{{ asset('js/plugins/iCheck/icheck.min.js') }}"></script>
+<script src="{{ asset('js/signature_pad.js') }}"></script>
+
 
 <script type="text/javascript">
 $(function () {
@@ -209,7 +212,9 @@ $(function () {
         var imgSrcData;
         $('#Sig-Reset').bind('click', function(e) {
             e.stopPropagation();
-            $sigdiv.jSignature('reset');
+            //$sigdiv.jSignature('reset');
+
+            $sigdiv.clear();
         });
         $('#Sig-Save').bind('click', function(e){
             e.stopPropagation();
@@ -221,10 +226,9 @@ $(function () {
             $('#Sig-Save').unbind('click');
             $('#showModal').modal('hide');
         });
-        $('#signature canvas').css('height','100%');
+        //$('#signature canvas').css('height','100%');
 
     }
-
 
 
 
@@ -701,6 +705,41 @@ $(function () {
         radioClass: 'iradio_square-green',
     });
 
+
+
+
+
+
+
+
+
+
+
+    var wrapper = document.getElementById("signature-pad"),
+    canvas = wrapper.querySelector("canvas"),
+    signaturePad;
+
+    function resizeCanvas() {
+    // When zoomed out to less than 100%, for some very strange reason,
+    // some browsers report devicePixelRatio as less than 1
+    // and only part of the canvas is cleared then.
+    var ratio =  Math.max(window.devicePixelRatio || 1, 1);
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    canvas.getContext("2d").scale(ratio, ratio);
+}
+
+window.onresize = resizeCanvas;
+resizeCanvas();
+
+
+
+
+
+
+
+
+
 })
 </script>
 @endpush
@@ -725,53 +764,49 @@ $(function () {
                     <button id="next" class="col-lg-4 col-md-4 col-xs-4 pull-right btn btn-info">Next</button>
                 </div>
 
-                <div class="pull-right col-lg-3 col-md-3 col-xs-3">
-                    <div>
-                        <h2 class="text-center">{{__('sign.sign_pdf_wacom_title')}}</h2>
-                        <!--[if !IE]>-->
-                        <div id="not_ie_warning" style="display:none">
-                            <h2 class="text-center">WARNING:</h2>
-                            This application is only supported by Internet Explorer<br/>
-                            (The Javascript uses ActiveX controls which are not supported by alternative browsers such as Firefox)<br/>
-                        </div>
-                        <!--<![endif]-->
-                        <form method="POST" action="{{ route('sign.store_signing',['id' => $document->id]) }}" id="toast-form">
-                        {!! csrf_field() !!}{{ method_field('PUT') }}
-                        <table>
-                            <tr>
-                                <td rowspan="3" class="col-md-2">
-                                    <div class="hidden">
-                                        <object id="sigCtl1" classid="clsid:963B1D81-38B8-492E-ACBE-74801D009E9E"></object>
-                                        <input type="hidden" name="imgB64[]"  id="imgB64"/>
-                                    </div>
-                                    <img name="img64[]" id="b64image" style="width:12vw;height:12vh">
-                                    <input id="questions" type="hidden" name="questions" value="" />
-                                    <input id="templates" type="hidden" name="templates" value="" />
-                                </td>
-                                <td  style="padding: 10px 10px;">
-                                    <input id="start" type="button" class="btn btn-block btn-outline btn-warning"  title="Starts signature capture" value="Start" />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px 10px;">
-                                @if(config('app.debug'))
-                                    <input id="about" type="button" class="btn btn-block btn-outline btn-danger"  title="Starts signature capture" value="Info" />
-                                @endif
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 10px 10px;">
-                                    <button class="btn btn-block btn-outline btn-primary"  title="Starts signature capture"   data-form-id="toast-form">Submit</button>
-                                </td>
-                            </tr>
-                        </table>
-                        </form>
 
-                        @if(config('app.debug'))
+                <div class="pull-right col-lg-3 col-md-3 col-xs-3">
+
+
+                    <h2 class="text-center">{{__('sign.sign_pdf_wacom_title')}}</h2>
+                    <form method="POST" action="{{ route('sign.store_signing',['id' => $document->id]) }}" id="toast-form">
+                    {!! csrf_field() !!}{{ method_field('PUT') }}
+                    <table>
+                        <tr>
+                            <td rowspan="3" class="col-md-2">
+                                <div class="hidden">
+                                    <object id="sigCtl1" classid="clsid:963B1D81-38B8-492E-ACBE-74801D009E9E"></object>
+                                    <input type="hidden" name="imgB64[]"  id="imgB64"/>
+                                </div>
+                                <img name="img64[]" id="b64image" style="width:12vw;height:12vh">
+                                <input id="questions" type="hidden" name="questions" value="" />
+                                <input id="templates" type="hidden" name="templates" value="" />
+                            </td>
+                            <td  style="padding: 10px 10px;">
+                                <button id="start" type="button" class="btn btn-block btn-outline btn-warning"  title="Starts signature capture">Start</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px 10px;">
+                            @if(config('app.debug'))
+                                <button id="about" type="button" class="btn btn-block btn-outline btn-danger"  title="Starts signature capture">Info</button>
+                            @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px 10px;">
+                                <button class="btn btn-block btn-outline btn-primary"  title="Starts signature capture"   data-form-id="toast-form">Submit</button>
+                            </td>
+                        </tr>
+                    </table>
+                    </form>
+
+                    @if(config('app.debug'))
+                    <div class="pull-right col-lg-12 col-md-12 col-xs-12">
                         <br/>
                         <textarea cols="40" rows="10" id="txtDisplay"></textarea>
-                        @endif
                     </div>
+                    @endif
                 </div>
 
                 <div class="pull-left col-lg-9 col-md-9 col-xs-9 text-center" id="div-pdf-canvas">
@@ -792,7 +827,7 @@ $(function () {
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="modal-title" name="name">Firma del Documento</h4>
             </div>
-            <div class="modal-body" style="height: 30vh">
+            <div class="modal-body" id="modal-body">
                 <!--<div id="signature"></div>-->
             </div>
             <div class="modal-footer">
@@ -807,8 +842,11 @@ $(function () {
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
+
+
 
 @endsection
