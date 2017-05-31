@@ -39,9 +39,10 @@ table .fa{
     font-size: 20px !important;
 }
 
-.footer{
-    position:fixed;
+.footer.fixed{
+    //position:fixed;
     //padding-bottom:-10px;
-     bottom:0px;
+     //bottom:0px;
     //background-color:red;
+    margin-left: 0px;
 }

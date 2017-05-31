@@ -147,39 +147,19 @@ $(function () {
     };
 
 
-    var lastScroll = 0;
     $(window).scroll(function(event){
         //Sets the current scroll position
         var st = $(this).scrollTop();
-console.log(st);
+
+        $(".footer").css("bottom",'0')
         //Determines up-or-down scrolling
-        if (st > lastScroll){
-            $(".footer").css("display",'inline')
+        if (st != 0){
+            $(".footer").css("bottom",'0px')
         }
-        if(st == 0){
-            $(".footer").css("display",'none')
-        }
-        //Updates scroll position
-        lastScroll = st;
     });
 
 
 
 })
 
-    var lastScroll = 0;
-    $(window).scroll(function(event){
-        //Sets the current scroll position
-        var st = $(this).scrollTop();
-
-        //Determines up-or-down scrolling
-        if (st > lastScroll){
-            $(".footer").css("display",'inline')
-        }
-        if(st == 0){
-            $(".footer").css("display",'none')
-        }
-        //Updates scroll position
-        lastScroll = st;
-    });
 </script>

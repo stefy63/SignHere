@@ -18,7 +18,6 @@
 @endpush
 @push('scripts')
 <script src="{{ asset('js/jSignature/libs/jSignature.min.js') }}"></script>
-<!--<script src="{{ asset('js/jSignature/libs/modernizr.js') }}"></script>-->
 <!--[if lt IE 9]>
 <script src="{{ asset('js/jSignature/libs/flashcanvas.js') }}"></script>
 <![endif]-->
@@ -28,7 +27,6 @@
 <script src="{{ asset('js/compatibility.js') }}"></script>
 <!-- iCheck -->
 <script src="{{ asset('js/plugins/iCheck/icheck.min.js') }}"></script>
-<script src="{{ asset('js/signature_pad.js') }}"></script>
 
 
 <script type="text/javascript">
