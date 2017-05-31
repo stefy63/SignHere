@@ -13,6 +13,20 @@
     background-color:lightgrey;
     z-index: -1;
 }
+#pdf-hover{
+    position: absolute;
+    top:0px;
+    left: 0px;
+    background-color: transparent;
+}
+
+
+
+
+
+
+
+
 
 </style>
 @endpush
@@ -21,6 +35,7 @@
 <!--[if lt IE 9]>
 <script src="{{ asset('js/jSignature/libs/flashcanvas.js') }}"></script>
 <![endif]-->
+<script src="{{ asset('js/sketch.min.js') }}"></script>
 
 
 <script src="{{ asset('js/pdf.js') }}"></script>
@@ -616,9 +631,12 @@ $(function () {
             var canvas = document.getElementById('pdf-canvas');
             ctx = canvas.getContext('2d');
 
+
+
             var viewport = page.getViewport(1);
             var scale = container.clientWidth / viewport.width;
             viewport = page.getViewport(scale);
+
 
             canvas.height = viewport.height;
             canvas.width = viewport.width;
@@ -640,10 +658,15 @@ $(function () {
                     pageNumPending = null;
                 }
             });
+
+            //$('#pdf-hover').attr('height', $('#pdf-canvas').height().toString() + 'px');
+            //$('#pdf-hover').sketch({defaultColor: "blue",defaultSize:2});
+
         });
 
         // Update page counters
         document.getElementById('page_num').textContent = pageNum;
+
     }
 
     /**
@@ -654,6 +677,7 @@ $(function () {
         if (pageRendering) {
             pageNumPending = num;
         } else {
+             $('#pdf-hover').sketch('actions',[]);
             renderPage(num);
         }
     }
@@ -705,18 +729,6 @@ $(function () {
 
 
 
-
-
-
-
-
-
-
-
-    var wrapper = document.getElementById("signature-pad"),
-    canvas = wrapper.querySelector("canvas"),
-    signaturePad;
-
     function resizeCanvas() {
     // When zoomed out to less than 100%, for some very strange reason,
     // some browsers report devicePixelRatio as less than 1
@@ -729,12 +741,6 @@ $(function () {
 
 window.onresize = resizeCanvas;
 resizeCanvas();
-
-
-
-
-
-
 
 
 
@@ -808,8 +814,8 @@ resizeCanvas();
                 </div>
 
                 <div class="pull-left col-lg-9 col-md-9 col-xs-9 text-center" id="div-pdf-canvas">
-
-                    <canvas id="pdf-canvas" height="100%" width="100%"></canvas>
+                    <canvas id="pdf-canvas"></canvas>
+                    <canvas class="col-lg-12 col-md-12 col-xs-12"  id="pdf-hover" ></canvas>
                 </div>
 
             </div>

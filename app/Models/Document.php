@@ -17,6 +17,7 @@ class Document extends Model
 
     public static $rules = array(
         'name'       => 'required',
+        'date_doc' => 'required',
         'doctype_id' => 'required|integer',
         'filename'   => 'file|mimes:pdf',
     );
