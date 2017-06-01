@@ -115,7 +115,9 @@
                                                 @else
                                                     <a data-location="{{url('sign/signing/'.$document->id)}}" class="href"><i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                 @endif
-                                                <a data-location="{{Storage::disk('documents')->url($document->filename) }}" target="_blank" class="href"><i class="fa fa-download"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                @if(Auth::user()->hasRole('sign','download'))
+                                                    <a data-location="{{Storage::disk('documents')->url($document->filename) }}" target="_blank" class="href"><i class="fa fa-download"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                @endif
                                                 <a data-message="{{__('sign.confirm_delete')}}" data-location="{{url('sign/destroy/'.$document->id)}}" class="confirm-toast"><i class="fa fa-trash-o text-danger"></i></a>
                                             </div>
                                         </td>

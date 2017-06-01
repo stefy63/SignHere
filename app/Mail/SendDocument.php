@@ -36,30 +36,27 @@ class SendDocument extends Mailable
         $port = ($this->brand->smtp_port)?$this->brand->smtp_port:config('mail.port');
         $username = ($this->brand->smtp_username)?$this->brand->smtp_username:config('mail.username');
         $password = ($this->brand->smtp_password)?$this->brand->smtp_password:config('mail.password');
+        switch ($port){
+            case 25:
+                $encryption = null;
+                break;
+            case 465:
+                $encryption = 'ssl';
+                break;
+            case (587 || 2525):
+                $encryption = 'tls';
+                break;
+            default:
+                $encryption = config('mail.encryption');
+        }
 
 
         $transport = SmtpTransport::newInstance( $host, $port);
         $transport->setUsername($username);
         $transport->setPassword($password);
-        $transport->setEncryption(config('mail.encryption'));
-
-
-        /*Config::set('mail.driver',env('MAIL_DRIVER', 'smtp'));
-        Config::set('mail.host',($this->brand->smtp_host != null)?$this->brand->smtp_host:env('MAIL_HOST'));
-        Config::set('mail.port',($this->brand->smtp_port)?$this->brand->smtp_port:env('MAIL_PORT'));
-        Config::set('mail.username',($this->brand->smtp_username)?$this->brand->smtp_username:env('MAIL_USERNAME'));
-        Config::set('mail.password',($this->brand->smtp_password)?$this->brand->smtp_password:env('MAIL_PASSWORD'));
-        Config::set('mail.encryption','tls');
-        Config::set('mail.sendmail','/usr/sbin/sendmail -bs');
-
-        $app = App::getInstance();
-        $app->singleton('swift.transport',function ($app) {
-            return new TransportManager($app);
-        });*/
-        // Assign a new SmtpTransport to SwiftMailer
-        //$brand_transport = new Swift_Mailer($app['swift.transport']->driver());
+        $transport->setEncryption($encryption);
         $brand_transport = new Swift_Mailer($transport);
-        // Assign it to the Laravel Mailer
+
         \Mail::setSwiftMailer($brand_transport);
     }
 

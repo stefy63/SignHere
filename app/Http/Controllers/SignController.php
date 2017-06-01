@@ -80,13 +80,6 @@ class SignController extends Controller
 
                 Mail::send(new SendDocument($document));
                 return back()->with(['success' => __('sign.sign_document_send')]);
-            /*$acl_client = $document->dossier->client->acls()->first();
-            $brand = $acl_client->brands()->first();
-            if ($brand->smtp_host && $brand->smtp_port && $brand->smtp_username && $brand->smtp_password ) {
-                Mail::send(new SendDocument($document));
-                return back()->with(['success' => __('sign.sign_document_send')]);
-            }
-            return back()->with(['alert' =>  __('sign.sign_document_NOTsend')]);*/
 
         } catch (Exception $e){
              return back()->with(['alert' => $e->getMessage()]);
@@ -157,6 +150,7 @@ class SignController extends Controller
     public function destroy($id)
     {
         echo "DESTROY --> ".$id;
+
     }
 
     /**

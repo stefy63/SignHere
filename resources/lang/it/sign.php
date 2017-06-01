@@ -44,7 +44,7 @@ return [
     'crud-signing' => 'Firma Dei Documenti',
     'crud-send' => 'Invia Mail',
     'crud-ALL' => 'TUTTI',
-    '' => '',
+    'crud-download' => 'Download Documenti',
     '' => '',
     '' => '',
     '' => '',
