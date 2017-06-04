@@ -1,4 +1,6 @@
 
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}"></script>
 
 <!-- Mainly scripts-->
 <script src="{{ asset('js/jquery-2.1.1.js') }}"></script>
@@ -19,6 +21,7 @@
 <script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 
 @stack('scripts')
+
 
 <script>
 $(function () {

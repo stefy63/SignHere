@@ -811,6 +811,7 @@ resizeCanvas();
                         <textarea cols="40" rows="10" id="txtDisplay"></textarea>
                     </div>
                     @endif
+                    <record></record>
                 </div>
 
                 <div class="pull-left col-lg-9 col-md-9 col-xs-9 text-center" id="div-pdf-canvas">

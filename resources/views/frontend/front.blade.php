@@ -17,8 +17,8 @@
     @include('layouts.asset')
 
 </head>
-<body class="full-height-layout full-width white-bg" >
-<div class="wrapper">
+<body class="full-height-layout full-width white-bg">
+<div class="wrapper" id="app">
     <br>
     @if (Route::has('login'))
         <div class="links text-right col-lg-12 col-md-12 col-xs-12">

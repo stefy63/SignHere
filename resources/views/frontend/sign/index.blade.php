@@ -137,6 +137,7 @@
 </div>
 
 <div id="showModal"></div>
+@push('scripts')
 <script>
 $(function () {
 
@@ -229,5 +230,5 @@ $(function () {
 })
     
 </script>
-
+@endpush
 @endsection

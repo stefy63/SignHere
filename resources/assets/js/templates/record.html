@@ -1,0 +1,16 @@
+<button class="button red-button" v-on:click.stop.prevent="toggleRecording">
+    <i class="stop icon" v-show="isRecording"></i>
+    <i class="record icon" v-show="!isRecording"></i>
+    <span v-show="!isRecording">Start recording</span>
+    <span v-show="isRecording">Stop recording</span>
+</button>
+<button class="button green-button" v-if="dataUrl.length > 0" v-on:click.stop.prevent="togglePlay">
+    <i class="play icon"></i> Play recording
+</button>
+<button class="remove-recording" v-if="dataUrl.length > 0" v-on:click.stop.prevent="removeRecording">
+    <i class="remove icon"></i> Delete recording
+</button>
+<button class="button green-button" v-if="dataUrl.length > 0">
+    <i class="send icon"></i> Send recording
+</button>
+<audio id="audio" preload="auto" v-model="dataUrl"></audio>
