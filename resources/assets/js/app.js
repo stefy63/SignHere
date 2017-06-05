@@ -18,6 +18,7 @@ require('./bootstrap');
 Vue.use(require('vue-resource'));
 //Vue.component('example', require('./components/Example.vue'));
 Vue.component('record', require('./components/record'));
+Vue.component('videochat', require('./components/videochat'));
 
 
 

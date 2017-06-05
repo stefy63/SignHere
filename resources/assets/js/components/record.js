@@ -1,11 +1,12 @@
 
+
 module.exports = {
     data: function () {
         return {
             isRecording: false,
             audioRecorder: null,
             recordingData: [],
-            dataUrl: ''
+            dataUrl: []
         };
     },
     template: require("../templates/record.html"),
@@ -18,13 +19,15 @@ module.exports = {
                 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
                 navigator.getUserMedia({
                         audio: true,
-                        video: false
+                        video: true
                     }, function(stream) {
                         that.stream = stream;
-                        that.audioRecorder = new MediaRecorder(stream, {
-                            mimeType: 'audio/wav',
-                            audioBitsPerSecond : 96000
-                        });
+                        that.audioRecorder = new MediaRecorder(stream,{mimeType: 'video/webm; codecs=vp9'});
+                        that.audioRecorder.ondataavailable = function (e) {
+                            if (event.data.size > 0) {
+                                that.dataUrl.push(e.data);
+                              }
+                        };
                         that.audioRecorder.start();
                         console.log('Media recorder started');
                     }, function(error) {
