@@ -659,8 +659,9 @@ $(function () {
                 }
             });
 
-            //$('#pdf-hover').attr('height', $('#pdf-canvas').height().toString() + 'px');
-            //$('#pdf-hover').sketch({defaultColor: "blue",defaultSize:2});
+            $('#pdf-hover').attr('height', $('#pdf-canvas').height().toString() + 'px')
+                .attr('width',$('#pdf-canvas').width().toString() + 'px')
+                .sketch({defaultColor: "blue",defaultSize:1});
 
         });
 
@@ -677,7 +678,6 @@ $(function () {
         if (pageRendering) {
             pageNumPending = num;
         } else {
-             $('#pdf-hover').sketch('actions',[]);
             renderPage(num);
         }
     }
@@ -690,6 +690,8 @@ $(function () {
             return;
         }
         pageNum--;
+        ctx.drawImage($('#pdf-hover').get(0),0,0);
+        $('#pdf-hover').sketch('actions',[]);
         queueRenderPage(pageNum);
     }
     document.getElementById('prev').addEventListener('click', onPrevPage);
@@ -702,6 +704,8 @@ $(function () {
             return;
         }
         pageNum++;
+        ctx.drawImage($('#pdf-hover').get(0),0,0);
+        $('#pdf-hover').sketch('actions',[]);
         queueRenderPage(pageNum);
     }
     document.getElementById('next').addEventListener('click', onNextPage);
@@ -809,15 +813,17 @@ resizeCanvas();
                     @if(config('app.debug'))
                     <div class="pull-right col-lg-12 col-md-12 col-xs-12">
                         <br/>
-                        <textarea cols="40" rows="10" id="txtDisplay"></textarea>
+                        <textarea cols="35" rows="10" id="txtDisplay"></textarea>
                     </div>
                     @endif
-                    <videochat></videochat>
+                    <div class="text-center">
+                        <videochat></videochat>
+                    </div>
                 </div>
 
-                <div class="pull-left col-lg-9 col-md-9 col-xs-9 text-center" id="div-pdf-canvas">
+                <div class="pull-left col-lg-9 col-md-9 col-xs-9 text-center" id="div-pdf-canvas" style="position: relative">
                     <canvas id="pdf-canvas"></canvas>
-                    <canvas class="col-lg-12 col-md-12 col-xs-12"  id="pdf-hover" ></canvas>
+                    <canvas  id="pdf-hover" ></canvas>
                 </div>
 
             </div>
