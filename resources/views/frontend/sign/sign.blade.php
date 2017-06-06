@@ -737,6 +737,7 @@ $(function () {
     canvas.width = canvas.offsetWidth * ratio;
     canvas.height = canvas.offsetHeight * ratio;
     canvas.getContext("2d").scale(ratio, ratio);
+    queueRenderPage(pageNum);
 }
 
 window.onresize = resizeCanvas;
