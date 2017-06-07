@@ -102,7 +102,7 @@
                         <select class="form-control" name="doctype_id" id="select-doctype">
                             <option id="opt_doctype">{{__('admin_documents.select-doctype')}}</option>
                             @foreach($doctypes as $doctype)
-                                <option value="{{$doctype->id}}" >{{$doctype->name}}</option>
+                                <option value="{{$doctype->id}}" @if($doctype->id==old('doctype_id')) selected @endif>{{$doctype->name}}</option>
                             @endforeach
                         </select>
                     </div>
