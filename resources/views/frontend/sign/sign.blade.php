@@ -890,23 +890,7 @@ resizeCanvas();
             //secure: true,
             debug: 3
         });
-/*
-        peer.on('open', function() {
-            $('#my-id').text(peer.id);
-        });
 
-        // Receiving a call
-        peer.on('call', function(call) {
-            // Answer the call automatically (instead of prompting user) for demo purposes
-            call.answer(window.localStream);
-            step3(call);
-        });
-        peer.on('error', function(err) {
-            alert(err.message);
-            // Return to step 2 if error occurs
-            step2();
-        });
-*/
         // Click handlers setup
         $(function() {
             $('#clear-call').hide();
@@ -945,10 +929,6 @@ resizeCanvas();
         function step2() {
             $('#make-call').show();
             $('#clear-call').hide();
-            //$('#localVideo').prop('src','');
-            //$('#remoteVideo').prop('src', '');
-            //$('#step1, #step3').hide();
-            //$('#step2').show();
         }
 
         function step3(call) {
