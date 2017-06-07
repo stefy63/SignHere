@@ -757,7 +757,7 @@ resizeCanvas();
     <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="ibox float-e-margins col-lg-12 col-md-12 col-xs-12">
             <div class="ibox-title col-lg-12 col-md-12 col-xs-12">
-                <h5>{{__('sign.sign-pdf-title')}}</h5>
+                <h5>{{__('sign.sign-pdf-title')}}: <i class="fa fa-archive"></i> {{$document->dossier->name}}: <i class="fa fa-minus-square-o" style="color: red;"></i> {{$document->name}}  <i class="fa fa-user"></i>: {{$document->dossier->client->surname.' '.$document->dossier->client->name}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
                         <a href="{{ url('sign') }}"><button class="btn btn-primary dim"> <i class="fa fa-arrow-left"></i></button></a>
