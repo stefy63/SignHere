@@ -817,13 +817,13 @@ resizeCanvas();
                     </div>
                     @endif
                     <div class="text-center">
-                        <videochat></videochat>
+                        <!--<videochat></videochat>-->
                     </div>
                 </div>
 
                 <div class="pull-left col-lg-9 col-md-9 col-xs-9 text-center" id="div-pdf-canvas" style="position: relative">
                     <canvas id="pdf-canvas"></canvas>
-                    <canvas  id="pdf-hover" ></canvas>
+                    <!--<canvas  id="pdf-hover" ></canvas>-->
                 </div>
 
             </div>

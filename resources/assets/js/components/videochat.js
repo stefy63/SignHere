@@ -13,12 +13,15 @@ module.exports = {
     },
     template: require("../templates/videochat.template.html"),
     methods:{
-        call:function () {
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mediaDevices.getUserMedia;
+        calling:function () {
+            console.log('Call ......');
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
             var that = this;
             this.isRecording = !this.isRecording;
             if (this.isRecording) {
+                console.log('isRecording ......');
                 navigator.getUserMedia({video: true, audio: true}, function (stream) {
+                    console.log('inStream ......');
                     $('#localVideo').prop('src', URL.createObjectURL(stream));
                     window.localStream = stream;
                     var call = that.peer.call('operator', window.localStream);
