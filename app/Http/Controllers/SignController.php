@@ -255,10 +255,10 @@ class SignController extends Controller
                         if ($arItem[0] == $pageNo) {
                             if(strtoupper($arItem[3]) == 'O') {
                                 if($returnTemplates[$iOptSign] == true){
-                                    $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 30, 15, 'PNG');
+                                    $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 40, 15, 'PNG');
                                 }
                             } else {
-                                $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 30, 15, 'PNG');
+                                $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 40, 15, 'PNG');
                             }
                         }
                     }

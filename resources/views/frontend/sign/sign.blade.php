@@ -782,12 +782,15 @@ resizeCanvas();
                     {!! csrf_field() !!}{{ method_field('PUT') }}
                     <table>
                         <tr>
-                            <td rowspan="3" class="col-md-2">
+                            <td rowspan="3" class="col-lg-2 col-md-2 col-xs-2">
                                 <div class="hidden">
                                     <object id="sigCtl1" classid="clsid:963B1D81-38B8-492E-ACBE-74801D009E9E"></object>
                                     <input type="hidden" name="imgB64[]"  id="imgB64"/>
                                 </div>
-                                <img name="img64[]" id="b64image" style="width:12vw;height:12vh">
+                                <div class="col-lg-2 col-md-2 col-xs-2">
+                                    <img name="img64[]" id="b64image" style="width:12vw;height:8vh">
+                                </div>
+
                                 <input id="questions" type="hidden" name="questions" value="" />
                                 <input id="templates" type="hidden" name="templates" value="" />
                             </td>
