@@ -21,13 +21,6 @@
 }
 
 
-
-
-
-
-
-
-
 </style>
 @endpush
 @push('scripts')

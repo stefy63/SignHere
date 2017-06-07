@@ -250,7 +250,8 @@ class SignController extends Controller
                         }
                     }
                 }
-                if(!is_null($returnTemplates)) {
+
+                //if(!is_null($returnTemplates)) {
                     foreach ($arrayTpl as $iOptSign=>$arItem) {
                         if ($arItem[0] == $pageNo) {
                             if(strtoupper($arItem[3]) == 'O') {
@@ -263,7 +264,7 @@ class SignController extends Controller
                         }
                     }
                     $pdf->setSignatureAppearance($arItem[1], $arItem[2], 30, 15,$arItem[0]);
-                }
+                //}
 
             }
             //$certPDF = $pdf->Output($document->name,'S');
