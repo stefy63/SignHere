@@ -659,9 +659,9 @@ $(function () {
                 }
             });
 
-            $('#pdf-hover').attr('height', $('#pdf-canvas').height().toString() + 'px')
+            /*$('#pdf-hover').attr('height', $('#pdf-canvas').height().toString() + 'px')
                 .attr('width',$('#pdf-canvas').width().toString() + 'px')
-                .sketch({defaultColor: "blue",defaultSize:1});
+                .sketch({defaultColor: "blue",defaultSize:1});*/
 
         });
 
@@ -690,8 +690,7 @@ $(function () {
             return;
         }
         pageNum--;
-        ctx.drawImage($('#pdf-hover').get(0),0,0);
-        $('#pdf-hover').sketch('actions',[]);
+        //$('#pdf-hover').sketch('actions',[]);
         queueRenderPage(pageNum);
     }
     document.getElementById('prev').addEventListener('click', onPrevPage);
@@ -704,8 +703,7 @@ $(function () {
             return;
         }
         pageNum++;
-        ctx.drawImage($('#pdf-hover').get(0),0,0);
-        $('#pdf-hover').sketch('actions',[]);
+        //$('#pdf-hover').sketch('actions',[]);
         queueRenderPage(pageNum);
     }
     document.getElementById('next').addEventListener('click', onNextPage);
@@ -820,7 +818,25 @@ resizeCanvas();
                     </div>
                     @endif
                     <div class="text-center">
+
                         <!--<videochat></videochat>-->
+                        <div>
+                            <button class="btn btn-primary" id="make-call">
+                                <span>Chiama Operatore</span>
+                            </button>
+                            <button class="btn btn-danger" id="clear-call" hidden>
+                                <span>Termina Chiamata</span>
+                            </button>
+
+                            <div style="position: relative" >
+                                    <video id="remoteVideo" style="height: 350px;background-color: black" autoplay></video>
+                                <div style="width: 30%;position: absolute;top: 0px;right: 0px" >
+                                    <video id="localVideo" autoplay></video>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<videochat></videochat>-->
+
                     </div>
                 </div>
 
@@ -861,7 +877,97 @@ resizeCanvas();
         </div>
     </div>
 </div>
+<script>
+     // Compatibility shim
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
 
+        // PeerJS object
+        var peer = new Peer('user', {
+            key: 'signhere',
+            host: '87.118.86.233',
+            port: 9000,
+            path: '/',
+            //secure: true,
+            debug: 3
+        });
+/*
+        peer.on('open', function() {
+            $('#my-id').text(peer.id);
+        });
+
+        // Receiving a call
+        peer.on('call', function(call) {
+            // Answer the call automatically (instead of prompting user) for demo purposes
+            call.answer(window.localStream);
+            step3(call);
+        });
+        peer.on('error', function(err) {
+            alert(err.message);
+            // Return to step 2 if error occurs
+            step2();
+        });
+*/
+        // Click handlers setup
+        $(function() {
+            $('#make-call').click(function() {
+                // Initiate a call!
+                var call = peer.call('operator', window.localStream);
+
+                step3(call);
+            });
+
+            $('#clear-call').click(function() {
+                window.existingCall.close();
+                step2();
+            });
+
+            // Get things started
+            step1();
+        });
+
+        function step1() {
+            // Get audio/video stream
+            navigator.getUserMedia({
+                audio: true,
+                video: true
+            }, function(stream) {
+                // Set your video displays
+                $('#localVideo').prop('src', URL.createObjectURL(stream));
+
+                window.localStream = stream;
+                step2();
+            }, function() {
+                //$('#step1-error').show();
+            });
+        }
+
+        function step2() {
+            $('#make-call').show();
+            $('#clear-call').hide();
+            //$('#localVideo').prop('src','');
+            //$('#remoteVideo').prop('src', '');
+            //$('#step1, #step3').hide();
+            //$('#step2').show();
+        }
+
+        function step3(call) {
+            // Hang up on an existing call if present
+            if (window.existingCall) {
+                window.existingCall.close();
+            }
+
+            // Wait for stream on the call, then set peer video display
+            call.on('stream', function(stream) {
+                $('#remoteVideo').prop('src', URL.createObjectURL(stream));
+            });
+
+            // UI stuff
+            window.existingCall = call;
+            call.on('close', step2);
+            $('#make-call').hide();
+            $('#clear-call').show();
+        }
+</script>
 
 
 @endsection

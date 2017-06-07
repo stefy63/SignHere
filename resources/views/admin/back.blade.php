@@ -15,8 +15,8 @@
 
 </head>
 
-<body id="app">
-    <div id="wrapper">
+<body>
+    <div id="wrapper" id="app">
  
         @if(Auth::check())
             <!-- Section menu -->

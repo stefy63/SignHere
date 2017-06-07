@@ -1,13 +1,13 @@
-
 <script>
     window.Laravel = {!! json_encode([
         'csrfToken' => csrf_token(),
     ]) !!};
 
 </script>
+
+
 <!-- Styles -->
 <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-
 <!-- Styles inspinia-->
 
 <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
@@ -31,3 +31,5 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/jquery-2.1.1.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>

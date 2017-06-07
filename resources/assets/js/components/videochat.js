@@ -7,7 +7,14 @@ module.exports = {
     data: function () {
         return {
             conn:'',
-            peer: new Peer('user', {key: 'signhere', host: '192.168.136.130', port: 9000, path: '/'}),
+            peer: new Peer('user',
+                {
+                    key: 'signhere',
+                    host: '87.118.86.233',
+                    port: 9000,
+                    path: '/',
+                    //secure: true
+                }),
             isRecording: false,
         };
     },
@@ -20,19 +27,20 @@ module.exports = {
             this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
-                navigator.getUserMedia({video: true, audio: true}, function (stream) {
+                navigator.getUserMedia({ audio: true, video: true}, function (stream) {
                     console.log('inStream ......');
                     $('#localVideo').prop('src', URL.createObjectURL(stream));
                     window.localStream = stream;
-                    var call = that.peer.call('operator', window.localStream);
-                    window.existingCall = call;
-                    that.peer.on('call', function(call){
-                        call.answer(window.localStream);
-                    });
-                    call.on('stream', function(stream){
-                        $('#remoteVideo').prop('src', URL.createObjectURL(stream));
-                    });
                 }, function(err){console.log(err);});
+
+                var call = that.peer.call('operator', window.localStream);
+                if (window.existingCall) {
+                    window.existingCall.close();
+                }
+                call.on('stream', function(stream){
+                    $('#remoteVideo').prop('src', URL.createObjectURL(stream));
+                });
+                window.existingCall = call;
             } else {
                 window.existingCall.close();
                 $('#localVideo').prop('src','');
