@@ -164,7 +164,7 @@
 
 
 <script>
-$(document).ready(function () {
+$(function () {
 
     $(document).on('click','.href',function(e){
         e.preventDefault();
@@ -233,7 +233,7 @@ $(document).ready(function () {
             });
     });
 
-
+    /*
     $(document).on('dblclick','.tab-client',function(e){
         e.preventDefault();
         location.replace('{{ url('admin_clients/') }}/'+this.id+'/edit' );
@@ -244,13 +244,14 @@ $(document).ready(function () {
         location.replace('{{ url('admin_dossiers/') }}/'+this.id+'/edit' );
     });
 
-    /*$(document).on('click','.tab-document',function(e){
+    $(document).on('click','.tab-document',function(e){
         e.preventDefault();
         location.replace('{{ url('admin_documents/') }}/'+$(this).closest('tr').attr('id')+'/edit' );
         //toastr['error']('',"Funzione da implementare");
     });*/
 
     $(document).on('click','.tab-client',function(e){
+        console.log('tab-client-click');
         e.preventDefault();
         $('#div-documents').hide();
         $('#div-dossier').hide();

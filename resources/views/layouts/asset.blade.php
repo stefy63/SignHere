@@ -28,3 +28,6 @@
 <link href="{{ asset('css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
 
 @stack('assets')
+
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}"></script>
