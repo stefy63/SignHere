@@ -909,6 +909,7 @@ resizeCanvas();
 */
         // Click handlers setup
         $(function() {
+            $('#clear-call').hide();
             $('#make-call').click(function() {
                 // Initiate a call!
                 var call = peer.call('operator', window.localStream);
