@@ -132,6 +132,11 @@ if (! function_exists('asset')) {
      */
     function asset($path, $secure = null)
     {
+
+        if(!$secure) {
+            $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,strpos( $_SERVER["SERVER_PROTOCOL"],'/')));
+            $secure =   $protocol === 'https';
+        }
         return app('url')->asset($path, $secure);
     }
 }
