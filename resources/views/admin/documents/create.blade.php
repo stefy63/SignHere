@@ -169,9 +169,9 @@
 </div>
 
 <div id="showModal"></div>
-
+@push('scripts')
 <script>
-$(document).ready(function() {
+$(function() {
 
     var elem = document.querySelector('.js-switch-signed');
     var switchery = new Switchery(elem, { color: '#1AB394' });
@@ -215,4 +215,5 @@ $(document).ready(function() {
 
 })
 </script>
+@endpush
 @endsection
