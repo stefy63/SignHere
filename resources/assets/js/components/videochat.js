@@ -5,6 +5,7 @@ var PeerJs = require('../peer.js');
 
 module.exports = {
     data: function () {
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
         return {
             peer: new Peer('user',
                 {
@@ -20,9 +21,7 @@ module.exports = {
     template: require("../templates/videochat.template.html"),
     methods:{
         calling:function () {
-            console.log('Call ......');
-            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
-            var that = this;
+            console.log('Call ......');var that = this;
             this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
@@ -38,6 +37,10 @@ module.exports = {
                 }
                 call.on('stream', function(stream){
                     $('#remoteVideo').prop('src', URL.createObjectURL(stream));
+                });
+                call.on('close', function () {
+                    this.isRecording = !this.isRecording;
+                    this.calling();
                 });
                 window.existingCall = call;
             } else {
