@@ -872,7 +872,8 @@ resizeCanvas();
 </div>
 <script>
      // Compatibility shim
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
+        //navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
+        navigator.getUserMedia = navigator.getUserMedia;
 
         // PeerJS object
         var peer = new Peer('user', {
@@ -881,7 +882,7 @@ resizeCanvas();
             port: 9000,
             path: '/',
             //secure: true,
-            debug: 3
+            //debug: 3
         });
 
         // Click handlers setup
