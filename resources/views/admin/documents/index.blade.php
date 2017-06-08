@@ -164,7 +164,7 @@
 
 
 <script>
-$(function () {
+$(document).ready(function () {
 
     $(document).on('click','.href',function(e){
         e.preventDefault();
@@ -218,10 +218,18 @@ $(function () {
         e.preventDefault();
         $(this).children('#opt_acl').remove();
         var url = '{{url('admin_documents')}}';
-        getData({
+        /*getData({
                 _token: "{{csrf_token()}}",
                 acl_id: this.value
-        },url)
+        },url)*/
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: {
+                _token: "{{csrf_token()}}",
+                acl_id: this.value
+            } })
             .success(function(data){
                     $('#tr-client tbody').empty();
                     data[0].forEach(function(k){
@@ -263,10 +271,17 @@ $(function () {
 
     function getDossiers(client_id){
         var url = '{{url('admin_documents')}}';
-        getData({
+        /*getData({
             _token: "{{csrf_token()}}",
             client_id: client_id
-        },url).success(function(data){
+        },url)*/
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: {
+                _token: "{{csrf_token()}}",
+                client_id: client_id
+            } }).success(function(data){
             $('#tr-dossier tbody').empty();
             var body='';
             data[0].forEach(function(k){
@@ -290,10 +305,18 @@ $(function () {
 
     function getDocuments(dossier_id){
         var url = '{{url('admin_documents')}}';
-        getData({
+        /*getData({
             _token: "{{csrf_token()}}",
             dossier_id: dossier_id
-        },url).success(function(data){
+        },url)*/
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            data: {
+                _token: "{{csrf_token()}}",
+                dossier_id: dossier_id
+            } }).success(function(data){
             $('#tr-document tbody').empty();
             var elem=''
             data[0].forEach(function(k){
@@ -329,9 +352,17 @@ $(function () {
             closeOnConfirm: true
         }, function (isConfirm) {
             if(isConfirm) {
-                getData({
+                /*getData({
                     _token: "{{csrf_token()}}",
-                },url).success(function (data) {
+                },url)*/
+
+
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: {
+                        _token: "{{csrf_token()}}",
+                    } }).success(function (data) {
                     toastr['success']('',data[0]);
                     getDossiers($('input#client_id').val());
                 }).error(function (xhr, status, err) {
@@ -368,9 +399,12 @@ $(function () {
             closeOnConfirm: true
         }, function (isConfirm) {
             if(isConfirm) {
-                getData({
-                    _token: "{{csrf_token()}}",
-                },url).success(function (data) {
+                $.ajax({
+                    type: "GET",
+                    url: url,
+                    data: {
+                        _token: "{{csrf_token()}}",
+                    } }).success(function (data) {
                     toastr['success']('',data[0]);
                     getDocuments($('input#dossier_id').val());
                 }).error(function (xhr, status, err) {
