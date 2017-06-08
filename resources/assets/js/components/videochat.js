@@ -33,7 +33,7 @@ module.exports = {
                     window.localStream = stream;
                 }, function(err){console.log(err);});
 
-                var call = that.peer.call('operator', window.localStream);
+                var call = this.peer.call('operator', window.localStream);
                 if (window.existingCall) {
                     window.existingCall.close();
                 }

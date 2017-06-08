@@ -812,7 +812,7 @@ resizeCanvas();
                     @endif
                     <div class="text-center">
 
-                        <!--<videochat></videochat>-->
+                        <!--<videochat></videochat>
                         <div>
                             <button class="btn btn-primary" id="make-call">
                                 <span>Chiama Operatore</span>
@@ -827,8 +827,8 @@ resizeCanvas();
                                     <video id="localVideo" autoplay></video>
                                 </div>
                             </div>
-                        </div>
-                        <!--<videochat></videochat>-->
+                        </div>-->
+                        <videochat></videochat>
 
                     </div>
                 </div>
@@ -872,9 +872,10 @@ resizeCanvas();
 </div>
 @push('scripts')
 <script>
-     // Compatibility shim
-        //navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
-        navigator.getUserMedia = navigator.getUserMedia;
+
+  /*  // Click handlers setup
+    $(function() {    // Compatibility shim
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
 
         // PeerJS object
         var peer = new Peer('user', {
@@ -886,8 +887,6 @@ resizeCanvas();
             //debug: 3
         });
 
-        // Click handlers setup
-        $(function() {
             $('#clear-call').hide();
             $('#make-call').click(function() {
                 // Initiate a call!
@@ -942,8 +941,7 @@ resizeCanvas();
             call.on('close', step2);
             $('#make-call').hide();
             $('#clear-call').show();
-        }
+        }*/
 </script>
 @endpush
-
 @endsection
