@@ -1,7 +1,7 @@
 /**
  * Created by root on 05/06/17.
  */
-var PeerJs = require('peer.js');
+var PeerJs = require('../peer.js');
 
 module.exports = {
     data: function () {
