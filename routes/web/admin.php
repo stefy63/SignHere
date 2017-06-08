@@ -1,6 +1,6 @@
 <?php
 
- Route::group(['middleware' => ['auth','isAdmin']], function () {
+ Route::group(['middleware' => ['auth','isAdmin','ForceSecure']], function () {
      Route::get('admin',function (){
          return view('admin');
      });

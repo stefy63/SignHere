@@ -1,6 +1,6 @@
 <?php
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['ForceSecure','auth']], function () {
 
 
     // Route for Sign //

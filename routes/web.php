@@ -17,7 +17,7 @@ Route::get('/', function () {
     else
         return view('welcome');
 
-});
+})->middleware('ForceSecure');
 
 
 Route::get('logout',  array('as' => 'logout',function (){
@@ -32,7 +32,7 @@ Route::get('logout',  array('as' => 'logout',function (){
 //Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Auth::routes();
 
-Route::get('home', 'HomeController@index');
+Route::get('home', 'HomeController@index')->middleware('ForceSecure');
 
 foreach ( new DirectoryIterator(base_path().DIRECTORY_SEPARATOR.'routes/web') as $fileinfo ) {
     if ($fileinfo->isFile() && $fileinfo->getExtension() == 'php'){

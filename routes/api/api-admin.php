@@ -6,7 +6,7 @@
  * Time: 18.10
  */
 
- Route::group(['prefix' => 'api/v1/', 'middleware' => ['auth','isAdmin']], function () {
+ Route::group(['prefix' => 'api/v1/', 'middleware' => ['auth','isAdmin','ForceSecure']], function () {
 
 
 
