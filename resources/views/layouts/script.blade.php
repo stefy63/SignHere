@@ -1,6 +1,6 @@
 
 
-<!-- Scripts
+<!-- Scripts\\
 <script src="{{ asset('js/jquery-2.1.1.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>-->
 <script src="{{ asset('js/app.js') }}"></script>
@@ -19,7 +19,7 @@
 <!-- Switchery -->
 <script src="{{ asset('js/plugins/switchery/switchery.js') }}"></script>
 <!-- Data picker -->
-<script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js', env('REDIRECT_HTTPS')) }}"></script>
 
 @stack('scripts')
 
