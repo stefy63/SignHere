@@ -12,7 +12,7 @@ module.exports = {
                     key: 'signhere',
                     host: 'videortc.3punto6.com',
                     port: location.port || (location.protocol === 'https:' ? 443 : 80),
-                    path: '/',
+                    path: '/videostream',
                     secure: true
                 }),
             isRecording: false,

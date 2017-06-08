@@ -35,6 +35,6 @@ class ForceSecure
                 URL::forceScheme('https');
             }*/
 
-            return $next($request);
+        return $next($request);
     }
 }
