@@ -218,10 +218,6 @@ $(document).ready(function () {
         e.preventDefault();
         $(this).children('#opt_acl').remove();
         var url = '{{url('admin_documents')}}';
-        /*getData({
-                _token: "{{csrf_token()}}",
-                acl_id: this.value
-        },url)*/
 
         $.ajax({
             type: "GET",
@@ -271,10 +267,7 @@ $(document).ready(function () {
 
     function getDossiers(client_id){
         var url = '{{url('admin_documents')}}';
-        /*getData({
-            _token: "{{csrf_token()}}",
-            client_id: client_id
-        },url)*/
+
         $.ajax({
             type: "GET",
             url: url,
@@ -305,10 +298,6 @@ $(document).ready(function () {
 
     function getDocuments(dossier_id){
         var url = '{{url('admin_documents')}}';
-        /*getData({
-            _token: "{{csrf_token()}}",
-            dossier_id: dossier_id
-        },url)*/
 
         $.ajax({
             type: "GET",
@@ -352,10 +341,6 @@ $(document).ready(function () {
             closeOnConfirm: true
         }, function (isConfirm) {
             if(isConfirm) {
-                /*getData({
-                    _token: "{{csrf_token()}}",
-                },url)*/
-
 
                 $.ajax({
                     type: "GET",
@@ -414,14 +399,6 @@ $(document).ready(function () {
             }
         });
     });
-
-    function getData(param,url) {
-
-        return $.ajax({
-            type: "GET",
-            url: url,
-            data: param });
-    }
 
     function OKButton() {
         swal({
