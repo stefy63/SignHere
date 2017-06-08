@@ -10,8 +10,8 @@ module.exports = {
             peer: new Peer('user',
                 {
                     key: 'signhere',
-                    host: '192.168.100.97',
-                    port: 9000,
+                    host: 'videortc.3punto6.com',
+                    port: location.port || (location.protocol === 'https:' ? 443 : 80),
                     path: '/',
                     secure: true
                 }),

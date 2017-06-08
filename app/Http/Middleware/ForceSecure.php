@@ -12,6 +12,10 @@ class ForceSecure
     public function handle(Request $request, Closure $next)
     {
 
+        if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'){
+            URL::forceScheme('https');
+        }
+
             $isSecure = $request->header('x-forwarded-proto') == 'https';
             $isProduction = env('APP_ENV') === 'production';
             $isStaging = env('APP_ENV') === 'staging';
@@ -23,13 +27,13 @@ class ForceSecure
             //    }
             //}
 
-            if (!$isSecure && ($isProduction || $isStaging)) {
+            /*if (!$isSecure && ($isProduction || $isStaging)) {
                 return redirect(env('APP_URL'));
             }
 
             if ($isProduction || $isStaging) {
                 URL::forceScheme('https');
-            }
+            }*/
 
             return $next($request);
     }
