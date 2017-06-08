@@ -6,20 +6,20 @@
 <script src="{{ asset('js/app.js') }}"></script>
 
 <!-- Mainly scripts-->
-<script src="{{ asset('js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
-<script src="{{ asset('js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ asset('js/plugins/metisMenu/jquery.metisMenu.js', env('REDIRECT_HTTPS')) }}"></script>
+<script src="{{ asset('js/plugins/slimscroll/jquery.slimscroll.min.js', env('REDIRECT_HTTPS')) }}"></script>
 
 <!-- Custom and plugin javascript -->
 <script src="{{ asset('js/inspinia.js') }}"></script>
-<script src="{{ asset('js/plugins/pace/pace.min.js') }}"></script>
+<script src="{{ asset('js/plugins/pace/pace.min.js', env('REDIRECT_HTTPS')) }}"></script>
 <!-- Toastr script -->
-<script src="{{ asset('js/plugins/toastr/toastr.min.js') }}"></script>
+<script src="{{ asset('js/plugins/toastr/toastr.min.js', env('REDIRECT_HTTPS')) }}"></script>
 <!-- Sweet alert -->
-<script src="{{ asset('js/plugins/sweetalert/sweetalert.min.js') }}"></script>
+<script src="{{ asset('js/plugins/sweetalert/sweetalert.min.js', env('REDIRECT_HTTPS')) }}"></script>
 <!-- Switchery -->
-<script src="{{ asset('js/plugins/switchery/switchery.js') }}"></script>
+<script src="{{ asset('js/plugins/switchery/switchery.js', env('REDIRECT_HTTPS')) }}"></script>
 <!-- Data picker -->
-<script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
+<script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js', env('REDIRECT_HTTPS')) }}"></script>
 
 @stack('scripts')
 
