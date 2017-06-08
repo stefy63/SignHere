@@ -12165,7 +12165,8 @@ module.exports = {
     template: __webpack_require__(34),
     methods: {
         calling: function calling() {
-            console.log('Call ......');var that = this;
+            console.log('Call ......');
+            var that = this;
             this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
@@ -12177,7 +12178,7 @@ module.exports = {
                     console.log(err);
                 });
 
-                var call = this.peer.call('operator', window.localStream);
+                var call = that.peer.call('operator', window.localStream);
                 if (window.existingCall) {
                     window.existingCall.close();
                 }
