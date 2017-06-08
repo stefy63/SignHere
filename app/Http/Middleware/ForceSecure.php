@@ -16,12 +16,12 @@ class ForceSecure
             $isProduction = env('APP_ENV') === 'production';
             $isStaging = env('APP_ENV') === 'staging';
 
-            if ($isProduction) {
-                $host = $_SERVER['HTTP_HOST'];
-                if (!preg_match('/^www\..*/', $host)) {
-                    return redirect(env('APP_URL'));
-                }
-            }
+            //if ($isProduction) {
+            //   $host = $_SERVER['HTTP_HOST'];
+            //    if (!preg_match('/^www\..*/', $host)) {
+            //        return redirect(env('APP_URL'));
+            //    }
+            //}
 
             if (!$isSecure && ($isProduction || $isStaging)) {
                 return redirect(env('APP_URL'));
