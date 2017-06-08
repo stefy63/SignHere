@@ -19,7 +19,7 @@
 </head>
 <body class="full-height-layout full-width white-bg">
 <div class="wrapper" id="app">
-    <br>
+    <br>Enviroment: {{env('REDIRECT_HTTPS')}}
     @if (Route::has('login'))
         <div class="links text-right col-lg-12 col-md-12 col-xs-12">
             @if (Auth::check())
