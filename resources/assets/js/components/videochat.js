@@ -13,7 +13,7 @@ module.exports = {
                     host: '87.118.86.233',
                     port: 9000,
                     path: '/',
-                    //secure: true
+                    secure: true
                 }),
             isRecording: false,
         };
