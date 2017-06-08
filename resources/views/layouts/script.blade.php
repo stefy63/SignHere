@@ -19,7 +19,7 @@
 <!-- Switchery -->
 <script src="{{ asset('js/plugins/switchery/switchery.js') }}"></script>
 <!-- Data picker -->
-<script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js', env('REDIRECT_HTTPS')) }}"></script>
+<script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 
 @stack('scripts')
 
