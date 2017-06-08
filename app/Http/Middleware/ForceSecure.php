@@ -13,7 +13,6 @@ class ForceSecure
     {
 
         if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'){
-            dd($_SERVER['HTTP_X_FORWARDED_PROTO']);
             URL::forceScheme('https');
         }
 
