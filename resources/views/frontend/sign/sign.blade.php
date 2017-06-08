@@ -870,6 +870,7 @@ resizeCanvas();
         </div>
     </div>
 </div>
+@push('scripts')
 <script>
      // Compatibility shim
         //navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
@@ -943,6 +944,6 @@ resizeCanvas();
             $('#clear-call').show();
         }
 </script>
-
+@endpush
 
 @endsection
