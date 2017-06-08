@@ -134,9 +134,9 @@ if (! function_exists('asset')) {
     {
 
         if(is_null($secure)) {
-            $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,strpos( $_SERVER["SERVER_PROTOCOL"],'/')));
-            $secure =  $protocol === 'https';
-            dd($protocol,$secure,$_SERVER);
+            if(isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https'){
+                $secure = true;
+            }
         }
         return app('url')->asset($path, $secure);
     }
