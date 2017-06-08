@@ -6,7 +6,6 @@ var PeerJs = require('../peer.js');
 module.exports = {
     data: function () {
         return {
-            conn:'',
             peer: new Peer('user',
                 {
                     key: 'signhere',

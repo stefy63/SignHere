@@ -11279,8 +11279,6 @@ module.exports = function bind(fn, thisArg) {
 
 __webpack_require__(5);
 
-//var Vue = require('vue');
-
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -12153,7 +12151,6 @@ var PeerJs = __webpack_require__(32);
 module.exports = {
     data: function data() {
         return {
-            conn: '',
             peer: new Peer('user', {
                 key: 'signhere',
                 host: 'videortc.3punto6.com',
