@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(UrlGenerator $url)
+    public function boot()
     {
 
         Validator::extend('sign_format', function($attribute, $value, $parameters, $validator) {
