@@ -27,7 +27,7 @@ Route::get('logout',  array('as' => 'logout',function (){
      }
     else
         return view('welcome');
-}));
+}))->middleware('ForceSecure');
 
 //Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 Auth::routes();
