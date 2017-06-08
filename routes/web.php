@@ -30,7 +30,7 @@ Route::get('logout',  array('as' => 'logout',function (){
 }))->middleware('ForceSecure');
 
 //Route::get('logout', 'Auth\LoginController@logout')->name('logout');
-Auth::routes();
+Auth::routes('ForceSecure');
 
 Route::get('home', 'HomeController@index')->middleware('ForceSecure');
 
