@@ -136,6 +136,7 @@ if (! function_exists('asset')) {
         if(is_null($secure)) {
             $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,strpos( $_SERVER["SERVER_PROTOCOL"],'/')));
             $secure =  $protocol === 'https';
+            dd($secure);
         }
         return app('url')->asset($path, $secure);
     }
