@@ -1,0 +1,3 @@
+RewriteEngine on
+RewriteCond %{HTTP_HOST} =signhere.3punto6.com
+RewriteRule ^(.*) https://signhere.3punto6.com/ [R]

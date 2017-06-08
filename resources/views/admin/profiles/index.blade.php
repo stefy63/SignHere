@@ -60,6 +60,7 @@
         </div>
     </div>
 </div>
+@push('scripts')
 <script>
 $(function () {
 
@@ -108,5 +109,5 @@ console.log(url);
 })
 
 </script>
-
+@endpush
 @endsection

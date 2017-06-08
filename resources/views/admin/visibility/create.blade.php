@@ -127,6 +127,8 @@
         </div>
     </div>
 </div>
+
+@push('scripts')
 <script>
     $(function () {
 
@@ -179,4 +181,5 @@
 
 
 </script>
+@endpush
 @endsection

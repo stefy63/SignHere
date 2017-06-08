@@ -172,8 +172,9 @@ $(function () {
     </div>
 
 </div>
+@push('scripts')
 <script>
-$(document).ready(function() {
+$(function() {
 
     $.fn.datepicker.dates['it'] = {
     days: ["Domenica", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì", "Sabato"],
@@ -198,4 +199,5 @@ $(document).ready(function() {
 
 })
 </script>
+@endpush
 @endsection

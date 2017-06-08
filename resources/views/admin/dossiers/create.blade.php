@@ -95,6 +95,7 @@
     </div>
 
 </div>
+@push('scripts')
 <script>
 $(function () {
     $.fn.datepicker.dates['it'] = {
@@ -120,7 +121,7 @@ $(function () {
 
 })
 </script>
-
+@endpush
 
 
 @endsection

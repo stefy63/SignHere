@@ -123,6 +123,7 @@
     </div>
 </div>
 
+@push('scripts')
 <script>
     $(document).ready(function () {
 
@@ -172,6 +173,7 @@
     })
     
 </script>
+@endpush
 @include('admin.modules.modal')
 
 @endsection

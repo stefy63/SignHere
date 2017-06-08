@@ -75,6 +75,7 @@
         </div>
     </div>
 </div>
+@push('scripts')
 <script>
 $(function () {
     $('.check_all').click(function(e){
@@ -83,4 +84,5 @@ $(function () {
     })
 })
 </script>
+@endpush
 @endsection
