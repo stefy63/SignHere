@@ -12174,22 +12174,22 @@ module.exports = {
                     console.log('inStream ......');
                     $('#localVideo').prop('src', URL.createObjectURL(stream));
                     window.localStream = stream;
+
+                    var call = that.peer.call('operator', window.localStream);
+                    if (window.existingCall) {
+                        window.existingCall.close();
+                    }
+                    call.on('stream', function (stream) {
+                        $('#remoteVideo').prop('src', URL.createObjectURL(stream));
+                    });
+                    call.on('close', function () {
+                        this.isRecording = !this.isRecording;
+                        this.calling();
+                    });
+                    window.existingCall = call;
                 }, function (err) {
                     console.log(err);
                 });
-
-                var call = that.peer.call('operator', window.localStream);
-                if (window.existingCall) {
-                    window.existingCall.close();
-                }
-                call.on('stream', function (stream) {
-                    $('#remoteVideo').prop('src', URL.createObjectURL(stream));
-                });
-                call.on('close', function () {
-                    this.isRecording = !this.isRecording;
-                    this.calling();
-                });
-                window.existingCall = call;
             } else {
                 window.existingCall.close();
                 $('#localVideo').prop('src', '');
@@ -34598,7 +34598,7 @@ module.exports = "<div>\n    <button class=\"btn btn-primary\" v-on:click.stop.p
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process, global) {/*!
- * Vue.js v2.3.3
+ * Vue.js v2.3.4
  * (c) 2014-2017 Evan You
  * Released under the MIT License.
  */
@@ -39027,7 +39027,7 @@ Object.defineProperty(Vue$3.prototype, '$ssrContext', {
   }
 });
 
-Vue$3.version = '2.3.3';
+Vue$3.version = '2.3.4';
 
 /*  */
 
@@ -39518,6 +39518,7 @@ function createPatchFunction (backend) {
   function initComponent (vnode, insertedVnodeQueue) {
     if (isDef(vnode.data.pendingInsert)) {
       insertedVnodeQueue.push.apply(insertedVnodeQueue, vnode.data.pendingInsert);
+      vnode.data.pendingInsert = null;
     }
     vnode.elm = vnode.componentInstance.$el;
     if (isPatchable(vnode)) {

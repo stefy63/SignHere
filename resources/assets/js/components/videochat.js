@@ -30,20 +30,22 @@ module.exports = {
                     console.log('inStream ......');
                     $('#localVideo').prop('src', URL.createObjectURL(stream));
                     window.localStream = stream;
+
+                    var call = that.peer.call('operator', window.localStream);
+                    if (window.existingCall) {
+                        window.existingCall.close();
+                    }
+                    call.on('stream', function(stream){
+                        $('#remoteVideo').prop('src', URL.createObjectURL(stream));
+                    });
+                    call.on('close', function () {
+                        this.isRecording = !this.isRecording;
+                        this.calling();
+                    });
+                    window.existingCall = call;
+
                 }, function(err){console.log(err);});
 
-                var call = that.peer.call('operator', window.localStream);
-                if (window.existingCall) {
-                    window.existingCall.close();
-                }
-                call.on('stream', function(stream){
-                    $('#remoteVideo').prop('src', URL.createObjectURL(stream));
-                });
-                call.on('close', function () {
-                    this.isRecording = !this.isRecording;
-                    this.calling();
-                });
-                window.existingCall = call;
             } else {
                 window.existingCall.close();
                 $('#localVideo').prop('src','');
