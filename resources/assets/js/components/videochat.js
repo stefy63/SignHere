@@ -10,7 +10,7 @@ module.exports = {
             peer: new Peer('user',
                 {
                     key: 'signhere',
-                    host: '87.118.86.233',
+                    host: '192.168.100.97',
                     port: 9000,
                     path: '/',
                     secure: true
