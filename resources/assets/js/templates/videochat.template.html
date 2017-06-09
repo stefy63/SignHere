@@ -9,15 +9,16 @@
     <div style="position: relative" v-show="isRecording">
             <video id="remoteVideo" style="height: 350px;" autoplay></video>
         <div style="
+            background-color: transparent;
             width: 30%;
             position: absolute;
             top: -3px;
             right: -3px;
-            box-shadow: 5px 5px 10px LightGrey;
-            -moz-box-shadow: 5px 5px 10px LightGrey;
-            -webkit-box-shadow: 5px 5px 10px LightGrey;
+            box-shadow: 5px 5px 10px #888;
+            -moz-box-shadow: 5px 5px 10px #888;
+            -webkit-box-shadow: 5px 5px 10px #888;
             " >
-            <video id="localVideo" autoplay></video>
+            <video id="localVideo" autoplay height="100%"></video>
         </div>
     </div>
 </div>
