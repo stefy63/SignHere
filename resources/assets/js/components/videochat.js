@@ -19,6 +19,23 @@ module.exports = {
         };
     },
     template: require("../templates/videochat.template.html"),
+    created:function () {
+        var that = this;
+        that.peer.on('call', function(call) {
+            call.answer(window.localStream);
+            if (window.existingCall) {
+                window.existingCall.close();
+            }
+            call.on('stream', function(stream){
+                $('#remoteVideo').prop('src', URL.createObjectURL(stream));
+            });
+            call.on('close', function () {
+                window.existingCall.close();
+                $('#localVideo').prop('src','');
+                $('#remoteVideo').prop('src','');
+            });
+        });
+    },
     methods:{
         calling:function () {
             console.log('Call ......');

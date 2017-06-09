@@ -12163,6 +12163,23 @@ module.exports = {
         };
     },
     template: __webpack_require__(34),
+    created: function created() {
+        var that = this;
+        that.peer.on('call', function (call) {
+            call.answer(window.localStream);
+            if (window.existingCall) {
+                window.existingCall.close();
+            }
+            call.on('stream', function (stream) {
+                $('#remoteVideo').prop('src', URL.createObjectURL(stream));
+            });
+            call.on('close', function () {
+                window.existingCall.close();
+                $('#localVideo').prop('src', '');
+                $('#remoteVideo').prop('src', '');
+            });
+        });
+    },
     methods: {
         calling: function calling() {
             console.log('Call ......');
@@ -17499,7 +17516,7 @@ if (typeof jQuery === 'undefined') {
 /* 34 */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n    <button v-bind:class=\"[isRecording?'btn btn-danger':'btn btn-primary']\" v-on:click.stop.prevent=\"calling\">\n        <i class=\"fa fa-stop\" v-show=\"isRecording\"></i>\n        <i class=\"fa fa-play\" v-show=\"!isRecording\"></i>\n        <span v-show=\"!isRecording\">Chiama Operatore</span>\n        <span v-show=\"isRecording\">Termina Chiamata</span>\n    </button>\n\n    <div style=\"position: relative\" v-show=\"isRecording\">\n            <video id=\"remoteVideo\" style=\"height: 350px;\" autoplay></video>\n        <div style=\"\n            background-color: black;\n            width: 30%;\n            position: absolute;\n            top: -3px;\n            right: -3px;\n            box-shadow: 5px 5px 10px #888;\n            -moz-box-shadow: 5px 5px 10px #888;\n            -webkit-box-shadow: 5px 5px 10px #888;\n            \" >\n            <video id=\"localVideo\" autoplay height=\"100%\"></video>\n        </div>\n    </div>\n</div>\n\n";
+module.exports = "<div>\n    <button v-bind:class=\"[isRecording?'btn btn-danger':'btn btn-primary']\" v-on:click.stop.prevent=\"calling\">\n        <i class=\"fa fa-stop\" v-show=\"isRecording\"></i>\n        <i class=\"fa fa-play\" v-show=\"!isRecording\"></i>\n        <span v-show=\"!isRecording\">Chiama Operatore</span>\n        <span v-show=\"isRecording\">Termina Chiamata</span>\n    </button>\n    <br>\n    <div style=\"position: relative\" v-show=\"isRecording\">\n            <video id=\"remoteVideo\" style=\"height: 350px;\" autoplay></video>\n        <div style=\"\n            background-color: black;\n            width: 30%;\n            position: absolute;\n            top: -3px;\n            right: -3px;\n            box-shadow: 5px 5px 10px #888;\n            -moz-box-shadow: 5px 5px 10px #888;\n            -webkit-box-shadow: 5px 5px 10px #888;\n            \" >\n            <video id=\"localVideo\" autoplay height=\"100%\"></video>\n        </div>\n    </div>\n</div>\n\n";
 
 /***/ }),
 /* 35 */
