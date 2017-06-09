@@ -12183,8 +12183,9 @@ module.exports = {
                         $('#remoteVideo').prop('src', URL.createObjectURL(stream));
                     });
                     call.on('close', function () {
-                        this.isRecording = !this.isRecording;
-                        this.calling();
+                        window.existingCall.close();
+                        $('#localVideo').prop('src', '');
+                        $('#remoteVideo').prop('src', '');
                     });
                     window.existingCall = call;
                 }, function (err) {
@@ -17498,7 +17499,7 @@ if (typeof jQuery === 'undefined') {
 /* 34 */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n    <button class=\"btn btn-primary\" v-on:click.stop.prevent=\"calling\">\n        <i class=\"stop icon\" v-show=\"isRecording\"></i>\n        <i class=\"record icon\" v-show=\"!isRecording\"></i>\n        <span v-show=\"!isRecording\">Chiama Operatore</span>\n        <span v-show=\"isRecording\">Termina Chiamata</span>\n    </button>\n\n    <div style=\"position: relative\" >\n            <video id=\"remoteVideo\" style=\"height: 350px;\" autoplay></video>\n        <div style=\"width: 30%;position: absolute;top: 0px;right: 0px\" >\n            <video id=\"localVideo\" autoplay></video>\n        </div>\n    </div>\n</div>\n\n";
+module.exports = "<div>\n    <button v-bind:class=\"[isRecording?'btn btn-danger':'btn btn-primary']\" v-on:click.stop.prevent=\"calling\">\n        <i class=\"fa fa-stop\" v-show=\"isRecording\"></i>\n        <i class=\"fa fa-play\" v-show=\"!isRecording\"></i>\n        <span v-show=\"!isRecording\">Chiama Operatore</span>\n        <span v-show=\"isRecording\">Termina Chiamata</span>\n    </button>\n\n    <div style=\"position: relative\" >\n            <video id=\"remoteVideo\" style=\"height: 350px;\" autoplay></video>\n        <div style=\"width: 30%;position: absolute;top: 0px;right: 0px\" >\n            <video id=\"localVideo\" autoplay></video>\n        </div>\n    </div>\n</div>\n\n";
 
 /***/ }),
 /* 35 */

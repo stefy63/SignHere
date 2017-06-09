@@ -39,13 +39,13 @@ module.exports = {
                         $('#remoteVideo').prop('src', URL.createObjectURL(stream));
                     });
                     call.on('close', function () {
-                        this.isRecording = !this.isRecording;
-                        this.calling();
+                        window.existingCall.close();
+                        $('#localVideo').prop('src','');
+                        $('#remoteVideo').prop('src','');
                     });
                     window.existingCall = call;
 
                 }, function(err){console.log(err);});
-
             } else {
                 window.existingCall.close();
                 $('#localVideo').prop('src','');

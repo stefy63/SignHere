@@ -16,9 +16,9 @@ class ForceSecure
             URL::forceScheme('https');
         }
 
-            $isSecure = $request->header('x-forwarded-proto') == 'https';
-            $isProduction = env('APP_ENV') === 'production';
-            $isStaging = env('APP_ENV') === 'staging';
+            //$isSecure = $request->header('x-forwarded-proto') == 'https';
+            //$isProduction = env('APP_ENV') === 'production';
+            //$isStaging = env('APP_ENV') === 'staging';
 
             //if ($isProduction) {
             //   $host = $_SERVER['HTTP_HOST'];
