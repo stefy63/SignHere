@@ -6,9 +6,17 @@
         <span v-show="isRecording">Termina Chiamata</span>
     </button>
 
-    <div style="position: relative" >
+    <div style="position: relative" v-show="isRecording">
             <video id="remoteVideo" style="height: 350px;" autoplay></video>
-        <div style="width: 30%;position: absolute;top: -3px;right: -3px" >
+        <div style="
+            width: 30%;
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            box-shadow: 5px 5px 10px LightGrey;
+            -moz-box-shadow: 5px 5px 10px LightGrey;
+            -webkit-box-shadow: 5px 5px 10px LightGrey;
+            " >
             <video id="localVideo" autoplay></video>
         </div>
     </div>
