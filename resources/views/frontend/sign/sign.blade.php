@@ -736,9 +736,7 @@ $(function () {
 }
 
 window.onresize = resizeCanvas;
-resizeCanvas();
-
-
+//resizeCanvas();
 
 })
 </script>
@@ -811,7 +809,13 @@ resizeCanvas();
                     </div>
                     @endif
                     <div class="text-center">
-                        <videochat></videochat>
+                        <videochat
+                            key="signhere"
+                            host="videortc.3punto6.com"
+                            path="/videostream"
+                            secure="true"
+                            >
+                        </videochat>
                     </div>
                 </div>
 

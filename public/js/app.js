@@ -12149,23 +12149,30 @@ module.exports = function spread(callback) {
 var PeerJs = __webpack_require__(32);
 
 module.exports = {
+    props: ['skey', 'shost', 'spath', 'ssecure'],
     data: function data() {
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
         return {
             peer: new Peer('user', {
-                key: 'signhere',
+                /*key: 'signhere',
                 host: 'videortc.3punto6.com',
                 port: location.port || (location.protocol === 'https:' ? 443 : 80),
                 path: '/videostream',
-                secure: true
+                secure: true*/
+
+                key: this.skey,
+                host: this.shost,
+                port: location.port || (location.protocol === 'https:' ? 443 : 80),
+                path: this.spath,
+                secure: this.ssecure
+
             }),
             isRecording: false
         };
     },
     template: __webpack_require__(34),
-    created: function created() {
-        var that = this;
-        that.peer.on('call', function (call) {
+    computed: function computed() {
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia || navigator.msGetUserMedia;
+        this.peer.on('call', function (call) {
             call.answer(window.localStream);
             if (window.existingCall) {
                 window.existingCall.close();

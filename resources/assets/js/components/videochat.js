@@ -4,24 +4,38 @@
 var PeerJs = require('../peer.js');
 
 module.exports = {
+    props: [
+        'skey','shost','spath','ssecure'
+    ],
     data: function () {
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia;
         return {
             peer: new Peer('user',
                 {
-                    key: 'signhere',
+                    /*key: 'signhere',
                     host: 'videortc.3punto6.com',
                     port: location.port || (location.protocol === 'https:' ? 443 : 80),
                     path: '/videostream',
-                    secure: true
+                    secure: true*/
+
+                    key: this.skey,
+                    host: this.shost,
+                    port: location.port || (location.protocol === 'https:' ? 443 : 80),
+                    path: this.spath,
+                    secure: this.ssecure
+
+
                 }),
             isRecording: false,
         };
     },
     template: require("../templates/videochat.template.html"),
-    created:function () {
-        var that = this;
-        that.peer.on('call', function(call) {
+    computed:function () {
+        navigator.getUserMedia = navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.mediaDevices.getUserMedia ||
+            navigator.msGetUserMedia;
+        this.peer.on('call', function(call) {
             call.answer(window.localStream);
             if (window.existingCall) {
                 window.existingCall.close();
