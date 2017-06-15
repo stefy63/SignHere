@@ -17,6 +17,7 @@ module.exports = {
     template: require("../templates/videochat.template.html"),
     created:function () {
         console.log('created.....');
+        console.log((this.ssecure=='true')?true:false,(this.sport) ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80));
         navigator.getUserMedia = navigator.getUserMedia ||
             navigator.webkitGetUserMedia ||
             navigator.mozGetUserMedia ||
@@ -32,7 +33,6 @@ module.exports = {
                 path: this.spath,
                 secure: (this.ssecure=='true')?true:false,
             });
-        console.log((this.ssecure=='true')?true:false,(this.sport) ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80));
         peer.on('open', function() {
             $('#call-id').text(realthis.peer.id);
         });
