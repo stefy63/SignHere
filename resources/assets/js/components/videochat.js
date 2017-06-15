@@ -8,7 +8,7 @@ module.exports = {
         'skey','shost','sport','spath','ssecure','suser','soperator'
     ],
     data: function () {
-        console.log(this.skey,this.shost,this.sport,this.spath,this.ssecure,this.suser,this.soperator);
+        //console.log(this.skey,this.shost,this.sport,this.spath,this.ssecure,this.suser,this.soperator);
         return {
             peer: '',
             isRecording: false,
@@ -17,7 +17,6 @@ module.exports = {
     template: require("../templates/videochat.template.html"),
     created:function () {
         console.log('created.....');
-        console.log(this.ssecure);
         navigator.getUserMedia = navigator.getUserMedia ||
             navigator.webkitGetUserMedia ||
             navigator.mozGetUserMedia ||
@@ -31,7 +30,7 @@ module.exports = {
                 host: this.shost,
                 port: (this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80)),
                 path: this.spath,
-                secure: this.ssecure
+                secure: (this.ssecure == true)?true:false
             });
         peer.on('open', function() {
             $('#call-id').text(realthis.peer.id);

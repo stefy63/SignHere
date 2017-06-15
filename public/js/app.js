@@ -12151,7 +12151,7 @@ var PeerJs = __webpack_require__(32);
 module.exports = {
     props: ['skey', 'shost', 'sport', 'spath', 'ssecure', 'suser', 'soperator'],
     data: function data() {
-        console.log(this.skey, this.shost, this.sport, this.spath, this.ssecure, this.suser, this.soperator);
+        //console.log(this.skey,this.shost,this.sport,this.spath,this.ssecure,this.suser,this.soperator);
         return {
             peer: '',
             isRecording: false
@@ -12160,7 +12160,6 @@ module.exports = {
     template: __webpack_require__(34),
     created: function created() {
         console.log('created.....');
-        console.log(this.ssecure);
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia || navigator.msGetUserMedia;
 
         var realthis = this;
@@ -12169,7 +12168,7 @@ module.exports = {
             host: this.shost,
             port: this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80),
             path: this.spath,
-            secure: this.ssecure
+            secure: this.ssecure == true ? true : false
         });
         peer.on('open', function () {
             $('#call-id').text(realthis.peer.id);
@@ -17520,7 +17519,7 @@ if (typeof jQuery === 'undefined') {
 /* 34 */
 /***/ (function(module, exports) {
 
-module.exports = "<div>\n    <button v-bind:class=\"[isRecording?'btn btn-danger':'btn btn-primary']\" v-on:click.stop.prevent=\"calling\">\n        <i class=\"fa fa-stop\" v-show=\"isRecording\"></i>\n        <i class=\"fa fa-play\" v-show=\"!isRecording\"></i>\n        <span v-show=\"!isRecording\">Chiama Operatore</span>\n        <span v-show=\"isRecording\">Termina Chiamata</span>\n    </button>\n    <br>\n    <div id=\"call-id\"></div>\n    <div style=\"position: relative\" v-show=\"isRecording\">\n            <video id=\"remoteVideo\" style=\"height: 350px;\" autoplay></video>\n        <div style=\"\n            background-color: black;\n            width: 30%;\n            position: absolute;\n            top: -3px;\n            right: -3px;\n            box-shadow: 5px 5px 10px #888;\n            -moz-box-shadow: 5px 5px 10px #888;\n            -webkit-box-shadow: 5px 5px 10px #888;\n            \" >\n            <video id=\"localVideo\" autoplay height=\"100%\"></video>\n        </div>\n    </div>\n</div>\n\n";
+module.exports = "<div>\n    <button v-bind:class=\"[isRecording?'btn btn-danger':'btn btn-primary']\" v-on:click.stop.prevent=\"calling\">\n        <i class=\"fa fa-stop\" v-show=\"isRecording\"></i>\n        <i class=\"fa fa-play\" v-show=\"!isRecording\"></i>\n        <span v-show=\"!isRecording\">Chiama Operatore</span>\n        <span v-show=\"isRecording\">Termina Chiamata</span>\n    </button>\n    <br>\n    <!--<div id=\"call-id\"></div>-->\n    <div style=\"position: relative\" v-show=\"isRecording\">\n            <video id=\"remoteVideo\" style=\"height: 350px;\" autoplay></video>\n        <div style=\"\n            background-color: black;\n            width: 30%;\n            position: absolute;\n            top: -3px;\n            right: -3px;\n            box-shadow: 5px 5px 10px #888;\n            -moz-box-shadow: 5px 5px 10px #888;\n            -webkit-box-shadow: 5px 5px 10px #888;\n            \" >\n            <video id=\"localVideo\" autoplay height=\"100%\"></video>\n        </div>\n    </div>\n</div>\n\n";
 
 /***/ }),
 /* 35 */
