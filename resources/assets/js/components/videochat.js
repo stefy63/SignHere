@@ -8,7 +8,7 @@ module.exports = {
         'skey','shost','sport','spath','ssecure','suser','soperator'
     ],
     data: function () {
-        //console.log(this.skey,this.shost,this.sport,this.spath,this.ssecure,this.suser,this.soperator);
+        console.log(this.skey,this.shost,this.sport,this.spath,this.ssecure,this.suser,this.soperator);
         return {
             peer: '',
             isRecording: false,
