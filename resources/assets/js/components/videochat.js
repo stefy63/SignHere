@@ -31,7 +31,7 @@ module.exports = {
                 host: this.shost,
                 port: (this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80)),
                 path: this.spath,
-                secure: (this.ssecure==1 ? true : false),
+                secure: (this.ssecure == 'Y' ? true : false),
             });
         peer.on('open', function() {
             $('#call-id').text(realthis.peer.id);
