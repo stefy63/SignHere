@@ -17,7 +17,7 @@ module.exports = {
     template: require("../templates/videochat.template.html"),
     created:function () {
         console.log('created.....');
-        console.log((this.ssecure=='true')?true:false,(this.sport) ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80));
+        console.log(this.ssecure);
         navigator.getUserMedia = navigator.getUserMedia ||
             navigator.webkitGetUserMedia ||
             navigator.mozGetUserMedia ||
@@ -29,9 +29,9 @@ module.exports = {
             {
                 key: this.skey,
                 host: this.shost,
-                port: (this.sport) ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80),
+                port: (this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80)),
                 path: this.spath,
-                secure: (this.ssecure=='true')?true:false,
+                secure: (this.ssecure=='true' ? true : false),
             });
         peer.on('open', function() {
             $('#call-id').text(realthis.peer.id);

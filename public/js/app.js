@@ -12160,6 +12160,7 @@ module.exports = {
     template: __webpack_require__(34),
     created: function created() {
         console.log('created.....');
+        console.log(this.ssecure);
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia || navigator.msGetUserMedia;
 
         var realthis = this;
@@ -12170,7 +12171,6 @@ module.exports = {
             path: this.spath,
             secure: this.ssecure == 'true' ? true : false
         });
-
         peer.on('open', function () {
             $('#call-id').text(realthis.peer.id);
         });
