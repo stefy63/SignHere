@@ -149,8 +149,16 @@ class SignController extends Controller
      */
     public function destroy($id)
     {
-        echo "DESTROY --> ".$id;
+         if ($document = Document::find($id)){
+             if(!Storage::disk('documents')->exists($document->filename)){
+                 return redirect()->back()->with('alert',__('sign.sign_file_NOTFound'));
+             }
+            Storage::disk('documents')->move($document->filename,'.trash/'.$document->name.'-'.Carbon::now()->timestamp);
+            $document->delete();
 
+            return redirect()->back()->with('success', __('sign.success_document_deleted'));
+        }
+        return redirect()->back()->with('alert',__('sign.sign_file_NOTFound'));
     }
 
     /**

@@ -26,6 +26,67 @@
     <div class="col-lg-12">
         <div class="ibox float-e-margins col-lg-12">
             <div class="ibox-content col-lg-12">
+                <!-- CLIENTI IN ATTESA DI FIRMA -->
+                <div class="col-lg-7 full-height">
+                    <div class="ibox-title">
+                        <h5>{{__('sign.sign-title')}}</h5>
+                    </div>
+                    <div>
+                        <table class="table table-bordered table-hover tab-right">
+                            <thead>
+                            <tr role="row">
+                                <th class="col-md-5">{{__('sign.index-header-col-0')}}</th>
+                                <th class="col-md-2">{{__('sign.index-header-col-1')}}</th>
+                                <th class="col-md-5">{{__('sign.index-header-col-2')}}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($clients as $client)
+                                <tr class="bg-info tr-client" id="{{$client->id}}">
+                                    <td class="col-md-5"><i class="fa fa-user"> {{$client->surname}}&nbsp;{{$client->name}}</i></td>
+                                    <td class="col-md-2">@if($client->mobile){{$client->mobile}}@else{{$client->phone}}@endif</td>
+                                    <td class="col-md-5">{{$client->email}} <i class="fa fa-chevron-down pull-right"></i></td>
+                                </tr>
+                                @foreach($client->dossiers()->get() as $dossier)
+                                    <tr class="bg-warning tr-dossier dossier-{{$client->id}}" data-dossier="{{$dossier->id}}" id="{{$dossier->id}}" style="display: none">
+                                        <td colspan="3"><i class="fa fa-archive"></i> {{$dossier->name}}<i class="fa fa-chevron-down pull-right"></i></td>
+                                    </tr>
+                                    @foreach($dossier->documents()->get() as $document)
+                                        <tr class="bg-success tr-document document-{{$dossier->id}}" data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
+                                            <td colspan="3">
+                                                @if($document->readonly || $document->signed)
+                                                    <i class="fa fa-check-square-o" style="color: green;"></i>&nbsp;&nbsp;{{$document->name}}
+                                                @else
+                                                    <i class="fa fa-minus-square-o" style="color: red;"></i>&nbsp;&nbsp;bsp;&nbsp;{{$document->name}}
+                                                @endif
+                                                <div class="pull-right">
+                                                        @if($document->readonly || $document->signed )
+                                                            @if(Auth::user()->hasRole('sign','send'))
+                                                                <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="sendmail"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            @endif
+                                                        @else
+                                                            @if(Auth::user()->hasRole('sign','signing'))
+                                                                <a data-location="{{url('sign/signing/'.$document->id)}}" class="href"><i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            @endif
+                                                        @endif
+                                                    @if(Auth::user()->hasRole('sign','download'))
+                                                        <a data-location="{{Storage::disk('documents')->url($document->filename) }}" target="_blank" class="href"><i class="fa fa-download"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    @endif
+                                                    @if(Auth::user()->hasRole('sign','destroy'))
+                                                        <a data-message="{{__('sign.confirm_delete')}}" data-location="{{url('sign/destroy/'.$document->id)}}" class="confirm-toast"><i class="fa fa-trash-o text-danger"></i></a>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endforeach
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pull-right">{{ $clients->links() }}</div>
+                </div>
+                <!-- ARCHIVIO CLIENTI  -->
                 <div class="col-lg-5 full-height">
                     <div class="ibox-title">
                         <h5>{{__('sign.archive-title')}}</h5>
@@ -77,59 +138,7 @@
                     </div>
                     <div class="pull-right">{{ $archives->links() }}</div>
                 </div>
-                <div class="col-lg-7 full-height">
-                    <div class="ibox-title">
-                        <h5>{{__('sign.sign-title')}}</h5>
-                    </div>
-                    <div>
-                        <table class="table table-bordered table-hover tab-right">
-                            <thead>
-                                <tr role="row">
-                                    <th class="col-md-5">{{__('sign.index-header-col-0')}}</th>
-                                    <th class="col-md-2">{{__('sign.index-header-col-1')}}</th>
-                                    <th class="col-md-5">{{__('sign.index-header-col-2')}}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($clients as $client)
-                                <tr class="bg-info tr-client" id="{{$client->id}}">
-                                    <td class="col-md-5"><i class="fa fa-user"> {{$client->surname}}&nbsp;{{$client->name}}</i></td>
-                                    <td class="col-md-2">@if($client->mobile){{$client->mobile}}@else{{$client->phone}}@endif</td>
-                                    <td class="col-md-5">{{$client->email}} <i class="fa fa-chevron-down pull-right"></i></td>
-                                </tr>
-                                @foreach($client->dossiers()->get() as $dossier)
-                                <tr class="bg-warning tr-dossier dossier-{{$client->id}}" data-dossier="{{$dossier->id}}" id="{{$dossier->id}}" style="display: none">
-                                    <td colspan="3"><i class="fa fa-archive"></i> {{$dossier->name}}<i class="fa fa-chevron-down pull-right"></i></td>
-                                </tr>
-                                    @foreach($dossier->documents()->get() as $document)
-                                    <tr class="bg-success tr-document document-{{$dossier->id}}" data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
-                                        <td colspan="3">
-                                            @if($document->signed)
-                                                <i class="fa fa-check-square-o" style="color: green;"></i>&nbsp;&nbsp;{{$document->name}}
-                                            @else
-                                                <i class="fa fa-minus-square-o" style="color: red;"></i>&nbsp;&nbsp;{{$document->name}}
-                                            @endif
-                                            <div class="pull-right">
-                                                @if($document->signed)
-                                                    <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="sendmail"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                @else
-                                                    <a data-location="{{url('sign/signing/'.$document->id)}}" class="href"><i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                @endif
-                                                @if(Auth::user()->hasRole('sign','download'))
-                                                    <a data-location="{{Storage::disk('documents')->url($document->filename) }}" target="_blank" class="href"><i class="fa fa-download"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                @endif
-                                                <a data-message="{{__('sign.confirm_delete')}}" data-location="{{url('sign/destroy/'.$document->id)}}" class="confirm-toast"><i class="fa fa-trash-o text-danger"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                @endforeach
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="pull-right">{{ $clients->links() }}</div>
-                </div>
+
 
             </div>
         </div>
@@ -212,12 +221,12 @@ $(function () {
         });
     });
 
-    $('.tr-document').dblclick(function(e){
+    /*$('.tr-document').dblclick(function(e){
         e.stopPropagation();
         var location = '{{url('sign/signing')}}'+'/'+this.id;
         console.log(location);
         window.location = location;
-    });
+    });*/
 
     $('.content').click(function(e){
         e.preventDefault();
