@@ -33,7 +33,7 @@
                 </select>
             </div>
             <div class="ibox-content">
-                <div class="col-lg-5 col-md-5 col-xs-5" style="height: 80%;">
+                <div class="col-lg-6 col-md-6 col-xs-6" style="height: 80%;">
                     <div class="ibox-title">
                         <h5 class="text-danger">{{__('admin_documents.index-client')}}</h5>
                         <div ibox-tools="" class="ng-scope">
@@ -69,7 +69,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-lg-7 col-md-7 col-xs-7 border-left">
+                <div class="col-lg-6 col-md-6 col-xs-6 border-left">
                     <!-- DOSSIERS  -->
                     <div class="col-lg-12 col-md-12 col-xs-12" style="height: 40%;" id="div-dossier" hidden>
                         <div class="ibox-title">
@@ -80,36 +80,34 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="">
-                            <input type="hidden" id="dossier_id" value="0" />
-                            <table class="table table-bordered table-hover" id="tr-dossier">
-                                <thead>
-                                    <tr>
-                                        <th class="col-lg-10 col-md-10 col-xs-10"></th>
-                                        <th class="col-lg-2 col-md-2 col-xs-2"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($dossiers as $dossier)
-                                    <tr class="tab-dossier" id="{{$dossier->id}}">
-                                        <td>
-                                           <i class="fa fa-archive"></i> {{$dossier->name}}
-                                        </td>
-                                        <td class="text-center">
-                                            <a data-url="{{ url('admin_dossiers/')}}/{{$dossier->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>
-                                            <a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th></th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+                        <input type="hidden" id="dossier_id" value="0" />
+                        <table class="table table-bordered table-hover col-lg-12 col-md-12 col-xs-12" id="tr-dossier">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($dossiers as $dossier)
+                                <tr class="tab-dossier" id="{{$dossier->id}}">
+                                    <td class=" col-lg-9 col-md-9 col-xs-9">
+                                       <i class="fa fa-archive"></i> {{$dossier->name}}
+                                    </td>
+                                    <td class="text-center col-lg-3 col-md-3 col-xs-3">
+                                        <a data-url="{{ url('admin_dossiers/')}}/{{$dossier->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>
+                                        <a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
                     <hr>
                     <!-- DOCUMENTS  -->
@@ -134,9 +132,9 @@
                                 </thead>
                                 <tbody>
                                 @foreach($documents as $document)
-                                    <tr class="tab-document" id="{{$document->id}}">
+                                    <tr id="{{$document->id}}">
                                         <td><a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-download"></i></a></td>
-                                        <td class="tab-document @if($document->signed) text-line-through text-danger @endif" id="{{$document->id}}">
+                                        <td class="@if($document->signed) text-line-through text-danger @endif" id="{{$document->id}}">
                                             {{$document->name}}
                                         </td>
                                         <td>
@@ -237,23 +235,6 @@ $(document).ready(function () {
             });
     });
 
-    /*
-    $(document).on('dblclick','.tab-client',function(e){
-        e.preventDefault();
-        location.replace('{{ url('admin_clients/') }}/'+this.id+'/edit' );
-    });
-
-    $(document).on('dblclick','.tab-dossier',function(e){
-        e.preventDefault();
-        location.replace('{{ url('admin_dossiers/') }}/'+this.id+'/edit' );
-    });
-
-    $(document).on('click','.tab-document',function(e){
-        e.preventDefault();
-        location.replace('{{ url('admin_documents/') }}/'+$(this).closest('tr').attr('id')+'/edit' );
-        //toastr['error']('',"Funzione da implementare");
-    });*/
-
     $(document).on('click','.tab-client',function(e){
         console.log('tab-client-click');
         e.preventDefault();
@@ -314,12 +295,12 @@ $(document).ready(function () {
                 (k['signed'] == 1)? elem += '"  data-toggle="tooltip" title="'+k['date_sign']+'">':elem += '">';
                     elem += '<td><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank">' +
                     '<i class="fa fa-download"></i></a></td>' +
-                    '<td class=" tab-document"><i ';
+                    '<td class=" "><i ';
                 elem += (k['signed'] == 1)?'class="fa fa-check-square-o" style="color: green;"':'class="fa fa fa-minus-square-o" style="color: red;"';
                  elem += '></i>  '+k['name']+'</td>' +
-                    '<td ><a class="tab-document_a OK-button">' +
+                    '<td >' +
                      '<a data-url="{{ url('admin_documents/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>'+
-                    '<i class="text-danger fa fa-trash-o pull-right"></i></a></td></tr>'
+                    '<a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a></td></tr>'
             });
             $('#tr-document tbody').html(elem);
             $('#div-documents').show();
@@ -359,13 +340,13 @@ $(document).ready(function () {
     });
 
     $(document).on('click','.tab-document',function(e){
-        e.preventDefault();
+       /* e.preventDefault();
         var document = $(this).closest('tr').attr('id');
         $('input #document_id').val(document);
         $(this).closest('tbody').find('tr').removeClass('bg-danger');
         $(this).closest('tr').addClass('bg-danger');
         console.log(document);
-        //alert(document);
+        //alert(document);*/
 
     });
 

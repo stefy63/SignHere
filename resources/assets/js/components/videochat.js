@@ -43,6 +43,7 @@ module.exports = {
             that.wait_stream(call);
         });
         this.peer = peer;
+
     },
     methods:{
         calling:function () {
