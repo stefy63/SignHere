@@ -181,10 +181,12 @@ class SignController extends Controller
             }
 
             return view('frontend.sign.sign',[
-                'document' => $document,
-                'template' => json_encode($arrayTpl),
+                'document'  => $document,
+                'template'  => json_encode($arrayTpl),
                 'questions' => json_encode($arrayQuestion),
-                'b64doc' => $b64Doc
+                'b64doc'    => $b64Doc,
+                'operator'  => 'operator',
+                'user'      => \Auth::user()->username
             ]);
         }
         return redirect()->back()->with('alert',__('sign.sign_document_NOTFound'));

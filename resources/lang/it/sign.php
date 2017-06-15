@@ -77,9 +77,9 @@ return [
     '' => '',
     '' => '',
     'send_doc_mail' => 'Consegna Documento :doc firmato in data :date.',
-    'header_mail' => 'Gentile cliente,<br>Le inviamo copia del documento da lei sottoscritto in data:',
+    'header_mail' => 'Gentile cliente,<br>Le inviamo copia del documento da lei sottoscritto in data: ',
     'body_mail' => 'Ringraziamo della gentile collaborazione.',
-    'footer_mail' => 'Distinti saluti',
+    'footer_mail' => 'Distinti saluti. ',
     '' => '',
     '' => '',
 

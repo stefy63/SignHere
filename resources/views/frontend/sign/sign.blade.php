@@ -810,10 +810,13 @@ window.onresize = resizeCanvas;
                     @endif
                     <div class="text-center">
                         <videochat
-                            key="signhere"
-                            host="videortc.3punto6.com"
-                            path="/videostream"
-                            secure="true"
+                            skey='{{env('VUE_CHAT_KEY')}}'
+                            shost='{{env('VUE_CHAT_HOST')}}'
+                            sport='{{env('VUE_CHAT_PORT')}}'
+                            spath='{{env('VUE_CHAT_PATH')}}'
+                            ssecure='{{env('VUE_CHAT_SECURE')}}'
+                            suser='{{$user}}'
+                            soperator='{{$operator}}'
                             >
                         </videochat>
                     </div>
