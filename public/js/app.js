@@ -12172,8 +12172,8 @@ module.exports = {
         });
 
         peer.on('open', function () {
-            console.log('opened.....');
-            $('#call-id').text(peer.id);
+            console.log('opened.....' + peer.id);
+            //$('#call-id').text(peer.id);
         });
 
         peer.on('call', function (call) {
