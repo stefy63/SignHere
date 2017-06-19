@@ -12203,8 +12203,8 @@ module.exports = {
             this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
-                var call = that.peer.call(that.soperator, window.localStream);
-                that.wait_stream(call);
+                var call = this.peer.call(that.soperator, window.localStream);
+                this.wait_stream(call);
             } else {
                 window.existingCall.close();
                 $('#localVideo').prop('src', '');
