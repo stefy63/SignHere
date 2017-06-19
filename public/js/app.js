@@ -12184,7 +12184,7 @@ module.exports = {
         peer.on('call', function (call) {
             console.log('call from Operator.....');
             this.isRecording = !this.isRecording;
-            $('#localVideo').prop('src', this.stream);
+            $('#localVideo').prop('src', window.localStream);
             call.answer(window.localStream);
             realthis.wait_stream(call);
         });
@@ -12207,7 +12207,7 @@ module.exports = {
             this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
-                $('#localVideo').prop('src', this.stream);
+                $('#localVideo').prop('src', window.localStream);
                 var call = this.peer.call(this.soperator, window.localStream);
                 this.wait_stream(call);
             } else {
