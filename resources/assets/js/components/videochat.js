@@ -38,6 +38,10 @@ module.exports = {
             //$('#call-id').text(peer.id);
         });
 
+        peer.on('error', function(err) {
+            console.log(err.message);
+        });
+
         peer.on('call', function(call) {
             console.log('call from Operator.....');
             this.isRecording = !this.isRecording;
