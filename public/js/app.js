@@ -12217,6 +12217,7 @@ module.exports = {
             };
         },
         wait_stream: function wait_stream(call) {
+            console.log(' wait_stream...');
             if (window.existingCall) {
                 window.existingCall.close();
             }

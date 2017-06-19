@@ -79,6 +79,7 @@ module.exports = {
             };
         },
         wait_stream: function (call) {
+            console.log(' wait_stream...');
             if (window.existingCall) {
                 window.existingCall.close();
             }
