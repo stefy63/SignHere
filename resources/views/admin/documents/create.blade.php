@@ -208,7 +208,7 @@ $(function() {
             'top' : '20%',
             'left' : '30%',
             'zoom' : '2'
-     });
+        });
         this.submit();
      });
 

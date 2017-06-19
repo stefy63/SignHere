@@ -125,7 +125,7 @@
 
 @push('scripts')
 <script>
-    $(document).ready(function () {
+    $(function () {
 
         $('.onoffswitch-checkbox').change(function (e) {
             e.preventDefault();

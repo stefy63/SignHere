@@ -113,7 +113,7 @@
         </div>
     </div>
 </div>
-
+@push('scripts')
 <script>
 $(function () {
 
@@ -138,6 +138,7 @@ $(function () {
 })
     
 </script>
+@endpush
 @include('admin.clients.modal')
 
 @endsection

@@ -42,10 +42,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="">
+                    <div class=" col-lg-12 col-md-12 col-xs-12">
                         <!-- CLIENTS  -->
                         <input type="hidden" id="client_id" value="0"/>
-                        <table class="table table-bordered table-hover"  id="tr-client" cellspacing="0">
+                        <table class="table table-bordered table-hover" id="tr-client" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th class="col-lg-12 col-md-12 col-xs-12"></th>
@@ -81,20 +81,20 @@
                             </div>
                         </div>
                         <input type="hidden" id="dossier_id" value="0" />
-                        <table class="table table-bordered table-hover col-lg-12 col-md-12 col-xs-12" id="tr-dossier">
+                        <table class="table table-bordered table-hover" id="tr-dossier">
                             <thead>
                                 <tr>
-                                    <th></th>
-                                    <th></th>
+                                    <th class="col-lg-10 col-md-10 col-xs-10"></th>
+                                    <th class="col-lg-2 col-md-2 col-xs-2"></th>
                                 </tr>
                             </thead>
                             <tbody>
                             @foreach($dossiers as $dossier)
                                 <tr class="tab-dossier" id="{{$dossier->id}}">
-                                    <td class=" col-lg-9 col-md-9 col-xs-9">
+                                    <td>
                                        <i class="fa fa-archive"></i> {{$dossier->name}}
                                     </td>
-                                    <td class="text-center col-lg-3 col-md-3 col-xs-3">
+                                    <td class="text-center">
                                         <a data-url="{{ url('admin_dossiers/')}}/{{$dossier->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>
                                         <a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>
                                     </td>
@@ -103,8 +103,8 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th></th>
-                                    <th></th>
+                                    <th class="col-lg-10 col-md-10 col-xs-10"></th>
+                                    <th class="col-lg-2 col-md-2 col-xs-2"></th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -162,7 +162,7 @@
 
 @push('scripts')
 <script>
-$(document).ready(function () {
+$(function () {
 
     $(document).on('click','.href',function(e){
         e.preventDefault();
@@ -224,7 +224,7 @@ $(document).ready(function () {
                 _token: "{{csrf_token()}}",
                 acl_id: this.value
             } })
-            .success(function(data){
+            .done(function(data){
                     $('#tr-client tbody').empty();
                     data[0].forEach(function(k){
                         //console.log(k);
@@ -255,12 +255,12 @@ $(document).ready(function () {
             data: {
                 _token: "{{csrf_token()}}",
                 client_id: client_id
-            } }).success(function(data){
+            } }).done(function(data){
             $('#tr-dossier tbody').empty();
             var body='';
             data[0].forEach(function(k){
-                body+='<tr class="tab-dossier" id="'+k['id']+'"><td class="col-md-11"><i class="fa fa-archive"></i> '+k['name']+'</td>' +
-                    '<td class="col-md-1 text-center"><a data-url="{{ url('admin_dossiers/')}}/'+k['id']+'/edit" class="href pull-left">'+
+                body+='<tr class="tab-dossier" id="'+k['id']+'"><td><i class="fa fa-archive"></i> '+k['name']+'</td>' +
+                    '<td class="text-center"><a data-url="{{ url('admin_dossiers/')}}/'+k['id']+'/edit" class="href pull-left">'+
                     '<i class="fa fa-pencil"></i></a>  <a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a></td></tr>';
             });
             $('#tr-dossier > tbody').html(body);
@@ -286,7 +286,7 @@ $(document).ready(function () {
             data: {
                 _token: "{{csrf_token()}}",
                 dossier_id: dossier_id
-            } }).success(function(data){
+            } }).done(function(data){
             $('#tr-document tbody').empty();
             var elem=''
             data[0].forEach(function(k){
@@ -328,7 +328,7 @@ $(document).ready(function () {
                     url: url,
                     data: {
                         _token: "{{csrf_token()}}",
-                    } }).success(function (data) {
+                    } }).done(function (data) {
                     toastr['success']('',data[0]);
                     getDossiers($('input#client_id').val());
                 }).error(function (xhr, status, err) {
@@ -370,7 +370,7 @@ $(document).ready(function () {
                     url: url,
                     data: {
                         _token: "{{csrf_token()}}",
-                    } }).success(function (data) {
+                    } }).done(function (data) {
                     toastr['success']('',data[0]);
                     getDocuments($('input#dossier_id').val());
                 }).error(function (xhr, status, err) {

@@ -15,8 +15,8 @@
 
 </head>
 
-<body>
-    <div id="wrapper" id="app">
+<body >
+    <div id="wrapper" >
  
         @if(Auth::check())
             <!-- Section menu -->
@@ -28,7 +28,7 @@
                 <!-- Section header -->
                 @include('layouts.header')
             </div>
-            <div class="row wrapper wrapper-content animated fadeInRight">
+            <div class="row wrapper wrapper-content animated fadeInRight" id="app">
                 @yield('content')
             </div>
             <div class="footer fixed">
