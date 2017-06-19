@@ -12193,7 +12193,7 @@ module.exports = {
             console.log('inStream ......');
             window.localStream = stream;
             $('#localVideo').prop('src', URL.createObjectURL(stream));
-            this.stream = stream;
+            this.stream = URL.createObjectURL(stream);
         }, function (err) {
             console.log(err);
         });
@@ -12207,7 +12207,7 @@ module.exports = {
             this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
-                $('#localVideo').prop('src', URL.createObjectURL(this.stream));
+                $('#localVideo').prop('src', this.stream);
                 var call = this.peer.call(this.soperator, window.localStream);
                 this.wait_stream(call);
             } else {
