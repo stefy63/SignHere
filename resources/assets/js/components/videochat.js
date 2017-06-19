@@ -34,6 +34,7 @@ module.exports = {
             });
 
         peer.on('open', function() {
+            console.log('opened.....');
             $('#call-id').text(peer.id);
         });
 
