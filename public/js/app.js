@@ -12185,7 +12185,7 @@ module.exports = {
             console.log('call from Operator.....');
             this.isRecording = !this.isRecording;
             call.answer(window.localStream);
-            this.wait_stream(call);
+            realthis.wait_stream(call);
         });
 
         navigator.getUserMedia({ audio: true, video: true }, function (stream) {
