@@ -12170,14 +12170,16 @@ module.exports = {
             path: this.spath,
             secure: this.ssecure == true ? true : false
         });
+
         peer.on('open', function () {
-            $('#call-id').text(realthis.peer.id);
+            $('#call-id').text(peer.id);
         });
+
         peer.on('call', function (call) {
             console.log('call from Operator.....');
             this.isRecording = !this.isRecording;
             call.answer(window.localStream);
-            that.wait_stream(call);
+            this.wait_stream(call);
         });
         this.peer = peer;
     },
