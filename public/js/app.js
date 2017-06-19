@@ -12154,7 +12154,8 @@ module.exports = {
         //console.log(this.skey,this.shost,this.sport,this.spath,this.ssecure,this.suser,this.soperator);
         return {
             peer: '',
-            isRecording: false
+            isRecording: false,
+            stream: ''
         };
     },
     template: __webpack_require__(34),
@@ -12186,9 +12187,10 @@ module.exports = {
             call.answer(window.localStream);
             this.wait_stream(call);
         });
+
         navigator.getUserMedia({ audio: true, video: true }, function (stream) {
             console.log('inStream ......');
-            $('#localVideo').prop('src', URL.createObjectURL(stream));
+            this.stream = URL.createObjectURL(stream);
             window.localStream = stream;
         }, function (err) {
             console.log(err);
@@ -12203,6 +12205,7 @@ module.exports = {
             this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
+                $('#localVideo').prop('src', this.stream);
                 var call = this.peer.call(that.soperator, window.localStream);
                 this.wait_stream(call);
             } else {

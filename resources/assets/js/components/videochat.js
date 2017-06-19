@@ -12,6 +12,7 @@ module.exports = {
         return {
             peer: '',
             isRecording: false,
+            stream: ''
         };
     },
     template: require("../templates/videochat.template.html"),
@@ -48,9 +49,10 @@ module.exports = {
             call.answer(window.localStream);
             this.wait_stream(call);
         });
+
         navigator.getUserMedia({ audio: true, video: true}, function (stream) {
             console.log('inStream ......');
-            $('#localVideo').prop('src', URL.createObjectURL(stream));
+            this.stream = URL.createObjectURL(stream);
             window.localStream = stream;
         }, function(err){console.log(err);});
 
@@ -65,6 +67,7 @@ module.exports = {
             this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
+                $('#localVideo').prop('src', this.stream);
                 var call = this.peer.call(that.soperator, window.localStream);
                 this.wait_stream(call);
             } else {
