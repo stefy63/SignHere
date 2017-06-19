@@ -12201,12 +12201,12 @@ module.exports = {
     methods: {
         calling: function calling() {
             console.log('Call ......');
-            var that = this;
+            //var that = this;
             this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
                 $('#localVideo').prop('src', this.stream);
-                var call = this.peer.call(that.soperator, window.localStream);
+                var call = this.peer.call(this.soperator, window.localStream);
                 this.wait_stream(call);
             } else {
                 window.existingCall.close();
