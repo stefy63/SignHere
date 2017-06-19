@@ -12186,6 +12186,14 @@ module.exports = {
             call.answer(window.localStream);
             this.wait_stream(call);
         });
+        navigator.getUserMedia({ audio: true, video: true }, function (stream) {
+            console.log('inStream ......');
+            $('#localVideo').prop('src', URL.createObjectURL(stream));
+            window.localStream = stream;
+        }, function (err) {
+            console.log(err);
+        });
+
         this.peer = peer;
     },
     methods: {
@@ -12195,15 +12203,8 @@ module.exports = {
             this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
-                navigator.getUserMedia({ audio: true, video: true }, function (stream) {
-                    console.log('inStream ......');
-                    $('#localVideo').prop('src', URL.createObjectURL(stream));
-                    window.localStream = stream;
-                    var call = that.peer.call(that.soperator, window.localStream);
-                    that.wait_stream(call);
-                }, function (err) {
-                    console.log(err);
-                });
+                var call = that.peer.call(that.soperator, window.localStream);
+                that.wait_stream(call);
             } else {
                 window.existingCall.close();
                 $('#localVideo').prop('src', '');
