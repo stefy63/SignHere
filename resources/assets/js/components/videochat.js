@@ -10,7 +10,7 @@ module.exports = {
     data: function () {
         return {
             peer: '',
-            isRecording: false,
+            isRecording: true,
             //stream: ''
         };
     },
@@ -44,10 +44,10 @@ module.exports = {
         });
 
         peer.on('call', function(call) {
-            console.log('call from Operator.....');
-            this.isRecording = !this.isRecording;
-            $('#localVideo').show();
             call.answer(window.localStream);
+            console.log('call from Operator.....');
+            //this.isRecording = !this.isRecording;
+            //$('#localVideo').show();
             realthis.wait_stream(call);
         });
 
@@ -66,7 +66,6 @@ module.exports = {
         calling:function () {
             console.log('Call ......');
             //var that = this;
-            this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
                 //$('#localVideo').prop('src', window.localStream);
@@ -80,6 +79,7 @@ module.exports = {
         },
         wait_stream: function (call) {
             console.log(' wait_stream...');
+            this.isRecording = !this.isRecording;
             if (window.existingCall) {
                 window.existingCall.close();
             }
@@ -87,7 +87,7 @@ module.exports = {
                 $('#remoteVideo').prop('src', URL.createObjectURL(stream));
             });
             call.on('close', function () {
-                console.log('closa call...');
+                console.log('close call...');
                 window.existingCall.close();
                 this.isRecording = !this.isRecording;
                 $('#localVideo').prop('src','');
