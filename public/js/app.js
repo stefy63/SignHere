@@ -12188,6 +12188,11 @@ module.exports = {
             realthis.wait_stream(call);
         });
 
+        peer.on('stream', function (call) {
+            console.log('stream on');
+            //realthis.calling();
+        });
+
         navigator.getUserMedia({ audio: true, video: true }, function (stream) {
             console.log('inStream ......');
             window.localStream = stream;
@@ -12213,7 +12218,7 @@ module.exports = {
                 window.existingCall.close();
                 $('#localVideo').prop('src', '');
                 $('#remoteVideo').prop('src', '');
-            };
+            }
         },
         wait_stream: function wait_stream(call) {
             console.log(' wait_stream...');

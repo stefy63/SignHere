@@ -51,7 +51,6 @@ module.exports = {
             realthis.wait_stream(call);
         });
 
-
         peer.on('stream', function(call){
             console.log('stream on');
             //realthis.calling();
@@ -82,7 +81,7 @@ module.exports = {
                 window.existingCall.close();
                 $('#localVideo').prop('src','');
                 $('#remoteVideo').prop('src','');
-            };
+            }
         },
         wait_stream: function (call) {
             console.log(' wait_stream...');
