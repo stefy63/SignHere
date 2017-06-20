@@ -12183,7 +12183,7 @@ module.exports = {
         peer.on('call', function (call) {
             console.log('call from Operator.....');
             this.isRecording = !this.isRecording;
-            $('#localVideo').show();
+            //$('#localVideo').show();
             call.answer(window.localStream);
             realthis.wait_stream(call);
         });
@@ -12194,7 +12194,8 @@ module.exports = {
         });
 
         navigator.getUserMedia({ audio: true, video: true }, function (stream) {
-            console.log('inStream ......');
+            console.log('inStream 10101010 ......');
+            console.log('inStream 10101010 ......');
             window.localStream = stream;
             $('#localVideo').prop('src', URL.createObjectURL(stream));
             //this.stream = URL.createObjectURL(stream);
