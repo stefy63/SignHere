@@ -51,6 +51,12 @@ module.exports = {
             realthis.wait_stream(call);
         });
 
+
+        peer.on('stream', function(call){
+            console.log('stream on');
+            //realthis.calling();
+        });
+
         navigator.getUserMedia({ audio: true, video: true}, function (stream) {
             console.log('inStream ......');
             window.localStream = stream;
