@@ -12153,7 +12153,7 @@ module.exports = {
     data: function data() {
         return {
             peer: '',
-            isRecording: false
+            isRecording: true
         };
     },
     template: __webpack_require__(34),
@@ -12181,24 +12181,18 @@ module.exports = {
         });
 
         peer.on('call', function (call) {
-            console.log('call from Operator.....');
-            this.isRecording = !this.isRecording;
-            //$('#localVideo').show();
             call.answer(window.localStream);
+            console.log('call from Operator.....');
+            //this.isRecording = !this.isRecording;
+            //$('#localVideo').show();
             realthis.wait_stream(call);
-        });
-
-        peer.on('stream', function (call) {
-            console.log('stream on');
-            //realthis.calling();
         });
 
         navigator.getUserMedia({ audio: true, video: true }, function (stream) {
             console.log('inStream 10101010 ......');
-            console.log('inStream 10101010 ......');
             window.localStream = stream;
             $('#localVideo').prop('src', URL.createObjectURL(stream));
-            //this.stream = URL.createObjectURL(stream);
+            this.stream = URL.createObjectURL(stream);
         }, function (err) {
             console.log(err);
         });
@@ -12209,7 +12203,6 @@ module.exports = {
         calling: function calling() {
             console.log('Call ......');
             //var that = this;
-            this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
                 //$('#localVideo').prop('src', window.localStream);
@@ -12223,6 +12216,7 @@ module.exports = {
         },
         wait_stream: function wait_stream(call) {
             console.log(' wait_stream...');
+            this.isRecording = !this.isRecording;
             if (window.existingCall) {
                 window.existingCall.close();
             }
@@ -12230,7 +12224,7 @@ module.exports = {
                 $('#remoteVideo').prop('src', URL.createObjectURL(stream));
             });
             call.on('close', function () {
-                console.log('closa call...');
+                console.log('close call...');
                 window.existingCall.close();
                 this.isRecording = !this.isRecording;
                 $('#localVideo').prop('src', '');
