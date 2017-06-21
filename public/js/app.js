@@ -12222,7 +12222,7 @@ module.exports = {
                 that.wait_stream(call);
             } else {
                 window.existingCall.close();
-                $('#localVideo').prop('src', '');
+                //$('#localVideo').prop('src','');
                 $('#remoteVideo').prop('src', '');
             }
         },
@@ -12242,7 +12242,7 @@ module.exports = {
                 if (this.isRecording) {
                     that.isRecording = !that.isRecording;
                 }
-                $('#localVideo').prop('src', '');
+                //$('#localVideo').prop('src','');
                 $('#remoteVideo').prop('src', '');
             });
             window.existingCall = call;
