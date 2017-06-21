@@ -12168,12 +12168,12 @@ module.exports = {
             host: this.shost,
             port: this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80),
             path: this.spath,
-            secure: this.ssecure == true ? true : false
+            secure: this.ssecure == true ? true : false,
+            config: { 'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }] }
         });
 
         peer.on('open', function () {
             console.log('opened.....' + peer.id);
-            //$('#call-id').text(peer.id);
         });
 
         peer.on('error', function (err) {
@@ -12183,13 +12183,12 @@ module.exports = {
         peer.on('call', function (call) {
             call.answer(window.localStream);
             console.log('call from Operator.....');
-            this.isRecording = !this.isRecording;
-            //$('#localVideo').show();
+            realthis.isRecording = !realthis.isRecording;
             realthis.wait_stream(call);
         });
 
         navigator.getUserMedia({ audio: true, video: true }, function (stream) {
-            console.log('inStream 10101010 ......');
+            console.log('getUserMedia ......');
             window.localStream = stream;
             $('#localVideo').prop('src', URL.createObjectURL(stream));
             this.stream = URL.createObjectURL(stream);
@@ -12206,7 +12205,6 @@ module.exports = {
             this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
-                //$('#localVideo').prop('src', window.localStream);
                 var call = this.peer.call(this.soperator, window.localStream);
                 this.wait_stream(call);
             } else {
@@ -12216,17 +12214,19 @@ module.exports = {
             }
         },
         wait_stream: function wait_stream(call) {
+            var that = this;
             console.log(' wait_stream...');
             if (window.existingCall) {
                 window.existingCall.close();
             }
             call.on('stream', function (stream) {
+                console.log('call in stream...');
                 $('#remoteVideo').prop('src', URL.createObjectURL(stream));
             });
             call.on('close', function () {
                 console.log('close call...');
                 window.existingCall.close();
-                this.isRecording = !this.isRecording;
+                that.isRecording = !that.isRecording;
                 $('#localVideo').prop('src', '');
                 $('#remoteVideo').prop('src', '');
             });
