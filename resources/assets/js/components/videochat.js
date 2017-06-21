@@ -10,8 +10,7 @@ module.exports = {
     data: function () {
         return {
             peer: '',
-            isRecording: false,
-            //stream: ''
+            isRecording: true,
         };
     },
     template: require("../templates/videochat.template.html"),
@@ -77,8 +76,8 @@ module.exports = {
         calling:function () {
             console.log('Call Operator ......');
             var that = this;
-            this.isRecording = !this.isRecording;
             if (this.isRecording) {
+                this.isRecording = !this.isRecording;
                 console.log('isRecording ......');
                 var call = that.peer.call(this.soperator, window.localStream);
                 that.wait_stream(call);

@@ -12153,7 +12153,7 @@ module.exports = {
     data: function data() {
         return {
             peer: '',
-            isRecording: false
+            isRecording: true
         };
     },
     template: __webpack_require__(34),
@@ -12215,8 +12215,8 @@ module.exports = {
         calling: function calling() {
             console.log('Call Operator ......');
             var that = this;
-            this.isRecording = !this.isRecording;
             if (this.isRecording) {
+                this.isRecording = !this.isRecording;
                 console.log('isRecording ......');
                 var call = that.peer.call(this.soperator, window.localStream);
                 that.wait_stream(call);
