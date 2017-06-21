@@ -68,7 +68,6 @@ module.exports = {
             console.log('getUserMedia ......');
             window.localStream = stream;
             $('#localVideo').prop('src',  URL.createObjectURL(stream));
-            this.stream = URL.createObjectURL(stream);
         }, function(err){console.log(err);});
 
         this.peer = peer;
@@ -76,13 +75,13 @@ module.exports = {
     },
     methods:{
         calling:function () {
-            console.log('Call ......');
-            //var that = this;
+            console.log('Call Operator ......');
+            var that = this;
             this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
-                var call = this.peer.call(this.soperator, window.localStream);
-                this.wait_stream(call);
+                var call = that.peer.call(this.soperator, window.localStream);
+                that.wait_stream(call);
             } else {
                 window.existingCall.close();
                 $('#localVideo').prop('src','');
