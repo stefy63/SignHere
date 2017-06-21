@@ -10,7 +10,7 @@ module.exports = {
     data: function () {
         return {
             peer: '',
-            isRecording: true,
+            isRecording: false,
         };
     },
     template: require("../templates/videochat.template.html"),
@@ -76,8 +76,8 @@ module.exports = {
         calling:function () {
             console.log('Call Operator ......');
             var that = this;
+            this.isRecording = !this.isRecording;
             if (this.isRecording) {
-                this.isRecording = !this.isRecording;
                 console.log('isRecording ......');
                 var call = that.peer.call(this.soperator, window.localStream);
                 that.wait_stream(call);
@@ -100,7 +100,9 @@ module.exports = {
             call.on('close', function () {
                 console.log('close call...');
                 window.existingCall.close();
-                that.isRecording = !that.isRecording;
+                if (this.isRecording) {
+                    that.isRecording = !that.isRecording;
+                }
                 $('#localVideo').prop('src','');
                 $('#remoteVideo').prop('src','');
             });
