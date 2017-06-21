@@ -12169,7 +12169,21 @@ module.exports = {
             port: this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80),
             path: this.spath,
             secure: this.ssecure == true ? true : false,
-            config: { 'iceServers': [{ 'url': 'stun:stun.l.google.com:19302' }] }
+            config: {
+                'iceServers': [{
+                    url: 'stun:stun.ekiga.net'
+                }, {
+                    url: 'stun:stun.l.google.com:19302'
+                }, {
+                    url: 'stun:stun1.l.google.com:19302'
+                }, {
+                    url: 'stun:stun2.l.google.com:19302'
+                }, {
+                    url: 'stun:stun3.l.google.com:19302'
+                }, {
+                    url: 'stun:stun4.l.google.com:19302'
+                }]
+            }
         });
 
         peer.on('open', function () {
