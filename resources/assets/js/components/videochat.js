@@ -2,7 +2,9 @@
  * Created by root on 05/06/17.
  */
 var PeerJs = require('../peer.js');
-//var PeerJs = require('peer');
+//var PeerJs = require('peer').ExpressPeerServer;
+var socket = require('socket.io-client');
+
 
 module.exports = {
     props: [
@@ -10,8 +12,32 @@ module.exports = {
     ],
     data: function () {
         return {
-            peer: '',
+            io: socket.connect(this.shost+':9000'),
+            //peer: '',
             isRecording: false,
+            peer: new Peer(this.suser,
+            {
+                key: this.skey,
+                host: this.shost,
+                port: (this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80)),
+                path: this.spath,
+                secure: (this.ssecure == true)?true:false,
+                config:{
+                    'iceServers': [{
+                        url: 'stun:stun.ekiga.net'
+                    }, {
+                        url: 'stun:stun.l.google.com:19302'
+                    }, {
+                        url: 'stun:stun1.l.google.com:19302'
+                    }, {
+                        url: 'stun:stun2.l.google.com:19302'
+                    }, {
+                        url: 'stun:stun3.l.google.com:19302'
+                    }, {
+                        url: 'stun:stun4.l.google.com:19302'
+                    }]
+                }
+            })
         };
     },
     template: require("../templates/videochat.template.html"),
@@ -26,8 +52,7 @@ module.exports = {
 
         var realthis = this;
         var port = (this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80));
-        //var socket = require('socket.io');
-        var peer = new Peer(this.suser,
+        /*var peer = new Peer(this.suser,
             {
                 key: this.skey,
                 host: this.shost,
@@ -49,17 +74,17 @@ module.exports = {
                         url: 'stun:stun4.l.google.com:19302'
                     }]
                 }
-            });
+            });*/
 
-        peer.on('open', function() {
-            console.log('opened.....'+peer.id);
+        this.peer.on('open', function() {
+            console.log('opened.....');
         });
 
-        peer.on('error', function(err) {
+        this.peer.on('error', function(err) {
             console.log(err.message);
         });
 
-        peer.on('call', function(call) {
+        this.peer.on('call', function(call) {
             call.answer(window.localStream);
             console.log('call from Operator.....');
             realthis.isRecording = !realthis.isRecording;
@@ -72,11 +97,32 @@ module.exports = {
             $('#localVideo').prop('src',  URL.createObjectURL(stream));
         }, function(err){console.log(err);});
 
-        this.peer = peer;
+
+        this.io.emit('welcome-message', {userID: this.suser,status:'ready',locations:["10"],userType:"user"});
+
+        this.io.on('no-response-available',function () {
+            console.log('no-response-available......');
+            realthis.calling_old();
+        });
+        this.io.on('new-response-arrived',function () {
+            console.log('new-response-arrived......');
+        });
+        this.io.on('response-check-user-connection',function () {
+            console.log('response-check-user-connection......');
+        });
+
+
+        //this.peer = peer;
 
     },
     methods:{
-        calling:function () {
+        calling: function(){
+            console.log('io.emit...........');
+            this.io.emit('ask-response', {userID: this.suser,status:'ready',locations:["10"],userType:"user"});
+            //this.calling_old();
+        },
+
+        calling_old:function () {
             console.log('Call Operator ......');
             var that = this;
             this.isRecording = !this.isRecording;
