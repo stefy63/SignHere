@@ -4,6 +4,51 @@
 @push('scripts')
 <!-- Spinner -->
 <script src="{{ asset('js/g-spinner.min.js') }}"></script>
+
+<script>
+$(function() {
+
+    var elem = document.querySelector('.js-switch-signed');
+    var switchery = new Switchery(elem, { color: '#1AB394' });
+
+    var elem_2 = document.querySelector('.js-switch-readonly');
+    var switchery_2 = new Switchery(elem_2, { color: '#1AB394' });
+
+    var elem_3 = document.querySelector('.js-switch-active');
+    var switchery_3 = new Switchery(elem_3, { color: '#1AB394' });
+
+
+    $('#date_doc input').datepicker({
+        language: "it",
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: false,
+        autoclose: true
+    });
+
+    $('#toast-form').submit(function (e) {
+        e.preventDefault();
+        $('#showModal').modal({
+            fadeDuration: 1000,
+            escapeClose: false,
+            clickClose: false,
+            showClose: false,
+            backdrop: "static"
+        });
+        var $loader = $("#showModal");
+        $loader.gSpinner();
+        $loader.css({
+            'position': 'absolute',
+            'top' : '20%',
+            'left' : '30%',
+            'zoom' : '2'
+        });
+        this.submit();
+    });
+
+})
+</script>
 @endpush
 @push('assets')
 <!-- Spinner -->
@@ -177,50 +222,5 @@
 </div>
 
 <div id="showModal"></div>
-@push('scripts')
-<script>
-$(function() {
 
-    var elem = document.querySelector('.js-switch-signed');
-    var switchery = new Switchery(elem, { color: '#1AB394' });
-
-    var elem_2 = document.querySelector('.js-switch-readonly');
-    var switchery_2 = new Switchery(elem_2, { color: '#1AB394' });
-
-    var elem_3 = document.querySelector('.js-switch-active');
-    var switchery_3 = new Switchery(elem_3, { color: '#1AB394' });
-
-
-     $('#date_doc input').datepicker({
-        language: "it",
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        calendarWeeks: false,
-        autoclose: true
-    });
-
-     $('#toast-form').submit(function (e) {
-        e.preventDefault();
-        $('#showModal').modal({
-            fadeDuration: 1000,
-            escapeClose: false,
-            clickClose: false,
-            showClose: false,
-            backdrop: "static"
-        });
-        var $loader = $("#showModal");
-        $loader.gSpinner();
-        $loader.css({
-            'position': 'absolute',
-            'top' : '20%',
-            'left' : '30%',
-            'zoom' : '2'
-     });
-        this.submit();
-     });
-
-})
-</script>
-@endpush
 @endsection

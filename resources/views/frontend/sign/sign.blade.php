@@ -86,17 +86,20 @@ $(function () {
         $('.i-checks input').iCheck({
             checkboxClass: 'icheckbox_square-green',
         });
-        $('.i-checks input').on('ifChecked ifUnchecked', function(event) {
+        /*$('.i-checks input').on('ifChecked ifUnchecked', function(event) {
             console.log(event.type);
             if (event.type == 'ifChecked') {
-                $('#chkAuth').prop("checked",true);
+                //$('#chkAuth').prop("checked",true);
             } else {
-                $('#chkAuth').prop("checked",false);
+                //$('#chkAuth').prop("checked",false);
             }
-        });
+        });*/
         //// event click ////
         $('#Sig-Reset').bind('click', function(e) {
             e.stopPropagation();
+            $('#Sig-Save').unbind('click');
+            $('#Sig-Reset').unbind('click');
+            $('.i-checks input').iCheck('destroy');
             $('#showModal').modal('hide');
         });
         $('#Sig-Save').bind('click', function(e){
@@ -128,6 +131,9 @@ $(function () {
             });
             $('#Sig-Reset').bind('click', function(e) {
                 e.stopPropagation();
+                $('#Sig-Save').unbind('click');
+                $('#Sig-Reset').unbind('click');
+                $('.i-checks input').iCheck('destroy');
                 $('#showModal').modal('hide');
             });
             $('#Sig-Save').bind('click', function(e){
@@ -144,6 +150,7 @@ $(function () {
                 $('#questions').val(JSON.stringify(responseQuestions));
                 toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_sign_optional')}}");
                 //$('#showModal').modal('toggle');
+                $('#Sig-Reset').unbind('click');
                 $('#Sig-Save').unbind('click');
                 $('.i-checks input').iCheck('destroy');
                 console.log('Fine');
@@ -180,6 +187,9 @@ $(function () {
                 });
                 $('#Sig-Reset').bind('click', function(e) {
                     e.stopPropagation();
+                    $('#Sig-Save').unbind('click');
+                    $('#Sig-Reset').unbind('click');
+                    $('.i-checks input').iCheck('destroy');
                     $('#showModal').modal('hide');
                 });
                 $('#Sig-Save').bind('click', function(e){
@@ -218,9 +228,7 @@ $(function () {
         var imgSrcData;
         $('#Sig-Reset').bind('click', function(e) {
             e.stopPropagation();
-            //$sigdiv.jSignature('reset');
-
-            $sigdiv.clear();
+            $sigdiv.jSignature('clear');
         });
         $('#Sig-Save').bind('click', function(e){
             e.stopPropagation();
@@ -231,6 +239,7 @@ $(function () {
             $('#Sig-Reset').unbind('click');
             $('#Sig-Save').unbind('click');
             $('#showModal').modal('hide');
+            $sigdiv.jSignature("destroy");
         });
         //$('#signature canvas').css('height','100%');
 
@@ -815,8 +824,9 @@ window.onresize = resizeCanvas;
                             sport='{{env('VUE_CHAT_PORT')}}'
                             spath='{{env('VUE_CHAT_PATH')}}'
                             ssecure='{{env('VUE_CHAT_SECURE')}}'
-                            suser='{{$user}}'
+                            suser='{{$user->id}}'
                             soperator='{{$operator}}'
+                            slocation='{{$location}}'
                             >
                         </videochat>
                     </div>

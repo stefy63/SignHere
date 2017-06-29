@@ -13,7 +13,8 @@
 
 Route::get('/', function () {
      if(Auth::check())
-        return view('home');
+        //return view('home');
+        return redirect('home');
     else
         return view('welcome');
 
@@ -24,9 +25,10 @@ Route::get('logout',  array('as' => 'logout',function (){
      if(Auth::check()) {
          Auth::logout();
          return view('welcome');
-     }
-    else
-        return view('welcome');
+     } else {
+         return view('welcome');
+    }
+
 }))->middleware('ForceSecure');
 
 //Route::get('logout', 'Auth\LoginController@logout')->name('logout');

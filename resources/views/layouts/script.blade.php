@@ -21,7 +21,6 @@
 <!-- Data picker -->
 <script src="{{ asset('js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 
-@stack('scripts')
 
 <script>
 $(function () {
@@ -166,3 +165,6 @@ $(function () {
 })
 
 </script>
+
+
+@stack('scripts')

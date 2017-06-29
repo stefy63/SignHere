@@ -12147,9 +12147,10 @@ module.exports = function spread(callback) {
  * Created by root on 05/06/17.
  */
 var PeerJs = __webpack_require__(32);
+//var PeerJs = require('peer');
 
 module.exports = {
-    props: ['skey', 'shost', 'sport', 'spath', 'ssecure', 'suser', 'soperator'],
+    props: ['skey', 'shost', 'sport', 'spath', 'ssecure', 'suser', 'soperator', 'slocation'],
     data: function data() {
         return {
             peer: '',
@@ -12159,14 +12160,16 @@ module.exports = {
     template: __webpack_require__(34),
     created: function created() {
         console.log('created.....');
-        //console.log(this.skey,this.shost,this.sport,this.spath,this.ssecure,this.suser,this.soperator);
+        console.log(this.skey, this.shost, this.sport, this.spath, this.ssecure, this.suser, this.soperator, this.slocation);
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia || navigator.msGetUserMedia;
 
         var realthis = this;
+        var port = this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80);
+        //var socket = require('socket.io');
         var peer = new Peer(this.suser, {
             key: this.skey,
             host: this.shost,
-            port: this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80),
+            port: port,
             path: this.spath,
             secure: this.ssecure == true ? true : false,
             config: {
@@ -12222,7 +12225,7 @@ module.exports = {
                 that.wait_stream(call);
             } else {
                 window.existingCall.close();
-                //$('#localVideo').prop('src','');
+                $('#localVideo').prop('src', '');
                 $('#remoteVideo').prop('src', '');
             }
         },
@@ -12239,7 +12242,7 @@ module.exports = {
             call.on('close', function () {
                 console.log('close call...');
                 window.existingCall.close();
-                if (this.isRecording) {
+                if (that.isRecording) {
                     that.isRecording = !that.isRecording;
                 }
                 //$('#localVideo').prop('src','');

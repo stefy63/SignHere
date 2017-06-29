@@ -38,7 +38,7 @@
                                 @foreach($modules as $module)
                                     <div id="mod-{{$module->id}}" class="tab-pane @if($module->id == 1) active @endif">
                                         <div class="panel-body">
-                                            <p class="text-center"><span>Elenco funzioni</span></p><br>
+                                            <p class="text-center"><span>{{__('admin_profiles.create-title-panel')}}</span></p><br>
                                             @php
                                                 $functions = explode(',',$module->functions);
                                             @endphp

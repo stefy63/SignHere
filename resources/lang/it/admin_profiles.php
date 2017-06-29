@@ -63,7 +63,7 @@ return [
     'btn-destroy' => 'Cancella',
     'btn-submit' => 'Aggiorna',
     'btn-create' => 'Inserisci',
-    '' => '',
+    'create-title-panel' => 'Elenco funzioni',
     '' => '',
     '' => '',
     '' => '',

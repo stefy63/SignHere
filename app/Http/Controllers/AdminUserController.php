@@ -45,9 +45,11 @@ class AdminUserController extends Controller
     public function create()
     {
         $profiles = Acl::getMyProfiles()->get();
+        $locations = Acl::getMyLocations()->get();
 
         return view('admin.users.create',[
                 'profiles' => $profiles,
+                'locations'=> $locations
             ]);
     }
 
