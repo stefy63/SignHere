@@ -37,7 +37,7 @@ class SendDocument extends Mailable
         $username = ($this->brand->smtp_username)?$this->brand->smtp_username:config('mail.username');
         $password = ($this->brand->smtp_password)?$this->brand->smtp_password:config('mail.password');
         $encryption = config('mail.encryption');
-        if(!$encryption) {
+        /*if(!$encryption) {
             switch ($port){
                 case 25:
                     $encryption = null;
@@ -51,7 +51,7 @@ class SendDocument extends Mailable
                 default:
                     $encryption = null;
             }
-        }
+        }*/
 
 
         $transport = SmtpTransport::newInstance( $host, $port);
