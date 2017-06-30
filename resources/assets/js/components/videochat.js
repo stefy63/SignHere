@@ -11,15 +11,12 @@ module.exports = {
         'skey','shost','sport','spath','ssecure','suser','soperator','slocation'
     ],
     data: function () {
-        return {
-            io: socket.connect(this.shost+':9000'),
-            //peer: '',
-            isRecording: false,
-            peer: new Peer(this.suser,
+        var realport = (this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80));
+        var video = new Peer(this.suser,
             {
                 key: this.skey,
                 host: this.shost,
-                port: (this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80)),
+                port: realport,
                 path: this.spath,
                 secure: (this.ssecure == true)?true:false,
                 config:{
@@ -37,7 +34,11 @@ module.exports = {
                         url: 'stun:stun4.l.google.com:19302'
                     }]
                 }
-            })
+            });
+        return {
+            io: socket.connect(this.shost+':'+realport),
+            peer: video,
+            isRecording: false,
         };
     },
     template: require("../templates/videochat.template.html"),
@@ -51,30 +52,6 @@ module.exports = {
             navigator.msGetUserMedia;
 
         var realthis = this;
-        var port = (this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80));
-        /*var peer = new Peer(this.suser,
-            {
-                key: this.skey,
-                host: this.shost,
-                port: port,
-                path: this.spath,
-                secure: (this.ssecure == true)?true:false,
-                config:{
-                    'iceServers': [{
-                        url: 'stun:stun.ekiga.net'
-                    }, {
-                        url: 'stun:stun.l.google.com:19302'
-                    }, {
-                        url: 'stun:stun1.l.google.com:19302'
-                    }, {
-                        url: 'stun:stun2.l.google.com:19302'
-                    }, {
-                        url: 'stun:stun3.l.google.com:19302'
-                    }, {
-                        url: 'stun:stun4.l.google.com:19302'
-                    }]
-                }
-            });*/
 
         this.peer.on('open', function() {
             console.log('opened.....');
@@ -102,7 +79,7 @@ module.exports = {
 
         this.io.on('no-response-available',function () {
             console.log('no-response-available......');
-            realthis.calling_old();
+            //realthis.calling_old();
         });
         this.io.on('new-response-arrived',function () {
             console.log('new-response-arrived......');
@@ -112,17 +89,15 @@ module.exports = {
         });
 
 
-        //this.peer = peer;
-
     },
     methods:{
-        calling: function(){
+        calling_new: function(){
             console.log('io.emit...........');
             this.io.emit('ask-response', {userID: this.suser,status:'ready',locations:["10"],userType:"user"});
             //this.calling_old();
         },
 
-        calling_old:function () {
+        calling:function () {
             console.log('Call Operator ......');
             var that = this;
             this.isRecording = !this.isRecording;

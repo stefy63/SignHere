@@ -36,18 +36,21 @@ class SendDocument extends Mailable
         $port = ($this->brand->smtp_port)?$this->brand->smtp_port:config('mail.port');
         $username = ($this->brand->smtp_username)?$this->brand->smtp_username:config('mail.username');
         $password = ($this->brand->smtp_password)?$this->brand->smtp_password:config('mail.password');
-        switch ($port){
-            case 25:
-                $encryption = null;
-                break;
-            case 465:
-                $encryption = 'ssl';
-                break;
-            case (587 || 2525):
-                $encryption = 'tls';
-                break;
-            default:
-                $encryption = config('mail.encryption');
+        $encryption = config('mail.encryption');
+        if(!$encryption) {
+            switch ($port){
+                case 25:
+                    $encryption = null;
+                    break;
+                case 465:
+                    $encryption = 'ssl';
+                    break;
+                case (587):
+                    $encryption = 'tls';
+                    break;
+                default:
+                    $encryption = null;
+            }
         }
 
 

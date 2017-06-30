@@ -228,8 +228,9 @@ $(function () {
                     $('#tr-client tbody').empty();
                     data[0].forEach(function(k){
                         //console.log(k);
-                        $('#tr-client').append('<tr id="'+k['id']+'"><td class="tab-client"><i class="fa fa-user"></i>&nbsp;&nbsp;'+k['name']+
-                            '<a href="{{ url('admin_clients/')}}'+'/'+k['id']+'/edit"><i class="fa fa-pencil pull-right"></i></a></td></tr>');
+                        $('#tr-client').append('<tr class="tab-client" id="'+k['id']+'">' +
+                            '<td><i class="fa fa-user"></i>&nbsp;&nbsp;'+k['name']+' '+k['surname']+
+                            '<a  data-url="{{ url('admin_clients/')}}'+'/'+k['id']+'/edit" class="href"><i class="fa fa-pencil pull-right"></i></a></td></tr>');
                     });
 
             });
