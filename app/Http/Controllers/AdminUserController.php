@@ -45,7 +45,7 @@ class AdminUserController extends Controller
     public function create()
     {
         $profiles = Acl::getMyProfiles()->get();
-        $locations = Acl::getMyLocations()->get();
+        $locations = Acl::getMyLocations()->where('active',true)->get();
 
         return view('admin.users.create',[
                 'profiles' => $profiles,
@@ -63,15 +63,25 @@ class AdminUserController extends Controller
     {
 
         $this->validate($request,User::$rules);
-
         $user = new User();
-        $user->fill($request->all());
-        $user->active = isset($request->active) ? 1 : 0;
-        $user->api_token = str_random(60);
-        $user->user_id = \Auth::user()->id;
-        $user->password = bcrypt($request->password);
-        $user->save();
-        $user->acls()->sync(Auth::user()->getMyRoot());
+        try{
+            if ($locations = $request->locations){
+                $user->fill($request->except('locations'));
+            } else {
+                $user->fill($request->all());
+            }
+            $user->active = isset($request->active) ? 1 : 0;
+            $user->api_token = str_random(60);
+            $user->user_id = \Auth::user()->id;
+            $user->password = bcrypt($request->password);
+            $user->save();
+            $user->acls()->sync(Auth::user()->getMyRoot());
+            if($locations){
+                $user->locations()->sync($locations);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('alert', $e->getMessage());
+        }
 
         return redirect()->back()->with('success', __('admin_users.success_user_create'));
     }
@@ -97,10 +107,13 @@ class AdminUserController extends Controller
     {
         if($user = User::find($id)) {
             $profiles = Acl::getMyProfiles()->get();
+            $locations = Acl::getMyLocations()->where('active',true)->get();
+
 
             return view('admin.users.edit',[
                 'user' => $user,
                 'profiles' => $profiles,
+                'locations'=> $locations,
             ]);
         }
 
@@ -126,14 +139,25 @@ class AdminUserController extends Controller
                     return response()->json(['warning' => __('admin_users.warning_user_NOTupdated')]);
                 }
             }
-             Validator::make($request->all(),['username'=>['required',Rule::unique('users')->ignore($id)],'email'=>['required',Rule::unique('users')->ignore($id)]])->validate();
-             $user->fill($request->all());
-             $user->active = ($id == 1)? 1 :isset($request->active) ? 1 : 0;
-             $user->user_id = \Auth::user()->id;
-             $user->profile_id = $request->profile_id;
-             $user->save();
+            Validator::make($request->all(),['username'=>['required',Rule::unique('users')->ignore($id)],'email'=>['required',Rule::unique('users')->ignore($id)]])->validate();
 
-             return redirect()->back()->with('success', __('admin_users.success_user_updated'));
+            try{
+                if ($locations = $request->locations){
+                    $user->fill($request->except('locations'));
+                } else {
+                    $user->fill($request->all());
+                }
+                 $user->active = ($id == 1)? 1 :isset($request->active) ? 1 : 0;
+                 $user->user_id = \Auth::user()->id;
+                 $user->profile_id = $request->profile_id;
+                 $user->save();
+                 if($locations){
+                    $user->locations()->sync($locations);
+                 }
+            } catch (\Exception $e) {
+                return redirect()->back()->with('alert', $e->getMessage());
+            }
+            return redirect()->back()->with('success', __('admin_users.success_user_updated'));
         }
 
         return redirect()->back()->with('warning', __('admin_users.warning_user_NOTupdated'));
@@ -152,6 +176,8 @@ class AdminUserController extends Controller
             $user->acls()->detach();
             $user->modules()->detach();
             $user->devices()->detach();
+            $user->locations()->detach();
+            $user->locations()->detach();
             $user->delete();
 
             return redirect()->back()->with('success', __('admin_users.success_user_destroy'));

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 92);
+/******/ 	return __webpack_require__(__webpack_require__.s = 94);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -407,15 +407,15 @@ module.exports = {
  * Module dependencies.
  */
 
-var keys = __webpack_require__(69);
-var hasBinary = __webpack_require__(70);
-var sliceBuffer = __webpack_require__(36);
-var after = __webpack_require__(35);
-var utf8 = __webpack_require__(90);
+var keys = __webpack_require__(71);
+var hasBinary = __webpack_require__(72);
+var sliceBuffer = __webpack_require__(38);
+var after = __webpack_require__(37);
+var utf8 = __webpack_require__(92);
 
 var base64encoder;
 if (global && global.ArrayBuffer) {
-  base64encoder = __webpack_require__(58);
+  base64encoder = __webpack_require__(60);
 }
 
 /**
@@ -473,7 +473,7 @@ var err = { type: 'error', data: 'parser error' };
  * Create a blob api even for blob builder when vendor prefixes exist
  */
 
-var Blob = __webpack_require__(59);
+var Blob = __webpack_require__(61);
 
 /**
  * Encodes a packet.
@@ -1224,7 +1224,7 @@ module.exports = function(a, b){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(68);
+exports = module.exports = __webpack_require__(70);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -1408,7 +1408,7 @@ function localstorage(){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(81);
+exports = module.exports = __webpack_require__(83);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -1589,7 +1589,7 @@ function localstorage(){
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(1);
-var normalizeHeaderName = __webpack_require__(52);
+var normalizeHeaderName = __webpack_require__(54);
 
 var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 var DEFAULT_CONTENT_TYPE = {
@@ -1851,7 +1851,7 @@ Transport.prototype.onClose = function () {
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
 
-var hasCORS = __webpack_require__(74);
+var hasCORS = __webpack_require__(76);
 
 module.exports = function (opts) {
   var xdomain = opts.xdomain;
@@ -12370,11 +12370,11 @@ exports.decode = function(qs){
  * Module dependencies.
  */
 
-var debug = __webpack_require__(83)('socket.io-parser');
-var json = __webpack_require__(76);
-var Emitter = __webpack_require__(61);
-var binary = __webpack_require__(82);
-var isBuf = __webpack_require__(31);
+var debug = __webpack_require__(85)('socket.io-parser');
+var json = __webpack_require__(79);
+var Emitter = __webpack_require__(63);
+var binary = __webpack_require__(84);
+var isBuf = __webpack_require__(33);
 
 /**
  * Protocol version.
@@ -12804,7 +12804,7 @@ module.exports = function(module) {
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
-window._ = __webpack_require__(77);
+window._ = __webpack_require__(80);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -12815,7 +12815,7 @@ window._ = __webpack_require__(77);
 //window.$ = window.jQuery = require('jquery');
 global.$ = global.jQuery = __webpack_require__(11);
 
-__webpack_require__(60);
+__webpack_require__(62);
 
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces
@@ -12823,7 +12823,7 @@ __webpack_require__(60);
  * and simple, leaving you to focus on building your next great project.
  */
 
-window.Vue = __webpack_require__(88);
+window.Vue = __webpack_require__(90);
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -12831,7 +12831,7 @@ window.Vue = __webpack_require__(88);
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = __webpack_require__(37);
+window.axios = __webpack_require__(39);
 
 window.axios.defaults.headers.common = {
   'X-CSRF-TOKEN': window.Laravel.csrfToken,
@@ -12862,12 +12862,12 @@ window.axios.defaults.headers.common = {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(1);
-var settle = __webpack_require__(44);
-var buildURL = __webpack_require__(47);
-var parseHeaders = __webpack_require__(53);
-var isURLSameOrigin = __webpack_require__(51);
+var settle = __webpack_require__(46);
+var buildURL = __webpack_require__(49);
+var parseHeaders = __webpack_require__(55);
+var isURLSameOrigin = __webpack_require__(53);
 var createError = __webpack_require__(19);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(46);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(48);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -12963,7 +12963,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(49);
+      var cookies = __webpack_require__(51);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -13084,7 +13084,7 @@ module.exports = function isCancel(value) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(43);
+var enhanceError = __webpack_require__(45);
 
 /**
  * Create an Error with the specified message, config, error code, and response.
@@ -13121,2922 +13121,6 @@ module.exports = function bind(fn, thisArg) {
 
 /***/ }),
 /* 21 */
-/***/ (function(module, exports) {
-
-/**
- * Slice reference.
- */
-
-var slice = [].slice;
-
-/**
- * Bind `obj` to `fn`.
- *
- * @param {Object} obj
- * @param {Function|String} fn or string
- * @return {Function}
- * @api public
- */
-
-module.exports = function(obj, fn){
-  if ('string' == typeof fn) fn = obj[fn];
-  if ('function' != typeof fn) throw new Error('bind() requires a function');
-  var args = slice.call(arguments, 2);
-  return function(){
-    return fn.apply(obj, args.concat(slice.call(arguments)));
-  }
-};
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {/**
- * Module dependencies
- */
-
-var XMLHttpRequest = __webpack_require__(9);
-var XHR = __webpack_require__(66);
-var JSONP = __webpack_require__(65);
-var websocket = __webpack_require__(67);
-
-/**
- * Export transports.
- */
-
-exports.polling = polling;
-exports.websocket = websocket;
-
-/**
- * Polling transport polymorphic constructor.
- * Decides on xhr vs jsonp based on feature detection.
- *
- * @api private
- */
-
-function polling (opts) {
-  var xhr;
-  var xd = false;
-  var xs = false;
-  var jsonp = false !== opts.jsonp;
-
-  if (global.location) {
-    var isSSL = 'https:' === location.protocol;
-    var port = location.port;
-
-    // some user agents have empty `location.port`
-    if (!port) {
-      port = isSSL ? 443 : 80;
-    }
-
-    xd = opts.hostname !== location.hostname || port !== opts.port;
-    xs = opts.secure !== isSSL;
-  }
-
-  opts.xdomain = xd;
-  opts.xscheme = xs;
-  xhr = new XMLHttpRequest(opts);
-
-  if ('open' in xhr && !opts.forceJSONP) {
-    return new XHR(opts);
-  } else {
-    if (!jsonp) throw new Error('JSONP disabled');
-    return new JSONP(opts);
-  }
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/**
- * Module dependencies.
- */
-
-var Transport = __webpack_require__(8);
-var parseqs = __webpack_require__(12);
-var parser = __webpack_require__(2);
-var inherit = __webpack_require__(4);
-var yeast = __webpack_require__(32);
-var debug = __webpack_require__(5)('engine.io-client:polling');
-
-/**
- * Module exports.
- */
-
-module.exports = Polling;
-
-/**
- * Is XHR2 supported?
- */
-
-var hasXHR2 = (function () {
-  var XMLHttpRequest = __webpack_require__(9);
-  var xhr = new XMLHttpRequest({ xdomain: false });
-  return null != xhr.responseType;
-})();
-
-/**
- * Polling interface.
- *
- * @param {Object} opts
- * @api private
- */
-
-function Polling (opts) {
-  var forceBase64 = (opts && opts.forceBase64);
-  if (!hasXHR2 || forceBase64) {
-    this.supportsBinary = false;
-  }
-  Transport.call(this, opts);
-}
-
-/**
- * Inherits from Transport.
- */
-
-inherit(Polling, Transport);
-
-/**
- * Transport name.
- */
-
-Polling.prototype.name = 'polling';
-
-/**
- * Opens the socket (triggers polling). We write a PING message to determine
- * when the transport is open.
- *
- * @api private
- */
-
-Polling.prototype.doOpen = function () {
-  this.poll();
-};
-
-/**
- * Pauses polling.
- *
- * @param {Function} callback upon buffers are flushed and transport is paused
- * @api private
- */
-
-Polling.prototype.pause = function (onPause) {
-  var self = this;
-
-  this.readyState = 'pausing';
-
-  function pause () {
-    debug('paused');
-    self.readyState = 'paused';
-    onPause();
-  }
-
-  if (this.polling || !this.writable) {
-    var total = 0;
-
-    if (this.polling) {
-      debug('we are currently polling - waiting to pause');
-      total++;
-      this.once('pollComplete', function () {
-        debug('pre-pause polling complete');
-        --total || pause();
-      });
-    }
-
-    if (!this.writable) {
-      debug('we are currently writing - waiting to pause');
-      total++;
-      this.once('drain', function () {
-        debug('pre-pause writing complete');
-        --total || pause();
-      });
-    }
-  } else {
-    pause();
-  }
-};
-
-/**
- * Starts polling cycle.
- *
- * @api public
- */
-
-Polling.prototype.poll = function () {
-  debug('polling');
-  this.polling = true;
-  this.doPoll();
-  this.emit('poll');
-};
-
-/**
- * Overloads onData to detect payloads.
- *
- * @api private
- */
-
-Polling.prototype.onData = function (data) {
-  var self = this;
-  debug('polling got data %s', data);
-  var callback = function (packet, index, total) {
-    // if its the first message we consider the transport open
-    if ('opening' === self.readyState) {
-      self.onOpen();
-    }
-
-    // if its a close packet, we close the ongoing requests
-    if ('close' === packet.type) {
-      self.onClose();
-      return false;
-    }
-
-    // otherwise bypass onData and handle the message
-    self.onPacket(packet);
-  };
-
-  // decode payload
-  parser.decodePayload(data, this.socket.binaryType, callback);
-
-  // if an event did not trigger closing
-  if ('closed' !== this.readyState) {
-    // if we got data we're not polling
-    this.polling = false;
-    this.emit('pollComplete');
-
-    if ('open' === this.readyState) {
-      this.poll();
-    } else {
-      debug('ignoring poll - transport state "%s"', this.readyState);
-    }
-  }
-};
-
-/**
- * For polling, send a close packet.
- *
- * @api private
- */
-
-Polling.prototype.doClose = function () {
-  var self = this;
-
-  function close () {
-    debug('writing close packet');
-    self.write([{ type: 'close' }]);
-  }
-
-  if ('open' === this.readyState) {
-    debug('transport open - closing');
-    close();
-  } else {
-    // in case we're trying to close while
-    // handshaking is in progress (GH-164)
-    debug('transport not open - deferring close');
-    this.once('open', close);
-  }
-};
-
-/**
- * Writes a packets payload.
- *
- * @param {Array} data packets
- * @param {Function} drain callback
- * @api private
- */
-
-Polling.prototype.write = function (packets) {
-  var self = this;
-  this.writable = false;
-  var callbackfn = function () {
-    self.writable = true;
-    self.emit('drain');
-  };
-
-  parser.encodePayload(packets, this.supportsBinary, function (data) {
-    self.doWrite(data, callbackfn);
-  });
-};
-
-/**
- * Generates uri for connection.
- *
- * @api private
- */
-
-Polling.prototype.uri = function () {
-  var query = this.query || {};
-  var schema = this.secure ? 'https' : 'http';
-  var port = '';
-
-  // cache busting is forced
-  if (false !== this.timestampRequests) {
-    query[this.timestampParam] = yeast();
-  }
-
-  if (!this.supportsBinary && !query.sid) {
-    query.b64 = 1;
-  }
-
-  query = parseqs.encode(query);
-
-  // avoid port if default for schema
-  if (this.port && (('https' === schema && Number(this.port) !== 443) ||
-     ('http' === schema && Number(this.port) !== 80))) {
-    port = ':' + this.port;
-  }
-
-  // prepend ? to query
-  if (query.length) {
-    query = '?' + query;
-  }
-
-  var ipv6 = this.hostname.indexOf(':') !== -1;
-  return schema + '://' + (ipv6 ? '[' + this.hostname + ']' : this.hostname) + port + this.path + query;
-};
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports) {
-
-
-var indexOf = [].indexOf;
-
-module.exports = function(arr, obj){
-  if (indexOf) return arr.indexOf(obj);
-  for (var i = 0; i < arr.length; ++i) {
-    if (arr[i] === obj) return i;
-  }
-  return -1;
-};
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports) {
-
-/**
- * Helpers.
- */
-
-var s = 1000
-var m = s * 60
-var h = m * 60
-var d = h * 24
-var y = d * 365.25
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} options
- * @throws {Error} throw an error if val is not a non-empty string or a number
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function (val, options) {
-  options = options || {}
-  var type = typeof val
-  if (type === 'string' && val.length > 0) {
-    return parse(val)
-  } else if (type === 'number' && isNaN(val) === false) {
-    return options.long ?
-			fmtLong(val) :
-			fmtShort(val)
-  }
-  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
-}
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = String(str)
-  if (str.length > 10000) {
-    return
-  }
-  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str)
-  if (!match) {
-    return
-  }
-  var n = parseFloat(match[1])
-  var type = (match[2] || 'ms').toLowerCase()
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n
-    default:
-      return undefined
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtShort(ms) {
-  if (ms >= d) {
-    return Math.round(ms / d) + 'd'
-  }
-  if (ms >= h) {
-    return Math.round(ms / h) + 'h'
-  }
-  if (ms >= m) {
-    return Math.round(ms / m) + 'm'
-  }
-  if (ms >= s) {
-    return Math.round(ms / s) + 's'
-  }
-  return ms + 'ms'
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function fmtLong(ms) {
-  return plural(ms, d, 'day') ||
-    plural(ms, h, 'hour') ||
-    plural(ms, m, 'minute') ||
-    plural(ms, s, 'second') ||
-    ms + ' ms'
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, n, name) {
-  if (ms < n) {
-    return
-  }
-  if (ms < n * 1.5) {
-    return Math.floor(ms / n) + ' ' + name
-  }
-  return Math.ceil(ms / n) + ' ' + name + 's'
-}
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports) {
-
-/**
- * Parses an URI
- *
- * @author Steven Levithan <stevenlevithan.com> (MIT license)
- * @api private
- */
-
-var re = /^(?:(?![^:@]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/;
-
-var parts = [
-    'source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor'
-];
-
-module.exports = function parseuri(str) {
-    var src = str,
-        b = str.indexOf('['),
-        e = str.indexOf(']');
-
-    if (b != -1 && e != -1) {
-        str = str.substring(0, b) + str.substring(b, e).replace(/:/g, ';') + str.substring(e, str.length);
-    }
-
-    var m = re.exec(str || ''),
-        uri = {},
-        i = 14;
-
-    while (i--) {
-        uri[parts[i]] = m[i] || '';
-    }
-
-    if (b != -1 && e != -1) {
-        uri.source = src;
-        uri.host = uri.host.substring(1, uri.host.length - 1).replace(/;/g, ':');
-        uri.authority = uri.authority.replace('[', '').replace(']', '').replace(/;/g, ':');
-        uri.ipv6uri = true;
-    }
-
-    return uri;
-};
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * Module dependencies.
- */
-
-var eio = __webpack_require__(62);
-var Socket = __webpack_require__(29);
-var Emitter = __webpack_require__(30);
-var parser = __webpack_require__(13);
-var on = __webpack_require__(28);
-var bind = __webpack_require__(21);
-var debug = __webpack_require__(6)('socket.io-client:manager');
-var indexOf = __webpack_require__(24);
-var Backoff = __webpack_require__(57);
-
-/**
- * IE6+ hasOwnProperty
- */
-
-var has = Object.prototype.hasOwnProperty;
-
-/**
- * Module exports
- */
-
-module.exports = Manager;
-
-/**
- * `Manager` constructor.
- *
- * @param {String} engine instance or engine uri/opts
- * @param {Object} options
- * @api public
- */
-
-function Manager (uri, opts) {
-  if (!(this instanceof Manager)) return new Manager(uri, opts);
-  if (uri && ('object' === typeof uri)) {
-    opts = uri;
-    uri = undefined;
-  }
-  opts = opts || {};
-
-  opts.path = opts.path || '/socket.io';
-  this.nsps = {};
-  this.subs = [];
-  this.opts = opts;
-  this.reconnection(opts.reconnection !== false);
-  this.reconnectionAttempts(opts.reconnectionAttempts || Infinity);
-  this.reconnectionDelay(opts.reconnectionDelay || 1000);
-  this.reconnectionDelayMax(opts.reconnectionDelayMax || 5000);
-  this.randomizationFactor(opts.randomizationFactor || 0.5);
-  this.backoff = new Backoff({
-    min: this.reconnectionDelay(),
-    max: this.reconnectionDelayMax(),
-    jitter: this.randomizationFactor()
-  });
-  this.timeout(null == opts.timeout ? 20000 : opts.timeout);
-  this.readyState = 'closed';
-  this.uri = uri;
-  this.connecting = [];
-  this.lastPing = null;
-  this.encoding = false;
-  this.packetBuffer = [];
-  this.encoder = new parser.Encoder();
-  this.decoder = new parser.Decoder();
-  this.autoConnect = opts.autoConnect !== false;
-  if (this.autoConnect) this.open();
-}
-
-/**
- * Propagate given event to sockets and emit on `this`
- *
- * @api private
- */
-
-Manager.prototype.emitAll = function () {
-  this.emit.apply(this, arguments);
-  for (var nsp in this.nsps) {
-    if (has.call(this.nsps, nsp)) {
-      this.nsps[nsp].emit.apply(this.nsps[nsp], arguments);
-    }
-  }
-};
-
-/**
- * Update `socket.id` of all sockets
- *
- * @api private
- */
-
-Manager.prototype.updateSocketIds = function () {
-  for (var nsp in this.nsps) {
-    if (has.call(this.nsps, nsp)) {
-      this.nsps[nsp].id = this.engine.id;
-    }
-  }
-};
-
-/**
- * Mix in `Emitter`.
- */
-
-Emitter(Manager.prototype);
-
-/**
- * Sets the `reconnection` config.
- *
- * @param {Boolean} true/false if it should automatically reconnect
- * @return {Manager} self or value
- * @api public
- */
-
-Manager.prototype.reconnection = function (v) {
-  if (!arguments.length) return this._reconnection;
-  this._reconnection = !!v;
-  return this;
-};
-
-/**
- * Sets the reconnection attempts config.
- *
- * @param {Number} max reconnection attempts before giving up
- * @return {Manager} self or value
- * @api public
- */
-
-Manager.prototype.reconnectionAttempts = function (v) {
-  if (!arguments.length) return this._reconnectionAttempts;
-  this._reconnectionAttempts = v;
-  return this;
-};
-
-/**
- * Sets the delay between reconnections.
- *
- * @param {Number} delay
- * @return {Manager} self or value
- * @api public
- */
-
-Manager.prototype.reconnectionDelay = function (v) {
-  if (!arguments.length) return this._reconnectionDelay;
-  this._reconnectionDelay = v;
-  this.backoff && this.backoff.setMin(v);
-  return this;
-};
-
-Manager.prototype.randomizationFactor = function (v) {
-  if (!arguments.length) return this._randomizationFactor;
-  this._randomizationFactor = v;
-  this.backoff && this.backoff.setJitter(v);
-  return this;
-};
-
-/**
- * Sets the maximum delay between reconnections.
- *
- * @param {Number} delay
- * @return {Manager} self or value
- * @api public
- */
-
-Manager.prototype.reconnectionDelayMax = function (v) {
-  if (!arguments.length) return this._reconnectionDelayMax;
-  this._reconnectionDelayMax = v;
-  this.backoff && this.backoff.setMax(v);
-  return this;
-};
-
-/**
- * Sets the connection timeout. `false` to disable
- *
- * @return {Manager} self or value
- * @api public
- */
-
-Manager.prototype.timeout = function (v) {
-  if (!arguments.length) return this._timeout;
-  this._timeout = v;
-  return this;
-};
-
-/**
- * Starts trying to reconnect if reconnection is enabled and we have not
- * started reconnecting yet
- *
- * @api private
- */
-
-Manager.prototype.maybeReconnectOnOpen = function () {
-  // Only try to reconnect if it's the first time we're connecting
-  if (!this.reconnecting && this._reconnection && this.backoff.attempts === 0) {
-    // keeps reconnection from firing twice for the same reconnection loop
-    this.reconnect();
-  }
-};
-
-/**
- * Sets the current transport `socket`.
- *
- * @param {Function} optional, callback
- * @return {Manager} self
- * @api public
- */
-
-Manager.prototype.open =
-Manager.prototype.connect = function (fn, opts) {
-  debug('readyState %s', this.readyState);
-  if (~this.readyState.indexOf('open')) return this;
-
-  debug('opening %s', this.uri);
-  this.engine = eio(this.uri, this.opts);
-  var socket = this.engine;
-  var self = this;
-  this.readyState = 'opening';
-  this.skipReconnect = false;
-
-  // emit `open`
-  var openSub = on(socket, 'open', function () {
-    self.onopen();
-    fn && fn();
-  });
-
-  // emit `connect_error`
-  var errorSub = on(socket, 'error', function (data) {
-    debug('connect_error');
-    self.cleanup();
-    self.readyState = 'closed';
-    self.emitAll('connect_error', data);
-    if (fn) {
-      var err = new Error('Connection error');
-      err.data = data;
-      fn(err);
-    } else {
-      // Only do this if there is no fn to handle the error
-      self.maybeReconnectOnOpen();
-    }
-  });
-
-  // emit `connect_timeout`
-  if (false !== this._timeout) {
-    var timeout = this._timeout;
-    debug('connect attempt will timeout after %d', timeout);
-
-    // set timer
-    var timer = setTimeout(function () {
-      debug('connect attempt timed out after %d', timeout);
-      openSub.destroy();
-      socket.close();
-      socket.emit('error', 'timeout');
-      self.emitAll('connect_timeout', timeout);
-    }, timeout);
-
-    this.subs.push({
-      destroy: function () {
-        clearTimeout(timer);
-      }
-    });
-  }
-
-  this.subs.push(openSub);
-  this.subs.push(errorSub);
-
-  return this;
-};
-
-/**
- * Called upon transport open.
- *
- * @api private
- */
-
-Manager.prototype.onopen = function () {
-  debug('open');
-
-  // clear old subs
-  this.cleanup();
-
-  // mark as open
-  this.readyState = 'open';
-  this.emit('open');
-
-  // add new subs
-  var socket = this.engine;
-  this.subs.push(on(socket, 'data', bind(this, 'ondata')));
-  this.subs.push(on(socket, 'ping', bind(this, 'onping')));
-  this.subs.push(on(socket, 'pong', bind(this, 'onpong')));
-  this.subs.push(on(socket, 'error', bind(this, 'onerror')));
-  this.subs.push(on(socket, 'close', bind(this, 'onclose')));
-  this.subs.push(on(this.decoder, 'decoded', bind(this, 'ondecoded')));
-};
-
-/**
- * Called upon a ping.
- *
- * @api private
- */
-
-Manager.prototype.onping = function () {
-  this.lastPing = new Date();
-  this.emitAll('ping');
-};
-
-/**
- * Called upon a packet.
- *
- * @api private
- */
-
-Manager.prototype.onpong = function () {
-  this.emitAll('pong', new Date() - this.lastPing);
-};
-
-/**
- * Called with data.
- *
- * @api private
- */
-
-Manager.prototype.ondata = function (data) {
-  this.decoder.add(data);
-};
-
-/**
- * Called when parser fully decodes a packet.
- *
- * @api private
- */
-
-Manager.prototype.ondecoded = function (packet) {
-  this.emit('packet', packet);
-};
-
-/**
- * Called upon socket error.
- *
- * @api private
- */
-
-Manager.prototype.onerror = function (err) {
-  debug('error', err);
-  this.emitAll('error', err);
-};
-
-/**
- * Creates a new socket for the given `nsp`.
- *
- * @return {Socket}
- * @api public
- */
-
-Manager.prototype.socket = function (nsp, opts) {
-  var socket = this.nsps[nsp];
-  if (!socket) {
-    socket = new Socket(this, nsp, opts);
-    this.nsps[nsp] = socket;
-    var self = this;
-    socket.on('connecting', onConnecting);
-    socket.on('connect', function () {
-      socket.id = self.engine.id;
-    });
-
-    if (this.autoConnect) {
-      // manually call here since connecting evnet is fired before listening
-      onConnecting();
-    }
-  }
-
-  function onConnecting () {
-    if (!~indexOf(self.connecting, socket)) {
-      self.connecting.push(socket);
-    }
-  }
-
-  return socket;
-};
-
-/**
- * Called upon a socket close.
- *
- * @param {Socket} socket
- */
-
-Manager.prototype.destroy = function (socket) {
-  var index = indexOf(this.connecting, socket);
-  if (~index) this.connecting.splice(index, 1);
-  if (this.connecting.length) return;
-
-  this.close();
-};
-
-/**
- * Writes a packet.
- *
- * @param {Object} packet
- * @api private
- */
-
-Manager.prototype.packet = function (packet) {
-  debug('writing packet %j', packet);
-  var self = this;
-  if (packet.query && packet.type === 0) packet.nsp += '?' + packet.query;
-
-  if (!self.encoding) {
-    // encode, then write to engine with result
-    self.encoding = true;
-    this.encoder.encode(packet, function (encodedPackets) {
-      for (var i = 0; i < encodedPackets.length; i++) {
-        self.engine.write(encodedPackets[i], packet.options);
-      }
-      self.encoding = false;
-      self.processPacketQueue();
-    });
-  } else { // add packet to the queue
-    self.packetBuffer.push(packet);
-  }
-};
-
-/**
- * If packet buffer is non-empty, begins encoding the
- * next packet in line.
- *
- * @api private
- */
-
-Manager.prototype.processPacketQueue = function () {
-  if (this.packetBuffer.length > 0 && !this.encoding) {
-    var pack = this.packetBuffer.shift();
-    this.packet(pack);
-  }
-};
-
-/**
- * Clean up transport subscriptions and packet buffer.
- *
- * @api private
- */
-
-Manager.prototype.cleanup = function () {
-  debug('cleanup');
-
-  var subsLength = this.subs.length;
-  for (var i = 0; i < subsLength; i++) {
-    var sub = this.subs.shift();
-    sub.destroy();
-  }
-
-  this.packetBuffer = [];
-  this.encoding = false;
-  this.lastPing = null;
-
-  this.decoder.destroy();
-};
-
-/**
- * Close the current socket.
- *
- * @api private
- */
-
-Manager.prototype.close =
-Manager.prototype.disconnect = function () {
-  debug('disconnect');
-  this.skipReconnect = true;
-  this.reconnecting = false;
-  if ('opening' === this.readyState) {
-    // `onclose` will not fire because
-    // an open event never happened
-    this.cleanup();
-  }
-  this.backoff.reset();
-  this.readyState = 'closed';
-  if (this.engine) this.engine.close();
-};
-
-/**
- * Called upon engine close.
- *
- * @api private
- */
-
-Manager.prototype.onclose = function (reason) {
-  debug('onclose');
-
-  this.cleanup();
-  this.backoff.reset();
-  this.readyState = 'closed';
-  this.emit('close', reason);
-
-  if (this._reconnection && !this.skipReconnect) {
-    this.reconnect();
-  }
-};
-
-/**
- * Attempt a reconnection.
- *
- * @api private
- */
-
-Manager.prototype.reconnect = function () {
-  if (this.reconnecting || this.skipReconnect) return this;
-
-  var self = this;
-
-  if (this.backoff.attempts >= this._reconnectionAttempts) {
-    debug('reconnect failed');
-    this.backoff.reset();
-    this.emitAll('reconnect_failed');
-    this.reconnecting = false;
-  } else {
-    var delay = this.backoff.duration();
-    debug('will wait %dms before reconnect attempt', delay);
-
-    this.reconnecting = true;
-    var timer = setTimeout(function () {
-      if (self.skipReconnect) return;
-
-      debug('attempting reconnect');
-      self.emitAll('reconnect_attempt', self.backoff.attempts);
-      self.emitAll('reconnecting', self.backoff.attempts);
-
-      // check again for the case socket closed in above events
-      if (self.skipReconnect) return;
-
-      self.open(function (err) {
-        if (err) {
-          debug('reconnect attempt error');
-          self.reconnecting = false;
-          self.reconnect();
-          self.emitAll('reconnect_error', err.data);
-        } else {
-          debug('reconnect success');
-          self.onreconnect();
-        }
-      });
-    }, delay);
-
-    this.subs.push({
-      destroy: function () {
-        clearTimeout(timer);
-      }
-    });
-  }
-};
-
-/**
- * Called upon successful reconnect.
- *
- * @api private
- */
-
-Manager.prototype.onreconnect = function () {
-  var attempt = this.backoff.attempts;
-  this.reconnecting = false;
-  this.backoff.reset();
-  this.updateSocketIds();
-  this.emitAll('reconnect', attempt);
-};
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports) {
-
-
-/**
- * Module exports.
- */
-
-module.exports = on;
-
-/**
- * Helper for subscriptions.
- *
- * @param {Object|EventEmitter} obj with `Emitter` mixin or `EventEmitter`
- * @param {String} event name
- * @param {Function} callback
- * @api public
- */
-
-function on (obj, ev, fn) {
-  obj.on(ev, fn);
-  return {
-    destroy: function () {
-      obj.removeListener(ev, fn);
-    }
-  };
-}
-
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * Module dependencies.
- */
-
-var parser = __webpack_require__(13);
-var Emitter = __webpack_require__(30);
-var toArray = __webpack_require__(87);
-var on = __webpack_require__(28);
-var bind = __webpack_require__(21);
-var debug = __webpack_require__(6)('socket.io-client:socket');
-var hasBin = __webpack_require__(72);
-
-/**
- * Module exports.
- */
-
-module.exports = exports = Socket;
-
-/**
- * Internal events (blacklisted).
- * These events can't be emitted by the user.
- *
- * @api private
- */
-
-var events = {
-  connect: 1,
-  connect_error: 1,
-  connect_timeout: 1,
-  connecting: 1,
-  disconnect: 1,
-  error: 1,
-  reconnect: 1,
-  reconnect_attempt: 1,
-  reconnect_failed: 1,
-  reconnect_error: 1,
-  reconnecting: 1,
-  ping: 1,
-  pong: 1
-};
-
-/**
- * Shortcut to `Emitter#emit`.
- */
-
-var emit = Emitter.prototype.emit;
-
-/**
- * `Socket` constructor.
- *
- * @api public
- */
-
-function Socket (io, nsp, opts) {
-  this.io = io;
-  this.nsp = nsp;
-  this.json = this; // compat
-  this.ids = 0;
-  this.acks = {};
-  this.receiveBuffer = [];
-  this.sendBuffer = [];
-  this.connected = false;
-  this.disconnected = true;
-  if (opts && opts.query) {
-    this.query = opts.query;
-  }
-  if (this.io.autoConnect) this.open();
-}
-
-/**
- * Mix in `Emitter`.
- */
-
-Emitter(Socket.prototype);
-
-/**
- * Subscribe to open, close and packet events
- *
- * @api private
- */
-
-Socket.prototype.subEvents = function () {
-  if (this.subs) return;
-
-  var io = this.io;
-  this.subs = [
-    on(io, 'open', bind(this, 'onopen')),
-    on(io, 'packet', bind(this, 'onpacket')),
-    on(io, 'close', bind(this, 'onclose'))
-  ];
-};
-
-/**
- * "Opens" the socket.
- *
- * @api public
- */
-
-Socket.prototype.open =
-Socket.prototype.connect = function () {
-  if (this.connected) return this;
-
-  this.subEvents();
-  this.io.open(); // ensure open
-  if ('open' === this.io.readyState) this.onopen();
-  this.emit('connecting');
-  return this;
-};
-
-/**
- * Sends a `message` event.
- *
- * @return {Socket} self
- * @api public
- */
-
-Socket.prototype.send = function () {
-  var args = toArray(arguments);
-  args.unshift('message');
-  this.emit.apply(this, args);
-  return this;
-};
-
-/**
- * Override `emit`.
- * If the event is in `events`, it's emitted normally.
- *
- * @param {String} event name
- * @return {Socket} self
- * @api public
- */
-
-Socket.prototype.emit = function (ev) {
-  if (events.hasOwnProperty(ev)) {
-    emit.apply(this, arguments);
-    return this;
-  }
-
-  var args = toArray(arguments);
-  var parserType = parser.EVENT; // default
-  if (hasBin(args)) { parserType = parser.BINARY_EVENT; } // binary
-  var packet = { type: parserType, data: args };
-
-  packet.options = {};
-  packet.options.compress = !this.flags || false !== this.flags.compress;
-
-  // event ack callback
-  if ('function' === typeof args[args.length - 1]) {
-    debug('emitting packet with ack id %d', this.ids);
-    this.acks[this.ids] = args.pop();
-    packet.id = this.ids++;
-  }
-
-  if (this.connected) {
-    this.packet(packet);
-  } else {
-    this.sendBuffer.push(packet);
-  }
-
-  delete this.flags;
-
-  return this;
-};
-
-/**
- * Sends a packet.
- *
- * @param {Object} packet
- * @api private
- */
-
-Socket.prototype.packet = function (packet) {
-  packet.nsp = this.nsp;
-  this.io.packet(packet);
-};
-
-/**
- * Called upon engine `open`.
- *
- * @api private
- */
-
-Socket.prototype.onopen = function () {
-  debug('transport is open - connecting');
-
-  // write connect packet if necessary
-  if ('/' !== this.nsp) {
-    if (this.query) {
-      this.packet({type: parser.CONNECT, query: this.query});
-    } else {
-      this.packet({type: parser.CONNECT});
-    }
-  }
-};
-
-/**
- * Called upon engine `close`.
- *
- * @param {String} reason
- * @api private
- */
-
-Socket.prototype.onclose = function (reason) {
-  debug('close (%s)', reason);
-  this.connected = false;
-  this.disconnected = true;
-  delete this.id;
-  this.emit('disconnect', reason);
-};
-
-/**
- * Called with socket packet.
- *
- * @param {Object} packet
- * @api private
- */
-
-Socket.prototype.onpacket = function (packet) {
-  if (packet.nsp !== this.nsp) return;
-
-  switch (packet.type) {
-    case parser.CONNECT:
-      this.onconnect();
-      break;
-
-    case parser.EVENT:
-      this.onevent(packet);
-      break;
-
-    case parser.BINARY_EVENT:
-      this.onevent(packet);
-      break;
-
-    case parser.ACK:
-      this.onack(packet);
-      break;
-
-    case parser.BINARY_ACK:
-      this.onack(packet);
-      break;
-
-    case parser.DISCONNECT:
-      this.ondisconnect();
-      break;
-
-    case parser.ERROR:
-      this.emit('error', packet.data);
-      break;
-  }
-};
-
-/**
- * Called upon a server event.
- *
- * @param {Object} packet
- * @api private
- */
-
-Socket.prototype.onevent = function (packet) {
-  var args = packet.data || [];
-  debug('emitting event %j', args);
-
-  if (null != packet.id) {
-    debug('attaching ack callback to event');
-    args.push(this.ack(packet.id));
-  }
-
-  if (this.connected) {
-    emit.apply(this, args);
-  } else {
-    this.receiveBuffer.push(args);
-  }
-};
-
-/**
- * Produces an ack callback to emit with an event.
- *
- * @api private
- */
-
-Socket.prototype.ack = function (id) {
-  var self = this;
-  var sent = false;
-  return function () {
-    // prevent double callbacks
-    if (sent) return;
-    sent = true;
-    var args = toArray(arguments);
-    debug('sending ack %j', args);
-
-    var type = hasBin(args) ? parser.BINARY_ACK : parser.ACK;
-    self.packet({
-      type: type,
-      id: id,
-      data: args
-    });
-  };
-};
-
-/**
- * Called upon a server acknowlegement.
- *
- * @param {Object} packet
- * @api private
- */
-
-Socket.prototype.onack = function (packet) {
-  var ack = this.acks[packet.id];
-  if ('function' === typeof ack) {
-    debug('calling ack %s with %j', packet.id, packet.data);
-    ack.apply(this, packet.data);
-    delete this.acks[packet.id];
-  } else {
-    debug('bad ack %s', packet.id);
-  }
-};
-
-/**
- * Called upon server connect.
- *
- * @api private
- */
-
-Socket.prototype.onconnect = function () {
-  this.connected = true;
-  this.disconnected = false;
-  this.emit('connect');
-  this.emitBuffered();
-};
-
-/**
- * Emit buffered events (received and emitted).
- *
- * @api private
- */
-
-Socket.prototype.emitBuffered = function () {
-  var i;
-  for (i = 0; i < this.receiveBuffer.length; i++) {
-    emit.apply(this, this.receiveBuffer[i]);
-  }
-  this.receiveBuffer = [];
-
-  for (i = 0; i < this.sendBuffer.length; i++) {
-    this.packet(this.sendBuffer[i]);
-  }
-  this.sendBuffer = [];
-};
-
-/**
- * Called upon server disconnect.
- *
- * @api private
- */
-
-Socket.prototype.ondisconnect = function () {
-  debug('server disconnect (%s)', this.nsp);
-  this.destroy();
-  this.onclose('io server disconnect');
-};
-
-/**
- * Called upon forced client/server side disconnections,
- * this method ensures the manager stops tracking us and
- * that reconnections don't get triggered for this.
- *
- * @api private.
- */
-
-Socket.prototype.destroy = function () {
-  if (this.subs) {
-    // clean subscriptions to avoid reconnections
-    for (var i = 0; i < this.subs.length; i++) {
-      this.subs[i].destroy();
-    }
-    this.subs = null;
-  }
-
-  this.io.destroy(this);
-};
-
-/**
- * Disconnects the socket manually.
- *
- * @return {Socket} self
- * @api public
- */
-
-Socket.prototype.close =
-Socket.prototype.disconnect = function () {
-  if (this.connected) {
-    debug('performing disconnect (%s)', this.nsp);
-    this.packet({ type: parser.DISCONNECT });
-  }
-
-  // remove socket from pool
-  this.destroy();
-
-  if (this.connected) {
-    // fire events
-    this.onclose('io client disconnect');
-  }
-  return this;
-};
-
-/**
- * Sets the compress flag.
- *
- * @param {Boolean} if `true`, compresses the sending data
- * @return {Socket} self
- * @api public
- */
-
-Socket.prototype.compress = function (compress) {
-  this.flags = this.flags || {};
-  this.flags.compress = compress;
-  return this;
-};
-
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * Expose `Emitter`.
- */
-
-if (true) {
-  module.exports = Emitter;
-}
-
-/**
- * Initialize a new `Emitter`.
- *
- * @api public
- */
-
-function Emitter(obj) {
-  if (obj) return mixin(obj);
-};
-
-/**
- * Mixin the emitter properties.
- *
- * @param {Object} obj
- * @return {Object}
- * @api private
- */
-
-function mixin(obj) {
-  for (var key in Emitter.prototype) {
-    obj[key] = Emitter.prototype[key];
-  }
-  return obj;
-}
-
-/**
- * Listen on the given `event` with `fn`.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.on =
-Emitter.prototype.addEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
-    .push(fn);
-  return this;
-};
-
-/**
- * Adds an `event` listener that will be invoked a single
- * time then automatically removed.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.once = function(event, fn){
-  function on() {
-    this.off(event, on);
-    fn.apply(this, arguments);
-  }
-
-  on.fn = fn;
-  this.on(event, on);
-  return this;
-};
-
-/**
- * Remove the given callback for `event` or all
- * registered callbacks.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.off =
-Emitter.prototype.removeListener =
-Emitter.prototype.removeAllListeners =
-Emitter.prototype.removeEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-
-  // all
-  if (0 == arguments.length) {
-    this._callbacks = {};
-    return this;
-  }
-
-  // specific event
-  var callbacks = this._callbacks['$' + event];
-  if (!callbacks) return this;
-
-  // remove all handlers
-  if (1 == arguments.length) {
-    delete this._callbacks['$' + event];
-    return this;
-  }
-
-  // remove specific handler
-  var cb;
-  for (var i = 0; i < callbacks.length; i++) {
-    cb = callbacks[i];
-    if (cb === fn || cb.fn === fn) {
-      callbacks.splice(i, 1);
-      break;
-    }
-  }
-  return this;
-};
-
-/**
- * Emit `event` with the given args.
- *
- * @param {String} event
- * @param {Mixed} ...
- * @return {Emitter}
- */
-
-Emitter.prototype.emit = function(event){
-  this._callbacks = this._callbacks || {};
-  var args = [].slice.call(arguments, 1)
-    , callbacks = this._callbacks['$' + event];
-
-  if (callbacks) {
-    callbacks = callbacks.slice(0);
-    for (var i = 0, len = callbacks.length; i < len; ++i) {
-      callbacks[i].apply(this, args);
-    }
-  }
-
-  return this;
-};
-
-/**
- * Return array of callbacks for `event`.
- *
- * @param {String} event
- * @return {Array}
- * @api public
- */
-
-Emitter.prototype.listeners = function(event){
-  this._callbacks = this._callbacks || {};
-  return this._callbacks['$' + event] || [];
-};
-
-/**
- * Check if this emitter has `event` handlers.
- *
- * @param {String} event
- * @return {Boolean}
- * @api public
- */
-
-Emitter.prototype.hasListeners = function(event){
-  return !! this.listeners(event).length;
-};
-
-
-/***/ }),
-/* 31 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {
-module.exports = isBuf;
-
-/**
- * Returns true if obj is a buffer or an arraybuffer.
- *
- * @api private
- */
-
-function isBuf(obj) {
-  return (global.Buffer && global.Buffer.isBuffer(obj)) ||
-         (global.ArrayBuffer && obj instanceof ArrayBuffer);
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
-
-/***/ }),
-/* 32 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'.split('')
-  , length = 64
-  , map = {}
-  , seed = 0
-  , i = 0
-  , prev;
-
-/**
- * Return a string representing the specified number.
- *
- * @param {Number} num The number to convert.
- * @returns {String} The string representation of the number.
- * @api public
- */
-function encode(num) {
-  var encoded = '';
-
-  do {
-    encoded = alphabet[num % length] + encoded;
-    num = Math.floor(num / length);
-  } while (num > 0);
-
-  return encoded;
-}
-
-/**
- * Return the integer value specified by the given string.
- *
- * @param {String} str The string to convert.
- * @returns {Number} The integer value represented by the string.
- * @api public
- */
-function decode(str) {
-  var decoded = 0;
-
-  for (i = 0; i < str.length; i++) {
-    decoded = decoded * length + map[str.charAt(i)];
-  }
-
-  return decoded;
-}
-
-/**
- * Yeast: A tiny growing id generator.
- *
- * @returns {String} A unique id.
- * @api public
- */
-function yeast() {
-  var now = encode(+new Date());
-
-  if (now !== prev) return seed = 0, prev = now;
-  return now +'.'+ encode(seed++);
-}
-
-//
-// Map each character to its index.
-//
-for (; i < length; i++) map[alphabet[i]] = i;
-
-//
-// Expose the `yeast`, `encode` and `decode` functions.
-//
-yeast.encode = encode;
-yeast.decode = decode;
-module.exports = yeast;
-
-
-/***/ }),
-/* 33 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-__webpack_require__(15);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-//Vue.use(require('vue-resource'));
-Vue.component('videochat', __webpack_require__(55));
-
-var app = new Vue({
-  el: '#app'
-});
-
-/***/ }),
-/* 34 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports) {
-
-module.exports = after
-
-function after(count, callback, err_cb) {
-    var bail = false
-    err_cb = err_cb || noop
-    proxy.count = count
-
-    return (count === 0) ? callback() : proxy
-
-    function proxy(err, result) {
-        if (proxy.count <= 0) {
-            throw new Error('after called too many times')
-        }
-        --proxy.count
-
-        // after first error, rest are passed to err_cb
-        if (err) {
-            bail = true
-            callback(err)
-            // future error callbacks will go to error handler
-            callback = err_cb
-        } else if (proxy.count === 0 && !bail) {
-            callback(null, result)
-        }
-    }
-}
-
-function noop() {}
-
-
-/***/ }),
-/* 36 */
-/***/ (function(module, exports) {
-
-/**
- * An abstraction for slicing an arraybuffer even when
- * ArrayBuffer.prototype.slice is not supported
- *
- * @api public
- */
-
-module.exports = function(arraybuffer, start, end) {
-  var bytes = arraybuffer.byteLength;
-  start = start || 0;
-  end = end || bytes;
-
-  if (arraybuffer.slice) { return arraybuffer.slice(start, end); }
-
-  if (start < 0) { start += bytes; }
-  if (end < 0) { end += bytes; }
-  if (end > bytes) { end = bytes; }
-
-  if (start >= bytes || start >= end || bytes === 0) {
-    return new ArrayBuffer(0);
-  }
-
-  var abv = new Uint8Array(arraybuffer);
-  var result = new Uint8Array(end - start);
-  for (var i = start, ii = 0; i < end; i++, ii++) {
-    result[ii] = abv[i];
-  }
-  return result.buffer;
-};
-
-
-/***/ }),
-/* 37 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(38);
-
-/***/ }),
-/* 38 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-var bind = __webpack_require__(20);
-var Axios = __webpack_require__(40);
-var defaults = __webpack_require__(7);
-
-/**
- * Create an instance of Axios
- *
- * @param {Object} defaultConfig The default config for the instance
- * @return {Axios} A new instance of Axios
- */
-function createInstance(defaultConfig) {
-  var context = new Axios(defaultConfig);
-  var instance = bind(Axios.prototype.request, context);
-
-  // Copy axios.prototype to instance
-  utils.extend(instance, Axios.prototype, context);
-
-  // Copy context to instance
-  utils.extend(instance, context);
-
-  return instance;
-}
-
-// Create the default instance to be exported
-var axios = createInstance(defaults);
-
-// Expose Axios class to allow class inheritance
-axios.Axios = Axios;
-
-// Factory for creating new instances
-axios.create = function create(instanceConfig) {
-  return createInstance(utils.merge(defaults, instanceConfig));
-};
-
-// Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(17);
-axios.CancelToken = __webpack_require__(39);
-axios.isCancel = __webpack_require__(18);
-
-// Expose all/spread
-axios.all = function all(promises) {
-  return Promise.all(promises);
-};
-axios.spread = __webpack_require__(54);
-
-module.exports = axios;
-
-// Allow use of default import syntax in TypeScript
-module.exports.default = axios;
-
-
-/***/ }),
-/* 39 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Cancel = __webpack_require__(17);
-
-/**
- * A `CancelToken` is an object that can be used to request cancellation of an operation.
- *
- * @class
- * @param {Function} executor The executor function.
- */
-function CancelToken(executor) {
-  if (typeof executor !== 'function') {
-    throw new TypeError('executor must be a function.');
-  }
-
-  var resolvePromise;
-  this.promise = new Promise(function promiseExecutor(resolve) {
-    resolvePromise = resolve;
-  });
-
-  var token = this;
-  executor(function cancel(message) {
-    if (token.reason) {
-      // Cancellation has already been requested
-      return;
-    }
-
-    token.reason = new Cancel(message);
-    resolvePromise(token.reason);
-  });
-}
-
-/**
- * Throws a `Cancel` if cancellation has been requested.
- */
-CancelToken.prototype.throwIfRequested = function throwIfRequested() {
-  if (this.reason) {
-    throw this.reason;
-  }
-};
-
-/**
- * Returns an object that contains a new `CancelToken` and a function that, when called,
- * cancels the `CancelToken`.
- */
-CancelToken.source = function source() {
-  var cancel;
-  var token = new CancelToken(function executor(c) {
-    cancel = c;
-  });
-  return {
-    token: token,
-    cancel: cancel
-  };
-};
-
-module.exports = CancelToken;
-
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var defaults = __webpack_require__(7);
-var utils = __webpack_require__(1);
-var InterceptorManager = __webpack_require__(41);
-var dispatchRequest = __webpack_require__(42);
-var isAbsoluteURL = __webpack_require__(50);
-var combineURLs = __webpack_require__(48);
-
-/**
- * Create a new instance of Axios
- *
- * @param {Object} instanceConfig The default config for the instance
- */
-function Axios(instanceConfig) {
-  this.defaults = instanceConfig;
-  this.interceptors = {
-    request: new InterceptorManager(),
-    response: new InterceptorManager()
-  };
-}
-
-/**
- * Dispatch a request
- *
- * @param {Object} config The config specific for this request (merged with this.defaults)
- */
-Axios.prototype.request = function request(config) {
-  /*eslint no-param-reassign:0*/
-  // Allow for axios('example/url'[, config]) a la fetch API
-  if (typeof config === 'string') {
-    config = utils.merge({
-      url: arguments[0]
-    }, arguments[1]);
-  }
-
-  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
-
-  // Support baseURL config
-  if (config.baseURL && !isAbsoluteURL(config.url)) {
-    config.url = combineURLs(config.baseURL, config.url);
-  }
-
-  // Hook up interceptors middleware
-  var chain = [dispatchRequest, undefined];
-  var promise = Promise.resolve(config);
-
-  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
-    chain.unshift(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
-    chain.push(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  while (chain.length) {
-    promise = promise.then(chain.shift(), chain.shift());
-  }
-
-  return promise;
-};
-
-// Provide aliases for supported request methods
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function(url, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url
-    }));
-  };
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function(url, data, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url,
-      data: data
-    }));
-  };
-});
-
-module.exports = Axios;
-
-
-/***/ }),
-/* 41 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-function InterceptorManager() {
-  this.handlers = [];
-}
-
-/**
- * Add a new interceptor to the stack
- *
- * @param {Function} fulfilled The function to handle `then` for a `Promise`
- * @param {Function} rejected The function to handle `reject` for a `Promise`
- *
- * @return {Number} An ID used to remove interceptor later
- */
-InterceptorManager.prototype.use = function use(fulfilled, rejected) {
-  this.handlers.push({
-    fulfilled: fulfilled,
-    rejected: rejected
-  });
-  return this.handlers.length - 1;
-};
-
-/**
- * Remove an interceptor from the stack
- *
- * @param {Number} id The ID that was returned by `use`
- */
-InterceptorManager.prototype.eject = function eject(id) {
-  if (this.handlers[id]) {
-    this.handlers[id] = null;
-  }
-};
-
-/**
- * Iterate over all the registered interceptors
- *
- * This method is particularly useful for skipping over any
- * interceptors that may have become `null` calling `eject`.
- *
- * @param {Function} fn The function to call for each interceptor
- */
-InterceptorManager.prototype.forEach = function forEach(fn) {
-  utils.forEach(this.handlers, function forEachHandler(h) {
-    if (h !== null) {
-      fn(h);
-    }
-  });
-};
-
-module.exports = InterceptorManager;
-
-
-/***/ }),
-/* 42 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-var transformData = __webpack_require__(45);
-var isCancel = __webpack_require__(18);
-var defaults = __webpack_require__(7);
-
-/**
- * Throws a `Cancel` if cancellation has been requested.
- */
-function throwIfCancellationRequested(config) {
-  if (config.cancelToken) {
-    config.cancelToken.throwIfRequested();
-  }
-}
-
-/**
- * Dispatch a request to the server using the configured adapter.
- *
- * @param {object} config The config that is to be used for the request
- * @returns {Promise} The Promise to be fulfilled
- */
-module.exports = function dispatchRequest(config) {
-  throwIfCancellationRequested(config);
-
-  // Ensure headers exist
-  config.headers = config.headers || {};
-
-  // Transform request data
-  config.data = transformData(
-    config.data,
-    config.headers,
-    config.transformRequest
-  );
-
-  // Flatten headers
-  config.headers = utils.merge(
-    config.headers.common || {},
-    config.headers[config.method] || {},
-    config.headers || {}
-  );
-
-  utils.forEach(
-    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
-    function cleanHeaderConfig(method) {
-      delete config.headers[method];
-    }
-  );
-
-  var adapter = config.adapter || defaults.adapter;
-
-  return adapter(config).then(function onAdapterResolution(response) {
-    throwIfCancellationRequested(config);
-
-    // Transform response data
-    response.data = transformData(
-      response.data,
-      response.headers,
-      config.transformResponse
-    );
-
-    return response;
-  }, function onAdapterRejection(reason) {
-    if (!isCancel(reason)) {
-      throwIfCancellationRequested(config);
-
-      // Transform response data
-      if (reason && reason.response) {
-        reason.response.data = transformData(
-          reason.response.data,
-          reason.response.headers,
-          config.transformResponse
-        );
-      }
-    }
-
-    return Promise.reject(reason);
-  });
-};
-
-
-/***/ }),
-/* 43 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Update an Error with the specified config, error code, and response.
- *
- * @param {Error} error The error to update.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- @ @param {Object} [response] The response.
- * @returns {Error} The error.
- */
-module.exports = function enhanceError(error, config, code, response) {
-  error.config = config;
-  if (code) {
-    error.code = code;
-  }
-  error.response = response;
-  return error;
-};
-
-
-/***/ }),
-/* 44 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var createError = __webpack_require__(19);
-
-/**
- * Resolve or reject a Promise based on response status.
- *
- * @param {Function} resolve A function that resolves the promise.
- * @param {Function} reject A function that rejects the promise.
- * @param {object} response The response.
- */
-module.exports = function settle(resolve, reject, response) {
-  var validateStatus = response.config.validateStatus;
-  // Note: status is not exposed by XDomainRequest
-  if (!response.status || !validateStatus || validateStatus(response.status)) {
-    resolve(response);
-  } else {
-    reject(createError(
-      'Request failed with status code ' + response.status,
-      response.config,
-      null,
-      response
-    ));
-  }
-};
-
-
-/***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-/**
- * Transform the data for a request or a response
- *
- * @param {Object|String} data The data to be transformed
- * @param {Array} headers The headers for the request or response
- * @param {Array|Function} fns A single function or Array of functions
- * @returns {*} The resulting transformed data
- */
-module.exports = function transformData(data, headers, fns) {
-  /*eslint no-param-reassign:0*/
-  utils.forEach(fns, function transform(fn) {
-    data = fn(data, headers);
-  });
-
-  return data;
-};
-
-
-/***/ }),
-/* 46 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
-
-var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-function E() {
-  this.message = 'String contains an invalid character';
-}
-E.prototype = new Error;
-E.prototype.code = 5;
-E.prototype.name = 'InvalidCharacterError';
-
-function btoa(input) {
-  var str = String(input);
-  var output = '';
-  for (
-    // initialize result and counter
-    var block, charCode, idx = 0, map = chars;
-    // if the next str index does not exist:
-    //   change the mapping table to "="
-    //   check if d has no fractional digits
-    str.charAt(idx | 0) || (map = '=', idx % 1);
-    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
-    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
-  ) {
-    charCode = str.charCodeAt(idx += 3 / 4);
-    if (charCode > 0xFF) {
-      throw new E();
-    }
-    block = block << 8 | charCode;
-  }
-  return output;
-}
-
-module.exports = btoa;
-
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-function encode(val) {
-  return encodeURIComponent(val).
-    replace(/%40/gi, '@').
-    replace(/%3A/gi, ':').
-    replace(/%24/g, '$').
-    replace(/%2C/gi, ',').
-    replace(/%20/g, '+').
-    replace(/%5B/gi, '[').
-    replace(/%5D/gi, ']');
-}
-
-/**
- * Build a URL by appending params to the end
- *
- * @param {string} url The base of the url (e.g., http://www.google.com)
- * @param {object} [params] The params to be appended
- * @returns {string} The formatted url
- */
-module.exports = function buildURL(url, params, paramsSerializer) {
-  /*eslint no-param-reassign:0*/
-  if (!params) {
-    return url;
-  }
-
-  var serializedParams;
-  if (paramsSerializer) {
-    serializedParams = paramsSerializer(params);
-  } else if (utils.isURLSearchParams(params)) {
-    serializedParams = params.toString();
-  } else {
-    var parts = [];
-
-    utils.forEach(params, function serialize(val, key) {
-      if (val === null || typeof val === 'undefined') {
-        return;
-      }
-
-      if (utils.isArray(val)) {
-        key = key + '[]';
-      }
-
-      if (!utils.isArray(val)) {
-        val = [val];
-      }
-
-      utils.forEach(val, function parseValue(v) {
-        if (utils.isDate(v)) {
-          v = v.toISOString();
-        } else if (utils.isObject(v)) {
-          v = JSON.stringify(v);
-        }
-        parts.push(encode(key) + '=' + encode(v));
-      });
-    });
-
-    serializedParams = parts.join('&');
-  }
-
-  if (serializedParams) {
-    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
-  }
-
-  return url;
-};
-
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Creates a new URL by combining the specified URLs
- *
- * @param {string} baseURL The base URL
- * @param {string} relativeURL The relative URL
- * @returns {string} The combined URL
- */
-module.exports = function combineURLs(baseURL, relativeURL) {
-  return baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '');
-};
-
-
-/***/ }),
-/* 49 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs support document.cookie
-  (function standardBrowserEnv() {
-    return {
-      write: function write(name, value, expires, path, domain, secure) {
-        var cookie = [];
-        cookie.push(name + '=' + encodeURIComponent(value));
-
-        if (utils.isNumber(expires)) {
-          cookie.push('expires=' + new Date(expires).toGMTString());
-        }
-
-        if (utils.isString(path)) {
-          cookie.push('path=' + path);
-        }
-
-        if (utils.isString(domain)) {
-          cookie.push('domain=' + domain);
-        }
-
-        if (secure === true) {
-          cookie.push('secure');
-        }
-
-        document.cookie = cookie.join('; ');
-      },
-
-      read: function read(name) {
-        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
-        return (match ? decodeURIComponent(match[3]) : null);
-      },
-
-      remove: function remove(name) {
-        this.write(name, '', Date.now() - 86400000);
-      }
-    };
-  })() :
-
-  // Non standard browser env (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return {
-      write: function write() {},
-      read: function read() { return null; },
-      remove: function remove() {}
-    };
-  })()
-);
-
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Determines whether the specified URL is absolute
- *
- * @param {string} url The URL to test
- * @returns {boolean} True if the specified URL is absolute, otherwise false
- */
-module.exports = function isAbsoluteURL(url) {
-  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
-  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
-  // by any combination of letters, digits, plus, period, or hyphen.
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
-};
-
-
-/***/ }),
-/* 51 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs have full support of the APIs needed to test
-  // whether the request URL is of the same origin as current location.
-  (function standardBrowserEnv() {
-    var msie = /(msie|trident)/i.test(navigator.userAgent);
-    var urlParsingNode = document.createElement('a');
-    var originURL;
-
-    /**
-    * Parse a URL to discover it's components
-    *
-    * @param {String} url The URL to be parsed
-    * @returns {Object}
-    */
-    function resolveURL(url) {
-      var href = url;
-
-      if (msie) {
-        // IE needs attribute set twice to normalize properties
-        urlParsingNode.setAttribute('href', href);
-        href = urlParsingNode.href;
-      }
-
-      urlParsingNode.setAttribute('href', href);
-
-      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
-      return {
-        href: urlParsingNode.href,
-        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
-        host: urlParsingNode.host,
-        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
-        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
-        hostname: urlParsingNode.hostname,
-        port: urlParsingNode.port,
-        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
-                  urlParsingNode.pathname :
-                  '/' + urlParsingNode.pathname
-      };
-    }
-
-    originURL = resolveURL(window.location.href);
-
-    /**
-    * Determine if a URL shares the same origin as the current location
-    *
-    * @param {String} requestURL The URL to test
-    * @returns {boolean} True if URL shares the same origin, otherwise false
-    */
-    return function isURLSameOrigin(requestURL) {
-      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
-      return (parsed.protocol === originURL.protocol &&
-            parsed.host === originURL.host);
-    };
-  })() :
-
-  // Non standard browser envs (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return function isURLSameOrigin() {
-      return true;
-    };
-  })()
-);
-
-
-/***/ }),
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-module.exports = function normalizeHeaderName(headers, normalizedName) {
-  utils.forEach(headers, function processHeader(value, name) {
-    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
-      headers[normalizedName] = value;
-      delete headers[name];
-    }
-  });
-};
-
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(1);
-
-/**
- * Parse headers into an object
- *
- * ```
- * Date: Wed, 27 Aug 2014 08:58:49 GMT
- * Content-Type: application/json
- * Connection: keep-alive
- * Transfer-Encoding: chunked
- * ```
- *
- * @param {String} headers Headers needing to be parsed
- * @returns {Object} Headers parsed into an object
- */
-module.exports = function parseHeaders(headers) {
-  var parsed = {};
-  var key;
-  var val;
-  var i;
-
-  if (!headers) { return parsed; }
-
-  utils.forEach(headers.split('\n'), function parser(line) {
-    i = line.indexOf(':');
-    key = utils.trim(line.substr(0, i)).toLowerCase();
-    val = utils.trim(line.substr(i + 1));
-
-    if (key) {
-      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
-    }
-  });
-
-  return parsed;
-};
-
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Syntactic sugar for invoking a function and expanding an array for arguments.
- *
- * Common use case would be to use `Function.prototype.apply`.
- *
- *  ```js
- *  function f(x, y, z) {}
- *  var args = [1, 2, 3];
- *  f.apply(null, args);
- *  ```
- *
- * With `spread` this example can be re-written.
- *
- *  ```js
- *  spread(function(x, y, z) {})([1, 2, 3]);
- *  ```
- *
- * @param {Function} callback
- * @returns {Function}
- */
-module.exports = function spread(callback) {
-  return function wrap(arr) {
-    return callback.apply(null, arr);
-  };
-};
-
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function($) {/**
- * Created by root on 05/06/17.
- */
-var PeerJs = __webpack_require__(56);
-//var PeerJs = require('peer').ExpressPeerServer;
-var socket = __webpack_require__(79);
-
-module.exports = {
-    props: ['skey', 'shost', 'sport', 'spath', 'ssecure', 'suser', 'soperator', 'slocation'],
-    data: function data() {
-        var realport = this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80);
-        var video = new Peer(this.suser, {
-            key: this.skey,
-            host: this.shost,
-            port: realport,
-            path: this.spath,
-            secure: this.ssecure == true ? true : false,
-            config: {
-                'iceServers': [{
-                    url: 'stun:stun.ekiga.net'
-                }, {
-                    url: 'stun:stun.l.google.com:19302'
-                }, {
-                    url: 'stun:stun1.l.google.com:19302'
-                }, {
-                    url: 'stun:stun2.l.google.com:19302'
-                }, {
-                    url: 'stun:stun3.l.google.com:19302'
-                }, {
-                    url: 'stun:stun4.l.google.com:19302'
-                }]
-            }
-        });
-        return {
-            io: socket.connect(this.shost + ':' + realport),
-            peer: video,
-            isRecording: false
-        };
-    },
-    template: __webpack_require__(75),
-    created: function created() {
-        console.log('created.....');
-        console.log(this.skey, this.shost, this.sport, this.spath, this.ssecure, this.suser, this.soperator, this.slocation);
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia || navigator.msGetUserMedia;
-
-        var realthis = this;
-
-        this.peer.on('open', function () {
-            console.log('opened.....');
-        });
-
-        this.peer.on('error', function (err) {
-            console.log(err.message);
-        });
-
-        this.peer.on('call', function (call) {
-            call.answer(window.localStream);
-            console.log('call from Operator.....');
-            realthis.isRecording = !realthis.isRecording;
-            realthis.wait_stream(call);
-        });
-
-        navigator.getUserMedia({ audio: true, video: true }, function (stream) {
-            console.log('getUserMedia ......');
-            window.localStream = stream;
-            $('#localVideo').prop('src', URL.createObjectURL(stream));
-        }, function (err) {
-            console.log(err);
-        });
-
-        this.io.emit('welcome-message', { userID: this.suser, status: 'ready', locations: ["10"], userType: "user" });
-
-        this.io.on('no-response-available', function () {
-            console.log('no-response-available......');
-            //realthis.calling_old();
-        });
-        this.io.on('new-response-arrived', function () {
-            console.log('new-response-arrived......');
-        });
-        this.io.on('response-check-user-connection', function () {
-            console.log('response-check-user-connection......');
-        });
-    },
-    methods: {
-        calling_new: function calling_new() {
-            console.log('io.emit...........');
-            this.io.emit('ask-response', { userID: this.suser, status: 'ready', locations: ["10"], userType: "user" });
-            //this.calling_old();
-        },
-
-        calling: function calling() {
-            console.log('Call Operator ......');
-            var that = this;
-            this.isRecording = !this.isRecording;
-            if (this.isRecording) {
-                console.log('isRecording ......');
-                var call = that.peer.call(this.soperator, window.localStream);
-                that.wait_stream(call);
-            } else {
-                window.existingCall.close();
-                $('#localVideo').prop('src', '');
-                $('#remoteVideo').prop('src', '');
-            }
-        },
-        wait_stream: function wait_stream(call) {
-            var that = this;
-            console.log(' wait_stream...');
-            if (window.existingCall) {
-                window.existingCall.close();
-            }
-            call.on('stream', function (stream) {
-                console.log('call in stream...');
-                $('#remoteVideo').prop('src', URL.createObjectURL(stream));
-            });
-            call.on('close', function () {
-                console.log('close call...');
-                window.existingCall.close();
-                if (that.isRecording) {
-                    that.isRecording = !that.isRecording;
-                }
-                //$('#localVideo').prop('src','');
-                $('#remoteVideo').prop('src', '');
-            });
-            window.existingCall = call;
-        }
-    }
-
-};
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
-
-/***/ }),
-/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var require;var require;var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -18945,7 +16029,3071 @@ var require;var require;var _typeof = typeof Symbol === "function" && typeof Sym
   }, { "js-binarypack": 10 }] }, {}, [3]);
 
 /***/ }),
+/* 22 */
+/***/ (function(module, exports) {
+
+/**
+ * Slice reference.
+ */
+
+var slice = [].slice;
+
+/**
+ * Bind `obj` to `fn`.
+ *
+ * @param {Object} obj
+ * @param {Function|String} fn or string
+ * @return {Function}
+ * @api public
+ */
+
+module.exports = function(obj, fn){
+  if ('string' == typeof fn) fn = obj[fn];
+  if ('function' != typeof fn) throw new Error('bind() requires a function');
+  var args = slice.call(arguments, 2);
+  return function(){
+    return fn.apply(obj, args.concat(slice.call(arguments)));
+  }
+};
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/**
+ * Module dependencies
+ */
+
+var XMLHttpRequest = __webpack_require__(9);
+var XHR = __webpack_require__(68);
+var JSONP = __webpack_require__(67);
+var websocket = __webpack_require__(69);
+
+/**
+ * Export transports.
+ */
+
+exports.polling = polling;
+exports.websocket = websocket;
+
+/**
+ * Polling transport polymorphic constructor.
+ * Decides on xhr vs jsonp based on feature detection.
+ *
+ * @api private
+ */
+
+function polling (opts) {
+  var xhr;
+  var xd = false;
+  var xs = false;
+  var jsonp = false !== opts.jsonp;
+
+  if (global.location) {
+    var isSSL = 'https:' === location.protocol;
+    var port = location.port;
+
+    // some user agents have empty `location.port`
+    if (!port) {
+      port = isSSL ? 443 : 80;
+    }
+
+    xd = opts.hostname !== location.hostname || port !== opts.port;
+    xs = opts.secure !== isSSL;
+  }
+
+  opts.xdomain = xd;
+  opts.xscheme = xs;
+  xhr = new XMLHttpRequest(opts);
+
+  if ('open' in xhr && !opts.forceJSONP) {
+    return new XHR(opts);
+  } else {
+    if (!jsonp) throw new Error('JSONP disabled');
+    return new JSONP(opts);
+  }
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Module dependencies.
+ */
+
+var Transport = __webpack_require__(8);
+var parseqs = __webpack_require__(12);
+var parser = __webpack_require__(2);
+var inherit = __webpack_require__(4);
+var yeast = __webpack_require__(34);
+var debug = __webpack_require__(5)('engine.io-client:polling');
+
+/**
+ * Module exports.
+ */
+
+module.exports = Polling;
+
+/**
+ * Is XHR2 supported?
+ */
+
+var hasXHR2 = (function () {
+  var XMLHttpRequest = __webpack_require__(9);
+  var xhr = new XMLHttpRequest({ xdomain: false });
+  return null != xhr.responseType;
+})();
+
+/**
+ * Polling interface.
+ *
+ * @param {Object} opts
+ * @api private
+ */
+
+function Polling (opts) {
+  var forceBase64 = (opts && opts.forceBase64);
+  if (!hasXHR2 || forceBase64) {
+    this.supportsBinary = false;
+  }
+  Transport.call(this, opts);
+}
+
+/**
+ * Inherits from Transport.
+ */
+
+inherit(Polling, Transport);
+
+/**
+ * Transport name.
+ */
+
+Polling.prototype.name = 'polling';
+
+/**
+ * Opens the socket (triggers polling). We write a PING message to determine
+ * when the transport is open.
+ *
+ * @api private
+ */
+
+Polling.prototype.doOpen = function () {
+  this.poll();
+};
+
+/**
+ * Pauses polling.
+ *
+ * @param {Function} callback upon buffers are flushed and transport is paused
+ * @api private
+ */
+
+Polling.prototype.pause = function (onPause) {
+  var self = this;
+
+  this.readyState = 'pausing';
+
+  function pause () {
+    debug('paused');
+    self.readyState = 'paused';
+    onPause();
+  }
+
+  if (this.polling || !this.writable) {
+    var total = 0;
+
+    if (this.polling) {
+      debug('we are currently polling - waiting to pause');
+      total++;
+      this.once('pollComplete', function () {
+        debug('pre-pause polling complete');
+        --total || pause();
+      });
+    }
+
+    if (!this.writable) {
+      debug('we are currently writing - waiting to pause');
+      total++;
+      this.once('drain', function () {
+        debug('pre-pause writing complete');
+        --total || pause();
+      });
+    }
+  } else {
+    pause();
+  }
+};
+
+/**
+ * Starts polling cycle.
+ *
+ * @api public
+ */
+
+Polling.prototype.poll = function () {
+  debug('polling');
+  this.polling = true;
+  this.doPoll();
+  this.emit('poll');
+};
+
+/**
+ * Overloads onData to detect payloads.
+ *
+ * @api private
+ */
+
+Polling.prototype.onData = function (data) {
+  var self = this;
+  debug('polling got data %s', data);
+  var callback = function (packet, index, total) {
+    // if its the first message we consider the transport open
+    if ('opening' === self.readyState) {
+      self.onOpen();
+    }
+
+    // if its a close packet, we close the ongoing requests
+    if ('close' === packet.type) {
+      self.onClose();
+      return false;
+    }
+
+    // otherwise bypass onData and handle the message
+    self.onPacket(packet);
+  };
+
+  // decode payload
+  parser.decodePayload(data, this.socket.binaryType, callback);
+
+  // if an event did not trigger closing
+  if ('closed' !== this.readyState) {
+    // if we got data we're not polling
+    this.polling = false;
+    this.emit('pollComplete');
+
+    if ('open' === this.readyState) {
+      this.poll();
+    } else {
+      debug('ignoring poll - transport state "%s"', this.readyState);
+    }
+  }
+};
+
+/**
+ * For polling, send a close packet.
+ *
+ * @api private
+ */
+
+Polling.prototype.doClose = function () {
+  var self = this;
+
+  function close () {
+    debug('writing close packet');
+    self.write([{ type: 'close' }]);
+  }
+
+  if ('open' === this.readyState) {
+    debug('transport open - closing');
+    close();
+  } else {
+    // in case we're trying to close while
+    // handshaking is in progress (GH-164)
+    debug('transport not open - deferring close');
+    this.once('open', close);
+  }
+};
+
+/**
+ * Writes a packets payload.
+ *
+ * @param {Array} data packets
+ * @param {Function} drain callback
+ * @api private
+ */
+
+Polling.prototype.write = function (packets) {
+  var self = this;
+  this.writable = false;
+  var callbackfn = function () {
+    self.writable = true;
+    self.emit('drain');
+  };
+
+  parser.encodePayload(packets, this.supportsBinary, function (data) {
+    self.doWrite(data, callbackfn);
+  });
+};
+
+/**
+ * Generates uri for connection.
+ *
+ * @api private
+ */
+
+Polling.prototype.uri = function () {
+  var query = this.query || {};
+  var schema = this.secure ? 'https' : 'http';
+  var port = '';
+
+  // cache busting is forced
+  if (false !== this.timestampRequests) {
+    query[this.timestampParam] = yeast();
+  }
+
+  if (!this.supportsBinary && !query.sid) {
+    query.b64 = 1;
+  }
+
+  query = parseqs.encode(query);
+
+  // avoid port if default for schema
+  if (this.port && (('https' === schema && Number(this.port) !== 443) ||
+     ('http' === schema && Number(this.port) !== 80))) {
+    port = ':' + this.port;
+  }
+
+  // prepend ? to query
+  if (query.length) {
+    query = '?' + query;
+  }
+
+  var ipv6 = this.hostname.indexOf(':') !== -1;
+  return schema + '://' + (ipv6 ? '[' + this.hostname + ']' : this.hostname) + port + this.path + query;
+};
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports) {
+
+
+var indexOf = [].indexOf;
+
+module.exports = function(arr, obj){
+  if (indexOf) return arr.indexOf(obj);
+  for (var i = 0; i < arr.length; ++i) {
+    if (arr[i] === obj) return i;
+  }
+  return -1;
+};
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports) {
+
+/**
+ * Helpers.
+ */
+
+var s = 1000
+var m = s * 60
+var h = m * 60
+var d = h * 24
+var y = d * 365.25
+
+/**
+ * Parse or format the given `val`.
+ *
+ * Options:
+ *
+ *  - `long` verbose formatting [false]
+ *
+ * @param {String|Number} val
+ * @param {Object} options
+ * @throws {Error} throw an error if val is not a non-empty string or a number
+ * @return {String|Number}
+ * @api public
+ */
+
+module.exports = function (val, options) {
+  options = options || {}
+  var type = typeof val
+  if (type === 'string' && val.length > 0) {
+    return parse(val)
+  } else if (type === 'number' && isNaN(val) === false) {
+    return options.long ?
+			fmtLong(val) :
+			fmtShort(val)
+  }
+  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
+}
+
+/**
+ * Parse the given `str` and return milliseconds.
+ *
+ * @param {String} str
+ * @return {Number}
+ * @api private
+ */
+
+function parse(str) {
+  str = String(str)
+  if (str.length > 10000) {
+    return
+  }
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str)
+  if (!match) {
+    return
+  }
+  var n = parseFloat(match[1])
+  var type = (match[2] || 'ms').toLowerCase()
+  switch (type) {
+    case 'years':
+    case 'year':
+    case 'yrs':
+    case 'yr':
+    case 'y':
+      return n * y
+    case 'days':
+    case 'day':
+    case 'd':
+      return n * d
+    case 'hours':
+    case 'hour':
+    case 'hrs':
+    case 'hr':
+    case 'h':
+      return n * h
+    case 'minutes':
+    case 'minute':
+    case 'mins':
+    case 'min':
+    case 'm':
+      return n * m
+    case 'seconds':
+    case 'second':
+    case 'secs':
+    case 'sec':
+    case 's':
+      return n * s
+    case 'milliseconds':
+    case 'millisecond':
+    case 'msecs':
+    case 'msec':
+    case 'ms':
+      return n
+    default:
+      return undefined
+  }
+}
+
+/**
+ * Short format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtShort(ms) {
+  if (ms >= d) {
+    return Math.round(ms / d) + 'd'
+  }
+  if (ms >= h) {
+    return Math.round(ms / h) + 'h'
+  }
+  if (ms >= m) {
+    return Math.round(ms / m) + 'm'
+  }
+  if (ms >= s) {
+    return Math.round(ms / s) + 's'
+  }
+  return ms + 'ms'
+}
+
+/**
+ * Long format for `ms`.
+ *
+ * @param {Number} ms
+ * @return {String}
+ * @api private
+ */
+
+function fmtLong(ms) {
+  return plural(ms, d, 'day') ||
+    plural(ms, h, 'hour') ||
+    plural(ms, m, 'minute') ||
+    plural(ms, s, 'second') ||
+    ms + ' ms'
+}
+
+/**
+ * Pluralization helper.
+ */
+
+function plural(ms, n, name) {
+  if (ms < n) {
+    return
+  }
+  if (ms < n * 1.5) {
+    return Math.floor(ms / n) + ' ' + name
+  }
+  return Math.ceil(ms / n) + ' ' + name + 's'
+}
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports) {
+
+/**
+ * Parses an URI
+ *
+ * @author Steven Levithan <stevenlevithan.com> (MIT license)
+ * @api private
+ */
+
+var re = /^(?:(?![^:@]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/;
+
+var parts = [
+    'source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor'
+];
+
+module.exports = function parseuri(str) {
+    var src = str,
+        b = str.indexOf('['),
+        e = str.indexOf(']');
+
+    if (b != -1 && e != -1) {
+        str = str.substring(0, b) + str.substring(b, e).replace(/:/g, ';') + str.substring(e, str.length);
+    }
+
+    var m = re.exec(str || ''),
+        uri = {},
+        i = 14;
+
+    while (i--) {
+        uri[parts[i]] = m[i] || '';
+    }
+
+    if (b != -1 && e != -1) {
+        uri.source = src;
+        uri.host = uri.host.substring(1, uri.host.length - 1).replace(/;/g, ':');
+        uri.authority = uri.authority.replace('[', '').replace(']', '').replace(/;/g, ':');
+        uri.ipv6uri = true;
+    }
+
+    return uri;
+};
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/**
+ * Module dependencies.
+ */
+
+var url = __webpack_require__(82);
+var parser = __webpack_require__(13);
+var Manager = __webpack_require__(29);
+var debug = __webpack_require__(6)('socket.io-client');
+
+/**
+ * Module exports.
+ */
+
+module.exports = exports = lookup;
+
+/**
+ * Managers cache.
+ */
+
+var cache = exports.managers = {};
+
+/**
+ * Looks up an existing `Manager` for multiplexing.
+ * If the user summons:
+ *
+ *   `io('http://localhost/a');`
+ *   `io('http://localhost/b');`
+ *
+ * We reuse the existing instance based on same scheme/port/host,
+ * and we initialize sockets for each namespace.
+ *
+ * @api public
+ */
+
+function lookup (uri, opts) {
+  if (typeof uri === 'object') {
+    opts = uri;
+    uri = undefined;
+  }
+
+  opts = opts || {};
+
+  var parsed = url(uri);
+  var source = parsed.source;
+  var id = parsed.id;
+  var path = parsed.path;
+  var sameNamespace = cache[id] && path in cache[id].nsps;
+  var newConnection = opts.forceNew || opts['force new connection'] ||
+                      false === opts.multiplex || sameNamespace;
+
+  var io;
+
+  if (newConnection) {
+    debug('ignoring socket cache for %s', source);
+    io = Manager(source, opts);
+  } else {
+    if (!cache[id]) {
+      debug('new io instance for %s', source);
+      cache[id] = Manager(source, opts);
+    }
+    io = cache[id];
+  }
+  if (parsed.query && !opts.query) {
+    opts.query = parsed.query;
+  } else if (opts && 'object' === typeof opts.query) {
+    opts.query = encodeQueryString(opts.query);
+  }
+  return io.socket(parsed.path, opts);
+}
+/**
+ *  Helper method to parse query objects to string.
+ * @param {object} query
+ * @returns {string}
+ */
+function encodeQueryString (obj) {
+  var str = [];
+  for (var p in obj) {
+    if (obj.hasOwnProperty(p)) {
+      str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
+    }
+  }
+  return str.join('&');
+}
+/**
+ * Protocol version.
+ *
+ * @api public
+ */
+
+exports.protocol = parser.protocol;
+
+/**
+ * `connect`.
+ *
+ * @param {String} uri
+ * @api public
+ */
+
+exports.connect = lookup;
+
+/**
+ * Expose constructors for standalone build.
+ *
+ * @api public
+ */
+
+exports.Manager = __webpack_require__(29);
+exports.Socket = __webpack_require__(31);
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/**
+ * Module dependencies.
+ */
+
+var eio = __webpack_require__(64);
+var Socket = __webpack_require__(31);
+var Emitter = __webpack_require__(32);
+var parser = __webpack_require__(13);
+var on = __webpack_require__(30);
+var bind = __webpack_require__(22);
+var debug = __webpack_require__(6)('socket.io-client:manager');
+var indexOf = __webpack_require__(25);
+var Backoff = __webpack_require__(59);
+
+/**
+ * IE6+ hasOwnProperty
+ */
+
+var has = Object.prototype.hasOwnProperty;
+
+/**
+ * Module exports
+ */
+
+module.exports = Manager;
+
+/**
+ * `Manager` constructor.
+ *
+ * @param {String} engine instance or engine uri/opts
+ * @param {Object} options
+ * @api public
+ */
+
+function Manager (uri, opts) {
+  if (!(this instanceof Manager)) return new Manager(uri, opts);
+  if (uri && ('object' === typeof uri)) {
+    opts = uri;
+    uri = undefined;
+  }
+  opts = opts || {};
+
+  opts.path = opts.path || '/socket.io';
+  this.nsps = {};
+  this.subs = [];
+  this.opts = opts;
+  this.reconnection(opts.reconnection !== false);
+  this.reconnectionAttempts(opts.reconnectionAttempts || Infinity);
+  this.reconnectionDelay(opts.reconnectionDelay || 1000);
+  this.reconnectionDelayMax(opts.reconnectionDelayMax || 5000);
+  this.randomizationFactor(opts.randomizationFactor || 0.5);
+  this.backoff = new Backoff({
+    min: this.reconnectionDelay(),
+    max: this.reconnectionDelayMax(),
+    jitter: this.randomizationFactor()
+  });
+  this.timeout(null == opts.timeout ? 20000 : opts.timeout);
+  this.readyState = 'closed';
+  this.uri = uri;
+  this.connecting = [];
+  this.lastPing = null;
+  this.encoding = false;
+  this.packetBuffer = [];
+  this.encoder = new parser.Encoder();
+  this.decoder = new parser.Decoder();
+  this.autoConnect = opts.autoConnect !== false;
+  if (this.autoConnect) this.open();
+}
+
+/**
+ * Propagate given event to sockets and emit on `this`
+ *
+ * @api private
+ */
+
+Manager.prototype.emitAll = function () {
+  this.emit.apply(this, arguments);
+  for (var nsp in this.nsps) {
+    if (has.call(this.nsps, nsp)) {
+      this.nsps[nsp].emit.apply(this.nsps[nsp], arguments);
+    }
+  }
+};
+
+/**
+ * Update `socket.id` of all sockets
+ *
+ * @api private
+ */
+
+Manager.prototype.updateSocketIds = function () {
+  for (var nsp in this.nsps) {
+    if (has.call(this.nsps, nsp)) {
+      this.nsps[nsp].id = this.engine.id;
+    }
+  }
+};
+
+/**
+ * Mix in `Emitter`.
+ */
+
+Emitter(Manager.prototype);
+
+/**
+ * Sets the `reconnection` config.
+ *
+ * @param {Boolean} true/false if it should automatically reconnect
+ * @return {Manager} self or value
+ * @api public
+ */
+
+Manager.prototype.reconnection = function (v) {
+  if (!arguments.length) return this._reconnection;
+  this._reconnection = !!v;
+  return this;
+};
+
+/**
+ * Sets the reconnection attempts config.
+ *
+ * @param {Number} max reconnection attempts before giving up
+ * @return {Manager} self or value
+ * @api public
+ */
+
+Manager.prototype.reconnectionAttempts = function (v) {
+  if (!arguments.length) return this._reconnectionAttempts;
+  this._reconnectionAttempts = v;
+  return this;
+};
+
+/**
+ * Sets the delay between reconnections.
+ *
+ * @param {Number} delay
+ * @return {Manager} self or value
+ * @api public
+ */
+
+Manager.prototype.reconnectionDelay = function (v) {
+  if (!arguments.length) return this._reconnectionDelay;
+  this._reconnectionDelay = v;
+  this.backoff && this.backoff.setMin(v);
+  return this;
+};
+
+Manager.prototype.randomizationFactor = function (v) {
+  if (!arguments.length) return this._randomizationFactor;
+  this._randomizationFactor = v;
+  this.backoff && this.backoff.setJitter(v);
+  return this;
+};
+
+/**
+ * Sets the maximum delay between reconnections.
+ *
+ * @param {Number} delay
+ * @return {Manager} self or value
+ * @api public
+ */
+
+Manager.prototype.reconnectionDelayMax = function (v) {
+  if (!arguments.length) return this._reconnectionDelayMax;
+  this._reconnectionDelayMax = v;
+  this.backoff && this.backoff.setMax(v);
+  return this;
+};
+
+/**
+ * Sets the connection timeout. `false` to disable
+ *
+ * @return {Manager} self or value
+ * @api public
+ */
+
+Manager.prototype.timeout = function (v) {
+  if (!arguments.length) return this._timeout;
+  this._timeout = v;
+  return this;
+};
+
+/**
+ * Starts trying to reconnect if reconnection is enabled and we have not
+ * started reconnecting yet
+ *
+ * @api private
+ */
+
+Manager.prototype.maybeReconnectOnOpen = function () {
+  // Only try to reconnect if it's the first time we're connecting
+  if (!this.reconnecting && this._reconnection && this.backoff.attempts === 0) {
+    // keeps reconnection from firing twice for the same reconnection loop
+    this.reconnect();
+  }
+};
+
+/**
+ * Sets the current transport `socket`.
+ *
+ * @param {Function} optional, callback
+ * @return {Manager} self
+ * @api public
+ */
+
+Manager.prototype.open =
+Manager.prototype.connect = function (fn, opts) {
+  debug('readyState %s', this.readyState);
+  if (~this.readyState.indexOf('open')) return this;
+
+  debug('opening %s', this.uri);
+  this.engine = eio(this.uri, this.opts);
+  var socket = this.engine;
+  var self = this;
+  this.readyState = 'opening';
+  this.skipReconnect = false;
+
+  // emit `open`
+  var openSub = on(socket, 'open', function () {
+    self.onopen();
+    fn && fn();
+  });
+
+  // emit `connect_error`
+  var errorSub = on(socket, 'error', function (data) {
+    debug('connect_error');
+    self.cleanup();
+    self.readyState = 'closed';
+    self.emitAll('connect_error', data);
+    if (fn) {
+      var err = new Error('Connection error');
+      err.data = data;
+      fn(err);
+    } else {
+      // Only do this if there is no fn to handle the error
+      self.maybeReconnectOnOpen();
+    }
+  });
+
+  // emit `connect_timeout`
+  if (false !== this._timeout) {
+    var timeout = this._timeout;
+    debug('connect attempt will timeout after %d', timeout);
+
+    // set timer
+    var timer = setTimeout(function () {
+      debug('connect attempt timed out after %d', timeout);
+      openSub.destroy();
+      socket.close();
+      socket.emit('error', 'timeout');
+      self.emitAll('connect_timeout', timeout);
+    }, timeout);
+
+    this.subs.push({
+      destroy: function () {
+        clearTimeout(timer);
+      }
+    });
+  }
+
+  this.subs.push(openSub);
+  this.subs.push(errorSub);
+
+  return this;
+};
+
+/**
+ * Called upon transport open.
+ *
+ * @api private
+ */
+
+Manager.prototype.onopen = function () {
+  debug('open');
+
+  // clear old subs
+  this.cleanup();
+
+  // mark as open
+  this.readyState = 'open';
+  this.emit('open');
+
+  // add new subs
+  var socket = this.engine;
+  this.subs.push(on(socket, 'data', bind(this, 'ondata')));
+  this.subs.push(on(socket, 'ping', bind(this, 'onping')));
+  this.subs.push(on(socket, 'pong', bind(this, 'onpong')));
+  this.subs.push(on(socket, 'error', bind(this, 'onerror')));
+  this.subs.push(on(socket, 'close', bind(this, 'onclose')));
+  this.subs.push(on(this.decoder, 'decoded', bind(this, 'ondecoded')));
+};
+
+/**
+ * Called upon a ping.
+ *
+ * @api private
+ */
+
+Manager.prototype.onping = function () {
+  this.lastPing = new Date();
+  this.emitAll('ping');
+};
+
+/**
+ * Called upon a packet.
+ *
+ * @api private
+ */
+
+Manager.prototype.onpong = function () {
+  this.emitAll('pong', new Date() - this.lastPing);
+};
+
+/**
+ * Called with data.
+ *
+ * @api private
+ */
+
+Manager.prototype.ondata = function (data) {
+  this.decoder.add(data);
+};
+
+/**
+ * Called when parser fully decodes a packet.
+ *
+ * @api private
+ */
+
+Manager.prototype.ondecoded = function (packet) {
+  this.emit('packet', packet);
+};
+
+/**
+ * Called upon socket error.
+ *
+ * @api private
+ */
+
+Manager.prototype.onerror = function (err) {
+  debug('error', err);
+  this.emitAll('error', err);
+};
+
+/**
+ * Creates a new socket for the given `nsp`.
+ *
+ * @return {Socket}
+ * @api public
+ */
+
+Manager.prototype.socket = function (nsp, opts) {
+  var socket = this.nsps[nsp];
+  if (!socket) {
+    socket = new Socket(this, nsp, opts);
+    this.nsps[nsp] = socket;
+    var self = this;
+    socket.on('connecting', onConnecting);
+    socket.on('connect', function () {
+      socket.id = self.engine.id;
+    });
+
+    if (this.autoConnect) {
+      // manually call here since connecting evnet is fired before listening
+      onConnecting();
+    }
+  }
+
+  function onConnecting () {
+    if (!~indexOf(self.connecting, socket)) {
+      self.connecting.push(socket);
+    }
+  }
+
+  return socket;
+};
+
+/**
+ * Called upon a socket close.
+ *
+ * @param {Socket} socket
+ */
+
+Manager.prototype.destroy = function (socket) {
+  var index = indexOf(this.connecting, socket);
+  if (~index) this.connecting.splice(index, 1);
+  if (this.connecting.length) return;
+
+  this.close();
+};
+
+/**
+ * Writes a packet.
+ *
+ * @param {Object} packet
+ * @api private
+ */
+
+Manager.prototype.packet = function (packet) {
+  debug('writing packet %j', packet);
+  var self = this;
+  if (packet.query && packet.type === 0) packet.nsp += '?' + packet.query;
+
+  if (!self.encoding) {
+    // encode, then write to engine with result
+    self.encoding = true;
+    this.encoder.encode(packet, function (encodedPackets) {
+      for (var i = 0; i < encodedPackets.length; i++) {
+        self.engine.write(encodedPackets[i], packet.options);
+      }
+      self.encoding = false;
+      self.processPacketQueue();
+    });
+  } else { // add packet to the queue
+    self.packetBuffer.push(packet);
+  }
+};
+
+/**
+ * If packet buffer is non-empty, begins encoding the
+ * next packet in line.
+ *
+ * @api private
+ */
+
+Manager.prototype.processPacketQueue = function () {
+  if (this.packetBuffer.length > 0 && !this.encoding) {
+    var pack = this.packetBuffer.shift();
+    this.packet(pack);
+  }
+};
+
+/**
+ * Clean up transport subscriptions and packet buffer.
+ *
+ * @api private
+ */
+
+Manager.prototype.cleanup = function () {
+  debug('cleanup');
+
+  var subsLength = this.subs.length;
+  for (var i = 0; i < subsLength; i++) {
+    var sub = this.subs.shift();
+    sub.destroy();
+  }
+
+  this.packetBuffer = [];
+  this.encoding = false;
+  this.lastPing = null;
+
+  this.decoder.destroy();
+};
+
+/**
+ * Close the current socket.
+ *
+ * @api private
+ */
+
+Manager.prototype.close =
+Manager.prototype.disconnect = function () {
+  debug('disconnect');
+  this.skipReconnect = true;
+  this.reconnecting = false;
+  if ('opening' === this.readyState) {
+    // `onclose` will not fire because
+    // an open event never happened
+    this.cleanup();
+  }
+  this.backoff.reset();
+  this.readyState = 'closed';
+  if (this.engine) this.engine.close();
+};
+
+/**
+ * Called upon engine close.
+ *
+ * @api private
+ */
+
+Manager.prototype.onclose = function (reason) {
+  debug('onclose');
+
+  this.cleanup();
+  this.backoff.reset();
+  this.readyState = 'closed';
+  this.emit('close', reason);
+
+  if (this._reconnection && !this.skipReconnect) {
+    this.reconnect();
+  }
+};
+
+/**
+ * Attempt a reconnection.
+ *
+ * @api private
+ */
+
+Manager.prototype.reconnect = function () {
+  if (this.reconnecting || this.skipReconnect) return this;
+
+  var self = this;
+
+  if (this.backoff.attempts >= this._reconnectionAttempts) {
+    debug('reconnect failed');
+    this.backoff.reset();
+    this.emitAll('reconnect_failed');
+    this.reconnecting = false;
+  } else {
+    var delay = this.backoff.duration();
+    debug('will wait %dms before reconnect attempt', delay);
+
+    this.reconnecting = true;
+    var timer = setTimeout(function () {
+      if (self.skipReconnect) return;
+
+      debug('attempting reconnect');
+      self.emitAll('reconnect_attempt', self.backoff.attempts);
+      self.emitAll('reconnecting', self.backoff.attempts);
+
+      // check again for the case socket closed in above events
+      if (self.skipReconnect) return;
+
+      self.open(function (err) {
+        if (err) {
+          debug('reconnect attempt error');
+          self.reconnecting = false;
+          self.reconnect();
+          self.emitAll('reconnect_error', err.data);
+        } else {
+          debug('reconnect success');
+          self.onreconnect();
+        }
+      });
+    }, delay);
+
+    this.subs.push({
+      destroy: function () {
+        clearTimeout(timer);
+      }
+    });
+  }
+};
+
+/**
+ * Called upon successful reconnect.
+ *
+ * @api private
+ */
+
+Manager.prototype.onreconnect = function () {
+  var attempt = this.backoff.attempts;
+  this.reconnecting = false;
+  this.backoff.reset();
+  this.updateSocketIds();
+  this.emitAll('reconnect', attempt);
+};
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports) {
+
+
+/**
+ * Module exports.
+ */
+
+module.exports = on;
+
+/**
+ * Helper for subscriptions.
+ *
+ * @param {Object|EventEmitter} obj with `Emitter` mixin or `EventEmitter`
+ * @param {String} event name
+ * @param {Function} callback
+ * @api public
+ */
+
+function on (obj, ev, fn) {
+  obj.on(ev, fn);
+  return {
+    destroy: function () {
+      obj.removeListener(ev, fn);
+    }
+  };
+}
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/**
+ * Module dependencies.
+ */
+
+var parser = __webpack_require__(13);
+var Emitter = __webpack_require__(32);
+var toArray = __webpack_require__(89);
+var on = __webpack_require__(30);
+var bind = __webpack_require__(22);
+var debug = __webpack_require__(6)('socket.io-client:socket');
+var hasBin = __webpack_require__(74);
+
+/**
+ * Module exports.
+ */
+
+module.exports = exports = Socket;
+
+/**
+ * Internal events (blacklisted).
+ * These events can't be emitted by the user.
+ *
+ * @api private
+ */
+
+var events = {
+  connect: 1,
+  connect_error: 1,
+  connect_timeout: 1,
+  connecting: 1,
+  disconnect: 1,
+  error: 1,
+  reconnect: 1,
+  reconnect_attempt: 1,
+  reconnect_failed: 1,
+  reconnect_error: 1,
+  reconnecting: 1,
+  ping: 1,
+  pong: 1
+};
+
+/**
+ * Shortcut to `Emitter#emit`.
+ */
+
+var emit = Emitter.prototype.emit;
+
+/**
+ * `Socket` constructor.
+ *
+ * @api public
+ */
+
+function Socket (io, nsp, opts) {
+  this.io = io;
+  this.nsp = nsp;
+  this.json = this; // compat
+  this.ids = 0;
+  this.acks = {};
+  this.receiveBuffer = [];
+  this.sendBuffer = [];
+  this.connected = false;
+  this.disconnected = true;
+  if (opts && opts.query) {
+    this.query = opts.query;
+  }
+  if (this.io.autoConnect) this.open();
+}
+
+/**
+ * Mix in `Emitter`.
+ */
+
+Emitter(Socket.prototype);
+
+/**
+ * Subscribe to open, close and packet events
+ *
+ * @api private
+ */
+
+Socket.prototype.subEvents = function () {
+  if (this.subs) return;
+
+  var io = this.io;
+  this.subs = [
+    on(io, 'open', bind(this, 'onopen')),
+    on(io, 'packet', bind(this, 'onpacket')),
+    on(io, 'close', bind(this, 'onclose'))
+  ];
+};
+
+/**
+ * "Opens" the socket.
+ *
+ * @api public
+ */
+
+Socket.prototype.open =
+Socket.prototype.connect = function () {
+  if (this.connected) return this;
+
+  this.subEvents();
+  this.io.open(); // ensure open
+  if ('open' === this.io.readyState) this.onopen();
+  this.emit('connecting');
+  return this;
+};
+
+/**
+ * Sends a `message` event.
+ *
+ * @return {Socket} self
+ * @api public
+ */
+
+Socket.prototype.send = function () {
+  var args = toArray(arguments);
+  args.unshift('message');
+  this.emit.apply(this, args);
+  return this;
+};
+
+/**
+ * Override `emit`.
+ * If the event is in `events`, it's emitted normally.
+ *
+ * @param {String} event name
+ * @return {Socket} self
+ * @api public
+ */
+
+Socket.prototype.emit = function (ev) {
+  if (events.hasOwnProperty(ev)) {
+    emit.apply(this, arguments);
+    return this;
+  }
+
+  var args = toArray(arguments);
+  var parserType = parser.EVENT; // default
+  if (hasBin(args)) { parserType = parser.BINARY_EVENT; } // binary
+  var packet = { type: parserType, data: args };
+
+  packet.options = {};
+  packet.options.compress = !this.flags || false !== this.flags.compress;
+
+  // event ack callback
+  if ('function' === typeof args[args.length - 1]) {
+    debug('emitting packet with ack id %d', this.ids);
+    this.acks[this.ids] = args.pop();
+    packet.id = this.ids++;
+  }
+
+  if (this.connected) {
+    this.packet(packet);
+  } else {
+    this.sendBuffer.push(packet);
+  }
+
+  delete this.flags;
+
+  return this;
+};
+
+/**
+ * Sends a packet.
+ *
+ * @param {Object} packet
+ * @api private
+ */
+
+Socket.prototype.packet = function (packet) {
+  packet.nsp = this.nsp;
+  this.io.packet(packet);
+};
+
+/**
+ * Called upon engine `open`.
+ *
+ * @api private
+ */
+
+Socket.prototype.onopen = function () {
+  debug('transport is open - connecting');
+
+  // write connect packet if necessary
+  if ('/' !== this.nsp) {
+    if (this.query) {
+      this.packet({type: parser.CONNECT, query: this.query});
+    } else {
+      this.packet({type: parser.CONNECT});
+    }
+  }
+};
+
+/**
+ * Called upon engine `close`.
+ *
+ * @param {String} reason
+ * @api private
+ */
+
+Socket.prototype.onclose = function (reason) {
+  debug('close (%s)', reason);
+  this.connected = false;
+  this.disconnected = true;
+  delete this.id;
+  this.emit('disconnect', reason);
+};
+
+/**
+ * Called with socket packet.
+ *
+ * @param {Object} packet
+ * @api private
+ */
+
+Socket.prototype.onpacket = function (packet) {
+  if (packet.nsp !== this.nsp) return;
+
+  switch (packet.type) {
+    case parser.CONNECT:
+      this.onconnect();
+      break;
+
+    case parser.EVENT:
+      this.onevent(packet);
+      break;
+
+    case parser.BINARY_EVENT:
+      this.onevent(packet);
+      break;
+
+    case parser.ACK:
+      this.onack(packet);
+      break;
+
+    case parser.BINARY_ACK:
+      this.onack(packet);
+      break;
+
+    case parser.DISCONNECT:
+      this.ondisconnect();
+      break;
+
+    case parser.ERROR:
+      this.emit('error', packet.data);
+      break;
+  }
+};
+
+/**
+ * Called upon a server event.
+ *
+ * @param {Object} packet
+ * @api private
+ */
+
+Socket.prototype.onevent = function (packet) {
+  var args = packet.data || [];
+  debug('emitting event %j', args);
+
+  if (null != packet.id) {
+    debug('attaching ack callback to event');
+    args.push(this.ack(packet.id));
+  }
+
+  if (this.connected) {
+    emit.apply(this, args);
+  } else {
+    this.receiveBuffer.push(args);
+  }
+};
+
+/**
+ * Produces an ack callback to emit with an event.
+ *
+ * @api private
+ */
+
+Socket.prototype.ack = function (id) {
+  var self = this;
+  var sent = false;
+  return function () {
+    // prevent double callbacks
+    if (sent) return;
+    sent = true;
+    var args = toArray(arguments);
+    debug('sending ack %j', args);
+
+    var type = hasBin(args) ? parser.BINARY_ACK : parser.ACK;
+    self.packet({
+      type: type,
+      id: id,
+      data: args
+    });
+  };
+};
+
+/**
+ * Called upon a server acknowlegement.
+ *
+ * @param {Object} packet
+ * @api private
+ */
+
+Socket.prototype.onack = function (packet) {
+  var ack = this.acks[packet.id];
+  if ('function' === typeof ack) {
+    debug('calling ack %s with %j', packet.id, packet.data);
+    ack.apply(this, packet.data);
+    delete this.acks[packet.id];
+  } else {
+    debug('bad ack %s', packet.id);
+  }
+};
+
+/**
+ * Called upon server connect.
+ *
+ * @api private
+ */
+
+Socket.prototype.onconnect = function () {
+  this.connected = true;
+  this.disconnected = false;
+  this.emit('connect');
+  this.emitBuffered();
+};
+
+/**
+ * Emit buffered events (received and emitted).
+ *
+ * @api private
+ */
+
+Socket.prototype.emitBuffered = function () {
+  var i;
+  for (i = 0; i < this.receiveBuffer.length; i++) {
+    emit.apply(this, this.receiveBuffer[i]);
+  }
+  this.receiveBuffer = [];
+
+  for (i = 0; i < this.sendBuffer.length; i++) {
+    this.packet(this.sendBuffer[i]);
+  }
+  this.sendBuffer = [];
+};
+
+/**
+ * Called upon server disconnect.
+ *
+ * @api private
+ */
+
+Socket.prototype.ondisconnect = function () {
+  debug('server disconnect (%s)', this.nsp);
+  this.destroy();
+  this.onclose('io server disconnect');
+};
+
+/**
+ * Called upon forced client/server side disconnections,
+ * this method ensures the manager stops tracking us and
+ * that reconnections don't get triggered for this.
+ *
+ * @api private.
+ */
+
+Socket.prototype.destroy = function () {
+  if (this.subs) {
+    // clean subscriptions to avoid reconnections
+    for (var i = 0; i < this.subs.length; i++) {
+      this.subs[i].destroy();
+    }
+    this.subs = null;
+  }
+
+  this.io.destroy(this);
+};
+
+/**
+ * Disconnects the socket manually.
+ *
+ * @return {Socket} self
+ * @api public
+ */
+
+Socket.prototype.close =
+Socket.prototype.disconnect = function () {
+  if (this.connected) {
+    debug('performing disconnect (%s)', this.nsp);
+    this.packet({ type: parser.DISCONNECT });
+  }
+
+  // remove socket from pool
+  this.destroy();
+
+  if (this.connected) {
+    // fire events
+    this.onclose('io client disconnect');
+  }
+  return this;
+};
+
+/**
+ * Sets the compress flag.
+ *
+ * @param {Boolean} if `true`, compresses the sending data
+ * @return {Socket} self
+ * @api public
+ */
+
+Socket.prototype.compress = function (compress) {
+  this.flags = this.flags || {};
+  this.flags.compress = compress;
+  return this;
+};
+
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/**
+ * Expose `Emitter`.
+ */
+
+if (true) {
+  module.exports = Emitter;
+}
+
+/**
+ * Initialize a new `Emitter`.
+ *
+ * @api public
+ */
+
+function Emitter(obj) {
+  if (obj) return mixin(obj);
+};
+
+/**
+ * Mixin the emitter properties.
+ *
+ * @param {Object} obj
+ * @return {Object}
+ * @api private
+ */
+
+function mixin(obj) {
+  for (var key in Emitter.prototype) {
+    obj[key] = Emitter.prototype[key];
+  }
+  return obj;
+}
+
+/**
+ * Listen on the given `event` with `fn`.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.on =
+Emitter.prototype.addEventListener = function(event, fn){
+  this._callbacks = this._callbacks || {};
+  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
+    .push(fn);
+  return this;
+};
+
+/**
+ * Adds an `event` listener that will be invoked a single
+ * time then automatically removed.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.once = function(event, fn){
+  function on() {
+    this.off(event, on);
+    fn.apply(this, arguments);
+  }
+
+  on.fn = fn;
+  this.on(event, on);
+  return this;
+};
+
+/**
+ * Remove the given callback for `event` or all
+ * registered callbacks.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.off =
+Emitter.prototype.removeListener =
+Emitter.prototype.removeAllListeners =
+Emitter.prototype.removeEventListener = function(event, fn){
+  this._callbacks = this._callbacks || {};
+
+  // all
+  if (0 == arguments.length) {
+    this._callbacks = {};
+    return this;
+  }
+
+  // specific event
+  var callbacks = this._callbacks['$' + event];
+  if (!callbacks) return this;
+
+  // remove all handlers
+  if (1 == arguments.length) {
+    delete this._callbacks['$' + event];
+    return this;
+  }
+
+  // remove specific handler
+  var cb;
+  for (var i = 0; i < callbacks.length; i++) {
+    cb = callbacks[i];
+    if (cb === fn || cb.fn === fn) {
+      callbacks.splice(i, 1);
+      break;
+    }
+  }
+  return this;
+};
+
+/**
+ * Emit `event` with the given args.
+ *
+ * @param {String} event
+ * @param {Mixed} ...
+ * @return {Emitter}
+ */
+
+Emitter.prototype.emit = function(event){
+  this._callbacks = this._callbacks || {};
+  var args = [].slice.call(arguments, 1)
+    , callbacks = this._callbacks['$' + event];
+
+  if (callbacks) {
+    callbacks = callbacks.slice(0);
+    for (var i = 0, len = callbacks.length; i < len; ++i) {
+      callbacks[i].apply(this, args);
+    }
+  }
+
+  return this;
+};
+
+/**
+ * Return array of callbacks for `event`.
+ *
+ * @param {String} event
+ * @return {Array}
+ * @api public
+ */
+
+Emitter.prototype.listeners = function(event){
+  this._callbacks = this._callbacks || {};
+  return this._callbacks['$' + event] || [];
+};
+
+/**
+ * Check if this emitter has `event` handlers.
+ *
+ * @param {String} event
+ * @return {Boolean}
+ * @api public
+ */
+
+Emitter.prototype.hasListeners = function(event){
+  return !! this.listeners(event).length;
+};
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {
+module.exports = isBuf;
+
+/**
+ * Returns true if obj is a buffer or an arraybuffer.
+ *
+ * @api private
+ */
+
+function isBuf(obj) {
+  return (global.Buffer && global.Buffer.isBuffer(obj)) ||
+         (global.ArrayBuffer && obj instanceof ArrayBuffer);
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'.split('')
+  , length = 64
+  , map = {}
+  , seed = 0
+  , i = 0
+  , prev;
+
+/**
+ * Return a string representing the specified number.
+ *
+ * @param {Number} num The number to convert.
+ * @returns {String} The string representation of the number.
+ * @api public
+ */
+function encode(num) {
+  var encoded = '';
+
+  do {
+    encoded = alphabet[num % length] + encoded;
+    num = Math.floor(num / length);
+  } while (num > 0);
+
+  return encoded;
+}
+
+/**
+ * Return the integer value specified by the given string.
+ *
+ * @param {String} str The string to convert.
+ * @returns {Number} The integer value represented by the string.
+ * @api public
+ */
+function decode(str) {
+  var decoded = 0;
+
+  for (i = 0; i < str.length; i++) {
+    decoded = decoded * length + map[str.charAt(i)];
+  }
+
+  return decoded;
+}
+
+/**
+ * Yeast: A tiny growing id generator.
+ *
+ * @returns {String} A unique id.
+ * @api public
+ */
+function yeast() {
+  var now = encode(+new Date());
+
+  if (now !== prev) return seed = 0, prev = now;
+  return now +'.'+ encode(seed++);
+}
+
+//
+// Map each character to its index.
+//
+for (; i < length; i++) map[alphabet[i]] = i;
+
+//
+// Expose the `yeast`, `encode` and `decode` functions.
+//
+yeast.encode = encode;
+yeast.decode = decode;
+module.exports = yeast;
+
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+/**
+ * First we will load all of this project's JavaScript dependencies which
+ * includes Vue and other libraries. It is a great starting point when
+ * building robust, powerful web applications using Vue and Laravel.
+ */
+
+__webpack_require__(15);
+
+/**
+ * Next, we will create a fresh Vue application instance and attach it to
+ * the page. Then, you may begin adding components to this application
+ * or customize the JavaScript scaffolding to fit your unique needs.
+ */
+
+//Vue.use(require('vue-resource'));
+Vue.component('videochat', __webpack_require__(58));
+Vue.component('operator', __webpack_require__(57));
+
+var app = new Vue({
+  el: '#app'
+});
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports) {
+
+module.exports = after
+
+function after(count, callback, err_cb) {
+    var bail = false
+    err_cb = err_cb || noop
+    proxy.count = count
+
+    return (count === 0) ? callback() : proxy
+
+    function proxy(err, result) {
+        if (proxy.count <= 0) {
+            throw new Error('after called too many times')
+        }
+        --proxy.count
+
+        // after first error, rest are passed to err_cb
+        if (err) {
+            bail = true
+            callback(err)
+            // future error callbacks will go to error handler
+            callback = err_cb
+        } else if (proxy.count === 0 && !bail) {
+            callback(null, result)
+        }
+    }
+}
+
+function noop() {}
+
+
+/***/ }),
+/* 38 */
+/***/ (function(module, exports) {
+
+/**
+ * An abstraction for slicing an arraybuffer even when
+ * ArrayBuffer.prototype.slice is not supported
+ *
+ * @api public
+ */
+
+module.exports = function(arraybuffer, start, end) {
+  var bytes = arraybuffer.byteLength;
+  start = start || 0;
+  end = end || bytes;
+
+  if (arraybuffer.slice) { return arraybuffer.slice(start, end); }
+
+  if (start < 0) { start += bytes; }
+  if (end < 0) { end += bytes; }
+  if (end > bytes) { end = bytes; }
+
+  if (start >= bytes || start >= end || bytes === 0) {
+    return new ArrayBuffer(0);
+  }
+
+  var abv = new Uint8Array(arraybuffer);
+  var result = new Uint8Array(end - start);
+  for (var i = start, ii = 0; i < end; i++, ii++) {
+    result[ii] = abv[i];
+  }
+  return result.buffer;
+};
+
+
+/***/ }),
+/* 39 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(40);
+
+/***/ }),
+/* 40 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+var bind = __webpack_require__(20);
+var Axios = __webpack_require__(42);
+var defaults = __webpack_require__(7);
+
+/**
+ * Create an instance of Axios
+ *
+ * @param {Object} defaultConfig The default config for the instance
+ * @return {Axios} A new instance of Axios
+ */
+function createInstance(defaultConfig) {
+  var context = new Axios(defaultConfig);
+  var instance = bind(Axios.prototype.request, context);
+
+  // Copy axios.prototype to instance
+  utils.extend(instance, Axios.prototype, context);
+
+  // Copy context to instance
+  utils.extend(instance, context);
+
+  return instance;
+}
+
+// Create the default instance to be exported
+var axios = createInstance(defaults);
+
+// Expose Axios class to allow class inheritance
+axios.Axios = Axios;
+
+// Factory for creating new instances
+axios.create = function create(instanceConfig) {
+  return createInstance(utils.merge(defaults, instanceConfig));
+};
+
+// Expose Cancel & CancelToken
+axios.Cancel = __webpack_require__(17);
+axios.CancelToken = __webpack_require__(41);
+axios.isCancel = __webpack_require__(18);
+
+// Expose all/spread
+axios.all = function all(promises) {
+  return Promise.all(promises);
+};
+axios.spread = __webpack_require__(56);
+
+module.exports = axios;
+
+// Allow use of default import syntax in TypeScript
+module.exports.default = axios;
+
+
+/***/ }),
+/* 41 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cancel = __webpack_require__(17);
+
+/**
+ * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ *
+ * @class
+ * @param {Function} executor The executor function.
+ */
+function CancelToken(executor) {
+  if (typeof executor !== 'function') {
+    throw new TypeError('executor must be a function.');
+  }
+
+  var resolvePromise;
+  this.promise = new Promise(function promiseExecutor(resolve) {
+    resolvePromise = resolve;
+  });
+
+  var token = this;
+  executor(function cancel(message) {
+    if (token.reason) {
+      // Cancellation has already been requested
+      return;
+    }
+
+    token.reason = new Cancel(message);
+    resolvePromise(token.reason);
+  });
+}
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+  if (this.reason) {
+    throw this.reason;
+  }
+};
+
+/**
+ * Returns an object that contains a new `CancelToken` and a function that, when called,
+ * cancels the `CancelToken`.
+ */
+CancelToken.source = function source() {
+  var cancel;
+  var token = new CancelToken(function executor(c) {
+    cancel = c;
+  });
+  return {
+    token: token,
+    cancel: cancel
+  };
+};
+
+module.exports = CancelToken;
+
+
+/***/ }),
+/* 42 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var defaults = __webpack_require__(7);
+var utils = __webpack_require__(1);
+var InterceptorManager = __webpack_require__(43);
+var dispatchRequest = __webpack_require__(44);
+var isAbsoluteURL = __webpack_require__(52);
+var combineURLs = __webpack_require__(50);
+
+/**
+ * Create a new instance of Axios
+ *
+ * @param {Object} instanceConfig The default config for the instance
+ */
+function Axios(instanceConfig) {
+  this.defaults = instanceConfig;
+  this.interceptors = {
+    request: new InterceptorManager(),
+    response: new InterceptorManager()
+  };
+}
+
+/**
+ * Dispatch a request
+ *
+ * @param {Object} config The config specific for this request (merged with this.defaults)
+ */
+Axios.prototype.request = function request(config) {
+  /*eslint no-param-reassign:0*/
+  // Allow for axios('example/url'[, config]) a la fetch API
+  if (typeof config === 'string') {
+    config = utils.merge({
+      url: arguments[0]
+    }, arguments[1]);
+  }
+
+  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
+
+  // Support baseURL config
+  if (config.baseURL && !isAbsoluteURL(config.url)) {
+    config.url = combineURLs(config.baseURL, config.url);
+  }
+
+  // Hook up interceptors middleware
+  var chain = [dispatchRequest, undefined];
+  var promise = Promise.resolve(config);
+
+  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+    chain.push(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  while (chain.length) {
+    promise = promise.then(chain.shift(), chain.shift());
+  }
+
+  return promise;
+};
+
+// Provide aliases for supported request methods
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url
+    }));
+  };
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, data, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url,
+      data: data
+    }));
+  };
+});
+
+module.exports = Axios;
+
+
+/***/ }),
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+function InterceptorManager() {
+  this.handlers = [];
+}
+
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected
+  });
+  return this.handlers.length - 1;
+};
+
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  utils.forEach(this.handlers, function forEachHandler(h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+
+module.exports = InterceptorManager;
+
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+var transformData = __webpack_require__(47);
+var isCancel = __webpack_require__(18);
+var defaults = __webpack_require__(7);
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+function throwIfCancellationRequested(config) {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+}
+
+/**
+ * Dispatch a request to the server using the configured adapter.
+ *
+ * @param {object} config The config that is to be used for the request
+ * @returns {Promise} The Promise to be fulfilled
+ */
+module.exports = function dispatchRequest(config) {
+  throwIfCancellationRequested(config);
+
+  // Ensure headers exist
+  config.headers = config.headers || {};
+
+  // Transform request data
+  config.data = transformData(
+    config.data,
+    config.headers,
+    config.transformRequest
+  );
+
+  // Flatten headers
+  config.headers = utils.merge(
+    config.headers.common || {},
+    config.headers[config.method] || {},
+    config.headers || {}
+  );
+
+  utils.forEach(
+    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
+    function cleanHeaderConfig(method) {
+      delete config.headers[method];
+    }
+  );
+
+  var adapter = config.adapter || defaults.adapter;
+
+  return adapter(config).then(function onAdapterResolution(response) {
+    throwIfCancellationRequested(config);
+
+    // Transform response data
+    response.data = transformData(
+      response.data,
+      response.headers,
+      config.transformResponse
+    );
+
+    return response;
+  }, function onAdapterRejection(reason) {
+    if (!isCancel(reason)) {
+      throwIfCancellationRequested(config);
+
+      // Transform response data
+      if (reason && reason.response) {
+        reason.response.data = transformData(
+          reason.response.data,
+          reason.response.headers,
+          config.transformResponse
+        );
+      }
+    }
+
+    return Promise.reject(reason);
+  });
+};
+
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Update an Error with the specified config, error code, and response.
+ *
+ * @param {Error} error The error to update.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ @ @param {Object} [response] The response.
+ * @returns {Error} The error.
+ */
+module.exports = function enhanceError(error, config, code, response) {
+  error.config = config;
+  if (code) {
+    error.code = code;
+  }
+  error.response = response;
+  return error;
+};
+
+
+/***/ }),
+/* 46 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var createError = __webpack_require__(19);
+
+/**
+ * Resolve or reject a Promise based on response status.
+ *
+ * @param {Function} resolve A function that resolves the promise.
+ * @param {Function} reject A function that rejects the promise.
+ * @param {object} response The response.
+ */
+module.exports = function settle(resolve, reject, response) {
+  var validateStatus = response.config.validateStatus;
+  // Note: status is not exposed by XDomainRequest
+  if (!response.status || !validateStatus || validateStatus(response.status)) {
+    resolve(response);
+  } else {
+    reject(createError(
+      'Request failed with status code ' + response.status,
+      response.config,
+      null,
+      response
+    ));
+  }
+};
+
+
+/***/ }),
+/* 47 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+/**
+ * Transform the data for a request or a response
+ *
+ * @param {Object|String} data The data to be transformed
+ * @param {Array} headers The headers for the request or response
+ * @param {Array|Function} fns A single function or Array of functions
+ * @returns {*} The resulting transformed data
+ */
+module.exports = function transformData(data, headers, fns) {
+  /*eslint no-param-reassign:0*/
+  utils.forEach(fns, function transform(fn) {
+    data = fn(data, headers);
+  });
+
+  return data;
+};
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
+
+var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+function E() {
+  this.message = 'String contains an invalid character';
+}
+E.prototype = new Error;
+E.prototype.code = 5;
+E.prototype.name = 'InvalidCharacterError';
+
+function btoa(input) {
+  var str = String(input);
+  var output = '';
+  for (
+    // initialize result and counter
+    var block, charCode, idx = 0, map = chars;
+    // if the next str index does not exist:
+    //   change the mapping table to "="
+    //   check if d has no fractional digits
+    str.charAt(idx | 0) || (map = '=', idx % 1);
+    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
+    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
+  ) {
+    charCode = str.charCodeAt(idx += 3 / 4);
+    if (charCode > 0xFF) {
+      throw new E();
+    }
+    block = block << 8 | charCode;
+  }
+  return output;
+}
+
+module.exports = btoa;
+
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+function encode(val) {
+  return encodeURIComponent(val).
+    replace(/%40/gi, '@').
+    replace(/%3A/gi, ':').
+    replace(/%24/g, '$').
+    replace(/%2C/gi, ',').
+    replace(/%20/g, '+').
+    replace(/%5B/gi, '[').
+    replace(/%5D/gi, ']');
+}
+
+/**
+ * Build a URL by appending params to the end
+ *
+ * @param {string} url The base of the url (e.g., http://www.google.com)
+ * @param {object} [params] The params to be appended
+ * @returns {string} The formatted url
+ */
+module.exports = function buildURL(url, params, paramsSerializer) {
+  /*eslint no-param-reassign:0*/
+  if (!params) {
+    return url;
+  }
+
+  var serializedParams;
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params);
+  } else if (utils.isURLSearchParams(params)) {
+    serializedParams = params.toString();
+  } else {
+    var parts = [];
+
+    utils.forEach(params, function serialize(val, key) {
+      if (val === null || typeof val === 'undefined') {
+        return;
+      }
+
+      if (utils.isArray(val)) {
+        key = key + '[]';
+      }
+
+      if (!utils.isArray(val)) {
+        val = [val];
+      }
+
+      utils.forEach(val, function parseValue(v) {
+        if (utils.isDate(v)) {
+          v = v.toISOString();
+        } else if (utils.isObject(v)) {
+          v = JSON.stringify(v);
+        }
+        parts.push(encode(key) + '=' + encode(v));
+      });
+    });
+
+    serializedParams = parts.join('&');
+  }
+
+  if (serializedParams) {
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+  }
+
+  return url;
+};
+
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '');
+};
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs support document.cookie
+  (function standardBrowserEnv() {
+    return {
+      write: function write(name, value, expires, path, domain, secure) {
+        var cookie = [];
+        cookie.push(name + '=' + encodeURIComponent(value));
+
+        if (utils.isNumber(expires)) {
+          cookie.push('expires=' + new Date(expires).toGMTString());
+        }
+
+        if (utils.isString(path)) {
+          cookie.push('path=' + path);
+        }
+
+        if (utils.isString(domain)) {
+          cookie.push('domain=' + domain);
+        }
+
+        if (secure === true) {
+          cookie.push('secure');
+        }
+
+        document.cookie = cookie.join('; ');
+      },
+
+      read: function read(name) {
+        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+        return (match ? decodeURIComponent(match[3]) : null);
+      },
+
+      remove: function remove(name) {
+        this.write(name, '', Date.now() - 86400000);
+      }
+    };
+  })() :
+
+  // Non standard browser env (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return {
+      write: function write() {},
+      read: function read() { return null; },
+      remove: function remove() {}
+    };
+  })()
+);
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs have full support of the APIs needed to test
+  // whether the request URL is of the same origin as current location.
+  (function standardBrowserEnv() {
+    var msie = /(msie|trident)/i.test(navigator.userAgent);
+    var urlParsingNode = document.createElement('a');
+    var originURL;
+
+    /**
+    * Parse a URL to discover it's components
+    *
+    * @param {String} url The URL to be parsed
+    * @returns {Object}
+    */
+    function resolveURL(url) {
+      var href = url;
+
+      if (msie) {
+        // IE needs attribute set twice to normalize properties
+        urlParsingNode.setAttribute('href', href);
+        href = urlParsingNode.href;
+      }
+
+      urlParsingNode.setAttribute('href', href);
+
+      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+      return {
+        href: urlParsingNode.href,
+        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+        host: urlParsingNode.host,
+        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+        hostname: urlParsingNode.hostname,
+        port: urlParsingNode.port,
+        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+                  urlParsingNode.pathname :
+                  '/' + urlParsingNode.pathname
+      };
+    }
+
+    originURL = resolveURL(window.location.href);
+
+    /**
+    * Determine if a URL shares the same origin as the current location
+    *
+    * @param {String} requestURL The URL to test
+    * @returns {boolean} True if URL shares the same origin, otherwise false
+    */
+    return function isURLSameOrigin(requestURL) {
+      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+      return (parsed.protocol === originURL.protocol &&
+            parsed.host === originURL.host);
+    };
+  })() :
+
+  // Non standard browser envs (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return function isURLSameOrigin() {
+      return true;
+    };
+  })()
+);
+
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+module.exports = function normalizeHeaderName(headers, normalizedName) {
+  utils.forEach(headers, function processHeader(value, name) {
+    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+      headers[normalizedName] = value;
+      delete headers[name];
+    }
+  });
+};
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(1);
+
+/**
+ * Parse headers into an object
+ *
+ * ```
+ * Date: Wed, 27 Aug 2014 08:58:49 GMT
+ * Content-Type: application/json
+ * Connection: keep-alive
+ * Transfer-Encoding: chunked
+ * ```
+ *
+ * @param {String} headers Headers needing to be parsed
+ * @returns {Object} Headers parsed into an object
+ */
+module.exports = function parseHeaders(headers) {
+  var parsed = {};
+  var key;
+  var val;
+  var i;
+
+  if (!headers) { return parsed; }
+
+  utils.forEach(headers.split('\n'), function parser(line) {
+    i = line.indexOf(':');
+    key = utils.trim(line.substr(0, i)).toLowerCase();
+    val = utils.trim(line.substr(i + 1));
+
+    if (key) {
+      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+    }
+  });
+
+  return parsed;
+};
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Syntactic sugar for invoking a function and expanding an array for arguments.
+ *
+ * Common use case would be to use `Function.prototype.apply`.
+ *
+ *  ```js
+ *  function f(x, y, z) {}
+ *  var args = [1, 2, 3];
+ *  f.apply(null, args);
+ *  ```
+ *
+ * With `spread` this example can be re-written.
+ *
+ *  ```js
+ *  spread(function(x, y, z) {})([1, 2, 3]);
+ *  ```
+ *
+ * @param {Function} callback
+ * @returns {Function}
+ */
+module.exports = function spread(callback) {
+  return function wrap(arr) {
+    return callback.apply(null, arr);
+  };
+};
+
+
+/***/ }),
 /* 57 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/**
+ * Created by root on 05/06/17.
+ */
+var PeerJs = __webpack_require__(21);
+//var PeerJs = require('peer').ExpressPeerServer;
+var socket = __webpack_require__(28);
+
+module.exports = {
+    props: ['skey', 'shost', 'sport', 'spath', 'ssecure', 'suser', 'slocation'],
+    data: function data() {
+        var realport = this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80);
+
+        return {
+            io: socket.connect(this.shost + ':' + realport),
+            isRecording: false,
+            timeOut: false
+        };
+    },
+    template: __webpack_require__(77),
+    created: function created() {
+        var that = this;
+        setInterval(function () {
+            that.timeOut = !that.timeOut;
+        }, 3000);
+    }
+
+};
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function($) {/**
+ * Created by root on 05/06/17.
+ */
+var PeerJs = __webpack_require__(21);
+//var PeerJs = require('peer').ExpressPeerServer;
+var socket = __webpack_require__(28);
+
+module.exports = {
+    props: ['skey', 'shost', 'sport', 'spath', 'ssecure', 'suser', 'slocation'],
+    data: function data() {
+        var realport = this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80);
+        var video = new Peer('operator', {
+            key: this.skey,
+            host: this.shost,
+            port: realport,
+            path: this.spath,
+            secure: this.ssecure == true ? true : false,
+            config: {
+                'iceServers': [{
+                    url: 'stun:stun.ekiga.net'
+                }, {
+                    url: 'stun:stun.l.google.com:19302'
+                }, {
+                    url: 'stun:stun1.l.google.com:19302'
+                }, {
+                    url: 'stun:stun2.l.google.com:19302'
+                }, {
+                    url: 'stun:stun3.l.google.com:19302'
+                }, {
+                    url: 'stun:stun4.l.google.com:19302'
+                }]
+            }
+        });
+        return {
+            io: socket.connect(this.shost + ':' + realport),
+            peer: video,
+            isRecording: false
+        };
+    },
+    template: __webpack_require__(78),
+    created: function created() {
+        console.log('created.....');
+        console.log(this.skey, this.shost, this.sport, this.spath, this.ssecure, this.suser, this.soperator, this.slocation);
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia || navigator.msGetUserMedia;
+
+        var realthis = this;
+
+        this.peer.on('open', function () {
+            console.log('opened.....');
+        });
+
+        this.peer.on('error', function (err) {
+            console.log(err.message);
+        });
+
+        this.peer.on('call', function (call) {
+            call.answer(window.localStream);
+            console.log('call from Operator.....');
+            realthis.isRecording = !realthis.isRecording;
+            realthis.wait_stream(call);
+        });
+
+        navigator.getUserMedia({ audio: true, video: true }, function (stream) {
+            console.log('getUserMedia ......');
+            window.localStream = stream;
+            $('#localVideo').prop('src', URL.createObjectURL(stream));
+        }, function (err) {
+            console.log(err);
+        });
+
+        this.io.emit('welcome-message', { userID: this.suser, status: 'ready', locations: ["10"], userType: "user" });
+
+        this.io.on('no-response-available', function () {
+            console.log('no-response-available......');
+            //realthis.calling_old();
+        });
+        this.io.on('new-response-arrived', function () {
+            console.log('new-response-arrived......');
+        });
+        this.io.on('response-check-user-connection', function () {
+            console.log('response-check-user-connection......');
+        });
+    },
+    methods: {
+        calling_new: function calling_new() {
+            console.log('io.emit...........');
+            this.io.emit('ask-response', { userID: this.suser, status: 'ready', locations: ["10"], userType: "user" });
+            //this.calling_old();
+        },
+
+        calling: function calling() {
+            console.log('Call Operator ......');
+            var that = this;
+            this.isRecording = !this.isRecording;
+            if (this.isRecording) {
+                console.log('isRecording ......');
+                var call = that.peer.call(this.soperator, window.localStream);
+                that.wait_stream(call);
+            } else {
+                window.existingCall.close();
+                $('#localVideo').prop('src', '');
+                $('#remoteVideo').prop('src', '');
+            }
+        },
+        wait_stream: function wait_stream(call) {
+            var that = this;
+            console.log(' wait_stream...');
+            if (window.existingCall) {
+                window.existingCall.close();
+            }
+            call.on('stream', function (stream) {
+                console.log('call in stream...');
+                $('#remoteVideo').prop('src', URL.createObjectURL(stream));
+            });
+            call.on('close', function () {
+                console.log('close call...');
+                window.existingCall.close();
+                if (that.isRecording) {
+                    that.isRecording = !that.isRecording;
+                }
+                //$('#localVideo').prop('src','');
+                $('#remoteVideo').prop('src', '');
+            });
+            window.existingCall = call;
+        }
+    }
+
+};
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+
+/***/ }),
+/* 59 */
 /***/ (function(module, exports) {
 
 
@@ -19036,7 +19184,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 58 */
+/* 60 */
 /***/ (function(module, exports) {
 
 /*
@@ -19109,7 +19257,7 @@ Backoff.prototype.setJitter = function(jitter){
 
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -19212,7 +19360,7 @@ module.exports = (function() {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 60 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(jQuery) {/*!
@@ -21596,7 +21744,7 @@ if (typeof jQuery === 'undefined') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, exports) {
 
 
@@ -21766,19 +21914,19 @@ Emitter.prototype.hasListeners = function(event){
 
 
 /***/ }),
-/* 62 */
+/* 64 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-module.exports = __webpack_require__(63);
+module.exports = __webpack_require__(65);
 
 
 /***/ }),
-/* 63 */
+/* 65 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-module.exports = __webpack_require__(64);
+module.exports = __webpack_require__(66);
 
 /**
  * Exports parser
@@ -21790,20 +21938,20 @@ module.exports.parser = __webpack_require__(2);
 
 
 /***/ }),
-/* 64 */
+/* 66 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
  * Module dependencies.
  */
 
-var transports = __webpack_require__(22);
+var transports = __webpack_require__(23);
 var Emitter = __webpack_require__(10);
 var debug = __webpack_require__(5)('engine.io-client:socket');
-var index = __webpack_require__(24);
+var index = __webpack_require__(25);
 var parser = __webpack_require__(2);
-var parseuri = __webpack_require__(26);
-var parsejson = __webpack_require__(78);
+var parseuri = __webpack_require__(27);
+var parsejson = __webpack_require__(81);
 var parseqs = __webpack_require__(12);
 
 /**
@@ -21937,7 +22085,7 @@ Socket.protocol = parser.protocol; // this is an int
 
 Socket.Socket = Socket;
 Socket.Transport = __webpack_require__(8);
-Socket.transports = __webpack_require__(22);
+Socket.transports = __webpack_require__(23);
 Socket.parser = __webpack_require__(2);
 
 /**
@@ -22535,7 +22683,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 65 */
+/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -22543,7 +22691,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
  * Module requirements.
  */
 
-var Polling = __webpack_require__(23);
+var Polling = __webpack_require__(24);
 var inherit = __webpack_require__(4);
 
 /**
@@ -22773,7 +22921,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 66 */
+/* 68 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -22781,7 +22929,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
  */
 
 var XMLHttpRequest = __webpack_require__(9);
-var Polling = __webpack_require__(23);
+var Polling = __webpack_require__(24);
 var Emitter = __webpack_require__(10);
 var inherit = __webpack_require__(4);
 var debug = __webpack_require__(5)('engine.io-client:polling-xhr');
@@ -23204,7 +23352,7 @@ function unloadHandler () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 67 */
+/* 69 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -23215,13 +23363,13 @@ var Transport = __webpack_require__(8);
 var parser = __webpack_require__(2);
 var parseqs = __webpack_require__(12);
 var inherit = __webpack_require__(4);
-var yeast = __webpack_require__(32);
+var yeast = __webpack_require__(34);
 var debug = __webpack_require__(5)('engine.io-client:websocket');
 var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {
   try {
-    NodeWebSocket = __webpack_require__(91);
+    NodeWebSocket = __webpack_require__(93);
   } catch (e) { }
 }
 
@@ -23496,7 +23644,7 @@ WS.prototype.check = function () {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 68 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -23512,7 +23660,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(25);
+exports.humanize = __webpack_require__(26);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -23702,7 +23850,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 69 */
+/* 71 */
 /***/ (function(module, exports) {
 
 
@@ -23727,7 +23875,7 @@ module.exports = Object.keys || function keys (obj){
 
 
 /***/ }),
-/* 70 */
+/* 72 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -23735,7 +23883,7 @@ module.exports = Object.keys || function keys (obj){
  * Module requirements.
  */
 
-var isArray = __webpack_require__(71);
+var isArray = __webpack_require__(73);
 
 /**
  * Module exports.
@@ -23792,7 +23940,7 @@ function hasBinary(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 71 */
+/* 73 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -23801,7 +23949,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 72 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -23809,7 +23957,7 @@ module.exports = Array.isArray || function (arr) {
  * Module requirements.
  */
 
-var isArray = __webpack_require__(73);
+var isArray = __webpack_require__(75);
 
 /**
  * Module exports.
@@ -23867,7 +24015,7 @@ function hasBinary(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 73 */
+/* 75 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -23876,7 +24024,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 74 */
+/* 76 */
 /***/ (function(module, exports) {
 
 
@@ -23899,20 +24047,26 @@ try {
 
 
 /***/ }),
-/* 75 */
+/* 77 */
+/***/ (function(module, exports) {
+
+module.exports = "<div id=\"small-videochat\" v-bind:class=\"[timeOut?'animated wobble':'animated pulse']\" >\n    <span class=\"badge badge-danger pull-right\">0</span>\n    <a class=\"open-small-chat\">\n        <i class=\"fa fa-video-camera\"></i>\n    </a>\n</div>\n";
+
+/***/ }),
+/* 78 */
 /***/ (function(module, exports) {
 
 module.exports = "<div>\n    <button v-bind:class=\"[isRecording?'btn btn-danger':'btn btn-primary']\" v-on:click.stop.prevent=\"calling\">\n        <i class=\"fa fa-stop\" v-show=\"isRecording\"></i>\n        <i class=\"fa fa-play\" v-show=\"!isRecording\"></i>\n        <span v-show=\"!isRecording\">Chiama Operatore</span>\n        <span v-show=\"isRecording\">Termina Chiamata</span>\n    </button>\n    <br>\n    <!--<div id=\"call-id\"></div>-->\n    <div style=\"position: relative\" v-show=\"isRecording\">\n            <video id=\"remoteVideo\" style=\"height: 350px;\" autoplay></video>\n        <div style=\"\n            background-color: black;\n            width: 30%;\n            position: absolute;\n            top: -3px;\n            right: -3px;\n            box-shadow: 5px 5px 10px #888;\n            -moz-box-shadow: 5px 5px 10px #888;\n            -webkit-box-shadow: 5px 5px 10px #888;\n            \" >\n            <video id=\"localVideo\" autoplay height=\"100%\"></video>\n        </div>\n    </div>\n</div>\n\n";
 
 /***/ }),
-/* 76 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
 ;(function () {
   // Detect the `define` function exposed by asynchronous module loaders. The
   // strict `define` check is necessary for compatibility with `r.js`.
-  var isLoader = "function" === "function" && __webpack_require__(89);
+  var isLoader = "function" === "function" && __webpack_require__(91);
 
   // A set of types used to distinguish objects from primitives.
   var objectTypes = {
@@ -24815,7 +24969,7 @@ module.exports = "<div>\n    <button v-bind:class=\"[isRecording?'btn btn-danger
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 77 */
+/* 80 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -41907,7 +42061,7 @@ module.exports = "<div>\n    <button v-bind:class=\"[isRecording?'btn btn-danger
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(14)(module)))
 
 /***/ }),
-/* 78 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -41945,122 +42099,7 @@ module.exports = function parsejson(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 79 */
-/***/ (function(module, exports, __webpack_require__) {
-
-
-/**
- * Module dependencies.
- */
-
-var url = __webpack_require__(80);
-var parser = __webpack_require__(13);
-var Manager = __webpack_require__(27);
-var debug = __webpack_require__(6)('socket.io-client');
-
-/**
- * Module exports.
- */
-
-module.exports = exports = lookup;
-
-/**
- * Managers cache.
- */
-
-var cache = exports.managers = {};
-
-/**
- * Looks up an existing `Manager` for multiplexing.
- * If the user summons:
- *
- *   `io('http://localhost/a');`
- *   `io('http://localhost/b');`
- *
- * We reuse the existing instance based on same scheme/port/host,
- * and we initialize sockets for each namespace.
- *
- * @api public
- */
-
-function lookup (uri, opts) {
-  if (typeof uri === 'object') {
-    opts = uri;
-    uri = undefined;
-  }
-
-  opts = opts || {};
-
-  var parsed = url(uri);
-  var source = parsed.source;
-  var id = parsed.id;
-  var path = parsed.path;
-  var sameNamespace = cache[id] && path in cache[id].nsps;
-  var newConnection = opts.forceNew || opts['force new connection'] ||
-                      false === opts.multiplex || sameNamespace;
-
-  var io;
-
-  if (newConnection) {
-    debug('ignoring socket cache for %s', source);
-    io = Manager(source, opts);
-  } else {
-    if (!cache[id]) {
-      debug('new io instance for %s', source);
-      cache[id] = Manager(source, opts);
-    }
-    io = cache[id];
-  }
-  if (parsed.query && !opts.query) {
-    opts.query = parsed.query;
-  } else if (opts && 'object' === typeof opts.query) {
-    opts.query = encodeQueryString(opts.query);
-  }
-  return io.socket(parsed.path, opts);
-}
-/**
- *  Helper method to parse query objects to string.
- * @param {object} query
- * @returns {string}
- */
-function encodeQueryString (obj) {
-  var str = [];
-  for (var p in obj) {
-    if (obj.hasOwnProperty(p)) {
-      str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
-    }
-  }
-  return str.join('&');
-}
-/**
- * Protocol version.
- *
- * @api public
- */
-
-exports.protocol = parser.protocol;
-
-/**
- * `connect`.
- *
- * @param {String} uri
- * @api public
- */
-
-exports.connect = lookup;
-
-/**
- * Expose constructors for standalone build.
- *
- * @api public
- */
-
-exports.Manager = __webpack_require__(27);
-exports.Socket = __webpack_require__(29);
-
-
-/***/ }),
-/* 80 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -42068,7 +42107,7 @@ exports.Socket = __webpack_require__(29);
  * Module dependencies.
  */
 
-var parseuri = __webpack_require__(26);
+var parseuri = __webpack_require__(27);
 var debug = __webpack_require__(6)('socket.io-client:url');
 
 /**
@@ -42142,7 +42181,7 @@ function url (uri, loc) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 81 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -42158,7 +42197,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(25);
+exports.humanize = __webpack_require__(26);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -42348,7 +42387,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 82 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -42357,8 +42396,8 @@ function coerce(val) {
  * Module requirements
  */
 
-var isArray = __webpack_require__(85);
-var isBuf = __webpack_require__(31);
+var isArray = __webpack_require__(87);
+var isBuf = __webpack_require__(33);
 
 /**
  * Replaces every Buffer | ArrayBuffer in packet with a numbered placeholder.
@@ -42496,7 +42535,7 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 83 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -42506,7 +42545,7 @@ exports.removeBlobs = function(data, callback) {
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(84);
+exports = module.exports = __webpack_require__(86);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -42670,7 +42709,7 @@ function localstorage(){
 
 
 /***/ }),
-/* 84 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -42686,7 +42725,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(86);
+exports.humanize = __webpack_require__(88);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -42873,7 +42912,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 85 */
+/* 87 */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -42882,7 +42921,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 86 */
+/* 88 */
 /***/ (function(module, exports) {
 
 /**
@@ -43013,7 +43052,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 87 */
+/* 89 */
 /***/ (function(module, exports) {
 
 module.exports = toArray
@@ -43032,7 +43071,7 @@ function toArray(list, index) {
 
 
 /***/ }),
-/* 88 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -52731,7 +52770,7 @@ module.exports = Vue$3;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(0)))
 
 /***/ }),
-/* 89 */
+/* 91 */
 /***/ (function(module, exports) {
 
 /* WEBPACK VAR INJECTION */(function(__webpack_amd_options__) {/* globals __webpack_amd_options__ */
@@ -52740,7 +52779,7 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, {}))
 
 /***/ }),
-/* 90 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(module, global) {var __WEBPACK_AMD_DEFINE_RESULT__;/*! https://mths.be/wtf8 v1.0.0 by @mathias */
@@ -52980,18 +53019,18 @@ module.exports = __webpack_amd_options__;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)(module), __webpack_require__(0)))
 
 /***/ }),
-/* 91 */
+/* 93 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 92 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(33);
+__webpack_require__(35);
 __webpack_require__(15);
-module.exports = __webpack_require__(34);
+module.exports = __webpack_require__(36);
 
 
 /***/ })

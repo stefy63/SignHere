@@ -825,8 +825,7 @@ window.onresize = resizeCanvas;
                             spath='{{env('VUE_CHAT_PATH')}}'
                             ssecure='{{env('VUE_CHAT_SECURE')}}'
                             suser='{{$user->id}}'
-                            soperator='{{$operator}}'
-                            slocation='{{$location}}'
+                            slocation='{{$user->locations()->get()->pluck('id')}}'
                             >
                         </videochat>
                     </div>

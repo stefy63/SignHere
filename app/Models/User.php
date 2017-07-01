@@ -9,6 +9,7 @@ use App\Models\user_acl;
 use App\Models\Profile;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
@@ -16,6 +17,8 @@ class User extends Authenticatable
 
     protected $guarded = array();
     //protected $fillable = ['*'];
+
+    use SoftDeletes;
 
     /**
      * The attributes that should be hidden for arrays.
@@ -55,6 +58,10 @@ class User extends Authenticatable
 
     public function devices() {
         return $this->belongsToMany(Device::class);
+    }
+
+    public function locations() {
+        return $this->belongsToMany(Location::class);
     }
 
     public function isAdmin() {

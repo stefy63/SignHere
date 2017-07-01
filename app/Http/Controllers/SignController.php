@@ -193,9 +193,7 @@ class SignController extends Controller
                 'template'  => json_encode($arrayTpl),
                 'questions' => json_encode($arrayQuestion),
                 'b64doc'    => $b64Doc,
-                'operator'  => 'operator',
-                'user'      => \Auth::user(),
-                'location'  => 10
+                'user'      => \Auth::user()
             ]);
         }
         return redirect()->back()->with('alert',__('sign.sign_document_NOTFound'));

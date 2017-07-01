@@ -95,7 +95,9 @@
                                                 <select class="form-control" name="profile_id" >
                                                     <option value="">{{__('admin_users.db-profile_select')}}</option>
                                                     @foreach($profiles as $profile)
-                                                        <option value="{{$profile->id}}">{{$profile->name}}</option>
+                                                        <option value="{{$profile->id}}" @if($profile->id == old('profile_id')) selected  @endif>
+                                                            {{$profile->name}}
+                                                        </option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -112,18 +114,36 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <br>
-
-                                    <div class="row">
-                                        <div class="col-md-12 text-center">
-                                            <p><button class="submit-toast btn btn-block btn-outline btn-primary" data-form-id="toast-form">{{__('admin_brands.submit')}}</button></p>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                             <div id="locations" class="tab-pane">
                                 <div class="panel-body">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-md-3 col-lg-3 col-xs-3">
+                                                <label for="locations" >{{__('admin_users.db-locations')}}</label>
+                                            </div>
+                                            <div class="col-md-8">
+                                                @if($locations)
+                                                    <select class="col-md-12" name="locations[]" multiple size="12" >
+                                                        @foreach($locations as $location)
+                                                            <option value="{{$location->id}}" {{ (collect(old('locations'))->contains($location->id)) ? 'selected':'' }}>
+                                                                {{$location->description}}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
+                            <br>
+
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <p><button class="submit-toast btn btn-block btn-outline btn-primary" data-form-id="toast-form">{{__('admin_brands.submit')}}</button></p>
                                 </div>
                             </div>
                         </div>

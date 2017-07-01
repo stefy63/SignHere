@@ -8,11 +8,11 @@ var socket = require('socket.io-client');
 
 module.exports = {
     props: [
-        'skey','shost','sport','spath','ssecure','suser','soperator','slocation'
+        'skey','shost','sport','spath','ssecure','suser','slocation'
     ],
     data: function () {
         var realport = (this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80));
-        var video = new Peer(this.suser,
+        var video = new Peer('operator',
             {
                 key: this.skey,
                 host: this.shost,

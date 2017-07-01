@@ -17,7 +17,7 @@
 
 <body >
     <div id="wrapper" >
- 
+ <!-- <a href="https://www.google.it"  onclick="window.open('print.html', 'newwindow', 'width=300,height=250'); return false;"> Print</a>-->
         @if(Auth::check())
             <!-- Section menu -->
             @include('admin.menu')
