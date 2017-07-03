@@ -17,6 +17,8 @@ require('./bootstrap');
 //Vue.use(require('vue-resource'));
 Vue.component('videochat', require('./components/videochat'));
 Vue.component('operator', require('./components/operator'));
+Vue.component('video-operator', require('./components/video-operator'));
+
 
 const app = new Vue({
     el: '#app'

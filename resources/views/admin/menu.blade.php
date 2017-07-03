@@ -20,6 +20,16 @@
                             suser='{{Auth::user()->id}}'
                             slocation='{{Auth::user()->locations()->get()->pluck('id')}}'
                             ></operator>
+
+                    <video-operator
+                            skey='{{env('VUE_CHAT_KEY')}}'
+                            shost='{{env('VUE_CHAT_HOST')}}'
+                            sport='{{env('VUE_CHAT_PORT')}}'
+                            spath='{{env('VUE_CHAT_PATH')}}'
+                            ssecure='{{env('VUE_CHAT_SECURE')}}'
+                            suser='{{Auth::user()->id}}'
+                            slocation='{{Auth::user()->locations()->get()->pluck('id')}}'
+                            ></video-operator>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li>
                             <a class="confirm-toast"  data-message="{{__('menu.confirmLogout')}}"  data-location="{{url('logout')}}">

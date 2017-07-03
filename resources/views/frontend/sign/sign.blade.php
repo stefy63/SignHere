@@ -3,6 +3,7 @@
 <link href="{{ asset('css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css') }}" rel="stylesheet">
 <link href="{{ asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet">
 <link href="{{ asset('css/plugins/iCheck/custom.css') }}" rel="stylesheet">
+<link href="{{ asset('css/jquery-ui.css') }}" rel="stylesheet">
 
 <style>
 #signature{
@@ -35,10 +36,12 @@
 <script src="{{ asset('js/compatibility.js') }}"></script>
 <!-- iCheck -->
 <script src="{{ asset('js/plugins/iCheck/icheck.min.js') }}"></script>
-
+<!-- jquery-ui -->
+<script src="{{ asset('js/jquery-ui.js') }}"></script>
 
 <script type="text/javascript">
 $(function () {
+    $( "#draggable" ).draggable();
 
     var pdfData = atob("{{$b64doc}}");
 
@@ -825,7 +828,7 @@ window.onresize = resizeCanvas;
                             spath='{{env('VUE_CHAT_PATH')}}'
                             ssecure='{{env('VUE_CHAT_SECURE')}}'
                             suser='{{$user->id}}'
-                            slocation='{{$user->locations()->first()->id}}'
+                            slocation='{{($user->locations())?$user->locations()->first()->id:''}}'
                             >
                         </videochat>
                     </div>

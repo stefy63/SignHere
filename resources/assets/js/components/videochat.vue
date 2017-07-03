@@ -32,7 +32,6 @@
  * Created by root on 05/06/17.
  */
 var PeerJs = require('../peer.js');
-//var PeerJs = require('peer').ExpressPeerServer;
 var socket = require('socket.io-client');
 
 
@@ -51,17 +50,17 @@ module.exports = {
                 secure: (this.ssecure == true)?true:false,
                 config:{
                     'iceServers': [{
-                        url: 'stun:stun.ekiga.net'
+                        urls: 'stun:stun.ekiga.net'
                     }, {
-                        url: 'stun:stun.l.google.com:19302'
+                        urls: 'stun:stun.l.google.com:19302'
                     }, {
-                        url: 'stun:stun1.l.google.com:19302'
+                        urls: 'stun:stun1.l.google.com:19302'
                     }, {
-                        url: 'stun:stun2.l.google.com:19302'
+                        urls: 'stun:stun2.l.google.com:19302'
                     }, {
-                        url: 'stun:stun3.l.google.com:19302'
+                        urls: 'stun:stun3.l.google.com:19302'
                     }, {
-                        url: 'stun:stun4.l.google.com:19302'
+                        urls: 'stun:stun4.l.google.com:19302'
                     }]
                 }
             });
@@ -83,6 +82,21 @@ module.exports = {
 
         var realthis = this;
 
+        navigator.getUserMedia({ audio: {
+            "mandatory": {
+                echoCancellation: true,
+                googEchoCancellation: true,
+                googAutoGainControl: true,
+                googNoiseSuppression: true,
+                googHighpassFilter: true
+            },
+            "optional": []
+        }, video: true}, function (stream) {
+            console.log('getUserMedia ......');
+            window.localStream = stream;
+            $('#localVideo').prop('src',  URL.createObjectURL(stream));
+        }, function(err){console.log(err);});
+
         this.peer.on('open', function() {
             console.log('opened.....');
         });
@@ -97,25 +111,15 @@ module.exports = {
             realthis.isRecording = !realthis.isRecording;
             realthis.wait_stream(call);
         });
-
-        navigator.getUserMedia({ audio: true, video: true}, function (stream) {
-            console.log('getUserMedia ......');
-            window.localStream = stream;
-            $('#localVideo').prop('src',  URL.createObjectURL(stream));
-        }, function(err){console.log(err);});
-
-
+///// SOCKET IO
         this.io.emit('welcome-message', this.userDetail);
 
         this.io.on('no-response-available',function () {
             console.log('no-response-available......');
-            //realthis.calling_old();
         });
-        this.io.on('new-response-arrived',function () {
-            console.log('new-response-arrived......');
-        });
+
         this.io.on('new-response-arrived',function (message) {
-            console.log('response-check-user-connection......');
+            console.log('new-response-arrived......');
             realthis.calling(message.userToCall);
         });
 
@@ -128,7 +132,6 @@ module.exports = {
                 window.existingCall.close();
             }
             this.io.emit('ask-response', {location: this.slocation});
-            //this.calling_old();
         },
 
         calling:function (userToCall) {
