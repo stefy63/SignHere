@@ -36,8 +36,6 @@
 <script src="{{ asset('js/compatibility.js') }}"></script>
 <!-- iCheck -->
 <script src="{{ asset('js/plugins/iCheck/icheck.min.js') }}"></script>
-<!-- jquery-ui -->
-<script src="{{ asset('js/jquery-ui.js') }}"></script>
 
 <script type="text/javascript">
 $(function () {

@@ -14,10 +14,10 @@ const { mix } = require('laravel-mix');
 mix.js([
     'resources/assets/js/app.js',
     'resources/assets/js/bootstrap.js',
-    'resources/assets/js/jquery-ui/jquery-ui.js',
+    'resources/assets/jquery-ui/jquery-ui.js',
     ]
     , 'public/js')
     .sass('resources/assets/sass/app.scss', 'public/css')
-    .sass('resources/assets/js/jquery-ui/jquery-ui.css', 'public/css');
+    .sass('resources/assets/jquery-ui/jquery-ui.css', 'public/css')
 
 //mix.browserSync();

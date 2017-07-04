@@ -79,7 +79,7 @@ module.exports = {
             var that = this;
             console.log('Small-Chat-Clikked....');
 
-            var user2call = {userToCall: this.Call[0] ,location: 5};
+            var user2call = {userToCall: this.Call[0] ,location: that.slocation};
             this.io.emit('accept-call',user2call);
         },
     },

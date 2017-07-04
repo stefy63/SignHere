@@ -8,18 +8,9 @@
         </button>
         <br>
         <!--<div id="call-id"></div>-->
-        <div style="position: relative" v-show="isRecording">
+        <div id='divRemoteVideo' v-show="isRecording">
             <video id="remoteVideo" style="height: 350px;" autoplay></video>
-            <div style="
-            background-color: black;
-            width: 30%;
-            position: absolute;
-            top: -3px;
-            right: -3px;
-            box-shadow: 5px 5px 10px #888;
-            -moz-box-shadow: 5px 5px 10px #888;
-            -webkit-box-shadow: 5px 5px 10px #888;
-            " >
+            <div id='divLocalVideo' >
                 <video id="localVideo" autoplay height="100%"></video>
             </div>
         </div>
@@ -105,12 +96,12 @@ module.exports = {
             console.log(err.message);
         });
 
-        this.peer.on('call', function(call) {
+        /*this.peer.on('call', function(call) {
             call.answer(window.localStream);
             console.log('call from Operator.....');
             realthis.isRecording = !realthis.isRecording;
             realthis.wait_stream(call);
-        });
+        });*/
 ///// SOCKET IO
         this.io.emit('welcome-message', this.userDetail);
 
@@ -174,3 +165,21 @@ module.exports = {
 
 };
 </script>
+
+<style scoped>
+    #divLocalVideo{
+        background-color: black;
+        width: 30%;
+        position: absolute;
+        top: -3px;
+        right: -3px;
+        box-shadow: 5px 5px 10px #888;
+        -moz-box-shadow: 5px 5px 10px #888;
+        -webkit-box-shadow: 5px 5px 10px #888;
+    }
+
+    #divRemoteVideo {
+        position: relative;
+    }
+
+</style>

@@ -1,11 +1,16 @@
 <template>
-<div id="draggable" class="ui-widget-content">
-    <button v-show="isRecording" class="btn btn-danger" v-on:click.stop.prevent="close_call">
-        <i class="fa fa-stop" v-show="isRecording"></i>
-        <span v-show="isRecording">Termina Chiamata</span>
+<div v-show="isRecording" id="draggable" class="ui-widget-content">
+    <button class="btn btn-warning col-md-5" v-on:click.stop.prevent="close_call">
+        <i class="fa fa-stop" ></i>
+        <span >Termina</span>
     </button>
 
-    <div id='divRemoteVideo' v-show="isRecording">
+    <button class="btn btn-danger col-md-5 pull-right" v-on:click.stop.prevent="close_call">
+        <i class="fa fa-toggle-off" style="color: green"></i>
+        <span >Registra</span>
+    </button>
+
+    <div id='divRemoteVideo' >
         <video id="remoteVideo" style="height: 350px;" autoplay></video>
         <div id='divLocalVideo' >
             <video id="localVideo" autoplay height="100%"></video>
@@ -15,7 +20,9 @@
 </template>
 
 <script type="text/javascript">
-    //$( "#draggable" ).draggable();
+    $(function () {
+        $( "#draggable" ).draggable();
+    });
 
 
 
@@ -143,12 +150,23 @@ module.exports = {
 </script>
 
 <style scoped>
+#draggable {
+    position: absolute;
+    z-index: 1000;
+    width: 300px;
+    height: 250px;
+    //padding: 0.5em;
+    box-shadow: 5px 5px 10px #888;
+    -moz-box-shadow: 5px 5px 10px #888;0
+    -webkit-box-shadow: 5px 5px 10px #888;
+}
+
 #divLocalVideo{
     background-color: black;
     width: 30%;
     position: absolute;
-    top: -3px;
-    right: -3px;
+    top: 35px;
+    right: -10px;
     box-shadow: 5px 5px 10px #888;
     -moz-box-shadow: 5px 5px 10px #888;
     -webkit-box-shadow: 5px 5px 10px #888;

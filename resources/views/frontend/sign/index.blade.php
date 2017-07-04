@@ -55,9 +55,9 @@
                                         <tr class="bg-success tr-document document-{{$dossier->id}}" data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
                                             <td colspan="3">
                                                 @if($document->readonly || $document->signed)
-                                                    <i class="fa fa-check-square-o" style="color: green;"></i>&nbsp;&nbsp;{{$document->name}}
+                                                    <i class="fa fa-check-square-o" style="color: green;"></i>&nbsp&nbsp;{{$document->name}}
                                                 @else
-                                                    <i class="fa fa-minus-square-o" style="color: red;"></i>&nbsp;&nbsp;bsp;&nbsp;{{$document->name}}
+                                                    <i class="fa fa-minus-square-o" style="color: red;"></i>&nbsp&nbsp;{{$document->name}}
                                                 @endif
                                                 <div class="pull-right">
                                                         @if($document->readonly || $document->signed )
