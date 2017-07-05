@@ -31,6 +31,7 @@ module.exports = {
         'skey','shost','sport','spath','ssecure','suser','slocation'
     ],
     data: function () {
+        console.log(this.ssecure);
         var realport = (this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80));
         var video = new Peer(this.suser,
             {
