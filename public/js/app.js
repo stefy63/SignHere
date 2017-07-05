@@ -35258,6 +35258,7 @@ module.exports = {
     },
     methods: {
         close_call: function close_call() {
+            console.log('Close Call .....');
             if (window.existingCall) {
                 window.existingCall.close();
             }
@@ -58626,7 +58627,7 @@ var Component = __webpack_require__(16)(
   /* cssModules */
   null
 )
-Component.options.__file = "/mnt/Disk1/html/signhere-inspinia/resources/assets/js/components/operator.vue"
+Component.options.__file = "/var/www/html/signhere-inspinia/resources/assets/js/components/operator.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] operator.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58664,7 +58665,7 @@ var Component = __webpack_require__(16)(
   /* cssModules */
   null
 )
-Component.options.__file = "/mnt/Disk1/html/signhere-inspinia/resources/assets/js/components/video-operator.vue"
+Component.options.__file = "/var/www/html/signhere-inspinia/resources/assets/js/components/video-operator.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] video-operator.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58702,7 +58703,7 @@ var Component = __webpack_require__(16)(
   /* cssModules */
   null
 )
-Component.options.__file = "/mnt/Disk1/html/signhere-inspinia/resources/assets/js/components/videochat.vue"
+Component.options.__file = "/var/www/html/signhere-inspinia/resources/assets/js/components/videochat.vue"
 if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key !== "__esModule"})) {console.error("named exports are not supported in *.vue files.")}
 if (Component.options.functional) {console.error("[vue-loader] videochat.vue: functional components are not supported with templates, they should use render functions.")}
 
@@ -58740,6 +58741,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('button', {
     staticClass: "btn btn-warning col-md-5",
+    attrs: {
+      "onClick": "javascript:alert('dsadsda');"
+    },
     on: {
       "click": function($event) {
         $event.stopPropagation();
@@ -58749,30 +58753,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('i', {
     staticClass: "fa fa-stop"
-  }), _vm._v(" "), _c('span', [_vm._v("Termina")])]), _vm._v(" "), _c('button', {
-    staticClass: "btn btn-danger col-md-5 pull-right",
-    on: {
-      "click": function($event) {
-        $event.stopPropagation();
-        $event.preventDefault();
-        _vm.close_call($event)
-      }
-    }
-  }, [_c('i', {
-    staticClass: "fa fa-toggle-off",
-    staticStyle: {
-      "color": "green"
-    }
-  }), _vm._v(" "), _c('span', [_vm._v("Registra")])]), _vm._v(" "), _vm._m(0)])
+  }), _vm._v(" "), _c('span', [_vm._v("Termina")])]), _vm._v(" "), _vm._m(0), _vm._v(" "), _vm._m(1)])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('button', {
+    staticClass: "btn btn-danger col-md-5 pull-right"
+  }, [_c('i', {
+    staticClass: "fa fa-toggle-off"
+  }), _vm._v(" "), _c('span', [_vm._v("Registra")])])
+},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     attrs: {
       "id": "divRemoteVideo"
     }
   }, [_c('video', {
-    staticStyle: {
-      "height": "350px"
-    },
     attrs: {
       "id": "remoteVideo",
       "autoplay": ""

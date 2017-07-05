@@ -1,17 +1,17 @@
 <template>
 <div v-show="isRecording" id="draggable" class="ui-widget-content">
-    <button class="btn btn-warning col-md-5" v-on:click.stop.prevent="close_call">
+    <button class="btn btn-warning col-md-5" onClick="javascript:alert('dsadsda');" v-on:click.stop.prevent="close_call">
         <i class="fa fa-stop" ></i>
         <span >Termina</span>
     </button>
 
-    <button class="btn btn-danger col-md-5 pull-right" v-on:click.stop.prevent="close_call">
-        <i class="fa fa-toggle-off" style="color: green"></i>
+    <button class="btn btn-danger col-md-5 pull-right" >
+        <i class="fa fa-toggle-off"></i>
         <span >Registra</span>
     </button>
 
     <div id='divRemoteVideo' >
-        <video id="remoteVideo" style="height: 350px;" autoplay></video>
+        <video id="remoteVideo" autoplay></video>
         <div id='divLocalVideo' >
             <video id="localVideo" autoplay height="100%"></video>
         </div>
@@ -93,6 +93,7 @@ module.exports = {
     },
     methods: {
         close_call:function () {
+            console.log('Close Call .....');
             if (window.existingCall) {
                 window.existingCall.close();
             }
