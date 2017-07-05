@@ -41,7 +41,7 @@ module.exports = {
             that.Call.splice($.inArray(remoteID, that.Call), 1 );
             that.numCall = that.Call.length;
 
-            that.io.emit('finish-call',{userId:remoteID});
+            that.io.emit('finish-call');
         });
     },
     computed: function() {
