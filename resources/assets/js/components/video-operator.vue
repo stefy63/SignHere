@@ -1,11 +1,12 @@
-<template>
+<template xmlns="http://www.w3.org/1999/html">
 <div v-show="isRecording" id="draggable" class="ui-widget-content">
-    <button class="btn btn-warning col-md-5" onClick="javascript:alert('dsadsda');" v-on:click.stop.prevent="close_call">
+
+    <button id="btmStop" class="btn btn-warning" v-on:click.prevent="close_call">
         <i class="fa fa-stop" ></i>
         <span >Termina</span>
     </button>
 
-    <button class="btn btn-danger col-md-5 pull-right" >
+    <button id="btnRecord" class="btn btn-danger pull-right" v-on:click.prevent="close_call">
         <i class="fa fa-toggle-off"></i>
         <span >Registra</span>
     </button>
@@ -21,7 +22,9 @@
 
 <script type="text/javascript">
     $(function () {
-        $( "#draggable" ).draggable();
+        $( "#draggable" ).draggable({
+            handle:'#remoteVideo',
+        });
     });
 
 
@@ -60,6 +63,7 @@ module.exports = {
             });
         return {
             peer: video,
+            remoteID: 0,
             isRecording: false,
         };
     },
@@ -72,6 +76,20 @@ module.exports = {
             navigator.mediaDevices.getUserMedia ||
             navigator.msGetUserMedia;
 
+        navigator.getUserMedia({ audio:{
+            "mandatory": {
+                echoCancellation: true,
+                googEchoCancellation: true,
+                googAutoGainControl: true,
+                googNoiseSuppression: true,
+                googHighpassFilter: true
+            },
+            "optional": []
+        }, video: true}, function (stream) {
+            console.log('getUserMedia ......');
+            window.localStream = stream;
+            $('#localVideo').prop('src',  URL.createObjectURL(stream));
+        }, function(err){console.log(err);});
 
         this.peer.on('open', function() {
             console.log('opened.....');
@@ -85,11 +103,33 @@ module.exports = {
             call.answer(window.localStream);
             console.log('call from Operator.....');
             that.isRecording = !that.isRecording;
-            clearInterval(that.setLoop);
             that.wait_stream(call);
         });
 
 
+    },
+    computed:function () {
+
+        navigator.getUserMedia = navigator.getUserMedia ||
+            navigator.webkitGetUserMedia ||
+            navigator.mozGetUserMedia ||
+            navigator.mediaDevices.getUserMedia ||
+            navigator.msGetUserMedia;
+
+        navigator.getUserMedia({ audio:{
+            "mandatory": {
+                echoCancellation: true,
+                googEchoCancellation: true,
+                googAutoGainControl: true,
+                googNoiseSuppression: true,
+                googHighpassFilter: true
+            },
+            "optional": []
+        }, video: true}, function (stream) {
+            console.log('getUserMedia ......');
+            window.localStream = stream;
+            $('#localVideo').prop('src',  URL.createObjectURL(stream));
+        }, function(err){console.log(err)});
     },
     methods: {
         close_call:function () {
@@ -97,30 +137,7 @@ module.exports = {
             if (window.existingCall) {
                 window.existingCall.close();
             }
-        },
-        accept_call:function () {
-            var that = this;
-            console.log('Small-Chat-Clikked....');
-
-            if (window.existingCall) {
-                window.existingCall.close();
-            }
-
-            navigator.getUserMedia({ audio:{
-                "mandatory": {
-                    echoCancellation: true,
-                    googEchoCancellation: true,
-                    googAutoGainControl: true,
-                    googNoiseSuppression: true,
-                    googHighpassFilter: true
-                },
-                "optional": []
-                }, video: true}, function (stream) {
-                    console.log('getUserMedia ......');
-                    window.localStream = stream;
-                    $('#localVideo').prop('src',  URL.createObjectURL(stream));
-                }, function(err){console.log(err);});
-
+            Event.$emit('close-call',this.remoteID);
         },
         wait_stream: function (call) {
             var that = this;
@@ -140,6 +157,7 @@ module.exports = {
                 //$('#localVideo').prop('src','');
                 //$('#remoteVideo').prop('src','');
             });
+            this.remoteID = call.peer;
             window.existingCall = call;
         },
     },
@@ -166,7 +184,7 @@ module.exports = {
     background-color: black;
     width: 30%;
     position: absolute;
-    top: 35px;
+    top: 0px;
     right: -10px;
     box-shadow: 5px 5px 10px #888;
     -moz-box-shadow: 5px 5px 10px #888;

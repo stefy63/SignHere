@@ -30,17 +30,19 @@ module.exports = {
     },
     created:function () {
         var that=this;
-
         this.numCall = this.Call.length;
 
         this.io.emit('welcome-message',this.userDetail );
-
         this.io.on('new-call-arrived',this.new_call);
-
         this.io.on('operator-notify-stop-ask-response',this.stop_ask_response);
         this.io.on('operator-notify-response',this.other_response);
 
+        Event.$on('close-call', function(remoteID) {
+            that.Call.splice($.inArray(remoteID, that.Call), 1 );
+            that.numCall = that.Call.length;
 
+            that.io.emit('finish-call',{userId:remoteID});
+        });
     },
     computed: function() {
         var that=this;
