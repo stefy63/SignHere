@@ -68,6 +68,7 @@ module.exports = {
         };
     },
     created:function () {
+        console.log('created.....');
         var that=this;
 
         navigator.getUserMedia = navigator.getUserMedia ||
@@ -89,7 +90,10 @@ module.exports = {
             console.log('getUserMedia ......');
             window.localStream = stream;
             $('#localVideo').prop('src',  URL.createObjectURL(stream));
-        }, function(err){console.log(err);});
+        }, function(err){console.log(err)});
+
+
+
 
         this.peer.on('open', function() {
             console.log('opened.....');
@@ -100,36 +104,17 @@ module.exports = {
         });
 
         this.peer.on('call', function(call) {
+            //$('#localVideo').prop('src',  URL.createObjectURL(window.localStream));
             call.answer(window.localStream);
-            console.log('call from Operator.....');
+            console.log('call from User.....');
             that.isRecording = !that.isRecording;
             that.wait_stream(call);
         });
 
-
     },
     computed:function () {
 
-        navigator.getUserMedia = navigator.getUserMedia ||
-            navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia ||
-            navigator.mediaDevices.getUserMedia ||
-            navigator.msGetUserMedia;
 
-        navigator.getUserMedia({ audio:{
-            "mandatory": {
-                echoCancellation: true,
-                googEchoCancellation: true,
-                googAutoGainControl: true,
-                googNoiseSuppression: true,
-                googHighpassFilter: true
-            },
-            "optional": []
-        }, video: true}, function (stream) {
-            console.log('getUserMedia ......');
-            window.localStream = stream;
-            $('#localVideo').prop('src',  URL.createObjectURL(stream));
-        }, function(err){console.log(err)});
     },
     methods: {
         close_call:function () {
@@ -142,9 +127,9 @@ module.exports = {
         wait_stream: function (call) {
             var that = this;
             console.log(' wait_stream...');
-            /*if (window.existingCall) {
+            if (window.existingCall) {
                 window.existingCall.close();
-            }*/
+            }
             call.on('stream', function(stream){
                 console.log('call in stream...');
                 $('#remoteVideo').prop('src', URL.createObjectURL(stream));
@@ -155,7 +140,7 @@ module.exports = {
                 that.isRecording = false;
 
                 //$('#localVideo').prop('src','');
-                //$('#remoteVideo').prop('src','');
+                $('#remoteVideo').prop('src','');
             });
             this.remoteID = call.peer;
             window.existingCall = call;

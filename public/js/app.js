@@ -35250,6 +35250,7 @@ module.exports = {
         };
     },
     created: function created() {
+        console.log('created.....');
         var that = this;
 
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia || navigator.msGetUserMedia;
@@ -35280,33 +35281,14 @@ module.exports = {
         });
 
         this.peer.on('call', function (call) {
+            //$('#localVideo').prop('src',  URL.createObjectURL(window.localStream));
             call.answer(window.localStream);
-            console.log('call from Operator.....');
+            console.log('call from User.....');
             that.isRecording = !that.isRecording;
             that.wait_stream(call);
         });
     },
-    computed: function computed() {
-
-        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia || navigator.msGetUserMedia;
-
-        navigator.getUserMedia({ audio: {
-                "mandatory": {
-                    echoCancellation: true,
-                    googEchoCancellation: true,
-                    googAutoGainControl: true,
-                    googNoiseSuppression: true,
-                    googHighpassFilter: true
-                },
-                "optional": []
-            }, video: true }, function (stream) {
-            console.log('getUserMedia ......');
-            window.localStream = stream;
-            $('#localVideo').prop('src', URL.createObjectURL(stream));
-        }, function (err) {
-            console.log(err);
-        });
-    },
+    computed: function computed() {},
     methods: {
         close_call: function close_call() {
             console.log('Close Call .....');
@@ -35318,9 +35300,9 @@ module.exports = {
         wait_stream: function wait_stream(call) {
             var that = this;
             console.log(' wait_stream...');
-            /*if (window.existingCall) {
+            if (window.existingCall) {
                 window.existingCall.close();
-            }*/
+            }
             call.on('stream', function (stream) {
                 console.log('call in stream...');
                 $('#remoteVideo').prop('src', URL.createObjectURL(stream));
@@ -35331,7 +35313,7 @@ module.exports = {
                 that.isRecording = false;
 
                 //$('#localVideo').prop('src','');
-                //$('#remoteVideo').prop('src','');
+                $('#remoteVideo').prop('src', '');
             });
             this.remoteID = call.peer;
             window.existingCall = call;
@@ -35385,8 +35367,6 @@ module.exports = {
             secure: this.ssecure == true ? true : false,
             config: {
                 'iceServers': [{
-                    urls: 'stun:stun.ekiga.net'
-                }, {
                     urls: 'stun:stun.l.google.com:19302'
                 }, {
                     urls: 'stun:stun1.l.google.com:19302'
@@ -35394,8 +35374,6 @@ module.exports = {
                     urls: 'stun:stun2.l.google.com:19302'
                 }, {
                     urls: 'stun:stun3.l.google.com:19302'
-                }, {
-                    urls: 'stun:stun4.l.google.com:19302'
                 }]
             }
         });
@@ -35408,10 +35386,8 @@ module.exports = {
     },
     created: function created() {
         console.log('created.....');
-        console.log(this.skey, this.shost, this.sport, this.spath, this.ssecure, this.suser, this.soperator, this.slocation);
+        console.log(this.skey, this.shost, this.sport, this.spath, this.ssecure, this.suser, this.slocation);
         navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia || navigator.msGetUserMedia;
-
-        var realthis = this;
 
         navigator.getUserMedia({ audio: {
                 "mandatory": {
@@ -35429,6 +35405,8 @@ module.exports = {
         }, function (err) {
             console.log(err);
         });
+
+        var vm = this;
 
         this.peer.on('open', function () {
             console.log('opened.....');
@@ -35452,10 +35430,11 @@ module.exports = {
         });
 
         this.io.on('new-response-arrived', function (message) {
-            console.log('new-response-arrived......');
-            realthis.calling(message.userToCall);
+            console.log('new-response-arrived......' + JSON.stringify(message));
+            vm.calling(message.userToCall);
         });
     },
+    computed: function computed() {},
     methods: {
         calling_new: function calling_new() {
             console.log('io.emit...........');
@@ -35467,20 +35446,25 @@ module.exports = {
 
         calling: function calling(userToCall) {
             console.log('Call Operator ......');
-            var that = this;
+            var vm = this;
+
             this.isRecording = !this.isRecording;
             if (this.isRecording) {
                 console.log('isRecording ......');
-                var call = that.peer.call(userToCall, window.localStream);
-                that.wait_stream(call);
+                try {
+                    var call = vm.peer.call(userToCall, window.localStream);
+                    vm.wait_stream(call);
+                } catch (err) {
+                    console.log('Chiama a ' + userToCall + ' non possibile ......' + err);
+                }
             } else {
                 window.existingCall.close();
-                $('#localVideo').prop('src', '');
+                //$('#localVideo').prop('src','');
                 $('#remoteVideo').prop('src', '');
             }
         },
         wait_stream: function wait_stream(call) {
-            var that = this;
+            var vm = this;
             console.log(' wait_stream...');
             if (window.existingCall) {
                 window.existingCall.close();
@@ -35492,8 +35476,8 @@ module.exports = {
             call.on('close', function () {
                 console.log('close call...');
                 window.existingCall.close();
-                if (that.isRecording) {
-                    that.isRecording = !that.isRecording;
+                if (vm.isRecording) {
+                    vm.isRecording = !vm.isRecording;
                 }
                 //$('#localVideo').prop('src','');
                 $('#remoteVideo').prop('src', '');
