@@ -5,12 +5,12 @@
         <i class="fa fa-stop" ></i>
         <span >Termina</span>
     </button>
-
-    <button id="btnRecord" class="btn btn-danger pull-right" v-on:click.prevent="close_call">
-        <i class="fa fa-toggle-off"></i>
-        <span >Registra</span>
+    <span class="text-center">{{(countdown != 0)?countdown:''}}</span>
+    <button id="btnRecord" class="btn btn-primary pull-right col-md-4" v-on:click.prevent="record_call">
+        <i v-show="!record" class="fa fa-toggle-off">&nbsp;<span>Registra</span></i>
+        <i v-show="record" class="fa fa-toggle-on" style="color: red">&nbsp;<span>Stop</span></i>
     </button>
-
+    <br />
     <div id='divRemoteVideo' >
         <video id="remoteVideo" autoplay></video>
         <div id='divLocalVideo' >
@@ -30,6 +30,7 @@
 
 
 var PeerJs = require('../peer.js');
+var RecordRTC = require('recordrtc');
 
 module.exports = {
     props: [
@@ -38,6 +39,10 @@ module.exports = {
     data: function () {
         console.log('Connection from: '+this.suser);
         var realport = (this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80));
+        var options = {
+            mimeType: 'video/webm;codecs=vp9', // or video/webm\;codecs=h264 or video/webm\;codecs=vp9
+            bitsPerSecond: 128000 // if this line is provided, skip above two
+        };
         var video = new Peer(this.suser,
             {
                 key: this.skey,
@@ -65,6 +70,15 @@ module.exports = {
             peer: video,
             remoteID: 0,
             isRecording: false,
+            record:false,
+            recOpt: options,
+            recordRTC: '',
+            border_time:0,
+            record_time:0,
+            borderTimeEvt: true,
+            maxRecordTime: (1 * 60 * 1000),
+            countdown: 0,
+            elapsedTime:0,
         };
     },
     created:function () {
@@ -73,7 +87,7 @@ module.exports = {
 
         navigator.getUserMedia = navigator.getUserMedia ||
             navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia ||
+            //navigator.mozGetUserMedia ||
             navigator.mediaDevices.getUserMedia ||
             navigator.msGetUserMedia;
 
@@ -91,9 +105,6 @@ module.exports = {
             window.localStream = stream;
             $('#localVideo').prop('src',  URL.createObjectURL(stream));
         }, function(err){console.log(err)});
-
-
-
 
         this.peer.on('open', function() {
             console.log('opened.....');
@@ -115,6 +126,7 @@ module.exports = {
     computed:function () {
 
 
+
     },
     methods: {
         close_call:function () {
@@ -133,6 +145,7 @@ module.exports = {
             call.on('stream', function(stream){
                 console.log('call in stream...');
                 $('#remoteVideo').prop('src', URL.createObjectURL(stream));
+                that.recordRTC = RecordRTC(stream,that.recOpt);
             });
             call.on('close', function () {
                 console.log('close call...');
@@ -145,6 +158,44 @@ module.exports = {
             this.remoteID = call.peer;
             window.existingCall = call;
         },
+        record_call:function () {
+            var vm = this;
+            vm.record = !vm.record;
+            if(vm.record){
+                vm.recordRTC.startRecording();
+                vm.border_time = setInterval(function () {
+                    console.log('border  time out ....');
+                    vm.countdown = new Date(vm.maxRecordTime-vm.elapsedTime).toISOString().slice(11, 19);
+                    vm.elapsedTime += 1000;
+                    vm.borderTimeEvt = !vm.borderTimeEvt;
+                    /*(vm.borderTimeEvt)?
+                        $('#remoteVideo').css("border","dashed 3px red"):
+                        $('#remoteVideo').css("border","dashed 3px green");*/
+                    (vm.borderTimeEvt)?
+                        $('#remoteVideo').css({border: 'dashed 4px red'}).animate("slow"):
+                        $('#remoteVideo').css({border: 'solid 4px blue'}).animate("slow");
+                },1000);
+                vm.record_time = setTimeout(function () {
+                    console.log('Max record  time out ....');
+                    vm.elapsedTime = 0;
+                    vm.recordRTC.stopRecording();
+                    clearInterval(vm.border_time);
+                    $('#remoteVideo').css('border','none');
+                    vm.border_time = false;
+                },vm.maxRecordTime);
+            } else {
+                vm.recordRTC.stopRecording(function (audioVideoWebMURL) {
+                    //var recordedBlob = vm.recordRTC.getBlob();
+                    //vm.recordRTC.save('File Name');
+                    this.save();
+                });
+                vm.elapsedTime = 0;
+                clearInterval(vm.border_time);
+                clearTimeout(vm.maxRecord_time);
+                $('#remoteVideo').css('border','none');
+            }
+        },
+
     },
 
 
@@ -155,10 +206,12 @@ module.exports = {
 
 <style scoped>
 #draggable {
+    color: ;
     position: absolute;
+    background-color: white;
     z-index: 1000;
-    width: 300px;
-    height: 250px;
+    width: 400px;
+    height: 300px;
     //padding: 0.5em;
     box-shadow: 5px 5px 10px #888;
     -moz-box-shadow: 5px 5px 10px #888;0

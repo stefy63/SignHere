@@ -62,9 +62,10 @@ module.exports = {
     created:function () {
         console.log('created.....');
         console.log(this.skey,this.shost,this.sport,this.spath,this.ssecure,this.suser,this.slocation);
+
         navigator.getUserMedia = navigator.getUserMedia ||
             navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia ||
+            //navigator.mozGetUserMedia ||
             navigator.mediaDevices.getUserMedia ||
             navigator.msGetUserMedia;
 
