@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 107);
+/******/ 	return __webpack_require__(__webpack_require__.s = 108);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -11468,7 +11468,7 @@ process.umask = function() { return 0; };
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = __webpack_require__(89);
+exports = module.exports = __webpack_require__(90);
 exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
@@ -12223,7 +12223,7 @@ Transport.prototype.onClose = function () {
 
 /* WEBPACK VAR INJECTION */(function(global) {// browser shim for xmlhttprequest module
 
-var hasCORS = __webpack_require__(84);
+var hasCORS = __webpack_require__(85);
 
 module.exports = function (opts) {
   var xdomain = opts.xdomain;
@@ -12611,7 +12611,7 @@ Emitter.prototype.hasListeners = function(event){
 var debug = __webpack_require__(5)('socket.io-parser');
 var Emitter = __webpack_require__(14);
 var hasBin = __webpack_require__(28);
-var binary = __webpack_require__(92);
+var binary = __webpack_require__(93);
 var isBuf = __webpack_require__(35);
 
 /**
@@ -13078,7 +13078,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(104)
+var listToStyles = __webpack_require__(105)
 
 /*
 type StyleObject = {
@@ -13284,7 +13284,7 @@ function applyToTag (styleElement, obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
-window._ = __webpack_require__(85);
+window._ = __webpack_require__(86);
 
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
@@ -13303,7 +13303,7 @@ __webpack_require__(67);
  * and simple, leaving you to focus on building your next great project.
  */
 
-window.Vue = __webpack_require__(105);
+window.Vue = __webpack_require__(106);
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -16858,7 +16858,7 @@ Polling.prototype.uri = function () {
  * Module requirements.
  */
 
-var isArray = __webpack_require__(83);
+var isArray = __webpack_require__(84);
 
 var toString = Object.prototype.toString;
 var withNativeBlob = typeof global.Blob === 'function' || toString.call(global.Blob) === '[object BlobConstructor]';
@@ -16986,7 +16986,7 @@ module.exports = function parseuri(str) {
  * Module dependencies.
  */
 
-var url = __webpack_require__(88);
+var url = __webpack_require__(89);
 var parser = __webpack_require__(15);
 var Manager = __webpack_require__(32);
 var debug = __webpack_require__(5)('socket.io-client');
@@ -17697,7 +17697,7 @@ function on (obj, ev, fn) {
 
 var parser = __webpack_require__(15);
 var Emitter = __webpack_require__(14);
-var toArray = __webpack_require__(94);
+var toArray = __webpack_require__(95);
 var on = __webpack_require__(33);
 var bind = __webpack_require__(25);
 var debug = __webpack_require__(5)('socket.io-client:socket');
@@ -34167,9 +34167,9 @@ window.Event = new Vue();
  */
 
 //Vue.use(require('vue-resource'));
-Vue.component('videochat', __webpack_require__(97));
-Vue.component('operator', __webpack_require__(95));
-Vue.component('video-operator', __webpack_require__(96));
+Vue.component('videochat', __webpack_require__(98));
+Vue.component('operator', __webpack_require__(96));
+Vue.component('video-operator', __webpack_require__(97));
 
 var app = new Vue({
   el: '#app'
@@ -34191,7 +34191,7 @@ var app = new Vue({
 var content = __webpack_require__(68);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(93)(content, {});
+var update = __webpack_require__(94)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -35218,7 +35218,7 @@ $(function () {
 });
 
 var PeerJs = __webpack_require__(24);
-var RecordRTC = __webpack_require__(87);
+var RecordRTC = __webpack_require__(88);
 
 module.exports = {
     props: ['skey', 'shost', 'sport', 'spath', 'ssecure', 'suser', 'slocation'],
@@ -38285,7 +38285,7 @@ var debug = __webpack_require__(8)('engine.io-client:socket');
 var index = __webpack_require__(29);
 var parser = __webpack_require__(2);
 var parseuri = __webpack_require__(30);
-var parsejson = __webpack_require__(86);
+var parsejson = __webpack_require__(87);
 var parseqs = __webpack_require__(9);
 
 /**
@@ -39698,7 +39698,7 @@ var BrowserWebSocket = global.WebSocket || global.MozWebSocket;
 var NodeWebSocket;
 if (typeof window === 'undefined') {
   try {
-    NodeWebSocket = __webpack_require__(106);
+    NodeWebSocket = __webpack_require__(107);
   } catch (e) { }
 }
 
@@ -40663,6 +40663,12 @@ function plural(ms, n, name) {
 /* 83 */
 /***/ (function(module, exports) {
 
+module.exports = "/images/animated-telephone.gif?c7d6a574d5b6b4891c7bd3257241eb35";
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports) {
+
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
@@ -40671,7 +40677,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports) {
 
 
@@ -40694,7 +40700,7 @@ try {
 
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -57786,7 +57792,7 @@ try {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0), __webpack_require__(36)(module)))
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/**
@@ -57824,7 +57830,7 @@ module.exports = function parsejson(data) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -62770,7 +62776,7 @@ if (typeof RecordRTC !== 'undefined') {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {
@@ -62852,7 +62858,7 @@ function url (uri, loc) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
@@ -62868,7 +62874,7 @@ exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
 exports.enabled = enabled;
-exports.humanize = __webpack_require__(91);
+exports.humanize = __webpack_require__(92);
 
 /**
  * The currently active debug mode names, and names to skip.
@@ -63060,7 +63066,7 @@ function coerce(val) {
 
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -63071,7 +63077,7 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports) {
 
 /**
@@ -63229,7 +63235,7 @@ function plural(ms, n, name) {
 
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/*global Blob,File*/
@@ -63238,7 +63244,7 @@ function plural(ms, n, name) {
  * Module requirements
  */
 
-var isArray = __webpack_require__(90);
+var isArray = __webpack_require__(91);
 var isBuf = __webpack_require__(35);
 var toString = Object.prototype.toString;
 var withNativeBlob = typeof global.Blob === 'function' || toString.call(global.Blob) === '[object BlobConstructor]';
@@ -63377,7 +63383,7 @@ exports.removeBlobs = function(data, callback) {
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports) {
 
 /*
@@ -63629,7 +63635,7 @@ function updateLink(linkElement, obj) {
 
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports) {
 
 module.exports = toArray
@@ -63648,18 +63654,18 @@ function toArray(list, index) {
 
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(102)
+__webpack_require__(103)
 
 var Component = __webpack_require__(16)(
   /* script */
   __webpack_require__(61),
   /* template */
-  __webpack_require__(99),
+  __webpack_require__(100),
   /* scopeId */
   "data-v-25b707ea",
   /* cssModules */
@@ -63686,18 +63692,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(101)
+__webpack_require__(102)
 
 var Component = __webpack_require__(16)(
   /* script */
   __webpack_require__(62),
   /* template */
-  __webpack_require__(98),
+  __webpack_require__(99),
   /* scopeId */
   "data-v-0a7d5646",
   /* cssModules */
@@ -63724,18 +63730,18 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 
 /* styles */
-__webpack_require__(103)
+__webpack_require__(104)
 
 var Component = __webpack_require__(16)(
   /* script */
   __webpack_require__(63),
   /* template */
-  __webpack_require__(100),
+  __webpack_require__(101),
   /* scopeId */
   "data-v-9689eb08",
   /* cssModules */
@@ -63762,7 +63768,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -63854,7 +63860,7 @@ if (false) {
 }
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -63893,7 +63899,7 @@ if (false) {
 }
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -63949,7 +63955,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('img', {
     attrs: {
-      "src": __webpack_require__(114),
+      "src": __webpack_require__(83),
       "width": "100px"
     }
   })]), _vm._v(" "), _c('div', {
@@ -64001,7 +64007,7 @@ if (false) {
 }
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -64027,7 +64033,7 @@ if(false) {
 }
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -64053,7 +64059,7 @@ if(false) {
 }
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -64079,7 +64085,7 @@ if(false) {
 }
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports) {
 
 /**
@@ -64112,7 +64118,7 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -73811,13 +73817,13 @@ module.exports = Vue$3;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4), __webpack_require__(0)))
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, exports) {
 
 /* (ignored) */
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(39);
@@ -73826,18 +73832,6 @@ __webpack_require__(38);
 __webpack_require__(40);
 module.exports = __webpack_require__(41);
 
-
-/***/ }),
-/* 108 */,
-/* 109 */,
-/* 110 */,
-/* 111 */,
-/* 112 */,
-/* 113 */,
-/* 114 */
-/***/ (function(module, exports) {
-
-module.exports = "/images/animated-telephone.gif?c7d6a574d5b6b4891c7bd3257241eb35";
 
 /***/ })
 /******/ ]);
