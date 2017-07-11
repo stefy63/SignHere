@@ -76,7 +76,8 @@ module.exports = {
             console.log('response-check-user-connection......');
         },
         other_response:function (message) {
-            if(message.operatorId != this.suser) this.stop_ask_response(message);
+            //if(message.operatorId != this.suser)
+                this.stop_ask_response(message);
         },
         accept_call:function () {
             var that = this;
