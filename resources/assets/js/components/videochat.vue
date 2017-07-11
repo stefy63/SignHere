@@ -1,19 +1,20 @@
 <template>
     <div>
-        <button v-bind:class="[isRecording?'btn btn-danger':'btn btn-primary']" v-on:click.stop.prevent="calling_new">
-            <i class="fa fa-stop" v-show="isRecording"></i>
-            <i class="fa fa-play" v-show="!isRecording"></i>
-            <span v-show="!isRecording">Chiama Operatore</span>
-            <span v-show="isRecording">Termina Chiamata</span>
+        <button v-bind:class="[isStarted?'btn btn-danger':'btn btn-primary']" v-on:click.stop.prevent="calling_new">
+            <i class="fa fa-stop" v-show="isStarted"></i>
+            <i class="fa fa-play" v-show="!isStarted"></i>
+            <span v-show="!isStarted">Chiama Operatore</span>
+            <span v-show="isStarted">Termina Chiamata</span>
         </button>
         <br>
         <!--<div id="call-id"></div>-->
-        <div id='divRemoteVideo' v-show="isRecording">
+        <div id='divRemoteVideo' v-show="isStarted">
             <video id="remoteVideo" style="height: 350px;" autoplay></video>
             <div id='divLocalVideo' >
                 <video id="localVideo" autoplay height="100%"></video>
             </div>
         </div>
+        <div v-show="isRecording" class="pull-right">Recording ......</div>
     </div>
 </template>
 
@@ -55,7 +56,8 @@ module.exports = {
         return {
             io: socket.connect(this.shost+':'+realport),
             peer: video,
-            isRecording: false,
+            isStarted: false,
+            isRecording:false,
             userDetail:{userId: this.suser,status:'ready',locations:this.slocation,userType:"user"}
         };
     },
@@ -97,7 +99,7 @@ module.exports = {
         /*this.peer.on('call', function(call) {
             call.answer(window.localStream);
             console.log('call from Operator.....');
-            realthis.isRecording = !realthis.isRecording;
+            realthis.isStarted = !realthis.isStarted;
             realthis.wait_stream(call);
         });*/
 ///// SOCKET IO
@@ -107,8 +109,14 @@ module.exports = {
             console.log('no-response-available......');
         });
 
+        this.io.on('recording-call',function (message) {
+            vm.isRecording = message.isRecording;
+        });
+
+
         this.io.on('new-response-arrived',function (message) {
             console.log('new-response-arrived......'+JSON.stringify(message));
+            vm.isRecording = false;
             vm.calling(message.userToCall);
         });
 
@@ -130,9 +138,9 @@ module.exports = {
             console.log('Call Operator ......');
             var vm = this;
 
-            this.isRecording = !this.isRecording;
-            if (this.isRecording) {
-                console.log('isRecording ......');
+            this.isStarted = !this.isStarted;
+            if (this.isStarted) {
+                console.log('isStarted ......');
                 try {
                     var call = vm.peer.call(userToCall, window.localStream);
                     vm.wait_stream(call);
@@ -158,8 +166,8 @@ module.exports = {
             call.on('close', function () {
                 console.log('close call...');
                 window.existingCall.close();
-                if (vm.isRecording) {
-                    vm.isRecording = !vm.isRecording;
+                if (vm.isStarted) {
+                    vm.isStarted = !vm.isStarted;
                 }
                 //$('#localVideo').prop('src','');
                 $('#remoteVideo').prop('src','');

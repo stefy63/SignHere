@@ -35251,8 +35251,8 @@ module.exports = {
         return {
             peer: video,
             remoteID: 0,
+            isStarted: false,
             isRecording: false,
-            record: false,
             recOpt: options,
             recordRTC: '',
             border_time: 0,
@@ -35300,7 +35300,7 @@ module.exports = {
             //$('#localVideo').prop('src',  URL.createObjectURL(window.localStream));
             call.answer(window.localStream);
             console.log('call from User.....');
-            that.isRecording = !that.isRecording;
+            that.isStarted = !that.isStarted;
             that.wait_stream(call);
         });
     },
@@ -35327,7 +35327,7 @@ module.exports = {
             call.on('close', function () {
                 console.log('close call...');
                 window.existingCall.close();
-                that.isRecording = false;
+                that.isStarted = false;
 
                 //$('#localVideo').prop('src','');
                 $('#remoteVideo').prop('src', '');
@@ -35337,8 +35337,9 @@ module.exports = {
         },
         record_call: function record_call() {
             var vm = this;
-            vm.record = !vm.record;
-            if (vm.record) {
+            vm.isRecording = !vm.isRecording;
+            if (vm.isRecording) {
+                vm.io.emit('operator-recording-call', { isRecording: true });
                 vm.recordRTC.startRecording();
                 vm.border_time = setInterval(function () {
                     console.log('border  time out ....');
@@ -35353,10 +35354,15 @@ module.exports = {
                 vm.record_time = setTimeout(function () {
                     console.log('Max record  time out ....');
                     vm.elapsedTime = 0;
-                    vm.recordRTC.stopRecording();
+                    vm.recordRTC.stopRecording(function (audioVideoWebMURL) {
+                        this.save();
+                    });
+                    vm.io.emit('operator-recording-call', { isRecording: false });
                     clearInterval(vm.border_time);
+                    clearTimeout(vm.maxRecord_time);
                     $('#remoteVideo').css('border', 'none');
                     vm.border_time = false;
+                    vm.isRecording = false;
                 }, vm.maxRecordTime);
             } else {
                 vm.recordRTC.stopRecording(function (audioVideoWebMURL) {
@@ -35364,6 +35370,7 @@ module.exports = {
                     //vm.recordRTC.save('File Name');
                     this.save();
                 });
+                vm.io.emit('operator-recording-call', { isRecording: false });
                 vm.elapsedTime = 0;
                 clearInterval(vm.border_time);
                 clearTimeout(vm.maxRecord_time);
@@ -35381,6 +35388,7 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {//
+//
 //
 //
 //
@@ -35433,6 +35441,7 @@ module.exports = {
         return {
             io: socket.connect(this.shost + ':' + realport),
             peer: video,
+            isStarted: false,
             isRecording: false,
             userDetail: { userId: this.suser, status: 'ready', locations: this.slocation, userType: "user" }
         };
@@ -35475,7 +35484,7 @@ module.exports = {
         /*this.peer.on('call', function(call) {
             call.answer(window.localStream);
             console.log('call from Operator.....');
-            realthis.isRecording = !realthis.isRecording;
+            realthis.isStarted = !realthis.isStarted;
             realthis.wait_stream(call);
         });*/
         ///// SOCKET IO
@@ -35485,8 +35494,13 @@ module.exports = {
             console.log('no-response-available......');
         });
 
+        this.io.on('recording-call', function (message) {
+            vm.isRecording = message.isRecording;
+        });
+
         this.io.on('new-response-arrived', function (message) {
             console.log('new-response-arrived......' + JSON.stringify(message));
+            vm.isRecording = false;
             vm.calling(message.userToCall);
         });
     },
@@ -35504,9 +35518,9 @@ module.exports = {
             console.log('Call Operator ......');
             var vm = this;
 
-            this.isRecording = !this.isRecording;
-            if (this.isRecording) {
-                console.log('isRecording ......');
+            this.isStarted = !this.isStarted;
+            if (this.isStarted) {
+                console.log('isStarted ......');
                 try {
                     var call = vm.peer.call(userToCall, window.localStream);
                     vm.wait_stream(call);
@@ -35532,8 +35546,8 @@ module.exports = {
             call.on('close', function () {
                 console.log('close call...');
                 window.existingCall.close();
-                if (vm.isRecording) {
-                    vm.isRecording = !vm.isRecording;
+                if (vm.isStarted) {
+                    vm.isStarted = !vm.isStarted;
                 }
                 //$('#localVideo').prop('src','');
                 $('#remoteVideo').prop('src', '');
@@ -38208,7 +38222,7 @@ exports.push([module.i, "// removed by extract-text-webpack-plugin", ""]);
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(7)();
-exports.push([module.i, "\n#draggable[data-v-0a7d5646] {\n    color: ;\n    position: absolute;\n    background-color: white;\n    z-index: 1000;\n    width: 400px;\n    height: 300px;\n    //padding: 0.5em;\n    box-shadow: 5px 5px 10px #888;\n    -moz-box-shadow: 5px 5px 10px #888;0\n    -webkit-box-shadow: 5px 5px 10px #888;\n}\n#divLocalVideo[data-v-0a7d5646]{\n    background-color: black;\n    width: 30%;\n    position: absolute;\n    top: 0px;\n    right: -10px;\n    box-shadow: 5px 5px 10px #888;\n    -moz-box-shadow: 5px 5px 10px #888;\n    -webkit-box-shadow: 5px 5px 10px #888;\n}\n#divRemoteVideo[data-v-0a7d5646] {\n    position: relative;\n}\n\n", ""]);
+exports.push([module.i, "\n#draggable[data-v-0a7d5646] {\n    position: absolute;\n    background-color: white;\n    z-index: 1000;\n    width: 400px;\n    height: 300px;\n    //padding: 0.5em;\n    box-shadow: 5px 5px 10px #888;\n    -moz-box-shadow: 5px 5px 10px #888;0\n    -webkit-box-shadow: 5px 5px 10px #888;\n}\n#divLocalVideo[data-v-0a7d5646]{\n    background-color: black;\n    width: 30%;\n    position: absolute;\n    top: 0px;\n    right: -10px;\n    box-shadow: 5px 5px 10px #888;\n    -moz-box-shadow: 5px 5px 10px #888;\n    -webkit-box-shadow: 5px 5px 10px #888;\n}\n#divRemoteVideo[data-v-0a7d5646] {\n    position: relative;\n}\n\n", ""]);
 
 /***/ }),
 /* 70 */
@@ -63747,8 +63761,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.isRecording),
-      expression: "isRecording"
+      value: (_vm.isStarted),
+      expression: "isStarted"
     }],
     staticClass: "ui-widget-content",
     attrs: {
@@ -63784,16 +63798,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (!_vm.record),
-      expression: "!record"
+      value: (!_vm.isRecording),
+      expression: "!isRecording"
     }],
     staticClass: "fa fa-toggle-off"
   }, [_vm._v(" "), _c('span', [_vm._v("Registra")])]), _vm._v(" "), _c('i', {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.record),
-      expression: "record"
+      value: (_vm.isRecording),
+      expression: "isRecording"
     }],
     staticClass: "fa fa-toggle-on",
     staticStyle: {
@@ -63875,7 +63889,7 @@ if (false) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', [_c('button', {
-    class: [_vm.isRecording ? 'btn btn-danger' : 'btn btn-primary'],
+    class: [_vm.isStarted ? 'btn btn-danger' : 'btn btn-primary'],
     on: {
       "click": function($event) {
         $event.stopPropagation();
@@ -63887,38 +63901,38 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.isRecording),
-      expression: "isRecording"
+      value: (_vm.isStarted),
+      expression: "isStarted"
     }],
     staticClass: "fa fa-stop"
   }), _vm._v(" "), _c('i', {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (!_vm.isRecording),
-      expression: "!isRecording"
+      value: (!_vm.isStarted),
+      expression: "!isStarted"
     }],
     staticClass: "fa fa-play"
   }), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (!_vm.isRecording),
-      expression: "!isRecording"
+      value: (!_vm.isStarted),
+      expression: "!isStarted"
     }]
   }, [_vm._v("Chiama Operatore")]), _vm._v(" "), _c('span', {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.isRecording),
-      expression: "isRecording"
+      value: (_vm.isStarted),
+      expression: "isStarted"
     }]
   }, [_vm._v("Termina Chiamata")])]), _vm._v(" "), _c('br'), _vm._v(" "), _c('div', {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: (_vm.isRecording),
-      expression: "isRecording"
+      value: (_vm.isStarted),
+      expression: "isStarted"
     }],
     attrs: {
       "id": "divRemoteVideo"
@@ -63931,7 +63945,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "id": "remoteVideo",
       "autoplay": ""
     }
-  }), _vm._v(" "), _vm._m(0)])])
+  }), _vm._v(" "), _vm._m(0)]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: (_vm.isRecording),
+      expression: "isRecording"
+    }],
+    staticClass: "pull-right"
+  }, [_vm._v("Recording ......")])])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     attrs: {

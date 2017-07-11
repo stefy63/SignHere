@@ -1,5 +1,5 @@
 <template xmlns="http://www.w3.org/1999/html">
-<div v-show="isRecording" id="draggable" class="ui-widget-content">
+<div v-show="isStarted" id="draggable" class="ui-widget-content">
 
     <button id="btmStop" class="btn btn-warning" v-on:click.prevent="close_call">
         <i class="fa fa-stop" ></i>
@@ -7,8 +7,8 @@
     </button>
     <span class="text-center">{{(countdown != 0)?countdown:''}}</span>
     <button id="btnRecord" class="btn btn-primary pull-right col-md-4" v-on:click.prevent="record_call">
-        <i v-show="!record" class="fa fa-toggle-off">&nbsp;<span>Registra</span></i>
-        <i v-show="record" class="fa fa-toggle-on" style="color: red">&nbsp;<span>Stop</span></i>
+        <i v-show="!isRecording" class="fa fa-toggle-off">&nbsp;<span>Registra</span></i>
+        <i v-show="isRecording" class="fa fa-toggle-on" style="color: red">&nbsp;<span>Stop</span></i>
     </button>
     <br />
     <div id='divRemoteVideo' >
@@ -69,8 +69,8 @@ module.exports = {
         return {
             peer: video,
             remoteID: 0,
-            isRecording: false,
-            record:false,
+            isStarted: false,
+            isRecording:false,
             recOpt: options,
             recordRTC: '',
             border_time:0,
@@ -118,7 +118,7 @@ module.exports = {
             //$('#localVideo').prop('src',  URL.createObjectURL(window.localStream));
             call.answer(window.localStream);
             console.log('call from User.....');
-            that.isRecording = !that.isRecording;
+            that.isStarted = !that.isStarted;
             that.wait_stream(call);
         });
 
@@ -150,7 +150,7 @@ module.exports = {
             call.on('close', function () {
                 console.log('close call...');
                 window.existingCall.close();
-                that.isRecording = false;
+                that.isStarted = false;
 
                 //$('#localVideo').prop('src','');
                 $('#remoteVideo').prop('src','');
@@ -160,8 +160,9 @@ module.exports = {
         },
         record_call:function () {
             var vm = this;
-            vm.record = !vm.record;
-            if(vm.record){
+            vm.isRecording = !vm.isRecording;
+            if(vm.isRecording){
+                vm.io.emit('operator-recording-call',{isRecording:true});
                 vm.recordRTC.startRecording();
                 vm.border_time = setInterval(function () {
                     console.log('border  time out ....');
@@ -178,10 +179,15 @@ module.exports = {
                 vm.record_time = setTimeout(function () {
                     console.log('Max record  time out ....');
                     vm.elapsedTime = 0;
-                    vm.recordRTC.stopRecording();
+                    vm.recordRTC.stopRecording(function (audioVideoWebMURL) {
+                            this.save();
+                        });
+                    vm.io.emit('operator-recording-call',{isRecording:false});
                     clearInterval(vm.border_time);
+                    clearTimeout(vm.maxRecord_time);
                     $('#remoteVideo').css('border','none');
                     vm.border_time = false;
+                    vm.isRecording = false;
                 },vm.maxRecordTime);
             } else {
                 vm.recordRTC.stopRecording(function (audioVideoWebMURL) {
@@ -189,6 +195,7 @@ module.exports = {
                     //vm.recordRTC.save('File Name');
                     this.save();
                 });
+                vm.io.emit('operator-recording-call',{isRecording:false});
                 vm.elapsedTime = 0;
                 clearInterval(vm.border_time);
                 clearTimeout(vm.maxRecord_time);
@@ -206,7 +213,6 @@ module.exports = {
 
 <style scoped>
 #draggable {
-    color: ;
     position: absolute;
     background-color: white;
     z-index: 1000;
