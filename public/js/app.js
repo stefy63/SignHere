@@ -35130,6 +35130,9 @@ module.exports = {
 
             that.io.emit('finish-call');
         });
+        Event.$on('operator-recording-call', function (state) {
+            that.io.emit('operator-recording-call', { isRecording: state });
+        });
     },
     computed: function computed() {
         var that = this;
@@ -35339,7 +35342,7 @@ module.exports = {
             var vm = this;
             vm.isRecording = !vm.isRecording;
             if (vm.isRecording) {
-                vm.io.emit('operator-recording-call', { isRecording: true });
+                Event.$emit('operator-recording-call', true);
                 vm.recordRTC.startRecording();
                 vm.border_time = setInterval(function () {
                     console.log('border  time out ....');
@@ -35357,7 +35360,7 @@ module.exports = {
                     vm.recordRTC.stopRecording(function (audioVideoWebMURL) {
                         this.save();
                     });
-                    vm.io.emit('operator-recording-call', { isRecording: false });
+                    Event.$emit('operator-recording-call', false);
                     clearInterval(vm.border_time);
                     clearTimeout(vm.maxRecord_time);
                     $('#remoteVideo').css('border', 'none');
@@ -35370,7 +35373,7 @@ module.exports = {
                     //vm.recordRTC.save('File Name');
                     this.save();
                 });
-                vm.io.emit('operator-recording-call', { isRecording: false });
+                Event.$emit('operator-recording-call', false);
                 vm.elapsedTime = 0;
                 clearInterval(vm.border_time);
                 clearTimeout(vm.maxRecord_time);

@@ -43,6 +43,9 @@ module.exports = {
 
             that.io.emit('finish-call');
         });
+        Event.$on('operator-recording-call', function(state) {
+            that.io.emit('operator-recording-call',{isRecording:state});
+        });
     },
     computed: function() {
         var that=this;
