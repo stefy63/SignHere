@@ -76,8 +76,7 @@ module.exports = {
             this.numCall = this.Call.length;
         },
         other_response:function (message) {
-            //if(message.operatorId != this.suser)
-            this.stop_ask_response(message);
+            if(message.operatorId != this.suser) this.stop_ask_response(message);
         },
         accept_call:function () {
             var that = this;
