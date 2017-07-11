@@ -71,15 +71,15 @@ module.exports = {
 
         },
         stop_ask_response:function (message) {
+            console.log('response-check-user-connection......', message);
             this.Call.splice($.inArray(message.userId, this.Call), 1 );
             this.numCall = this.Call.length;
-            console.log('response-check-user-connection......'+message.userId);
         },
         other_response:function (message) {
             //if(message.operatorId != this.suser) this.stop_ask_response(message);
+            console.log('operator-notify-response......', message);
             this.Call.splice($.inArray(message.userId, this.Call), 1 );
             this.numCall = this.Call.length;
-            console.log('operator-notify-response......'+message.userId);
         },
         accept_call:function () {
             var that = this;
