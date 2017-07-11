@@ -35410,6 +35410,9 @@ module.exports = {
 //
 //
 //
+//
+//
+//
 
 
 /**
@@ -35446,6 +35449,7 @@ module.exports = {
             peer: video,
             isStarted: false,
             isRecording: false,
+            isWaiting: false,
             userDetail: { userId: this.suser, status: 'ready', locations: this.slocation, userType: "user" }
         };
     },
@@ -35515,6 +35519,7 @@ module.exports = {
                 window.existingCall.close();
             }
             this.io.emit('ask-response', { location: this.slocation });
+            this.isWaiting = true;
         },
 
         calling: function calling(userToCall) {
@@ -35537,6 +35542,7 @@ module.exports = {
             }
         },
         wait_stream: function wait_stream(call) {
+            this.isWaiting = false;
             var vm = this;
             console.log(' wait_stream...');
             if (window.existingCall) {
@@ -63934,6 +63940,22 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "show",
       rawName: "v-show",
+      value: (_vm.isWaiting),
+      expression: "isWaiting"
+    }],
+    staticClass: "text-center",
+    attrs: {
+      "id": "call-id"
+    }
+  }, [_c('img', {
+    attrs: {
+      "src": __webpack_require__(114),
+      "width": "100px"
+    }
+  })]), _vm._v(" "), _c('div', {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
       value: (_vm.isStarted),
       expression: "isStarted"
     }],
@@ -73804,6 +73826,18 @@ __webpack_require__(38);
 __webpack_require__(40);
 module.exports = __webpack_require__(41);
 
+
+/***/ }),
+/* 108 */,
+/* 109 */,
+/* 110 */,
+/* 111 */,
+/* 112 */,
+/* 113 */,
+/* 114 */
+/***/ (function(module, exports) {
+
+module.exports = "/images/animated-telephone.gif?c7d6a574d5b6b4891c7bd3257241eb35";
 
 /***/ })
 /******/ ]);

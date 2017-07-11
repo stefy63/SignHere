@@ -7,8 +7,11 @@
             <span v-show="isStarted">Termina Chiamata</span>
         </button>
         <br>
-        <!--<div id="call-id"></div>-->
+        <div v-show="isWaiting" id="call-id" class="text-center">
+            <img src="../../../../public/images/animated-telephone.gif" width="100px">
+        </div>
         <div id='divRemoteVideo' v-show="isStarted">
+
             <video id="remoteVideo" style="height: 350px;" autoplay></video>
             <div id='divLocalVideo' >
                 <video id="localVideo" autoplay height="100%"></video>
@@ -58,6 +61,7 @@ module.exports = {
             peer: video,
             isStarted: false,
             isRecording:false,
+            isWaiting:false,
             userDetail:{userId: this.suser,status:'ready',locations:this.slocation,userType:"user"}
         };
     },
@@ -132,6 +136,7 @@ module.exports = {
                 window.existingCall.close();
             }
             this.io.emit('ask-response', {location: this.slocation});
+            this.isWaiting = true;
         },
 
         calling:function (userToCall) {
@@ -154,6 +159,7 @@ module.exports = {
             }
         },
         wait_stream: function (call) {
+            this.isWaiting = false;
             var vm = this;
             console.log(' wait_stream...');
             if (window.existingCall) {
