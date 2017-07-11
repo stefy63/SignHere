@@ -40,7 +40,7 @@ module.exports = {
         console.log('Connection from: '+this.suser);
         var realport = (this.sport ? this.sport : location.port || (location.protocol === 'https:' ? 443 : 80));
         var options = {
-            mimeType: 'video/webm;codecs=vp9', // or video/webm\;codecs=h264 or video/webm\;codecs=vp9
+            mimeType: 'video/webm;codecs=264', // or video/webm\;codecs=h264 or video/webm\;codecs=vp9
             bitsPerSecond: 128000 // if this line is provided, skip above two
         };
         var video = new Peer(this.suser,
