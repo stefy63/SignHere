@@ -76,10 +76,8 @@ module.exports = {
             this.numCall = this.Call.length;
         },
         other_response:function (message) {
-            //if(message.operatorId != this.suser) this.stop_ask_response(message);
-            console.log('operator-notify-response......', message);
-            this.Call.splice($.inArray(message.userId, this.Call), 1 );
-            this.numCall = this.Call.length;
+            //if(message.operatorId != this.suser)
+            this.stop_ask_response(message);
         },
         accept_call:function () {
             var that = this;
