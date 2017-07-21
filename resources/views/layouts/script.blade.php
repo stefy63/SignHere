@@ -126,8 +126,7 @@ $(function () {
     var switchery = new Switchery(elem,defaults);
 
 
-    @if(count($errors) > 0)
-
+    @if(isset($errors) && count($errors) > 0)
         toastr['error']("{{__('app.notify_alert_field')}}", "{{__('app.notify_alert')}}");
         @foreach($errors->keys() as $k => $info)
             $('label[for="{{$info}}"]').css('color','red');

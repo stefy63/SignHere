@@ -6,9 +6,10 @@
  * Time: 18.10
  */
 
- Route::group(['prefix' => 'api/v1/', 'middleware' => ['auth','isAdmin','ForceSecure']], function () {
+ Route::group(['middleware' => ['auth','isAdmin','ForceSecure']], function () {
 
 
+     Route::get('signing/{id}', array('as' => 'sign.signing','uses' => 'Api\ApiSignController@signing'));
 
  });
 
