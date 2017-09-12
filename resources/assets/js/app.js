@@ -18,6 +18,7 @@ window.Event = new Vue();
 Vue.component('videochat', require('./components/videochat'));
 Vue.component('operator', require('./components/operator'));
 Vue.component('video-operator', require('./components/video-operator'));
+Vue.component('pdf-viewer', require('./components/pdf-viewer'));
 
 
 const app = new Vue({

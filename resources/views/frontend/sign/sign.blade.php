@@ -31,17 +31,17 @@
 <![endif]-->
 <script src="{{ asset('js/sketch.min.js') }}"></script>
 
-
+<!--
 <script src="{{ asset('js/pdf.js') }}"></script>
 <script src="{{ asset('js/compatibility.js') }}"></script>
-<!-- iCheck -->
+ iCheck -->
 <script src="{{ asset('js/plugins/iCheck/icheck.min.js') }}"></script>
 
 <script type="text/javascript">
 $(function () {
-    $( "#draggable" ).draggable();
+    //$( "#draggable" ).draggable();
 
-    var pdfData = atob("{{$b64doc}}");
+    //var pdfData = atob("{{$b64doc}}");
 
     var WizCtl ,
         lic,
@@ -610,7 +610,7 @@ $(function () {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    var pdfDoc = null
+   /* var pdfDoc = null
         pageNum = 1,
         pageRendering = false,
         pageNumPending = null,
@@ -620,10 +620,10 @@ $(function () {
         //url = $('#pdf-canvas').attr('data-url'),
         ctx = canvas.getContext('2d');
 
-    /**
+    /!**
      * Get page info from document, resize canvas accordingly, and render page.
      * @param num Page number.
-     */
+     *!/
     function renderPage(num) {
         pageRendering = true;
         // Using promise to fetch the page
@@ -662,9 +662,9 @@ $(function () {
                 }
             });
 
-            /*$('#pdf-hover').attr('height', $('#pdf-canvas').height().toString() + 'px')
+            /!*$('#pdf-hover').attr('height', $('#pdf-canvas').height().toString() + 'px')
                 .attr('width',$('#pdf-canvas').width().toString() + 'px')
-                .sketch({defaultColor: "blue",defaultSize:1});*/
+                .sketch({defaultColor: "blue",defaultSize:1});*!/
 
         });
 
@@ -673,10 +673,10 @@ $(function () {
 
     }
 
-    /**
+    /!**
      * If another page rendering in progress, waits until the rendering is
      * finised. Otherwise, executes rendering immediately.
-     */
+     *!/
     function queueRenderPage(num) {
         if (pageRendering) {
             pageNumPending = num;
@@ -685,9 +685,9 @@ $(function () {
         }
     }
 
-    /**
+    /!**
      * Displays previous page.
-     */
+     *!/
     function onPrevPage() {
         if (pageNum <= 1) {
             return;
@@ -698,9 +698,9 @@ $(function () {
     }
     document.getElementById('prev').addEventListener('click', onPrevPage);
 
-    /**
+    /!**
      * Displays next page.
-     */
+     *!/
     function onNextPage() {
         if (pageNum >= pdfDoc.numPages) {
             return;
@@ -711,9 +711,9 @@ $(function () {
     }
     document.getElementById('next').addEventListener('click', onNextPage);
 
-    /**
+    /!**
      * Asynchronously downloads PDF.
-     */
+     *!/
     //PDFJS.getDocument(url).then(function(pdfDoc_) {
     PDFJS.getDocument({data: pdfData}).then(function(pdfDoc_) {
         pdfDoc = pdfDoc_;
@@ -746,7 +746,7 @@ $(function () {
 }
 
 window.onresize = resizeCanvas;
-//resizeCanvas();
+//resizeCanvas();*/
 
 })
 </script>
@@ -766,11 +766,11 @@ window.onresize = resizeCanvas;
             <hr>
 
             <div class="ibox-content col-lg-12 col-md-12 col-xs-12">
-                <div class="pull-left col-lg-9 col-md-9 col-xs-9 ">
+                <!--<div class="pull-left col-lg-9 col-md-9 col-xs-9 ">
                     <button id="prev" class="col-lg-4 col-md-4 col-xs-4 pull-left btn btn-info">Previous</button>
                     <div class="col-lg-4 col-md-4 col-xs-4 text-center"><span>Page: <span id="page_num"></span> / <span id="page_count"></span></span></div>
                     <button id="next" class="col-lg-4 col-md-4 col-xs-4 pull-right btn btn-info">Next</button>
-                </div>
+                </div>-->
 
 
                 <div class="pull-right col-lg-3 col-md-3 col-xs-3">
@@ -833,8 +833,12 @@ window.onresize = resizeCanvas;
                 </div>
 
                 <div class="pull-left col-lg-9 col-md-9 col-xs-9 text-center" id="div-pdf-canvas" style="position: relative">
-                    <canvas id="pdf-canvas"></canvas>
-                    <!--<canvas  id="pdf-hover" ></canvas>-->
+                    <!--<canvas id="pdf-canvas"></canvas>
+                    <canvas  id="pdf-hover" ></canvas>-->
+                    <pdf-viewer
+                        pdfdata = '{{$b64doc}}'
+                    >
+                    </pdf-viewer>
                 </div>
 
             </div>
