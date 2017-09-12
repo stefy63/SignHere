@@ -18,6 +18,7 @@ Route::middleware('auth:api')->get('routes/user', function (Request $request) {
 });
 */
  Route::group(['prefix' => 'v1', 'middleware' => ['auth:api','ForceSecure']], function () {
+
      foreach ( new DirectoryIterator(base_path().DIRECTORY_SEPARATOR.'routes/api') as $fileinfo ) {
          if ($fileinfo->isFile() && $fileinfo->getExtension() == 'php'){
              require_once base_path() . DIRECTORY_SEPARATOR . 'routes/api' . DIRECTORY_SEPARATOR . $fileinfo->getFilename();
