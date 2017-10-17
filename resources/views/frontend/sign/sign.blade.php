@@ -66,6 +66,7 @@ $(function () {
             fPad();
             SendQuestionsAuth();
         } else {
+            console.log('Start....');
             SendQuestionsAuthSign();
         }
     });
@@ -73,14 +74,15 @@ $(function () {
     $('#about').click(function () {
         if(WacomCtl)
             AboutBox();
-    })
+    });
 
 //////////////// SIGN SCRIPT //////////////////////////
 
     function SendQuestionsAuthSign() {
+        var page_count = $('#page_count').val();
         var content = $('<div class="i-checks"></div>');
         content.html('<label><input type="checkbox" id="chkAuth">' +
-            '<i></i>&nbsp;&nbsp;&nbsp;  {!! __('sign.sign_proc_auth_question') !!}'+pdfDoc.numPages+'</label>');
+            '<i></i>&nbsp;&nbsp;&nbsp;  {!! __('sign.sign_proc_auth_question') !!} '+page_count+' page</label>');
 
         addElement2Modal(content);
         $('#showModal').modal();

@@ -3,10 +3,11 @@
         <div>
             <button v-on:click="onPrevPage" class="col-lg-4 col-md-4 col-xs-4 pull-left btn btn-info">Previous</button>
             <div class="col-lg-4 col-md-4 col-xs-4 text-center"><span>Page: <span>{{pageNum}}</span> / <span>{{page_count}}</span></span></div>
+            <!--<input type="hidden" value="{{page_count}}" id="page_count"/>-->
             <button v-on:click="onNextPage" class="col-lg-4 col-md-4 col-xs-4 pull-right btn btn-info">Next</button>
-            <button v-on:click="onPutSign" class="col-lg-4 col-md-4 col-xs-4 pull-right btn btn-info">Sign</button>
+            <!--<button v-on:click="onPutSign" class="col-lg-4 col-md-4 col-xs-4 pull-right btn btn-info">Sign</button>-->
         </div>
-        <canvas id="tst"></canvas>
+        <!--<canvas id="tst"></canvas>-->
         <div  id="div-pdf-canvas">
             <canvas id="pdf-canvas"></canvas>
         </div>
