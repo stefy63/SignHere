@@ -4273,7 +4273,7 @@ EOT;
     rebroadcast the Work by any means including signs, sounds or images.
     "Reproduce" means to make copies of the Work by any means including
     without limitation by sound or visual recordings and the right of
-    fixation and reproducing fixations of the Work, including documents of a
+    fixation and reproducing fixations of the Work, including storage of a
     protected performance or phonogram in digital form or other electronic
     medium. 2. Fair Dealing Rights. Nothing in this License is intended to
     reduce, limit, or restrict any uses free from copyright or rights

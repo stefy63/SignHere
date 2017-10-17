@@ -10,7 +10,8 @@
         "guzzlehttp/guzzle": "^6.2",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "setasign/fpdi-tcpdf": "1.6.1"
+        "setasign/fpdf": "^1.8",
+        "setasign/fpdi": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
