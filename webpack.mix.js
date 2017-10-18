@@ -20,4 +20,4 @@ mix.js([
     .sass('resources/assets/sass/app.scss', 'public/css')
     .sass('resources/assets/jquery-ui/jquery-ui.css', 'public/css')
 
-//mix.browserSync();
+mix.browserSync();

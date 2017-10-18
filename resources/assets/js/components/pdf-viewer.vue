@@ -52,6 +52,7 @@ export default {
         renderPage: function (num) {
             var vm = this;
             vm.pageRendering = true;
+
             // Using promise to fetch the page
             vm.pdfDoc.getPage(num).then(function(page) {
 

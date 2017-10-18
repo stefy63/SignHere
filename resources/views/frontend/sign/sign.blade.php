@@ -89,6 +89,7 @@ $(function () {
         $('.i-checks input').iCheck({
             checkboxClass: 'icheckbox_square-green',
         });
+
         /*$('.i-checks input').on('ifChecked ifUnchecked', function(event) {
             console.log(event.type);
             if (event.type == 'ifChecked') {

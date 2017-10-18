@@ -309,9 +309,8 @@ $(function () {
     }
 
     $(document).on('click','.tab-dossier_a',function(e){
-        e.stopPropagation();
         var dossier = $(this).closest('tr').attr('id');
-        console.log(dossier);
+        //console.log(dossier);
         var url = '{{url('admin_dossiers/destroy')}}/'+dossier;
         swal({
             title: '{{__('app.confirm-title')}}',
@@ -352,7 +351,6 @@ $(function () {
     });
 
     $(document).on('click','.tab-document_a',function(e){
-        e.stopPropagation();
         var document = $(this).closest('tr').attr('id');
         ///alert(document);
         var url = '{{url('admin_documents/destroy')}}/'+document;
@@ -371,10 +369,12 @@ $(function () {
                     url: url,
                     data: {
                         _token: "{{csrf_token()}}",
-                    } }).done(function (data) {
+                    } })
+                    .done(function (data) {
                     toastr['success']('',data[0]);
                     getDocuments($('input#dossier_id').val());
-                }).error(function (xhr, status, err) {
+                    })
+                    .error(function (xhr, status, err) {
                     console.log(JSON.parse(xhr.responseText)[0]);
                     toastr['error']('',JSON.parse(xhr.responseText)[0]);
                 });
