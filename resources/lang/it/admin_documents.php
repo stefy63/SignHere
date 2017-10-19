@@ -71,6 +71,7 @@ return [
     'error_document_NOTupdate' => 'Impossibile Aggiornare il Documento',
     'warning_document_NOTfound' => 'Impossibile Cancellare il Documento',
     'warning_document_NOTcreated' => 'Impossibile Creare il Documento',
+    'abort_document_deleted' => 'Cancellazione del Documento, Annullata!',
     '' => '',
     '' => '',
     '' => '',

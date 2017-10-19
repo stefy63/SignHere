@@ -63,6 +63,7 @@ return [
     'error_dossier' => 'Selezionare un Cliente',
     'error_document' => 'Selezionare un Fascicolo',
     'warning_dossier_NOTfound' => 'Fascicolo NON Trovato',
+    'abort_document_deleted' => 'Cancellazione del Dossier, Annullata!',
     '' => '',
     '' => '',
     '' => '',

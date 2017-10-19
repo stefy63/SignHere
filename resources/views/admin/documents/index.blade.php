@@ -319,22 +319,29 @@ $(function () {
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
             confirmButtonText: "Yes",
-            closeOnConfirm: true
+            closeOnConfirm: false,
+            closeOnCancel: false
         }, function (isConfirm) {
             if(isConfirm) {
-
                 $.ajax({
                     type: "GET",
                     url: url,
                     data: {
                         _token: "{{csrf_token()}}",
-                    } }).done(function (data) {
-                    toastr['success']('',data[0]);
+                    }
+                })
+                .done(function (data) {
+                    //toastr['success']('',data[0]);
                     getDossiers($('input#client_id').val());
-                }).error(function (xhr, status, err) {
+                    swal("Deleted!", data[0], "success");
+                })
+                .error(function (xhr, status, err) {
                     console.log(JSON.parse(xhr.responseText)[0]);
+                    swal("Error!", JSON.parse(xhr.responseText)[0], "error");
                     toastr['error']('',JSON.parse(xhr.responseText)[0]);
                 });
+            } else {
+                swal("Cancel!","{{__('admin_dossiers.abort_document_deleted')}}", "error");
             }
         });
     });
@@ -361,7 +368,8 @@ $(function () {
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
             confirmButtonText: "Yes",
-            closeOnConfirm: true
+            closeOnConfirm: false,
+            closeOnCancel: false
         }, function (isConfirm) {
             if(isConfirm) {
                 $.ajax({
@@ -369,15 +377,19 @@ $(function () {
                     url: url,
                     data: {
                         _token: "{{csrf_token()}}",
-                    } })
-                    .done(function (data) {
-                    toastr['success']('',data[0]);
+                    }
+                })
+                .done(function (data) {
                     getDocuments($('input#dossier_id').val());
-                    })
-                    .error(function (xhr, status, err) {
+                    swal("Deleted!", data[0], "success");
+                })
+                .error(function (xhr, status, err) {
                     console.log(JSON.parse(xhr.responseText)[0]);
+                    swal("Error!", JSON.parse(xhr.responseText)[0], "error");
                     toastr['error']('',JSON.parse(xhr.responseText)[0]);
                 });
+            } else {
+                swal("Abort!", "{{__('admin_documents.abort_document_deleted')}}", "error");
             }
         });
     });

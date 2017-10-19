@@ -8,6 +8,8 @@ use App\Support\Helpers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Laravel\Dusk\DuskServiceProvider;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -51,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
     {
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+            $this->app->register(DuskServiceProvider::class);
         }
         //
     }
