@@ -15,6 +15,8 @@ use Monolog\Formatter\JsonFormatter;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
 
+/* DA COPIARE NELLA CARTELLA vendor/monolog/src/Monolog/Handler */
+
 class EloquentHandler extends AbstractProcessingHandler {
 
     public function __construct($level = Logger::DEBUG, $bubble = true)

@@ -818,20 +818,32 @@ window.onresize = resizeCanvas;
                     @if(config('app.debug'))
                     <div class="pull-right col-lg-12 col-md-12 col-xs-12">
                         <br/>
-                        <textarea cols="35" rows="10" id="txtDisplay"></textarea>
+                        {{--<textarea cols="35" rows="10" id="txtDisplay"></textarea>--}}
+
                     </div>
                     @endif
-                    <div class="text-center">
-                        <videochat
-                            skey='{{env('VUE_CHAT_KEY')}}'
-                            shost='{{env('VUE_CHAT_HOST')}}'
-                            sport='{{env('VUE_CHAT_PORT')}}'
-                            spath='{{env('VUE_CHAT_PATH')}}'
-                            ssecure='{{env('VUE_CHAT_SECURE')}}'
-                            suser='{{$user->id}}'
-                            slocation='{{($user->locations())?$user->locations()->first()->id:''}}'
-                            >
-                        </videochat>
+                    <div class="col-lg-12 col-md-12 col-xs-12">
+                        <br/><br/>
+                        <qr-code class="text-center"
+                                text="{{url('api/v1/signing',[ 'id' => $document->id]).'?'.'api_token='.Auth::user()->api_token}}"
+                                size="150"
+                                color="#000"
+                                bg-color="#FFF"
+                                error-level="L">
+                        </qr-code>
+                        <br/><br/>
+                    </div>
+                    <div class="">
+                        {{--<videochat--}}
+                            {{--skey='{{env('VUE_CHAT_KEY')}}'--}}
+                            {{--shost='{{env('VUE_CHAT_HOST')}}'--}}
+                            {{--sport='{{env('VUE_CHAT_PORT')}}'--}}
+                            {{--spath='{{env('VUE_CHAT_PATH')}}'--}}
+                            {{--ssecure='{{env('VUE_CHAT_SECURE')}}'--}}
+                            {{--suser='{{$user->id}}'--}}
+                            {{--slocation='{{($user->locations())?$user->locations()->first()->id:''}}'--}}
+                            {{-->--}}
+                        {{--</videochat>--}}
                     </div>
                 </div>
 
