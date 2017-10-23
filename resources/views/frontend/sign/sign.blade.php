@@ -834,16 +834,16 @@ window.onresize = resizeCanvas;
                         <br/><br/>
                     </div>
                     <div class="">
-                        {{--<videochat--}}
-                            {{--skey='{{env('VUE_CHAT_KEY')}}'--}}
-                            {{--shost='{{env('VUE_CHAT_HOST')}}'--}}
-                            {{--sport='{{env('VUE_CHAT_PORT')}}'--}}
-                            {{--spath='{{env('VUE_CHAT_PATH')}}'--}}
-                            {{--ssecure='{{env('VUE_CHAT_SECURE')}}'--}}
-                            {{--suser='{{$user->id}}'--}}
-                            {{--slocation='{{($user->locations())?$user->locations()->first()->id:''}}'--}}
-                            {{-->--}}
-                        {{--</videochat>--}}
+                        <videochat
+                            skey='{{env('VUE_CHAT_KEY')}}'
+                            shost='{{env('VUE_CHAT_HOST')}}'
+                            sport='{{env('VUE_CHAT_PORT')}}'
+                            spath='{{env('VUE_CHAT_PATH')}}'
+                            ssecure='{{env('VUE_CHAT_SECURE')}}'
+                            suser='{{$user->id}}'
+                            slocation='{{($user->locations())?$user->locations()->first()->id:''}}'
+                            >
+                        </videochat>
                     </div>
                 </div>
 

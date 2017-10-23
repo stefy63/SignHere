@@ -1741,7 +1741,6 @@ return array(
     'Monolog\\Handler\\DoctrineCouchDBHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/DoctrineCouchDBHandler.php',
     'Monolog\\Handler\\DynamoDbHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/DynamoDbHandler.php',
     'Monolog\\Handler\\ElasticSearchHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/ElasticSearchHandler.php',
-    'Monolog\\Handler\\EloquentHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/EloquentHandler.php',
     'Monolog\\Handler\\ErrorLogHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/ErrorLogHandler.php',
     'Monolog\\Handler\\FilterHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/FilterHandler.php',
     'Monolog\\Handler\\FingersCrossedHandler' => $vendorDir . '/monolog/monolog/src/Monolog/Handler/FingersCrossedHandler.php',

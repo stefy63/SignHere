@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0e80cab2f8f85b99b486cd3b7522e27a
+class ComposerStaticInitf82dd74a21a7202f26a46a9d856e903a
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -2071,7 +2071,6 @@ class ComposerStaticInit0e80cab2f8f85b99b486cd3b7522e27a
         'Monolog\\Handler\\DoctrineCouchDBHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/DoctrineCouchDBHandler.php',
         'Monolog\\Handler\\DynamoDbHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/DynamoDbHandler.php',
         'Monolog\\Handler\\ElasticSearchHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/ElasticSearchHandler.php',
-        'Monolog\\Handler\\EloquentHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/EloquentHandler.php',
         'Monolog\\Handler\\ErrorLogHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/ErrorLogHandler.php',
         'Monolog\\Handler\\FilterHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FilterHandler.php',
         'Monolog\\Handler\\FingersCrossedHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FingersCrossedHandler.php',
@@ -3752,10 +3751,10 @@ class ComposerStaticInit0e80cab2f8f85b99b486cd3b7522e27a
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0e80cab2f8f85b99b486cd3b7522e27a::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0e80cab2f8f85b99b486cd3b7522e27a::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit0e80cab2f8f85b99b486cd3b7522e27a::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit0e80cab2f8f85b99b486cd3b7522e27a::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf82dd74a21a7202f26a46a9d856e903a::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf82dd74a21a7202f26a46a9d856e903a::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitf82dd74a21a7202f26a46a9d856e903a::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitf82dd74a21a7202f26a46a9d856e903a::$classMap;
 
         }, null, ClassLoader::class);
     }

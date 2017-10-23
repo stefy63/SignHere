@@ -158,6 +158,16 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1,
             'created_at' => date("Y-m-d H:i:s")
         ]);
+        DB::table('modules')->insert([
+            'id' => 11,
+            'name' => 'Sign',
+            'short_name' => 'sign',
+            'functions' => 'index,edit,create,show,destroy,signing',
+            'isadmin' => false,
+            'active' => 1,
+            'user_id' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
 
 
 
