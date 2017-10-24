@@ -818,7 +818,7 @@ window.onresize = resizeCanvas;
 
                     </div>
                     @endif
-                    {{--
+
                     <div class="col-lg-12 col-md-12 col-xs-12">
                         <br/><br/>
                         <qr-code class="text-center"
@@ -852,7 +852,7 @@ window.onresize = resizeCanvas;
                     >
                     </pdf-viewer>
                 </div>
---}}
+
             </div>
         </div>
     </div>
