@@ -17,7 +17,7 @@
 <script>
 
 require('pdfjs-dist');
-require('pdfjs-dist/build/pdf.worker');
+require('pdfjs-dist/build/pdf.worker.js');
 
 export default {
     props: [
