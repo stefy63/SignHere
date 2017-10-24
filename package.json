@@ -21,6 +21,7 @@
     "fs": "0.0.1-security",
     "jquery-ui": "^1.12.1",
     "net": "^1.0.2",
+    "node-sass": "^4.5.3",
     "pdfjs-dist": "^1.8.570",
     "peer": "^0.2.8",
     "recordrtc": "^5.4.2",

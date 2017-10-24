@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit12914db2b739920cd4062687e79e80e2
+class ComposerStaticInit0ef98c3b848443f6c030220a2e6ae034
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -12,8 +12,8 @@ class ComposerStaticInit12914db2b739920cd4062687e79e80e2
         '1d1b89d124cc9cb8219922c9d5569199' => __DIR__ . '/..' . '/hamcrest/hamcrest-php/hamcrest/Hamcrest.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
-        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
@@ -2068,6 +2068,7 @@ class ComposerStaticInit12914db2b739920cd4062687e79e80e2
         'Monolog\\Handler\\DoctrineCouchDBHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/DoctrineCouchDBHandler.php',
         'Monolog\\Handler\\DynamoDbHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/DynamoDbHandler.php',
         'Monolog\\Handler\\ElasticSearchHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/ElasticSearchHandler.php',
+        'Monolog\\Handler\\EloquentHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/EloquentHandler.php',
         'Monolog\\Handler\\ErrorLogHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/ErrorLogHandler.php',
         'Monolog\\Handler\\FilterHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FilterHandler.php',
         'Monolog\\Handler\\FingersCrossedHandler' => __DIR__ . '/..' . '/monolog/monolog/src/Monolog/Handler/FingersCrossedHandler.php',
@@ -3748,10 +3749,10 @@ class ComposerStaticInit12914db2b739920cd4062687e79e80e2
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit12914db2b739920cd4062687e79e80e2::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit12914db2b739920cd4062687e79e80e2::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit12914db2b739920cd4062687e79e80e2::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit12914db2b739920cd4062687e79e80e2::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit0ef98c3b848443f6c030220a2e6ae034::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit0ef98c3b848443f6c030220a2e6ae034::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit0ef98c3b848443f6c030220a2e6ae034::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit0ef98c3b848443f6c030220a2e6ae034::$classMap;
 
         }, null, ClassLoader::class);
     }
