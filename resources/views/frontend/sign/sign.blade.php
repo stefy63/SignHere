@@ -41,7 +41,7 @@
 $(function () {
     //$( "#draggable" ).draggable();
 
-    //var pdfData = atob("{{$b64doc}}");
+    // var pdfData = atob("{{$b64doc}}");
 
     var WizCtl ,
         lic,

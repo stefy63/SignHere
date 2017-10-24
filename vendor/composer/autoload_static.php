@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitf82dd74a21a7202f26a46a9d856e903a
+class ComposerStaticInit12914db2b739920cd4062687e79e80e2
 {
     public static $files = array (
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
@@ -499,7 +499,6 @@ class ComposerStaticInitf82dd74a21a7202f26a46a9d856e903a
         'Facebook\\WebDriver\\Chrome\\ChromeDriver' => __DIR__ . '/..' . '/facebook/webdriver/lib/Chrome/ChromeDriver.php',
         'Facebook\\WebDriver\\Chrome\\ChromeDriverService' => __DIR__ . '/..' . '/facebook/webdriver/lib/Chrome/ChromeDriverService.php',
         'Facebook\\WebDriver\\Chrome\\ChromeOptions' => __DIR__ . '/..' . '/facebook/webdriver/lib/Chrome/ChromeOptions.php',
-        'Facebook\\WebDriver\\Cookie' => __DIR__ . '/..' . '/facebook/webdriver/lib/Cookie.php',
         'Facebook\\WebDriver\\Exception\\ElementNotSelectableException' => __DIR__ . '/..' . '/facebook/webdriver/lib/Exception/ElementNotSelectableException.php',
         'Facebook\\WebDriver\\Exception\\ElementNotVisibleException' => __DIR__ . '/..' . '/facebook/webdriver/lib/Exception/ElementNotVisibleException.php',
         'Facebook\\WebDriver\\Exception\\ExpectedException' => __DIR__ . '/..' . '/facebook/webdriver/lib/Exception/ExpectedException.php',
@@ -596,7 +595,6 @@ class ComposerStaticInitf82dd74a21a7202f26a46a9d856e903a
         'Facebook\\WebDriver\\Support\\Events\\EventFiringWebDriver' => __DIR__ . '/..' . '/facebook/webdriver/lib/Support/Events/EventFiringWebDriver.php',
         'Facebook\\WebDriver\\Support\\Events\\EventFiringWebDriverNavigation' => __DIR__ . '/..' . '/facebook/webdriver/lib/Support/Events/EventFiringWebDriverNavigation.php',
         'Facebook\\WebDriver\\Support\\Events\\EventFiringWebElement' => __DIR__ . '/..' . '/facebook/webdriver/lib/Support/Events/EventFiringWebElement.php',
-        'Facebook\\WebDriver\\Support\\XPathEscaper' => __DIR__ . '/..' . '/facebook/webdriver/lib/Support/XPathEscaper.php',
         'Facebook\\WebDriver\\WebDriver' => __DIR__ . '/..' . '/facebook/webdriver/lib/WebDriver.php',
         'Facebook\\WebDriver\\WebDriverAction' => __DIR__ . '/..' . '/facebook/webdriver/lib/WebDriverAction.php',
         'Facebook\\WebDriver\\WebDriverAlert' => __DIR__ . '/..' . '/facebook/webdriver/lib/WebDriverAlert.php',
@@ -618,7 +616,6 @@ class ComposerStaticInitf82dd74a21a7202f26a46a9d856e903a
         'Facebook\\WebDriver\\WebDriverPoint' => __DIR__ . '/..' . '/facebook/webdriver/lib/WebDriverPoint.php',
         'Facebook\\WebDriver\\WebDriverSearchContext' => __DIR__ . '/..' . '/facebook/webdriver/lib/WebDriverSearchContext.php',
         'Facebook\\WebDriver\\WebDriverSelect' => __DIR__ . '/..' . '/facebook/webdriver/lib/WebDriverSelect.php',
-        'Facebook\\WebDriver\\WebDriverSelectInterface' => __DIR__ . '/..' . '/facebook/webdriver/lib/WebDriverSelectInterface.php',
         'Facebook\\WebDriver\\WebDriverTargetLocator' => __DIR__ . '/..' . '/facebook/webdriver/lib/WebDriverTargetLocator.php',
         'Facebook\\WebDriver\\WebDriverTimeouts' => __DIR__ . '/..' . '/facebook/webdriver/lib/WebDriverTimeouts.php',
         'Facebook\\WebDriver\\WebDriverUpAction' => __DIR__ . '/..' . '/facebook/webdriver/lib/WebDriverUpAction.php',
@@ -3751,10 +3748,10 @@ class ComposerStaticInitf82dd74a21a7202f26a46a9d856e903a
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitf82dd74a21a7202f26a46a9d856e903a::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitf82dd74a21a7202f26a46a9d856e903a::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitf82dd74a21a7202f26a46a9d856e903a::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitf82dd74a21a7202f26a46a9d856e903a::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit12914db2b739920cd4062687e79e80e2::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit12914db2b739920cd4062687e79e80e2::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit12914db2b739920cd4062687e79e80e2::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit12914db2b739920cd4062687e79e80e2::$classMap;
 
         }, null, ClassLoader::class);
     }
