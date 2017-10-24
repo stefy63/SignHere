@@ -31,10 +31,6 @@
 <![endif]-->
 <script src="{{ asset('js/sketch.min.js') }}"></script>
 
-<!--
-<script src="{{ asset('js/pdf.js') }}"></script>
-<script src="{{ asset('js/compatibility.js') }}"></script>
- iCheck -->
 <script src="{{ asset('js/plugins/iCheck/icheck.min.js') }}"></script>
 
 <script type="text/javascript">
@@ -43,7 +39,7 @@ $(function () {
 
     // var pdfData = atob("{{$b64doc}}");
 
-    var WizCtl ,
+ /*   var WizCtl ,
         lic,
         Licence,
         hash,
@@ -90,14 +86,14 @@ $(function () {
             checkboxClass: 'icheckbox_square-green',
         });
 
-        /*$('.i-checks input').on('ifChecked ifUnchecked', function(event) {
+        /!*$('.i-checks input').on('ifChecked ifUnchecked', function(event) {
             console.log(event.type);
             if (event.type == 'ifChecked') {
                 //$('#chkAuth').prop("checked",true);
             } else {
                 //$('#chkAuth').prop("checked",false);
             }
-        });*/
+        });*!/
         //// event click ////
         $('#Sig-Reset').bind('click', function(e) {
             e.stopPropagation();
@@ -488,9 +484,9 @@ $(function () {
         //toastr['error']("{{__('sign.sign_proc_drop')}}", "{{__('sign.sign_proc_start_title')}}");
     }
 
-    /**
+    /!**
      * Save configuration of a Wacom Pad
-     * */
+     * *!/
     function TPad(model, signatureLineY, whoY, whyY, textFontSize, buttonFontSize, signLineSize, buttonWith) {
         this.model = model;
         this.signatureLineY = signatureLineY;
@@ -613,7 +609,7 @@ $(function () {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-   /* var pdfDoc = null
+   /!* var pdfDoc = null
         pageNum = 1,
         pageRendering = false,
         pageNumPending = null,
@@ -749,13 +745,13 @@ $(function () {
 }
 
 window.onresize = resizeCanvas;
-//resizeCanvas();*/
-
+//resizeCanvas();*!/
+*/
 })
 </script>
 @endpush
 @section('content')
-<div class="row">
+{{--<div class="row">
     <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="ibox float-e-margins col-lg-12 col-md-12 col-xs-12">
             <div class="ibox-title col-lg-12 col-md-12 col-xs-12">
@@ -887,6 +883,6 @@ window.onresize = resizeCanvas;
 
         </div>
     </div>
-</div>
+</div>--}}
 
 @endsection
