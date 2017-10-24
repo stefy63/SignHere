@@ -179,7 +179,7 @@ class SignController extends Controller
             }
             $b64Doc = Storage::disk('documents')->get($document->filename);
             $b64Doc = base64_encode($b64Doc);
-die($b64Doc);
+
             if($document->doctype) {
                 $arrayTpl = $this->_getTemplate($document->doctype->template);
                 $arrayQuestion = $this->_getTemplate($document->doctype->questions);

@@ -847,10 +847,10 @@ window.onresize = resizeCanvas;
                 <div class="pull-left col-lg-9 col-md-9 col-xs-9 text-center" id="div-pdf-canvas" style="position: relative">
                     <!--<canvas id="pdf-canvas"></canvas>
                     <canvas  id="pdf-hover" ></canvas>-->
-                    <pdf-viewer
+                    {{--<pdf-viewer
                         pdfdata = '{{$b64doc}}'
                     >
-                    </pdf-viewer>
+                    </pdf-viewer>--}}
                 </div>
 
             </div>
