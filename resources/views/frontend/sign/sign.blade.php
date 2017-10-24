@@ -751,7 +751,7 @@ window.onresize = resizeCanvas;
 </script>
 @endpush
 @section('content')
-{{--<div class="row">
+<div class="row">
     <div class="col-lg-12 col-md-12 col-xs-12">
         <div class="ibox float-e-margins col-lg-12 col-md-12 col-xs-12">
             <div class="ibox-title col-lg-12 col-md-12 col-xs-12">
@@ -883,6 +883,6 @@ window.onresize = resizeCanvas;
 
         </div>
     </div>
-</div>--}}
+</div>
 
 @endsection
