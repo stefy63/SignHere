@@ -835,7 +835,7 @@ window.onresize = resizeCanvas;
                         <br/><br/>
                     </div>
                     <div class="">
-                        <videochat
+                       {{-- <videochat
                             skey='{{env('VUE_CHAT_KEY')}}'
                             shost='{{env('VUE_CHAT_HOST')}}'
                             sport='{{env('VUE_CHAT_PORT')}}'
@@ -844,7 +844,7 @@ window.onresize = resizeCanvas;
                             suser='{{$user->id}}'
                             slocation='{{($user->locations())?$user->locations()->first()->id:''}}'
                             >
-                        </videochat> 
+                        </videochat> --}}
                     </div>
                 </div>
 
