@@ -818,7 +818,7 @@ window.onresize = resizeCanvas;
                     @if(config('app.debug'))
                     <div class="pull-right col-lg-12 col-md-12 col-xs-12">
                         <br/>
-                        <textarea cols="35" rows="10" id="txtDisplay"></textarea>
+                        <textarea cols="35" rows="10" id="txtDisplay" hidden></textarea>
 
                     </div>
                     @endif
