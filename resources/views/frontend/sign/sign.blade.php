@@ -827,7 +827,7 @@ window.onresize = resizeCanvas;
                         <br/><br/>
                         <qr-code class="text-center"
                                 text="{{url('api/v1/signing',[ 'id' => $document->id]).'?'.'api_token='.Auth::user()->api_token}}"
-                                size=150
+                                :size="150"
                                 color="#000"
                                 bg-color="#FFF"
                                 error-level="L">
