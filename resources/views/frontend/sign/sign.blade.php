@@ -823,18 +823,20 @@ window.onresize = resizeCanvas;
                     </div>
                     @endif
 
-                    <div class="col-lg-12 col-md-12 col-xs-12">
-                        <br/><br/>
-                        <qr-code class="text-center"
+                    <div class="col-lg-12 col-md-12 col-xs-12 pull-right">
+                        <p>
+                        <qr-code
                                 text="{{url('api/v1/signing',[ 'id' => $document->id]).'?'.'api_token='.Auth::user()->api_token}}"
                                 :size="150"
                                 color="#000"
                                 bg-color="#FFF"
                                 error-level="L">
                         </qr-code>
-                        <br/><br/>
+                        </p>
                     </div>
-                    <div class="">
+                    <br />
+                    <div class="col-lg-12 col-md-12 col-xs-12 pull-right">
+                        <p>
                         <videochat
                             skey='{{env('VUE_CHAT_KEY')}}'
                             shost='{{env('VUE_CHAT_HOST')}}'
@@ -844,7 +846,8 @@ window.onresize = resizeCanvas;
                             suser='{{$user->id}}'
                             slocation='{{($user->locations())?$user->locations()->first()->id:''}}'
                             >
-                        </videochat> 
+                        </videochat>
+                        </p>
                     </div>
                 </div>
 

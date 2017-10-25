@@ -72,7 +72,7 @@ module.exports = {
 
         navigator.getUserMedia = navigator.getUserMedia ||
             navigator.webkitGetUserMedia ||
-            //navigator.mozGetUserMedia ||
+            navigator.mozGetUserMedia ||
             navigator.mediaDevices.getUserMedia ||
             navigator.msGetUserMedia;
 
