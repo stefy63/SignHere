@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+//use setasign\Fpdi;
 use FPDI;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
@@ -215,6 +216,7 @@ class SignController extends Controller
             $returnQuestions = json_decode($request->questions);
 
             //class_exists('TCPDF', true);
+            //$pdf = new Fpdi\Fpdi();
             $pdf = new FPDI();
             // set document information
             $pdf->SetCreator(PDF_CREATOR);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "183c8d7fd847e7cf77267bccb23930f5",
+    "content-hash": "1138eece9eaf8a997d1b689e1ca86e2f",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -893,7 +893,7 @@
         },
         {
             "name": "mtdowling/cron-expression",
-            "version": "v1.2.0",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mtdowling/cron-expression.git",
@@ -990,16 +990,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v3.1.1",
+            "version": "v3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "a1e8e1a30e1352f118feff1a8481066ddc2f234a"
+                "reference": "08131e7ff29de6bb9f12275c7d35df71f25f4d89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/a1e8e1a30e1352f118feff1a8481066ddc2f234a",
-                "reference": "a1e8e1a30e1352f118feff1a8481066ddc2f234a",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/08131e7ff29de6bb9f12275c7d35df71f25f4d89",
+                "reference": "08131e7ff29de6bb9f12275c7d35df71f25f4d89",
                 "shasum": ""
             },
             "require": {
@@ -1037,7 +1037,7 @@
                 "parser",
                 "php"
             ],
-            "time": "2017-09-02T17:10:46+00:00"
+            "time": "2017-11-04T11:48:34+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -1186,16 +1186,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.8.13",
+            "version": "v0.8.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "cdb5593c3684bab74e10fcfffe4a0c8d1c39695d"
+                "reference": "91e53c16560bdb8b9592544bb38429ae00d6baee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/cdb5593c3684bab74e10fcfffe4a0c8d1c39695d",
-                "reference": "cdb5593c3684bab74e10fcfffe4a0c8d1c39695d",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/91e53c16560bdb8b9592544bb38429ae00d6baee",
+                "reference": "91e53c16560bdb8b9592544bb38429ae00d6baee",
                 "shasum": ""
             },
             "require": {
@@ -1255,7 +1255,7 @@
                 "interactive",
                 "shell"
             ],
-            "time": "2017-10-19T06:13:20+00:00"
+            "time": "2017-11-04T16:06:49+00:00"
         },
         {
             "name": "ramsey/uuid",
@@ -1340,66 +1340,18 @@
             "time": "2017-09-22T20:46:04+00:00"
         },
         {
-            "name": "setasign/fpdf",
-            "version": "1.8.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Setasign/FPDF.git",
-                "reference": "2c68c9e6c034ac3187d25968790139a73184cdb1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Setasign/FPDF/zipball/2c68c9e6c034ac3187d25968790139a73184cdb1",
-                "reference": "2c68c9e6c034ac3187d25968790139a73184cdb1",
-                "shasum": ""
-            },
-            "type": "library",
-            "autoload": {
-                "classmap": [
-                    "fpdf.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "no usage restriction"
-            ],
-            "authors": [
-                {
-                    "name": "Olivier Plathey",
-                    "email": "oliver@fpdf.org",
-                    "homepage": "http://fpdf.org/"
-                }
-            ],
-            "description": "FPDF is a PHP class which allows to generate PDF files with pure PHP. F from FPDF stands for Free: you may use it for any kind of usage and modify it to suit your needs.",
-            "homepage": "http://www.fpdf.org",
-            "keywords": [
-                "fpdf",
-                "pdf"
-            ],
-            "time": "2016-01-01T17:47:15+00:00"
-        },
-        {
             "name": "setasign/fpdi",
-            "version": "v2.0.0",
+            "version": "1.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Setasign/FPDI.git",
-                "reference": "e3fbf37f347bd2f4afeb4baf1b7a082590d5d28b"
+                "reference": "a6ad58897a6d97cc2d2cd2adaeda343b25a368ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Setasign/FPDI/zipball/e3fbf37f347bd2f4afeb4baf1b7a082590d5d28b",
-                "reference": "e3fbf37f347bd2f4afeb4baf1b7a082590d5d28b",
+                "url": "https://api.github.com/repos/Setasign/FPDI/zipball/a6ad58897a6d97cc2d2cd2adaeda343b25a368ea",
+                "reference": "a6ad58897a6d97cc2d2cd2adaeda343b25a368ea",
                 "shasum": ""
-            },
-            "require": {
-                "ext-zlib": "*",
-                "php": "^5.6 || ^7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~5.7",
-                "setasign/fpdf": "~1.8",
-                "tecnickcom/tcpdf": "~6.2"
             },
             "suggest": {
                 "setasign/fpdf": "FPDI will extend this class but as it is also possible to use \"tecnickcom/tcpdf\" as an alternative there's no fixed dependency configured.",
@@ -1408,9 +1360,13 @@
             },
             "type": "library",
             "autoload": {
-                "psr-4": {
-                    "setasign\\Fpdi\\": "src/"
-                }
+                "classmap": [
+                    "filters/",
+                    "fpdi.php",
+                    "fpdf_tpl.php",
+                    "fpdi_pdf_parser.php",
+                    "pdf_context.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -1421,11 +1377,6 @@
                     "name": "Jan Slabon",
                     "email": "jan.slabon@setasign.com",
                     "homepage": "https://www.setasign.com"
-                },
-                {
-                    "name": "Maximilian Kresse",
-                    "email": "maximilian.kresse@setasign.com",
-                    "homepage": "https://www.setasign.com"
                 }
             ],
             "description": "FPDI is a collection of PHP classes facilitating developers to read pages from existing PDF documents and use them as templates in FPDF. Because it is also possible to use FPDI with TCPDF, there are no fixed dependencies defined. Please see suggestions for packages which evaluates the dependencies automatically.",
@@ -1435,7 +1386,54 @@
                 "fpdi",
                 "pdf"
             ],
-            "time": "2017-10-12T14:17:15+00:00"
+            "time": "2017-05-11T14:25:49+00:00"
+        },
+        {
+            "name": "setasign/fpdi-tcpdf",
+            "version": "1.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Setasign/FPDI-TCPDF.git",
+                "reference": "871699d429fcbad6dc809d57c7c8026fd7f41e93"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Setasign/FPDI-TCPDF/zipball/871699d429fcbad6dc809d57c7c8026fd7f41e93",
+                "reference": "871699d429fcbad6dc809d57c7c8026fd7f41e93",
+                "shasum": ""
+            },
+            "require": {
+                "setasign/fpdi": "1.6.*",
+                "tecnickcom/tcpdf": "6.2.*"
+            },
+            "conflict": {
+                "setasign/fpdf": "1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "fpdi_bridge.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Slabon",
+                    "email": "jan.slabon@setasign.com",
+                    "homepage": "https://www.setasign.com"
+                }
+            ],
+            "description": "Kind of metadata package for dependencies of the latest versions of FPDI and TCPDF.",
+            "homepage": "https://www.setasign.com/fpdi",
+            "keywords": [
+                "TCPDF",
+                "fpdi",
+                "pdf"
+            ],
+            "time": "2015-11-30T11:09:50+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2295,6 +2293,68 @@
             "time": "2017-10-02T06:42:24+00:00"
         },
         {
+            "name": "tecnickcom/tcpdf",
+            "version": "6.2.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tecnickcom/TCPDF.git",
+                "reference": "95c5938aafe4b20df1454dbddb3e5005c0b26f64"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/95c5938aafe4b20df1454dbddb3e5005c0b26f64",
+                "reference": "95c5938aafe4b20df1454dbddb3e5005c0b26f64",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "config",
+                    "include",
+                    "tcpdf.php",
+                    "tcpdf_parser.php",
+                    "tcpdf_import.php",
+                    "tcpdf_barcodes_1d.php",
+                    "tcpdf_barcodes_2d.php",
+                    "include/tcpdf_colors.php",
+                    "include/tcpdf_filters.php",
+                    "include/tcpdf_font_data.php",
+                    "include/tcpdf_fonts.php",
+                    "include/tcpdf_images.php",
+                    "include/tcpdf_static.php",
+                    "include/barcodes/datamatrix.php",
+                    "include/barcodes/pdf417.php",
+                    "include/barcodes/qrcode.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "homepage": "http://nicolaasuni.tecnick.com"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "PDFD32000-2008",
+                "TCPDF",
+                "barcodes",
+                "datamatrix",
+                "pdf",
+                "pdf417",
+                "qrcode"
+            ],
+            "time": "2017-04-26T08:14:48+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.0",
             "source": {
@@ -2449,28 +2509,37 @@
         },
         {
             "name": "facebook/webdriver",
-            "version": "1.1.1",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facebook/php-webdriver.git",
-                "reference": "1c98108ba3eb435b681655764de11502a0653705"
+                "reference": "eadb0b7a7c3e6578185197fd40158b08c3164c83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/1c98108ba3eb435b681655764de11502a0653705",
-                "reference": "1c98108ba3eb435b681655764de11502a0653705",
+                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/eadb0b7a7c3e6578185197fd40158b08c3164c83",
+                "reference": "eadb0b7a7c3e6578185197fd40158b08c3164c83",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.19"
+                "ext-curl": "*",
+                "ext-zip": "*",
+                "php": "^5.5 || ~7.0",
+                "symfony/process": "^2.8 || ^3.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "4.6.*"
-            },
-            "suggest": {
-                "phpdocumentor/phpdocumentor": "2.*"
+                "friendsofphp/php-cs-fixer": "^2.0",
+                "php-mock/php-mock-phpunit": "^1.1",
+                "phpunit/phpunit": "4.6.* || ~5.0",
+                "satooshi/php-coveralls": "^1.0",
+                "squizlabs/php_codesniffer": "^2.6"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-community": "1.5-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Facebook\\WebDriver\\": "lib/"
@@ -2480,7 +2549,7 @@
             "license": [
                 "Apache-2.0"
             ],
-            "description": "A PHP client for WebDriver",
+            "description": "A PHP client for Selenium WebDriver",
             "homepage": "https://github.com/facebook/php-webdriver",
             "keywords": [
                 "facebook",
@@ -2488,7 +2557,7 @@
                 "selenium",
                 "webdriver"
             ],
-            "time": "2015-12-31T15:58:49+00:00"
+            "time": "2017-04-28T14:54:49+00:00"
         },
         {
             "name": "fzaninotto/faker",
@@ -2587,16 +2656,16 @@
         },
         {
             "name": "laravel/dusk",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/dusk.git",
-                "reference": "6b81e97ae1ce384e3d8dbd020b2b9751c1449889"
+                "reference": "87d57bbcb878e569aa8750e1d487ce923561f3e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/dusk/zipball/6b81e97ae1ce384e3d8dbd020b2b9751c1449889",
-                "reference": "6b81e97ae1ce384e3d8dbd020b2b9751c1449889",
+                "url": "https://api.github.com/repos/laravel/dusk/zipball/87d57bbcb878e569aa8750e1d487ce923561f3e3",
+                "reference": "87d57bbcb878e569aa8750e1d487ce923561f3e3",
                 "shasum": ""
             },
             "require": {
@@ -2615,7 +2684,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "2.0-dev"
                 }
             },
             "autoload": {
@@ -2634,12 +2703,13 @@
                 }
             ],
             "description": "Laravel Dusk provides simple end-to-end testing and browser automation.",
+            "homepage": "https://laravel.com",
             "keywords": [
                 "laravel",
                 "testing",
                 "webdriver"
             ],
-            "time": "2017-04-23T17:13:04+00:00"
+            "time": "2017-10-31T21:41:42+00:00"
         },
         {
             "name": "mockery/mockery",
