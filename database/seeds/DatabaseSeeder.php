@@ -162,7 +162,7 @@ class DatabaseSeeder extends Seeder
             'id' => 11,
             'name' => 'Sign',
             'short_name' => 'sign',
-            'functions' => 'index,edit,create,show,destroy,signing',
+            'functions' => 'index,edit,create,destroy,signing,send,download',
             'isadmin' => false,
             'active' => 1,
             'user_id' => 1,
