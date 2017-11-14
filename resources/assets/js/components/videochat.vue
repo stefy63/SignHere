@@ -18,6 +18,7 @@
             </div>
         </div>
         <div v-show="isRecording" class="pull-right">Recording ......</div>
+        <div v-show="noResponse" id="noResponse">NO AVAILABLE OPERATOR...</div>
     </div>
 </template>
 
@@ -63,33 +64,13 @@ module.exports = {
             isStarted: false,
             isRecording:false,
             isWaiting:false,
+            noResponse:false,
             userDetail:{userId: this.suser,status:'ready',locations:this.slocation,userType:"user"}
         };
     },
     created:function () {
         console.log('created.....');
         console.log(this.skey,this.shost,this.sport,this.spath,this.ssecure,this.suser,this.slocation);
-
-        navigator.getUserMedia = navigator.getUserMedia ||
-            navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia ||
-            navigator.mediaDevices.getUserMedia ||
-            navigator.msGetUserMedia;
-
-        navigator.getUserMedia({ audio: {
-            "mandatory": {
-                echoCancellation: true,
-                googEchoCancellation: true,
-                googAutoGainControl: true,
-                googNoiseSuppression: true,
-                googHighpassFilter: true
-            },
-            "optional": []
-        }, video: true}, function (stream) {
-            console.log('getUserMedia ......');
-            window.localStream = stream;
-            $('#localVideo').prop('src',  URL.createObjectURL(stream));
-        }, function(err){console.log(err);});
 
         var vm = this;
 
@@ -111,7 +92,17 @@ module.exports = {
         this.io.emit('welcome-message', this.userDetail);
 
         this.io.on('no-response-available',function () {
+            vm.destroyLocalUserMedia;
+            vm.isWaiting = false;
+            vm.noResponse = true;
             console.log('no-response-available......');
+        });
+
+        this.io.on('timeout-response',function () {
+            vm.destroyLocalUserMedia;
+            vm.isWaiting = false;
+            vm.noResponse = true;
+            console.log('timeout-response......');
         });
 
         this.io.on('recording-call',function (message) {
@@ -127,15 +118,46 @@ module.exports = {
 
 
     },
-    computed: function () {
+    computed: {
+        getLocalUserMedia: function () {
+            navigator.getUserMedia = navigator.getUserMedia ||
+                navigator.webkitGetUserMedia ||
+                navigator.mozGetUserMedia ||
+                navigator.mediaDevices.getUserMedia ||
+                navigator.msGetUserMedia;
+
+            navigator.getUserMedia({ audio: {
+                "mandatory": {
+                    echoCancellation: true,
+                    googEchoCancellation: true,
+                    googAutoGainControl: true,
+                    googNoiseSuppression: true,
+                    googHighpassFilter: true
+                },
+                "optional": []
+            }, video: true}, function (stream) {
+                console.log('getUserMedia ......');
+                window.localStream = stream;
+                $('#localVideo').prop('src',  URL.createObjectURL(stream));
+            }, function(err){console.log(err);});
+
+            return;
+        },
+        destroyLocalUserMedia: function () {
+            if (window.existingCall) {
+                window.existingCall.close();
+                window.existingCall.stop();
+            }
+            return;
+        }
 
     },
     methods:{
         calling_new: function(){
             console.log('io.emit...........');
-            if (window.existingCall) {
-                window.existingCall.close();
-            }
+
+            this.destroyLocalUserMedia;
+            this.getLocalUserMedia;
             this.io.emit('ask-response', {location: this.slocation});
             this.isWaiting = true;
         },
@@ -154,7 +176,7 @@ module.exports = {
                     console.log('Chiama a '+userToCall+' non possibile ......'+err);
                 }
             } else {
-                window.existingCall.close();
+                this.destroyLocalUserMedia;
                 //$('#localVideo').prop('src','');
                 $('#remoteVideo').prop('src','');
             }
@@ -201,6 +223,16 @@ module.exports = {
 
     #divRemoteVideo {
         position: relative;
+    }
+
+    #noResponse {
+        font-size: large;
+        font-weight: bold;
+        animation: blinker 1s linear infinite;
+    }
+
+    @keyframes blinker {
+        50% { opacity: 0; }
     }
 
 </style>
