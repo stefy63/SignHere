@@ -3,8 +3,9 @@
         <button v-bind:class="[isStarted?'btn btn-danger':'btn btn-primary']" v-on:click.stop.prevent="calling_new">
             <i class="fa fa-stop" v-show="isStarted"></i>
             <i class="fa fa-play" v-show="!isStarted"></i>
-            <span v-show="!isStarted">Chiama Operatore</span>
-            <span v-show="isStarted">Termina Chiamata</span>
+            <span>Chiama Operatore</span>
+            <!--<span v-show="!isStarted">Chiama Operatore</span>-->
+            <!--<span v-show="isStarted">Termina Chiamata</span>-->
         </button>
         <br>
         <div v-show="isWaiting" id="call-id" class="text-center">
@@ -92,16 +93,12 @@ module.exports = {
         this.io.emit('welcome-message', this.userDetail);
 
         this.io.on('no-response-available',function () {
-            vm.destroyLocalUserMedia;
-            vm.isWaiting = false;
-            vm.noResponse = true;
+            vm.setNoOperator;
             console.log('no-response-available......');
         });
 
         this.io.on('timeout-response',function () {
-            vm.destroyLocalUserMedia;
-            vm.isWaiting = false;
-            vm.noResponse = true;
+            vm.setNoOperator;
             console.log('timeout-response......');
         });
 
@@ -109,13 +106,11 @@ module.exports = {
             vm.isRecording = message.isRecording;
         });
 
-
         this.io.on('new-response-arrived',function (message) {
             console.log('new-response-arrived......'+JSON.stringify(message));
             vm.isRecording = false;
             vm.calling(message.userToCall);
         });
-
 
     },
     computed: {
@@ -148,6 +143,17 @@ module.exports = {
                 window.existingCall.close();
                 window.existingCall.stop();
             }
+            return;
+        },
+        setNoOperator: function () {
+            console.log('noRespone......timeout()');
+            var vm = this;
+            vm.destroyLocalUserMedia;
+            vm.isWaiting = false;
+            vm.noResponse = true;
+            setTimeout(function () {
+                vm.noResponse = false;
+            }, 3000);
             return;
         }
 
