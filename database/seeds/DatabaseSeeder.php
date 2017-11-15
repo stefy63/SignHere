@@ -242,6 +242,13 @@ class DatabaseSeeder extends Seeder
             'permission' => 'ALL',
             'created_at' => date("Y-m-d H:i:s")
         ]);
+        DB::table('module_profile')->insert([
+            'id' => 11,
+            'profile_id' => 1,
+            'module_id' => 11,
+            'permission' => 'ALL',
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
 
     }
 }
