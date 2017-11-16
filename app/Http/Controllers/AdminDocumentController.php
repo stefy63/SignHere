@@ -204,13 +204,21 @@ class AdminDocumentController extends Controller
             try {
                 foreach ($files as $file) {
                     if ($file->isValid() && $path = $file->store($request->client_id."/".$request->dossier_id,'documents')){
-                        $doc = new Document();
-                        $doc->name = $file->getClientOriginalName();
-                        $doc->date_doc = Carbon::now()->format('d/m/Y');
-                        $doc->filename = $path;
-                        $doc->dossier_id = $id;
-                        $doc->user_id = \Auth::user()->id;
-                        $doc->save();
+                        if(Doctype::all()->count()) {
+                            $doc = new Document();
+                            $doc->name = $file->getClientOriginalName();
+                            $doc->date_doc = Carbon::now()->format('d/m/Y');
+                            $doc->filename = $path;
+                            $doc->dossier_id = $id;
+                            $doc->user_id = \Auth::user()->id;
+                            $doc->save();
+                        } else {
+                            \DB::rollBack();
+                            return response()->json([
+                                'error' => true,
+                                'message' => __("admin_documents.notify_alert_missingDocType"),
+                                'code' => 500], 500);
+                        }
                     } else {
                         \DB::rollBack();
                         return response()->json([

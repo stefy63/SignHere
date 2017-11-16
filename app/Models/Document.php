@@ -19,7 +19,7 @@ class Document extends Model
         'name'       => 'required',
         'date_doc' => 'required',
         'doctype_id' => 'required|integer',
-        'filename'   => 'required|file|mimes:pdf',
+        'filename'   => 'file|mimes:pdf',
     );
 
     public function doctype() {

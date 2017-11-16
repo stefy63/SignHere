@@ -1,83 +1,81 @@
 @extends('admin.back')
 
 @section('content')
+
 @push('scripts')
 <!-- DROPZONE -->
 <script src="{{ asset('js/plugins/dropzone/dropzone.js') }}"></script>
-
 <script>
-$(function () {
+    $(function () {
 
-    $('#data_dossier input').datepicker({
-        language: "it",
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        calendarWeeks: false,
-        autoclose: true
-    });
+        $('#data_dossier input').datepicker({
+            language: "it",
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: false,
+            autoclose: true
+        });
 
-    Dropzone.options.myAwesomeDropzone = {
-        acceptedFiles: "application/pdf",
-        autoProcessQueue: false,
-        uploadMultiple: true,
-        parallelUploads: 10,
-        maxFiles: 10,
-        maxFilesize: 8,
-        paramName: 'documents',
-        //method:"PUT",
-        //acceptedFiles: '',
-        url: "{{ route('admin_documents.update_file',['id' => $dossier->id]) }}",
-        addRemoveLinks: true,
-        dictRemoveFile: '{{__('admin_documents.thumbnail_remove')}}',
-        dictFileTooBig: '{{__('admin_documents.notify_alert_toobigfile')}}',
-        dictMaxFilesExceeded:'{{__('admin_documents.notify_alert_multiple')}}',
-        /*headers: {
-            'X-CSRF-Token': $("[name=_token]").val(),
-        },*/
 
-        // Dropzone settings
-        init: function() {
-            var myDropzone = this;
+        Dropzone.options.myAwesomeDropzone = {
+            url: "{{ route('admin_documents.update_file',['id' => $dossier->id]) }}",
+            acceptedFiles: "application/pdf",
+            autoProcessQueue: false,
+            uploadMultiple: true,
+            parallelUploads: 10,
+            maxFiles: 10,
+            maxFilesize: 8,
+            paramName: 'documents',
+            //method:"PUT",
+            addRemoveLinks: true,
+            dictRemoveFile: '{{__('admin_documents.thumbnail_remove')}}',
+            dictFileTooBig: '{{__('admin_documents.notify_alert_toobigfile')}}',
+            dictMaxFilesExceeded:'{{__('admin_documents.notify_alert_multiple')}}',
+            /*headers: {
+                'X-CSRF-Token': $("[name=_token]").val(),
+            },*/
 
-            //this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
-            this.element.querySelector("#drop_submit").addEventListener("click", function(e) {
-                e.preventDefault();
-                e.stopPropagation();
+            init: function() {
+                var myDropzone = this;
+                this.element.querySelector("#drop_submit").addEventListener("click", function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
 
-                swal({
-                    title: '{{__('app.confirm-title')}}',
-                    text: this.getAttribute('data-message'),
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#DD6B55",
-                    confirmButtonText: "Yes",
-                    closeOnConfirm: true
-                }, function () {
-                    myDropzone.processQueue();
+                    swal({
+                        title: '{{__('app.confirm-title')}}',
+                        text: this.getAttribute('data-message'),
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                        confirmButtonText: "Yes",
+                        closeOnConfirm: true
+                    }, function () {
+                        myDropzone.processQueue();
+                    });
                 });
-            });
-            this.on("success", function(files, response) {
-                toastr['success']("{{ session('success') }}", response.message);
-            });
-            this.on("maxfilesexceeded", function(files, response) {
-                toastr['error']("{{ session('alert') }}", "{{__('admin_documents.notify_alert_multiple')}}");
-            });
-            this.on("error", function(files, response) {
-                toastr['error']("{{ session('alert') }}", "{{__('admin_documents.notify_alert')}}");
-                myDropzone.removeFile(files);
-            });
-            this.on("sending",function(file, xhr, formData){
-                formData.append('client_id', '{{$dossier->client->id}}');
-                formData.append('dossier_id','{{$dossier->id}}')
-            });
-        },
-
-    };
-})
+                this.on("success", function(files, response) {
+                    toastr['success']("{{ session('success') }}", response.message);
+                });
+                this.on("maxfilesexceeded", function(files, response) {
+                    toastr['error']("{{ session('alert') }}", "{{__('admin_documents.notify_alert_multiple')}}");
+                });
+                this.on("error", function(files, response) {
+                    $retMsg = (response.message)?response.message:"{{__('admin_documents.notify_alert')}}";
+                    toastr['error']("{{ session('alert') }}", $retMsg);
+                    myDropzone.removeFile(files);
+                });
+                this.on("sending",function(file, xhr, formData){
+                    formData.append('client_id', '{{$dossier->client->id}}');
+                    formData.append('dossier_id','{{$dossier->id}}')
+                });
+            }
+        };
+    });
 
 
 </script>
+
 @endpush
 @push('assets')
    <!-- Data picker -->
@@ -162,18 +160,19 @@ $(function () {
 
                     <div class="row">
                         <div class="col-md-12 text-center">
-                            <p><button class="submit-toast btn btn-block btn-outline btn-primary" data-form-id="toast-form">{{__('admin_dossiers.submit')}}</button></p>
+                            <p><button type="submit" class="submit-toast btn btn-block btn-outline btn-primary" data-form-id="toast-form">{{__('admin_dossiers.submit')}}</button></p>
                         </div>
                     </div>
                 </form>
                 <br><br>
 
                 <div class="ibox-content">
-                    <form id="my-awesome-dropzone" class="dropzone" action="#" enctype="multipart/form-data">
+                    <form id="my-awesome-dropzone" class="dropzone" action="{{ route('admin_documents.update_file',['id' => $dossier->id]) }}" enctype="multipart/form-data">
                         {!! csrf_field() !!}{{ method_field('PUT') }}
                         <button id="drop_submit" type="submit" class="btn btn-primary pull-right">{{__('admin_documents.drop_file_submit')}}</button>
                         <div class="dz-message text-center m-t-lg"><span><h1>{{__('admin_documents.drop_file')}}</h1></span></div>
                     </form>
+
                 </div>
 
             </div>

@@ -86,6 +86,7 @@ return [
     'notify_success' => 'File aggiunti con successo',
     'notify_alert' => 'File Troppo Grande o Formato Errato',
     'notify_alert_multiple' => 'Troppi Documenti MAX 10.',
+    'notify_alert_missingDocType' => 'Nessun tipo di documento da associare.',
     'thumbnail_remove' => 'Rimuovi',
     '' => '',
     '' => '',
