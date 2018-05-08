@@ -9,11 +9,10 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-//use setasign\Fpdi;
-use FPDI;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendDocument;
+use setasign\Fpdi\Fpdi;
 
 class SignController extends Controller
 {
@@ -214,17 +213,20 @@ class SignController extends Controller
             $resource = base64_decode($base64);
             $returnTemplates = json_decode($request->templates);
             $returnQuestions = json_decode($request->questions);
+            $pdf = new Fpdi();
 
             //class_exists('TCPDF', true);
-            //$pdf = new Fpdi\Fpdi();
             $pdf = new FPDI();
             // set document information
-            $pdf->SetCreator(PDF_CREATOR);
+            $pdf->SetCreator(\Auth::user()->surname.' '.\Auth::user()->name);
             $pdf->SetAuthor(\Auth::user()->surname.' '.\Auth::user()->name);
             $pdf->SetTitle($document->name);
             $pdf->SetSubject($document->description);
 
+            var_dump(Storage::disk('documents')->getDriver());
+
             $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+
 
             $pub_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.crt';
             $priv_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.key';
