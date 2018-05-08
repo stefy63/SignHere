@@ -215,8 +215,6 @@ class SignController extends Controller
             $returnQuestions = json_decode($request->questions);
             $pdf = new Fpdi();
 
-            //class_exists('TCPDF', true);
-            $pdf = new FPDI();
             // set document information
             $pdf->SetCreator(\Auth::user()->surname.' '.\Auth::user()->name);
             $pdf->SetAuthor(\Auth::user()->surname.' '.\Auth::user()->name);
