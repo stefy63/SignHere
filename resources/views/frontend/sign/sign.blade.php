@@ -868,7 +868,7 @@ window.onresize = resizeCanvas;
 
 <div class="modal inmodal fade in" id="showModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content animated flipInY">
+        <div class="modal-content animated fadeInUp">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="modal-title" name="name">Firma del Documento</h4>

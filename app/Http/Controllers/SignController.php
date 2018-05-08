@@ -211,6 +211,7 @@ class SignController extends Controller
             $arrayQuestion = $this->_getTemplate($document->doctype->questions);
             $base64 = ($origin)?substr($origin,strpos($origin,",")+1):'';
             $resource = base64_decode($base64);
+            $image4sign = 'data://text/plain;base64,'. $base64;
             $returnTemplates = json_decode($request->templates);
             $returnQuestions = json_decode($request->questions);
             $pdf = new Fpdi();
@@ -221,10 +222,7 @@ class SignController extends Controller
             $pdf->SetTitle($document->name);
             $pdf->SetSubject($document->description);
 
-            var_dump(Storage::disk('documents')->getDriver());
-
             $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
-
 
             $pub_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.crt';
             $priv_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.key';
@@ -239,15 +237,15 @@ class SignController extends Controller
                 'Client' => $document->dossier->client->surname.' '.$document->dossier->client->name,
                 'ENC' => $resource,
                 );
-            //$pdf->setSignature($pub_cert, $priv_cert, '3punto6', '', 1, $info);
-            $pdf->setSignature($pub_cert, $priv_cert, '3punto6', '', 1, $info);
+
+//            $pdf->setSignature($pub_cert, $priv_cert, '3punto6', '', 1, $info);
             $pdf->SetAutoPageBreak(TRUE, 0);
             $pdf->SetFont('helvetica', '', 9);
             $html = "<h1><b>X</b></h1>";
             for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
                 $tplIdx = $pdf->importPage($pageNo);
                 $pdf->AddPage();
-                $pdf->useTemplate($tplIdx, 0, 0, 0, 0, true);
+                $pdf->useTemplate($tplIdx);
 
                 if(!is_null($returnQuestions)){
                     foreach ($arrayQuestion as $iOptQuestion=>$arItem) {
@@ -267,24 +265,24 @@ class SignController extends Controller
                         if ($arItem[0] == $pageNo) {
                             if(strtoupper($arItem[3]) == 'O') {
                                 if($returnTemplates[$iOptSign] == true){
-                                    $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 40, 15, 'PNG');
+                                    $pdf->Image($image4sign, $arItem[1], $arItem[2], 40, 15, 'PNG');
                                 }
                             } else {
-                                $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 40, 15, 'PNG');
+                                $pdf->Image($image4sign, $arItem[1], $arItem[2], 40, 15, 'PNG');
                             }
                         }
                     }
-                    $pdf->setSignatureAppearance($arItem[1], $arItem[2], 30, 15,$arItem[0]);
+//                    $pdf->setSignatureAppearance($arItem[1], $arItem[2], 30, 15,$arItem[0]);
                 //}
 
             }
-            //$certPDF = $pdf->Output($document->name,'S');
-            $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
+            $certPDF = $pdf->Output('I', $document->name);
+            // $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
             $document->signed = true;
             $document->readonly = true;
             $document->date_sign = Carbon::now()->format('d/m/y');
             $document->user_id = \Auth::user()->id;
-            $document->save();
+            // $document->save();
         }
 
         return redirect('sign');
