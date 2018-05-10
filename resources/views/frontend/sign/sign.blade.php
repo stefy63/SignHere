@@ -40,6 +40,8 @@
 <script type="text/javascript">
 $(function () {
 
+    $('#Sig-Clear').hide();
+
     var WizCtl ,
         lic,
         Licence,
@@ -226,6 +228,14 @@ $(function () {
         $sigdiv.jSignature("reset");
         var imgSrcData;
         $('#Sig-Reset').bind('click', function(e) {
+            e.stopPropagation();
+            $('#Sig-Clear').hide();
+            $('#Sig-Save').unbind('click');
+            $('#Sig-Reset').unbind('click');
+            $('.i-checks input').iCheck('destroy');
+            $('#showModal').modal('hide');
+        });
+        $('#Sig-Clear').show().bind('click', function (e) {
             e.stopPropagation();
             $sigdiv.jSignature('clear');
         });
@@ -819,6 +829,7 @@ window.onresize = resizeCanvas;
                     </div>
                     @endif
 
+                    @if(env('QR_CODE_ENABLE'))
                     <div class="col-lg-12 col-md-12 col-xs-12 pull-right">
                         <p>
                         <qr-code
@@ -830,7 +841,9 @@ window.onresize = resizeCanvas;
                         </qr-code>
                         </p>
                     </div>
+                    @endif
                     <br />
+                    @if(env('VUE_CHAT_ENABLE'))
                     <div class="col-lg-12 col-md-12 col-xs-12 pull-right">
                         <p>
                         <videochat
@@ -845,6 +858,7 @@ window.onresize = resizeCanvas;
                         </videochat>
                         </p>
                     </div>
+                    @endif
                 </div>
 
                 <div class="pull-left col-lg-9 col-md-9 col-xs-9 text-center" id="div-pdf-canvas" style="position: relative">
@@ -862,7 +876,7 @@ window.onresize = resizeCanvas;
 </div>
 
 
-<div class="modal inmodal fade in" id="showModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal fade in" id="showModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content animated fadeInUp">
             <div class="modal-header">
@@ -870,13 +884,16 @@ window.onresize = resizeCanvas;
                 <h4 class="modal-title" id="modal-title" name="name">Firma del Documento</h4>
             </div>
             <div class="modal-body" id="modal-body">
-                <!--<div id="signature"></div>-->
+
             </div>
             <div class="modal-footer">
                 <div class="row">
                     <div id="tools" class="form-group">
                         <div class="col-lg-5 col-md-5 col-xs-5 pull-left">
                             <button class="btn btn-block btn-outline btn-danger" id="Sig-Reset">Reset</button>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 text-center">
+                            <button class="btn btn-block btn-outline btn-warning" id="Sig-Clear">Clear</button>
                         </div>
                         <div class="col-lg-5 col-md-5 col-xs-5 pull-right">
                             <button class="btn btn-block btn-outline btn-primary col-md-5 pull-right" id="Sig-Save">Save</button>
