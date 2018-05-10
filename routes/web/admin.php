@@ -30,6 +30,7 @@
      Route::get('admin_documents/destroy/{id}', array('as' => 'admin_documents.destroy','uses' => 'AdminDocumentController@destroy'));
      // Route for Dossier //
      Route::resource('admin_dossiers','AdminDossierController');
+     Route::get('admin_dossiers/export/{id}', array('as' => 'admin_dossiers.export','uses' => 'AdminDossierController@export'));
      Route::get('admin_dossiers/destroy/{id}', array('as' => 'admin_dossiers.destroy','uses' => 'AdminDossierController@destroy'));
      // Route for Locations //
      Route::resource('admin_locations','AdminLocationController');

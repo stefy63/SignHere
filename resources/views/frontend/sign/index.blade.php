@@ -49,16 +49,22 @@
                                 </tr>
                                 @foreach($client->dossiers()->get() as $dossier)
                                     <tr class="bg-warning tr-dossier dossier-{{$client->id}}" data-dossier="{{$dossier->id}}" id="{{$dossier->id}}" style="display: none">
-                                        <td colspan="3"><i class="fa fa-archive"></i> {{$dossier->name}}<i class="fa fa-chevron-down pull-right"></i></td>
+                                        <td colspan="3">
+                                            <i class="fa fa-archive"></i> {{$dossier->name}}
+                                            <div class="pull-right">
+                                                <i class="fa fa-chevron-down pull-right"></i>
+                                            </div>
+                                        </td>
                                     </tr>
                                     @foreach($dossier->documents()->get() as $document)
                                         <tr class="bg-success tr-document document-{{$dossier->id}}" data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
                                             <td colspan="3">
                                                 @if($document->readonly || $document->signed)
-                                                    <i class="fa fa-check-square-o" style="color: green;"></i>&nbsp&nbsp;{{$document->name}}
+                                                    <i class="fa fa-check-square-o" style="color: green;"></i>
                                                 @else
-                                                    <i class="fa fa-minus-square-o" style="color: red;"></i>&nbsp&nbsp;{{$document->name}}
+                                                    <i class="fa fa-minus-square-o" style="color: red;"></i>
                                                 @endif
+                                                &nbsp&nbsp;{{$document->name}}
                                                 <div class="pull-right">
                                                         @if($document->readonly || $document->signed )
                                                             @if(Auth::user()->hasRole('sign','send'))

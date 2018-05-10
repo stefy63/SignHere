@@ -96,6 +96,7 @@
                                     </td>
                                     <td class="text-center">
                                         <a data-url="{{ url('admin_dossiers/')}}/{{$dossier->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>
+                                        <a data-url="{{ url('admin_dossiers/export/'.$dossier->id)}}" class="href text-warning text-center"><i class="fa fa-file-excel-o"></i></a>
                                         <a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>
                                     </td>
                                 </tr>
@@ -225,13 +226,16 @@ $(function () {
                 acl_id: this.value
             } })
             .done(function(data){
-                    $('#tr-client tbody').empty();
-                    data[0].forEach(function(k){
-                        //console.log(k);
-                        $('#tr-client').append('<tr class="tab-client" id="'+k['id']+'">' +
-                            '<td><i class="fa fa-user"></i>&nbsp;&nbsp;'+k['name']+' '+k['surname']+
-                            '<a  data-url="{{ url('admin_clients/')}}'+'/'+k['id']+'/edit" class="href"><i class="fa fa-pencil pull-right"></i></a></td></tr>');
-                    });
+                var t = $('#tr-client').DataTable();
+                t.clear().draw();
+                // $('#tr-client tbody').empty();
+                data[0].forEach(function(k){
+                    var node = t.row.add([
+                        '<td><i class="fa fa-user"></i>&nbsp;&nbsp;'+k['name']+' '+k['surname']+
+                        '<a  data-url="{{ url('admin_clients/')}}'+'/'+k['id']+'/edit" class="href"><i class="fa fa-pencil pull-right"></i></a></td>'
+                    ]).draw().node();
+                    $(node).addClass('tab-client').attr('id', k['id']);
+                });
 
             });
     });
@@ -258,13 +262,17 @@ $(function () {
                 client_id: client_id
             } }).done(function(data){
             $('#tr-dossier tbody').empty();
-            var body='';
+            var t = $('#tr-dossier').DataTable();
+            t.clear().draw();
             data[0].forEach(function(k){
-                body+='<tr class="tab-dossier" id="'+k['id']+'"><td><i class="fa fa-archive"></i> '+k['name']+'</td>' +
-                    '<td class="text-center"><a data-url="{{ url('admin_dossiers/')}}/'+k['id']+'/edit" class="href pull-left">'+
-                    '<i class="fa fa-pencil"></i></a>  <a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a></td></tr>';
+                var node = t.row.add(['<td><i class="fa fa-archive"></i> '+k['name']+'</td>',
+                    '<td class="text-center">'+
+                    '<a data-url="{{ url('admin_dossiers/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>&nbsp&nbsp'+
+                    '<a data-url="{{ url('admin_dossiers/export/')}}/'+k['id']+'" class="href text-warning text-center"><i class="fa fa-file-excel-o"></i></a>'+
+                    '<a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a>'+
+                    '</td>']).draw().node();
+                $(node).addClass('tab-dossier').attr('id', k['id']);
             });
-            $('#tr-dossier > tbody').html(body);
             $('#div-dossier').show();
         });
     }
@@ -289,21 +297,21 @@ $(function () {
                 dossier_id: dossier_id
             } }).done(function(data){
             $('#tr-document tbody').empty();
-            var elem=''
+            var t = $('#tr-document').DataTable();
+            t.clear().draw();
             data[0].forEach(function(k){
-                //console.log(k);
-                elem += '<tr id="'+k['id'];
-                (k['signed'] == 1)? elem += '"  data-toggle="tooltip" title="'+k['date_sign']+'">':elem += '">';
-                    elem += '<td><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank">' +
-                    '<i class="fa fa-download"></i></a></td>' +
-                    '<td class=" "><i ';
+                var elem = '<td class=" "><i ';
                 elem += (k['signed'] == 1)?'class="fa fa-check-square-o" style="color: green;"':'class="fa fa fa-minus-square-o" style="color: red;"';
-                 elem += '></i>  '+k['name']+'</td>' +
-                    '<td >' +
-                     '<a data-url="{{ url('admin_documents/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>'+
-                    '<a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a></td></tr>'
+                elem += '></i>  '+k['name']+'</td>';
+
+                var node = t.row.add([
+                    '<td><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank"><i class="fa fa-download"></i></a></td>',
+                    elem,
+                    '<td ><a data-url="{{ url('admin_documents/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>'+
+                    '<a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a></td>'
+                ]).draw().node();
+                $(node).attr('id', k['id']).attr('data-toggle', 'tooltip').attr('title', k['date_sign']);
             });
-            $('#tr-document tbody').html(elem);
             $('#div-documents').show();
         });
     }

@@ -111,4 +111,14 @@ class AdminDossierController extends Controller
         }
         return response()->json([__('admin_dossiers.warning_dossier_NOTfound')],400);
     }
+
+    /**
+     * Export the Document to client.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function export(Request $request, Dossier $dossier, $id)
+    {
+        //
+    }
 }
