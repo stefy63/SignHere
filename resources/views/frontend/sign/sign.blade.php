@@ -39,9 +39,6 @@
 
 <script type="text/javascript">
 $(function () {
-    //$( "#draggable" ).draggable();
-
-    // var pdfData = atob("{{$b64doc}}");
 
     var WizCtl ,
         lic,
@@ -58,7 +55,6 @@ $(function () {
         $sigdiv = false;
 
     print(questions);
-
 
     $('#start').click(function () {
         toastr['info']("{{__('sign.sign_proc_start')}}", "{{__('sign.sign_proc_start_title')}}");
@@ -119,9 +115,8 @@ $(function () {
     }
 
     function sendQuestionsSign() {
-        console.log(questions);
         var content = $('<div></div>');
-        if (questions.length > 1){
+        if (questions.length > 0 && questions[5] != ''){
             $(questions).each(function (index) {
                 console.log(questions[index]);
                 var item = $('<div class="i-checks"></div>');
@@ -575,6 +570,7 @@ $(function () {
 
     }
     function print(txt) {
+        console.log(txt);
         @if(config('app.debug'))
         var txtDisplay = document.getElementById("txtDisplay");
         if(txt == "CLEAR" )

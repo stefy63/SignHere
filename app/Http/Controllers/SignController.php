@@ -211,72 +211,136 @@ class SignController extends Controller
             $arrayQuestion = $this->_getTemplate($document->doctype->questions);
             $base64 = ($origin)?substr($origin,strpos($origin,",")+1):'';
             $resource = base64_decode($base64);
-            $image4sign = 'data://text/plain;base64,'. $base64;
             $returnTemplates = json_decode($request->templates);
             $returnQuestions = json_decode($request->questions);
+
             $pdf = new Fpdi();
-
-            // set document information
-            $pdf->SetCreator(\Auth::user()->surname.' '.\Auth::user()->name);
-            $pdf->SetAuthor(\Auth::user()->surname.' '.\Auth::user()->name);
-            $pdf->SetTitle($document->name);
-            $pdf->SetSubject($document->description);
-
             $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
-
-            $pub_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.crt';
-            $priv_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.key';
-            $info = array(
-                'Name' => $brand->description,
-                'Location' => $brand->city,
-                'Address' => $brand->address,
-                'VAT' => $brand->vat,
-                'Regio' => $brand->region,
-                'ContactInfo' => $brand->email,
-                'Document' => $document->name,
-                'Client' => $document->dossier->client->surname.' '.$document->dossier->client->name,
-                'ENC' => $resource,
-                );
-
-//            $pdf->setSignature($pub_cert, $priv_cert, '3punto6', '', 1, $info);
-            $pdf->SetAutoPageBreak(TRUE, 0);
-            $pdf->SetFont('helvetica', '', 9);
-            $html = "<h1><b>X</b></h1>";
             for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
-                $tplIdx = $pdf->importPage($pageNo);
+                // import a page
+                $templateId = $pdf->importPage($pageNo);
+
                 $pdf->AddPage();
-                $pdf->useTemplate($tplIdx);
+                // use the imported page and adjust the page size
+                $pdf->useTemplate($templateId, ['adjustPageSize' => true]);
+
+                $pdf->SetFont('Helvetica', 'B', 15);
 
                 if(!is_null($returnQuestions)){
                     foreach ($arrayQuestion as $iOptQuestion=>$arItem) {
                         if ($arItem[0] == $pageNo) {
                             if ($returnQuestions[$iOptQuestion] == true) {
-                                $pdf->writeHTMLCell(10,10,$arItem[1],$arItem[2],$html);
+                                $x = $arItem[1];
+                                $y = $arItem[2];
                             } else {
-                                if((int)$arItem[3] != 0)
-                                    $pdf->writeHTMLCell(10,10,$arItem[3],$arItem[4],$html);
+                                if((int)$arItem[3] != 0) {
+                                    $x = $arItem[3];
+                                    $y = $arItem[4];
+                                }
                             }
+                            $pdf->SetXY($x, $y);
+                            $pdf->Write(15, 'X');
                         }
                     }
                 }
 
-                //if(!is_null($returnTemplates)) {
-                    foreach ($arrayTpl as $iOptSign=>$arItem) {
-                        if ($arItem[0] == $pageNo) {
-                            if(strtoupper($arItem[3]) == 'O') {
-                                if($returnTemplates[$iOptSign] == true){
-                                    $pdf->Image($image4sign, $arItem[1], $arItem[2], 40, 15, 'PNG');
-                                }
-                            } else {
-                                $pdf->Image($image4sign, $arItem[1], $arItem[2], 40, 15, 'PNG');
+//                if(!is_null($returnTemplates)) {
+                foreach ($arrayTpl as $iOptSign=>$arItem) {
+                    if (value($arItem[0]) == $pageNo) {
+                        $x = $arItem[1];
+                        $y = $arItem[2];
+                        if(strtoupper($arItem[3]) != 'M') {
+                            if($returnTemplates[$iOptSign] == true){
+                                $pdf->Image($origin, $arItem[1], $arItem[2], 40, 15, 'PNG');
                             }
+                        } else {
+                            $pdf->Image($origin, $arItem[1], $arItem[2], 40, 15, 'PNG');
                         }
                     }
-//                    $pdf->setSignatureAppearance($arItem[1], $arItem[2], 30, 15,$arItem[0]);
-                //}
-
+                }
+//                }
             }
-            $certPDF = $pdf->Output('I', $document->name);
+
+            $info = array(
+                'Name' => $brand->description,
+                'Location' => $brand->city,
+                'Address' => $brand->address,
+                'VAT' => $brand->vat,
+                'Region' => $brand->region,
+                'ContactInfo' => $brand->email,
+                'Document' => $document->name,
+                'Client' => $document->dossier->client->surname.' '.$document->dossier->client->name,
+                'ENC' => $resource,
+            );
+
+            $tempWriter = new \SetaPDF_Core_Writer_Http('simple.pdf', true);
+            $PdfDoc = \SetaPDF_Core_Document::loadByString($pdf->Output('S'), $tempWriter);
+            $PdfInfo = $PdfDoc->getInfo();
+            $PdfInfo->setAll($info);
+
+
+            // set document information
+            $PdfInfo->SetCreator(\Auth::user()->surname.' '.\Auth::user()->name);
+            $PdfInfo->SetAuthor(\Auth::user()->surname.' '.\Auth::user()->name);
+            $PdfInfo->SetTitle($document->name);
+            $PdfInfo->SetSubject($document->description);
+
+            $pub_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/'.$brand->id.'/domain.pem');
+            $priv_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/'.$brand->id.'/domain.pem');
+
+            $imgReader = new \SetaPDF_Core_Reader_String($resource);
+            $img = \SetaPDF_Core_Image::get($imgReader);
+
+            $signer = new \SetaPDF_Signer($PdfDoc);
+
+            $signer->setReason('Testing');
+            $signer->setLocation('3punto6 Manual');
+
+            $module = new \SetaPDF_Signer_Signature_Module_OpenSsl();
+
+//            $certificate = 'file://files/certificates/setapdf-no-pw.pem';
+            $module->setCertificate($pub_cert);
+            $module->setPrivateKey(array($priv_cert, '' /* no password */));
+
+            $signer->addSignatureField(
+                \SetaPDF_Signer_SignatureField::DEFAULT_FIELD_NAME,
+                1,
+                \SetaPDF_Signer_SignatureField::POSITION_RIGHT_TOP,
+                array('x' => -10, 'y' => -10),
+                200,
+                60
+            );
+
+            $xObject = $img->toXObject($PdfDoc, \SetaPDF_Core_PageBoundaries::ART_BOX);
+
+            $appearance = new \SetaPDF_Signer_Signature_Appearance_Dynamic($module);
+            $appearance->setGraphic($xObject);
+
+            $signer->setAppearance($appearance);
+
+            $signer->sign($module);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            $PdfDoc->save()->finish();
             // $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
             $document->signed = true;
             $document->readonly = true;
@@ -284,7 +348,7 @@ class SignController extends Controller
             $document->user_id = \Auth::user()->id;
             // $document->save();
         }
-
+        unlink('/tmp/img'.$document->id.'.png');
         return redirect('sign');
     }
 
@@ -295,8 +359,8 @@ class SignController extends Controller
         foreach($tplLine as $line) {
             $line = str_replace("\r",'',$line);
             array_push($return,explode('|',htmlentities($line,ENT_QUOTES)));
-
         }
+
         return $return;
     }
 
