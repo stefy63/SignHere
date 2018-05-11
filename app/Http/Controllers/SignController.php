@@ -220,11 +220,9 @@ class SignController extends Controller
             for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
                 // import a page
                 $templateId = $pdf->importPage($pageNo);
-
                 $pdf->AddPage();
                 // use the imported page and adjust the page size
                 $pdf->useTemplate($templateId, ['adjustPageSize' => true]);
-
                 $pdf->SetFont('Helvetica', 'B', 15);
 
                 if(!is_null($returnQuestions)){
@@ -278,16 +276,14 @@ class SignController extends Controller
             $PdfDoc = \SetaPDF_Core_Document::loadByString($pdf->Output('S'), $tempWriter);
             $PdfInfo = $PdfDoc->getInfo();
             $PdfInfo->setAll($info);
-
-
             // set document information
             $PdfInfo->SetCreator(\Auth::user()->surname.' '.\Auth::user()->name);
             $PdfInfo->SetAuthor(\Auth::user()->surname.' '.\Auth::user()->name);
             $PdfInfo->SetTitle($document->name);
             $PdfInfo->SetSubject($document->description);
 
-            $pub_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/'.$brand->id.'/domain.pem');
-            $priv_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/'.$brand->id.'/domain.pem');
+            $pub_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/certificate.cer');
+            $priv_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/certificate.cer');
 
             $imgReader = new \SetaPDF_Core_Reader_String($resource);
             $img = \SetaPDF_Core_Image::get($imgReader);
@@ -307,39 +303,16 @@ class SignController extends Controller
                 \SetaPDF_Signer_SignatureField::DEFAULT_FIELD_NAME,
                 1,
                 \SetaPDF_Signer_SignatureField::POSITION_RIGHT_TOP,
-                array('x' => -10, 'y' => -10),
-                200,
-                60
+                array('x' => -250, 'y' => -10),
+                150,
+                40
             );
 
             $xObject = $img->toXObject($PdfDoc, \SetaPDF_Core_PageBoundaries::ART_BOX);
-
             $appearance = new \SetaPDF_Signer_Signature_Appearance_Dynamic($module);
             $appearance->setGraphic($xObject);
-
             $signer->setAppearance($appearance);
-
             $signer->sign($module);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             $PdfDoc->save()->finish();
             // $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
@@ -349,7 +322,6 @@ class SignController extends Controller
             $document->user_id = \Auth::user()->id;
             // $document->save();
         }
-        unlink('/tmp/img'.$document->id.'.png');
         return redirect('sign');
     }
 
