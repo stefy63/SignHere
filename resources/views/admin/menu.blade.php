@@ -43,7 +43,7 @@
                     3.6
                 </div>
             </li>
-            @foreach(Auth::user()->profile->getModules()->orderBy('order')->get() as $menu)
+            @foreach(Auth::user()->profile->getModules()->get() as $menu)
                 <li data-toggle='tooltip' title='{{__($menu->short_name.".".$menu->short_name.'_tooltip')}}'>
                     <a href='{{url($menu->short_name)}}'><i class='{{$menu->icon}}'></i>
                     <span class='nav-label'>{{__($menu->short_name.".".$menu->short_name)}}</span></a>
