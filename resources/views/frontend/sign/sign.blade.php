@@ -118,7 +118,7 @@ $(function () {
 
     function sendQuestionsSign() {
         var content = $('<div></div>');
-        if (questions.length > 0 && questions[5] != ''){
+        if (questions.length > 0 && questions[0].length > 2){
             $(questions).each(function (index) {
                 console.log(questions[index]);
                 var item = $('<div class="i-checks"></div>');

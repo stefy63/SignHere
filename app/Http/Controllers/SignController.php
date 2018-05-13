@@ -24,6 +24,7 @@ class SignController extends Controller
     public function __construct()
     {
         $this->middleware('hasRole');
+        date_default_timezone_set('Europe/Rome');
     }
 
     /**
@@ -272,8 +273,55 @@ class SignController extends Controller
                 'ENC' => $resource,
             );
 
-            $tempWriter = new \SetaPDF_Core_Writer_Http('simple.pdf', true);
-            $PdfDoc = \SetaPDF_Core_Document::loadByString($pdf->Output('S'), $tempWriter);
+            $finalWriter = new \SetaPDF_Core_Writer_Http('signed.pdf', true);
+            $pub_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/certificate.cer');
+            $priv_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/certificate.cer');
+            $reader = new \SetaPDF_Core_Reader_String($pdf->Output('S'));
+            $writer = new \SetaPDF_Core_Writer_String();
+
+            for ($i = 1; $i <= $pageCount; $i++) {
+                if ($i == $pageCount) {
+                    $reader = new \SetaPDF_Core_Reader_String($writer);
+                    $writer = $finalWriter;
+                } elseif ($i != 1) {
+                    $reader = new \SetaPDF_Core_Reader_String($writer);
+                    $writer = new \SetaPDF_Core_Writer_String();
+                }
+
+                $PdfDoc = \SetaPDF_Core_Document::load($reader, $writer);
+
+                $imgReader = new \SetaPDF_Core_Reader_String($resource);
+                $img = \SetaPDF_Core_Image::get($imgReader);
+
+                $signer = new \SetaPDF_Signer($PdfDoc);
+
+                $signer->setReason($info['Client']);
+                $signer->setContactInfo($brand->description.' '.$brand->email);
+                $signer->setLocation($brand->city.' '.$brand->address);
+                $signer->setSignatureFieldName('Signature ' . $i );
+
+                $module = new \SetaPDF_Signer_Signature_Module_OpenSsl();
+
+                $module->setCertificate($pub_cert);
+                $module->setPrivateKey(array($priv_cert, '' /* no password */));
+
+                $signer->addSignatureField(
+                    'Signature ' . $i,
+                    $i,
+                    \SetaPDF_Signer_SignatureField::POSITION_CENTER_BOTTOM,
+                    array('x' => 0, 'y' => 70),
+                    200,
+                    40
+                );
+
+                $xObject = $img->toXObject($PdfDoc, \SetaPDF_Core_PageBoundaries::ART_BOX);
+                $appearance = new \SetaPDF_Signer_Signature_Appearance_Dynamic($module);
+                $appearance->setGraphic($xObject);
+                $signer->setAppearance($appearance);
+                $signer->sign($module);
+
+            }
+
             $PdfInfo = $PdfDoc->getInfo();
             $PdfInfo->setAll($info);
             // set document information
@@ -281,38 +329,6 @@ class SignController extends Controller
             $PdfInfo->SetAuthor(\Auth::user()->surname.' '.\Auth::user()->name);
             $PdfInfo->SetTitle($document->name);
             $PdfInfo->SetSubject($document->description);
-
-            $pub_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/certificate.cer');
-            $priv_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/certificate.cer');
-
-            $imgReader = new \SetaPDF_Core_Reader_String($resource);
-            $img = \SetaPDF_Core_Image::get($imgReader);
-
-            $signer = new \SetaPDF_Signer($PdfDoc);
-
-            $signer->setReason('Testing');
-            $signer->setLocation('3punto6 Manual');
-
-            $module = new \SetaPDF_Signer_Signature_Module_OpenSsl();
-
-//            $certificate = 'file://files/certificates/setapdf-no-pw.pem';
-            $module->setCertificate($pub_cert);
-            $module->setPrivateKey(array($priv_cert, '' /* no password */));
-
-            $signer->addSignatureField(
-                \SetaPDF_Signer_SignatureField::DEFAULT_FIELD_NAME,
-                1,
-                \SetaPDF_Signer_SignatureField::POSITION_RIGHT_TOP,
-                array('x' => -250, 'y' => -10),
-                150,
-                40
-            );
-
-            $xObject = $img->toXObject($PdfDoc, \SetaPDF_Core_PageBoundaries::ART_BOX);
-            $appearance = new \SetaPDF_Signer_Signature_Appearance_Dynamic($module);
-            $appearance->setGraphic($xObject);
-            $signer->setAppearance($appearance);
-            $signer->sign($module);
 
             $PdfDoc->save()->finish();
             // $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
