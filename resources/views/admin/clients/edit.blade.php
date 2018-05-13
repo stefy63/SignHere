@@ -1,5 +1,18 @@
 @extends('admin.back')
-
+@push('assets')
+    <link href="{{ asset('css/plugins/select2/select2.min.css') }}" rel="stylesheet">
+@endpush
+@push('scripts')
+    <script src="{{ asset('js/plugins/select2/select2.full.min.js') }}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#acl_selection').select2({
+                placeholder: '{{__('admin_clients.db-profile_select')}}',
+                width: '100%'
+            });
+        })
+    </script>
+@endpush
 @section('content')
 <div class="row">
     <div class="col-lg-12">
@@ -22,9 +35,9 @@
                             <label for="acl_id" >{{__('admin_clients.db-acl_id')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <select class="form-control" name="acl_id">
+                            <select class="form-control" multiple="multiple" name="acl_id[]"  id="acl_selection">
                                 @foreach($acls as $acl)
-                                 <option value="{{ $acl->id }}" @if($acl->id == $client->acls->first()->id) selected @endif>{{ $acl->name}}</option>
+                                 <option value="{{ $acl->id }}" @if(in_array($acl->id, $client->acls->pluck('id')->toArray())) selected @endif>{{ $acl->name}}</option>
                                 @endforeach
                             </select>
                         </div>

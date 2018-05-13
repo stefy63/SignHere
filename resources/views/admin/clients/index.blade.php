@@ -69,7 +69,11 @@
                                         </td>
                                         <td>{{$client->surname}}</td>
                                         <!--<td>{{$client->address}}</td>-->
-                                        <td>{{$client->acls()->first()->name}}</td>
+                                        <td>
+                                            @foreach($client->acls()->pluck('name') as $acl)
+                                                [{{$acl}}]
+                                            @endforeach
+                                        </td>
                                         <td>{{$client->mobile}}</td>
                                         <td><a href="mailto:{{$client->email}}">{{$client->email}}</a></td>
                                         <td class="text-center">
