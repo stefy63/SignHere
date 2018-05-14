@@ -171,7 +171,7 @@ class AdminUserController extends Controller
      */
     public function destroy($id)
     {
-        if($user = User::find($id)) {
+        if($user = User::find($id) && $id > 1) {
 
             $user->acls()->detach();
             $user->modules()->detach();
