@@ -27,6 +27,7 @@
                     <a class="pull-left" href="{{ url('admin') }}">Admin</a>
                 @endif
                 <a href="{{ url('home') }}">Home</a>
+                <a href="{{ url('home/resetpassword/'.Auth::user()->id) }}">Reset Password</a>
                 <a href="{{ url('logout') }}">Logout</a>
             @else
                 <a href="{{ url('login') }}">Login</a>
@@ -44,7 +45,9 @@
         @include('layouts.footer')
     </div>
 </div>
+
     <!-- Section Java Script -->
     @include('layouts.script')
+
 </body>
 </html>
