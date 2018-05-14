@@ -54,7 +54,10 @@ class AdminBrandController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, Brand::$rules);
+
+        $rules = Brand::$rules;
+        $rules['vat'] = $rules['vat'] . '|unique:brands,vat';
+        $this->validate($request, $rules);
 
         $brand = new Brand();
         $brand->fill($request->all());
