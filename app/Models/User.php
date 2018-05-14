@@ -33,13 +33,13 @@ class User extends Authenticatable
             'username'      => 'required|unique:users',
             'name'          => 'required',
             'surname'       => 'required',
-            'password'      => 'required|alpha_num|between:8,16',
+            'password'      => 'required|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/|between:8,16',
             'email'         => 'required|email|unique:users',
             'profile_id'    => 'required|integer',
         );
 
     public static $rules_change_pwd = array(
-            'new_password'              =>'required|alpha_num|between:8,16',
+            'new_password'              =>'required|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[!$#%]).*$/|between:8,16',
             'new_password_confirmation' =>'required|same:new_password'
         );
 
