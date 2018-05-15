@@ -57,6 +57,7 @@ return [
     'crud-getitem' => 'Ottiene Elenchi Personali Risorse',
     'crud-file' => 'Gestione File',
     'crud-update_file' => 'Caricamento File',
+    'crud-export' => 'Export dei dati',
     'crud-ALL' => 'TUTTI',
     'select-doctype' => 'Selezionare un tipo di documento....',
     '' => '',

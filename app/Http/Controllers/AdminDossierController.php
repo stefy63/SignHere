@@ -119,6 +119,50 @@ class AdminDossierController extends Controller
      */
     public function export(Request $request, Dossier $dossier, $id)
     {
-        //
+        // return;
+
+
+        $temp = Dossier::find($id);
+        $client = $temp->client()->first()->toArray();
+        $dossier = $temp->toArray();
+        $columns = array("Fascicolo","Descrizione","Note","Data Fascicolo","Nome","Cognome","Email","PI","CF","Indirizzo","Città","Provincia","CAP","Contatto","Telefono","Cellulare");
+        $data = array(
+            $dossier['name'],
+            $dossier['description'],
+            $dossier['note'],
+            $dossier['date_dossier'],
+            $client['name'],
+            $client['surname'],
+            $client['email'],
+            $client['vat'],
+            $client['personal_vat'],
+            $client['address'],
+            $client['city'],
+            $client['region'],
+            $client['zip_code'],
+            $client['contact'],
+            $client['phone'],
+            $client['mobile']
+        );
+
+        $headers = array(
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=".$client['surname']."-".$dossier['name'].".csv",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        );
+
+
+        $callback = function() use ($columns, $data)
+        {
+            $FH = fopen('php://output', 'w');
+            fputcsv($FH, $columns, chr(9));
+            fputcsv($FH, $data, chr(9));
+            fclose($FH);
+        };
+
+
+        return \Response::stream($callback, 200, $headers);
     }
 }
