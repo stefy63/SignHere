@@ -18,7 +18,7 @@
         });
 
 
-        Dropzone.options.myAwesomeDropzone = {
+       /* Dropzone.options.myAwesomeDropzone = {
             url: "{{ route('admin_documents.update_file',['id' => $dossier->id]) }}",
             acceptedFiles: "application/pdf",
             autoProcessQueue: false,
@@ -32,9 +32,9 @@
             dictRemoveFile: '{{__('admin_documents.thumbnail_remove')}}',
             dictFileTooBig: '{{__('admin_documents.notify_alert_toobigfile')}}',
             dictMaxFilesExceeded:'{{__('admin_documents.notify_alert_multiple')}}',
-            /*headers: {
+            /!*headers: {
                 'X-CSRF-Token': $("[name=_token]").val(),
-            },*/
+            },*!/
 
             init: function() {
                 var myDropzone = this;
@@ -70,7 +70,7 @@
                     formData.append('dossier_id','{{$dossier->id}}')
                 });
             }
-        };
+        };*/
     });
 
 
@@ -81,8 +81,8 @@
    <!-- Data picker -->
     <link href="{{ asset('css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
     <!-- Dropzone -->
-    <link href="{{ asset('css/plugins/dropzone/basic.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/plugins/dropzone/dropzone.css') }}" rel="stylesheet">
+    {{--<link href="{{ asset('css/plugins/dropzone/basic.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/plugins/dropzone/dropzone.css') }}" rel="stylesheet">--}}
 @endpush
     <div class="row">
         <div class="col-lg-12">
@@ -166,14 +166,14 @@
                 </form>
                 <br><br>
 
-                <div class="ibox-content">
+                {{--<div class="ibox-content">
                     <form id="my-awesome-dropzone" class="dropzone" action="{{ route('admin_documents.update_file',['id' => $dossier->id]) }}" enctype="multipart/form-data">
                         {!! csrf_field() !!}{{ method_field('PUT') }}
                         <button id="drop_submit" type="submit" class="btn btn-primary pull-right">{{__('admin_documents.drop_file_submit')}}</button>
                         <div class="dz-message text-center m-t-lg"><span><h1>{{__('admin_documents.drop_file')}}</h1></span></div>
                     </form>
 
-                </div>
+                </div>--}}
 
             </div>
         </div>

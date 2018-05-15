@@ -8,7 +8,9 @@
                 <h5>{{__('admin_users.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
+                        @if(Auth::user()->hasRole('admin_users','create'))
                         <a href="{{ url('admin_users/create') }}"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_usersindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</button></a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -54,7 +56,7 @@
                                     <tr class="gradeA odd" role="row">
                                         <td>
                                             <div class="onoffswitch" >
-                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_users.update',['id' => $user->id]) }}"  @if($user->active == 1) checked @endif id="{{$user->id}}">
+                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_users.update',['id' => $user->id]) }}"  @if($user->active == 1) checked @endif id="{{$user->id}}" @if(Auth::user()->hasRole('admin_users','edit')) disabled @endif>
                                                 <label class="onoffswitch-label" for="{{$user->id}}">
                                                     <span class="onoffswitch-inner"></span>
                                                     <span class="onoffswitch-switch"></span>
@@ -66,16 +68,21 @@
                                         <td>{{$user->surname}}</td>
                                         <td>{{$user->email}}</td>
                                         <td class="text-center">
+                                            @if(Auth::user()->hasRole('admin_users','edit'))
                                             <a href="{{ url('admin_users/'.$user->id.'/edit') }}" >
                                                 <i class="fa fa-pencil"  data-toggle="tooltip" title="{{__('admin_users.index-tooltip-update')}}"></i>
                                             </a>&nbsp;
+                                            @endif
+                                            @if(Auth::user()->hasRole('admin_users','resetPwd'))
                                             <a class="open-modal" data-url="{{ url('admin_users/resetPwd/'.$user->id) }}" data-toggle="modal" data-target="#showModal" title="{{__('admin_users.index-tooltip-password')}}" id="{{$user->id}}">
                                                 <i class="fa fa-unlock-alt"  data-toggle="tooltip" title="{{__('admin_users.index-tooltip-password')}}"></i>
                                             </a>&nbsp;
+                                            @endif
+                                            @if(Auth::user()->hasRole('admin_users','destroy'))
                                             <a  class="confirm-toast"  data-message="{{__('admin_users.index-confirm-message')}}"  data-location="{{ url('admin_users/destroy/'.$user->id) }}">
                                                 <i class="fa fa-trash-o text-danger"  data-toggle="tooltip" title="{{__('admin_users.index-tooltip-delete')}}"></i>
                                             </a>
-
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

@@ -8,7 +8,9 @@
                 <h5>{{__('admin_locations.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
+                        @if(Auth::user()->hasRole('admin_locations','create'))
                         <a href="{{ url('admin_locations/create') }}"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_locationsindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</button></a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -56,7 +58,7 @@
                                     <tr class="gradeA odd" role="row">
                                         <td>
                                             <div class="onoffswitch" >
-                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_locations.update',['id' => $location->id]) }}"  @if($location->active == 1) checked @endif id="{{$location->id}}">
+                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_locations.update',['id' => $location->id]) }}"  @if($location->active == 1) checked @endif id="{{$location->id}}" @if(Auth::user()->hasRole('admin_locations','edit'))disabled@endif>
                                                 <label class="onoffswitch-label" for="{{$location->id}}">
                                                     <span class="onoffswitch-inner"></span>
                                                     <span class="onoffswitch-switch"></span>
@@ -67,23 +69,30 @@
                                             {{$location->brand->description}}
                                         </td>
                                         <td>
+                                            @if(Auth::user()->hasRole('admin_locations','show'))
                                             <a class="open-modal" data-url="{{ url('admin_locations/'.$location->id) }}" data-toggle="modal" data-target="#showModal" title="{{__('admin_locations.index-tooltip-col1')}}" >
                                                 {{$location->description}}
                                             </a>
+                                            @else
+                                                {{$location->description}}
+                                            @endif
                                         </td>
                                         <td>{{$location->city}}</td>
                                         <td>{{$location->address}}</td>
                                         <td>{{$location->contact}}</td>
                                         <td>{{$location->phone}}</td>
                                         <td class="text-center">
+                                            @if(Auth::user()->hasRole('admin_locations','edit'))
                                             <a href="{{ url('admin_locations/'.$location->id.'/edit') }}" >
                                                 <i class="fa fa-pencil"  data-toggle="tooltip" title="{{__('admin_locations.index-tooltip-update')}}"></i>
                                             </a>
+                                            @endif
                                             &nbsp;&nbsp;
+                                            @if(Auth::user()->hasRole('admin_locations','destroy'))
                                             <a  class="confirm-toast"  data-message="{{__('admin_locations.index-confirm-message')}}"  data-location="{{ url('admin_locations/destroy/'.$location->id) }}">
                                                 <i class="fa fa-trash-o text-danger"  data-toggle="tooltip" title="{{__('admin_locations.index-tooltip-delete')}}"></i>
                                             </a>
-
+                                            @endif
 
                                         </td>
                                     </tr>
