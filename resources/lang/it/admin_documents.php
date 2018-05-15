@@ -89,7 +89,7 @@ return [
     'notify_alert_multiple' => 'Troppi Documenti MAX 10.',
     'notify_alert_missingDocType' => 'Nessun tipo di documento da associare.',
     'thumbnail_remove' => 'Rimuovi',
-    '' => '',
-    '' => '',
+    'index-upload' => 'Import',
+    'index-tooltip-upload' => 'Import documento dati PDF',
     'submit' => 'Conferma',
 ];

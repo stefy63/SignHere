@@ -18,11 +18,13 @@
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>{{__('admin_documents.index-title')}}</h5>
-                <!--<div ibox-tools="" class="ng-scope">
+                <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_documents') }}"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_documentsindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</button></a>
+                        @if(Auth::user()->hasRole('admin_documents','import'))
+                        <a href="{{ url('admin_documents.upload') }}"><button class="btn btn-white dim"> <i class="fa fa-upload"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-upload')}}"></i> {{__('admin_documents.index-upload')}}</button></a>
+                        @endif
                     </div>
-                </div>-->
+                </div>
             </div>
             <div class="ibox-heading">
                 <select class="form-control" name="acl_id" id="select-acl">
@@ -38,7 +40,9 @@
                         <h5 class="text-danger">{{__('admin_documents.index-client')}}</h5>
                         <div ibox-tools="" class="ng-scope">
                             <div dropdown="" class="ibox-tools dropdown">
+                                @if(Auth::user()->hasRole('admin_clients','create'))
                                 <a href="{{ url('admin_clients/create') }}"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_clientsindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</button></a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -56,7 +60,9 @@
                                 <tr class="tab-client"  id="{{$client->id}}">
                                     <td>
                                         <i class="fa fa-user"></i>&nbsp;&nbsp; {{$client->surname}} {{$client->name}}
+                                        @if(Auth::user()->hasRole('admin_clients','edit'))
                                         <a data-url="{{ url('admin_clients/')}}/{{$client->id}}/edit" class="href"><i class="fa fa-pencil pull-right"></i></a>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -76,7 +82,9 @@
                             <h5 class="text-danger">{{__('admin_dossiers.index-dossier')}}</h5>
                             <div ibox-tools="" class="ng-scope">
                                 <div dropdown="" class="ibox-tools dropdown">
+                                    @if(Auth::user()->hasRole('admin_dossiers','create'))
                                     <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_dossiers.index-tooltip-dossier')}}"></i> {{__('admin_brands.index-new')}}</button></a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -95,9 +103,9 @@
                                        <i class="fa fa-archive"></i> {{$dossier->name}}
                                     </td>
                                     <td class="text-center">
-                                        <a data-url="{{ url('admin_dossiers/')}}/{{$dossier->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>
-                                        <a data-url="{{ url('admin_dossiers/export/'.$dossier->id)}}" class="href text-warning text-center"><i class="fa fa-file-excel-o"></i></a>
-                                        <a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>
+                                        @if(Auth::user()->hasRole('admin_dossiers','edit'))<a data-url="{{ url('admin_dossiers/')}}/{{$dossier->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>@endif
+                                        @if(Auth::user()->hasRole('admin_dossiers','export'))<a data-url="{{ url('admin_dossiers/export/'.$dossier->id)}}" class="href text-warning text-center"><i class="fa fa-file-excel-o"></i></a>@endif
+                                        @if(Auth::user()->hasRole('admin_dossiers','destroy'))<a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>@endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -117,7 +125,9 @@
                             <h5 class="text-danger">{{__('admin_documents.index-document')}}</h5>
                             <div ibox-tools="" class="ng-scope">
                                 <div dropdown="" class="ibox-tools dropdown">
+                                    @if(Auth::user()->hasRole('admin_documents','create'))
                                     <a data-url="{{ url('admin_documents/create') }}" class="call-document"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-document')}}"></i> {{__('admin_brands.index-new')}}</button></a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -139,8 +149,8 @@
                                             {{$document->name}}
                                         </td>
                                         <td>
-                                            <a data-url="{{ url('admin_documents/')}}/{{$document->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>
-                                            <a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>
+                                            @if(Auth::user()->hasRole('admin_documents','edit'))<a data-url="{{ url('admin_documents/')}}/{{$document->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>@endif
+                                            @if(Auth::user()->hasRole('admin_documents','destroy'))<a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>@endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -215,6 +225,9 @@ $(function () {
 
     $('#select-acl').on('change',function(e){
         e.preventDefault();
+        $('#div-documents').hide();
+        $('#div-dossier').hide();
+        $('#tr-dossier').hide();
         $(this).children('#opt_acl').remove();
         var url = '{{url('admin_documents')}}';
 
@@ -228,15 +241,14 @@ $(function () {
             .done(function(data){
                 var t = $('#tr-client').DataTable();
                 t.clear().draw();
-                // $('#tr-client tbody').empty();
                 data[0].forEach(function(k){
                     var node = t.row.add([
-                        '<td><i class="fa fa-user"></i>&nbsp;&nbsp;'+k['name']+' '+k['surname']+
+                        '<td><i class="fa fa-user"></i>&nbsp;&nbsp;'+k['name']+' '+((k['surname'])?k['surname']:'')+
                         '<a  data-url="{{ url('admin_clients/')}}'+'/'+k['id']+'/edit" class="href"><i class="fa fa-pencil pull-right"></i></a></td>'
                     ]).draw().node();
                     $(node).addClass('tab-client').attr('id', k['id']);
                 });
-
+                $('#tr-dossier').show();
             });
     });
 

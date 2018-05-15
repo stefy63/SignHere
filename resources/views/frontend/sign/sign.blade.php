@@ -43,6 +43,7 @@ $(function () {
     $('#Sig-Clear').hide();
 
     var WizCtl ,
+        pdfData = '{{$b64doc}}',
         lic,
         Licence,
         hash,

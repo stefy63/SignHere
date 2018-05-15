@@ -8,7 +8,9 @@
                 <h5>{{__('admin_brands.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
-                        <a href="{{ url('admin_brands/create') }}"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_brands.index-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</button></a>
+                        @if(Auth::user()->hasRole('admin_brands','create'))
+                            <a href="{{ url('admin_brands/create') }}"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_brands.index-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</button></a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -63,24 +65,30 @@
                                             </div>
                                         </td>
                                         <td>
+                                            @if(Auth::user()->hasRole('admin_brands','show'))
                                             <a class="open-modal" data-url="{{ url('admin_brands/'.$brand->id) }}" data-toggle="modal" data-target="#showModal" title="{{__('admin_brands.index-tooltip-col1')}}" >
                                                 {{$brand->description}}
                                             </a>
+                                            @else
+                                                {{$brand->description}}
+                                            @endif
                                         </td>
                                         <td>{{$brand->city}}</td>
                                         <td>{{$brand->address}}</td>
                                         <td>{{$brand->contact}}</td>
                                         <td>{{$brand->phone}}</td>
                                         <td class="text-center">
+                                            @if(Auth::user()->hasRole('admin_brands','edit'))
                                             <a href="{{ url('admin_brands/'.$brand->id.'/edit') }}" >
                                                 <i class="fa fa-pencil"  data-toggle="tooltip" title="{{__('admin_brands.index-tooltip-update')}}"></i>
                                             </a>
+                                            @endif
                                             &nbsp;&nbsp;
+                                            @if(Auth::user()->hasRole('admin_brands','destroy'))
                                             <a  class="confirm-toast"  data-message="{{__('admin_brands.index-confirm-message')}}"  data-location="{{ url('admin_brands/destroy/'.$brand->id) }}">
                                                 <i class="fa fa-trash-o text-danger"  data-toggle="tooltip" title="{{__('admin_brands.index-tooltip-delete')}}"></i>
                                             </a>
-
-
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
