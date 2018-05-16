@@ -398,7 +398,7 @@ $(function () {
                 $('#questions').val(JSON.stringify(responseQuestions));
                 ctlScript = 0;
                 toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{ __('sign.sign_proc_start_sign_optional') }}");
-                sendOptionalSign()
+                sendOptionalSign();
             }
         } catch ( ex ) {
             Exception( "questions("+ctlScript+") " + ex.message);

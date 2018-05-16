@@ -53,7 +53,7 @@
                             @endforeach
                             <div class="text-center">
                                 @if(Auth::user()->hasRole('admin_profiles','edit'))<button type="button" id="profile-edit" class="btn btn-w-m btn-primary button-toast" data-location="{{ url('admin_profiles/') }}">{{__('admin_profiles.btn-edit')}}</button>@endif
-                                @if(Auth::user()->hasRole('admin_profiles','destroy'))<button type="button" id="profile-destroy" class="profile-action btn btn-w-m btn-danger confirm-toast" data-message="{{__('admin_profiles.index-confirm-message')}}" data-location="{{ url('admin_profiles/destroy/') }}">{{__('admin_profiles.btn-destroy')}}</button>endif
+                                @if(Auth::user()->hasRole('admin_profiles','destroy'))<button type="button" id="profile-destroy" class="profile-action btn btn-w-m btn-danger confirm-toast" data-message="{{__('admin_profiles.index-confirm-message')}}" data-location="{{ url('admin_profiles/destroy/') }}">{{__('admin_profiles.btn-destroy')}}</button>@endif
                             </div>
                         </div>
                     </div>

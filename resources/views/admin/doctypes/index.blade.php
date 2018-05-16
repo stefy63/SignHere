@@ -55,7 +55,7 @@
                                     <tr class="gradeA odd" role="row">
                                         <td>
                                             <div class="onoffswitch" >
-                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_doctypes.update',['id' => $doctype->id]) }}"  @if($doctype->active == 1) checked @endif id="{{$doctype->id}}" @if(!Auth::user()->hasRole('admin_doctypes','edit'))disabled@endif>
+                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_doctypes.update',['id' => $doctype->id]) }}"  @if($doctype->active == 1) checked @endif id="{{$doctype->id}}" @if(!Auth::user()->hasRole('admin_doctypes','edit')) disabled @endif>
                                                 <label class="onoffswitch-label" for="{{$doctype->id}}">
                                                     <span class="onoffswitch-inner"></span>
                                                     <span class="onoffswitch-switch"></span>
@@ -75,7 +75,7 @@
                                         <!--<td>{{$doctype->template}}</td>-->
                                         <td>
                                             <div class="onoffswitch" >
-                                                <input type="checkbox" class="onoffswitch-checkbox" @if($doctype->single_sign == 1) checked @endif id="{{$doctype->id}}" @if(!Auth::user()->hasRole('admin_doctypes','edit'))disabled@endif>
+                                                <input type="checkbox" class="onoffswitch-checkbox" @if($doctype->single_sign == 1) checked @endif id="{{$doctype->id}}" @if(!Auth::user()->hasRole('admin_doctypes','edit')) disabled @endif>
                                                 <label class="onoffswitch-label" for="{{$doctype->single_sign}}">
                                                     <span class="onoffswitch-inner"></span>
                                                     <span class="onoffswitch-switch"></span>
