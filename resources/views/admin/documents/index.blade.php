@@ -82,7 +82,7 @@
                             <h5 class="text-danger">{{__('admin_dossiers.index-dossier')}}</h5>
                             <div ibox-tools="" class="ng-scope">
                                 <div dropdown="" class="ibox-tools dropdown">
-                                    @if(Auth::user()->hasRole('admin_dossiers','create'))
+                                    @if(Auth::user()->hasRole('admin_documents','create'))
                                     <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_dossiers.index-tooltip-dossier')}}"></i> {{__('admin_brands.index-new')}}</button></a>
                                     @endif
                                 </div>
@@ -103,9 +103,9 @@
                                        <i class="fa fa-archive"></i> {{$dossier->name}}
                                     </td>
                                     <td class="text-center">
-                                        @if(Auth::user()->hasRole('admin_dossiers','edit'))<a data-url="{{ url('admin_dossiers/')}}/{{$dossier->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>@endif
-                                        @if(Auth::user()->hasRole('admin_dossiers','export'))<a data-url="{{ url('admin_dossiers/export/'.$dossier->id)}}" class="href text-warning text-center"><i class="fa fa-file-excel-o"></i></a>@endif
-                                        @if(Auth::user()->hasRole('admin_dossiers','destroy'))<a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>@endif
+                                        @if(Auth::user()->hasRole('admin_documents','edit'))<a data-url="{{ url('admin_dossiers/')}}/{{$dossier->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>@endif
+                                        @if(Auth::user()->hasRole('admin_documents','export'))<a data-url="{{ url('admin_dossiers/export/'.$dossier->id)}}" class="href text-warning text-center"><i class="fa fa-file-excel-o"></i></a>@endif
+                                        @if(Auth::user()->hasRole('admin_documents','destroy'))<a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>@endif
                                     </td>
                                 </tr>
                             @endforeach
@@ -144,7 +144,9 @@
                                 <tbody>
                                 @foreach($documents as $document)
                                     <tr id="{{$document->id}}">
-                                        <td><a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-download"></i></a></td>
+                                        <td>
+                                            @if(Auth::user()->hasRole('admin_documents','download'))<a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-download"></i></a> @endif
+                                        </td>
                                         <td class="@if($document->signed) text-line-through text-danger @endif" id="{{$document->id}}">
                                             {{$document->name}}
                                         </td>
@@ -174,6 +176,10 @@
 @push('scripts')
 <script>
 $(function () {
+    // $.fn.dataTable.ext.search.push(
+    // function( settings, data, dataIndex ) {
+    //     console.log(settings, data, dataIndex);
+    // });
 
     $(document).on('click','.href',function(e){
         e.preventDefault();
@@ -242,10 +248,10 @@ $(function () {
                 var t = $('#tr-client').DataTable();
                 t.clear().draw();
                 data[0].forEach(function(k){
-                    var node = t.row.add([
-                        '<td><i class="fa fa-user"></i>&nbsp;&nbsp;'+k['name']+' '+((k['surname'])?k['surname']:'')+
-                        '<a  data-url="{{ url('admin_clients/')}}'+'/'+k['id']+'/edit" class="href"><i class="fa fa-pencil pull-right"></i></a></td>'
-                    ]).draw().node();
+                    var row = '<td><i class="fa fa-user"></i>&nbsp;&nbsp;'+k['name']+' '+((k['surname'])?k['surname']:'');
+                    @if(Auth::user()->hasRole('admin_clients','edit')) row += '<a  data-url="{{ url('admin_clients/')}}'+'/'+k['id']+'/edit" class="href"><i class="fa fa-pencil pull-right"></i></a>';  @endif
+                    row += '</td>';
+                    var node = t.row.add([row]).draw().node();
                     $(node).addClass('tab-client').attr('id', k['id']);
                 });
                 $('#tr-dossier').show();
@@ -253,7 +259,6 @@ $(function () {
     });
 
     $(document).on('click','.tab-client',function(e){
-        console.log('tab-client-click');
         e.preventDefault();
         $('#div-documents').hide();
         $('#div-dossier').hide();
@@ -277,12 +282,20 @@ $(function () {
             var t = $('#tr-dossier').DataTable();
             t.clear().draw();
             data[0].forEach(function(k){
-                var node = t.row.add(['<td><i class="fa fa-archive"></i> '+k['name']+'</td>',
-                    '<td class="text-center">'+
-                    '<a data-url="{{ url('admin_dossiers/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>&nbsp&nbsp'+
-                    '<a data-url="{{ url('admin_dossiers/export/')}}/'+k['id']+'" class="href text-warning text-center"><i class="fa fa-file-excel-o"></i></a>'+
-                    '<a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a>'+
-                    '</td>']).draw().node();
+                var row = [];
+                row[0] = '<td><i class="fa fa-archive"></i> '+k['name']+'</td>';
+                row[1] = '<td class="text-center">';
+                @if(Auth::user()->hasRole('admin_documents','edit'))
+                row[1] += '<a data-url="{{ url('admin_dossiers/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>&nbsp&nbsp';
+                @endif
+                @if(Auth::user()->hasRole('admin_documents','export'))
+                row[1] += '<a data-url="{{ url('admin_dossiers/export/')}}/'+k['id']+'" class="href text-warning text-center"><i class="fa fa-file-excel-o"></i></a>';
+                @endif
+                @if(Auth::user()->hasRole('admin_documents','destroy'))
+                row[1] += '<a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a>';
+                @endif
+                row[1] += '</td>';
+                var node = t.row.add(row).draw().node();
                 $(node).addClass('tab-dossier').attr('id', k['id']);
             });
             $('#div-dossier').show();
@@ -312,16 +325,25 @@ $(function () {
             var t = $('#tr-document').DataTable();
             t.clear().draw();
             data[0].forEach(function(k){
-                var elem = '<td class=" "><i ';
-                elem += (k['signed'] == 1)?'class="fa fa-check-square-o" style="color: green;"':'class="fa fa fa-minus-square-o" style="color: red;"';
-                elem += '></i>  '+k['name']+'</td>';
+                var row = [];
+                row[0] = '<td>';
+                {{--@if(Auth::user()->hasRole('admin_documents','download'))--}}
+                    row[0] += '<td><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank"><i class="fa fa-download"></i></a>';
+                {{--@endif--}}
+                row[0] += '</td>';
+                row[1] = '<td class=" "><i ';
+                row[1] += (k['signed'] == 1)?'class="fa fa-check-square-o" style="color: green;"':'class="fa fa fa-minus-square-o" style="color: red;"';
+                row[1] += '></i>  '+k['name']+'</td>';
+                row[2] = '<td>';
+                @if(Auth::user()->hasRole('admin_documents','edit'))
+                    row[2] += '<a data-url="{{ url('admin_documents/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>';
+                @endif
+                @if(Auth::user()->hasRole('admin_documents','destroy'))
+                    row[2] += '<a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a>';
+                @endif
+                row[2] += '</td>'
 
-                var node = t.row.add([
-                    '<td><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank"><i class="fa fa-download"></i></a></td>',
-                    elem,
-                    '<td ><a data-url="{{ url('admin_documents/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>'+
-                    '<a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a></td>'
-                ]).draw().node();
+                var node = t.row.add(row).draw().node();
                 $(node).attr('id', k['id']).attr('data-toggle', 'tooltip').attr('title', k['date_sign']);
             });
             $('#div-documents').show();

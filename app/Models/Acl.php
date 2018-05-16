@@ -59,7 +59,7 @@ class Acl extends Model
         $userAcls = \Auth::user()->getMyAcls();
         $Brands = Brand::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
-        });
+        })->whereNull('deleted_at');
         return $Brands;
     }
 
@@ -67,7 +67,7 @@ class Acl extends Model
         $userAcls = \Auth::user()->getMyAcls();
         $Locations = Location::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
-        });
+        })->whereNull('deleted_at');
         return $Locations;
     }
 
@@ -75,7 +75,7 @@ class Acl extends Model
         $userAcls = \Auth::user()->getMyAcls();
         $Users = User::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
-        });
+        })->whereNull('deleted_at');
         return $Users;
     }
 
@@ -83,7 +83,7 @@ class Acl extends Model
         $userAcls = \Auth::user()->getMyAcls();
         $Devices = Device::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
-        });
+        })->whereNull('deleted_at');
         return $Devices;
     }
 
@@ -105,7 +105,7 @@ class Acl extends Model
 
     public static function getMyAcls() {
         $userAcls = \Auth::user()->getMyAcls();
-        $acls = Acl::whereIn('id',$userAcls);
+        $acls = Acl::whereIn('id',$userAcls)->whereNull('deleted_at');
 
         return $acls;
     }
@@ -114,7 +114,7 @@ class Acl extends Model
         $userAcls = \Auth::user()->getMyAcls();
         $Modules = Profile::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
-        });
+        })->whereNull('deleted_at');
         return $Modules;
     }
 
@@ -122,7 +122,7 @@ class Acl extends Model
         $userAcls = \Auth::user()->getMyAcls();
         $Modules = Module::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
-        });
+        })->whereNull('deleted_at');
         return $Modules;
     }
 }

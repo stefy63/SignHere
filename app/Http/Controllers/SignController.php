@@ -24,7 +24,6 @@ class SignController extends Controller
     public function __construct()
     {
         $this->middleware('hasRole');
-        date_default_timezone_set('Europe/Rome');
     }
 
     /**
@@ -39,8 +38,7 @@ class SignController extends Controller
                 $qDocument->select(DB::raw(1))
                     ->from('documents')
                     ->whereRaw('documents.dossier_id = dossiers.id')
-                    ->where('signed',false)
-                    ->whereNull('deleted_at');
+                    ->where('signed',false);
             });
         })->where('active',true)->paginate(10);
 
@@ -49,16 +47,16 @@ class SignController extends Controller
             ->join('documents','dossiers.id','=','documents.dossier_id')
             ->orderBy('documents.date_sign','DESC')
             ->whereNotNull('date_sign')
-            ->take(5)
-            ->get();
+            ->paginate(10);
+//            ->take(5)
+//            ->get();
 
         $archives = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
             $qDossier->whereNotExists(function($qDocument){
                 $qDocument->select(DB::raw(1))
                     ->from('documents')
                     ->whereRaw('documents.dossier_id = dossiers.id')
-                    ->where('signed',false)
-                    ->whereNull('deleted_at');
+                    ->where('signed',false);
             });
         })->where('active',true)->paginate(10);
 

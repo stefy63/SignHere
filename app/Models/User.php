@@ -69,6 +69,7 @@ class User extends Authenticatable
 
         return $profile
             ->where('active',true)
+            ->whereNull('deleted_at')
             ->where('isadmin',true)
             ->get()->count();
     }
@@ -126,7 +127,9 @@ class User extends Authenticatable
     }
 
     public function getMyForest() {
-        $roots = $this->acls()->get()->toArray();
+        $roots = $this->acls()
+                    ->whereNull('deleted_at')
+                    ->get()->toArray();
         $forest = array();
         foreach ($roots as $root) {
             $forest[] = array_add($root,'branch',$this->getMyTree($root));

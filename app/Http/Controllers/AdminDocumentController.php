@@ -49,11 +49,12 @@ class AdminDocumentController extends Controller
                 return response()->json([$dossiers->get()]);
             }
         } else {
-            if ($clients->count()) {
-                $dossiers = Dossier::where('client_id', $clients->first()->id)->get();
-            } else {
-                return back()->with('alert',__('admin_documents.error_No_client'));
-            }
+//            if ($clients->count()) {
+//                $dossiers = Dossier::where('client_id', $clients->first()->id)->get();
+//            } else {
+//                return back()->with('alert',__('admin_documents.error_No_client'));
+//            }
+            $dossiers = array();
         }
 
         if ($request->has('dossier_id')) {
@@ -62,11 +63,12 @@ class AdminDocumentController extends Controller
                 return response()->json([$documents->get()]);
             }
         } else {
-            if ($dossiers) {
-                $documents = Dossier::where('client_id', $dossiers->first())->get();
-            }else {
-                $documents = array();
-            }
+//            if ($dossiers) {
+//                $documents = Dossier::where('client_id', $dossiers->first())->get();
+//            }else {
+//                $documents = array();
+//            }
+            $documents = array();
         }
 
         return view('admin.documents.index',[

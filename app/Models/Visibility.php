@@ -55,7 +55,7 @@ class Visibility extends Model
         $userAcls = \Auth::user()->getMyAcls();
         $Brands = Brand::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
-        });
+        })->whereNull('deleted_at');
         return $Brands;
     }
 
@@ -63,7 +63,7 @@ class Visibility extends Model
         $userAcls = \Auth::user()->getMyAcls();
         $Locations = Location::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
-        });
+        })->whereNull('deleted_at');
         return $Locations;
     }
 
@@ -71,7 +71,7 @@ class Visibility extends Model
         $userAcls = \Auth::user()->getMyAcls();
         $Users = User::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
-        });
+        })->whereNull('deleted_at');
         return $Users;
     }
 
@@ -79,7 +79,7 @@ class Visibility extends Model
         $userAcls = \Auth::user()->getMyAcls();
         $Devices = Device::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
-        });
+        })->whereNull('deleted_at');
         return $Devices;
     }
 
@@ -87,7 +87,7 @@ class Visibility extends Model
         $userAcls = \Auth::user()->getMyAcls();
         $Clients = Client::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
-        });
+        })->whereNull('deleted_at');
         return $Clients;
     }
 
@@ -95,7 +95,7 @@ class Visibility extends Model
         $userAcls = \Auth::user()->getMyAcls();
         $Documents = Document::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
-        });
+        })->whereNull('deleted_at');
         return $Documents;
     }
 
@@ -103,7 +103,7 @@ class Visibility extends Model
         $userAcls = \Auth::user()->getMyAcls();
         $acls = Acl::whereHas('users',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
-        });
+        })->whereNull('deleted_at');
 
         return $acls;
     }
