@@ -509,7 +509,7 @@ $(function () {
     }
 
     function Capture() {
-        
+
         toastr['info']("{{__('sign.sign_proc_sign_start')}}", "{{__('sign.sign_proc_start_title')}}");
         var sigCtl = new ActiveXObject("Florentis.SigCtl");
         var dc = new ActiveXObject("Florentis.DynamicCapture");
@@ -540,6 +540,7 @@ $(function () {
                 case 101: // CaptureError
                     stopWizard();
                     print("Tablet Error");
+                    Capture();
                     break;
                 case 102: // CaptureIntegrityKeyInvalid
                     print("The integrity key parameter is invalid (obsolete)");
