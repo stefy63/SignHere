@@ -41,7 +41,7 @@ class VerifyCsrfToken extends BaseVerifier
 
             throw new TokenMismatchException;
         } else {
-            return redirect('/')->with('alert', __('testo di prova'));
+            return redirect()->back()->with('alert', __('app.error_operation'));
         }
     }
 }
