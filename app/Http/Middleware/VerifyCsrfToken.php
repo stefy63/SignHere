@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
+use Closure;
 
 class VerifyCsrfToken extends BaseVerifier
 {
@@ -15,5 +16,33 @@ class VerifyCsrfToken extends BaseVerifier
         //
     ];
 
+
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @return mixed
+     *
+     * @throws \Illuminate\Session\TokenMismatchException
+     */
+    public function handle($request, Closure $next)
+    {
+        if($next($request)) {
+
+            if (
+                $this->isReading($request) ||
+                $this->runningUnitTests() ||
+                $this->inExceptArray($request) ||
+                $this->tokensMatch($request)
+            ) {
+                return $this->addCookieToResponse($request, $next($request));
+            }
+
+            throw new TokenMismatchException;
+        } else {
+            return redirect('/')->with('alert', __('testo di prova'));
+        }
+    }
 }
 
