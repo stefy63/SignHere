@@ -271,7 +271,8 @@ class SignController extends Controller
                 'ENC' => $resource,
             );
 
-            $finalWriter = new \SetaPDF_Core_Writer_Http('signed.pdf', true);
+            //$finalWriter = new \SetaPDF_Core_Writer_Http('signed.pdf', true);
+            $finalWriter = new \SetaPDF_Core_Writer_Http(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
             $pub_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/certificate.cer');
             $priv_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/certificate.cer');
             $reader = new \SetaPDF_Core_Reader_String($pdf->Output('S'));
@@ -334,7 +335,7 @@ class SignController extends Controller
             $document->readonly = true;
             $document->date_sign = Carbon::now()->format('d/m/y');
             $document->user_id = \Auth::user()->id;
-            // $document->save();
+            $document->save();
         }
         return redirect('sign');
     }

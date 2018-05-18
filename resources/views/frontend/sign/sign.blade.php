@@ -55,6 +55,7 @@ $(function () {
         Pad,
         StepHandler,
         WacomCtl,
+        loopFromError = 0,
         $sigdiv = false;
 
     print(questions);
@@ -523,6 +524,7 @@ $(function () {
             print("Capture returned: " + rc);
             switch( rc ) {
                 case 0: // CaptureOK
+                    loopFromError = 0
                     print("Signature captured successfully");
                     flags = 0x2000 + 0x80000 + 0x400000 + 0x10000; //SigObj.outputBase64 | SigObj.color32BPP | SigObj.encodeData | SigObj.BackgroundTransparent
                     b64 = sigCtl.Signature.RenderBitmap("", 300, 150, "image/png", 1, 0xff0000, 0xffffff, 0.0, 0.0, flags );
@@ -538,9 +540,12 @@ $(function () {
                     print("No capture service available");
                     break;
                 case 101: // CaptureError
-                    stopWizard();
                     print("Tablet Error");
-                    Capture();
+                    if(loopFromError == 0) {
+                        loopFromError++;
+                        stopWizard();
+                        Capture();
+                    }
                     break;
                 case 102: // CaptureIntegrityKeyInvalid
                     print("The integrity key parameter is invalid (obsolete)");
