@@ -10,9 +10,10 @@
         "guzzlehttp/guzzle": "^6.2",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "setasign/fpdi_pdf-parser": "2.0.3",
         "setasign/fpdi-fpdf": "^2.0",
-        "setasign/setapdf-signer": "2.27.0.1196"
+        "setasign/fpdi_pdf-parser": "2.0.3",
+        "setasign/setapdf-signer": "2.27.0.1196",
+        "spatie/pdf-to-text": "^1.1"
     },
     "repositories": [
         {
