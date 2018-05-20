@@ -5,12 +5,55 @@
 <script src="{{ asset('js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
 <script src="{{ asset('js/plugins/dataTables/dataTables.responsive.js') }}"></script>
 <script src="{{ asset('js/plugins/dataTables/dataTables.tableTools.min.js') }}"></script>
+<!-- DROPZONE -->
+<script src="{{ asset('js/plugins/dropzone/dropzone.js') }}"></script>
+<script>
+$(function () {
+    Dropzone.options.myAwesomeDropzone = {
+        acceptedFiles: "application/pdf",
+        //autoProcessQueue: false,
+        uploadMultiple: true,
+        maxFiles: 1,
+        maxFilesize: 2,
+        paramName: 'documents',
+        //autoQueue: false,
+        dictInvalidFileType: '{{__('admin_documents.notify_alert_type')}}',
+        dictFileTooBig: '{{__('admin_documents.notify_alert_toobigfile')}}',
+        dictMaxFilesExceeded:'{{__('admin_documents.notify_alert_multiple', ['max' => '1'])}}',
+
+        init: function() {
+            this.on("success", function(files, response) {
+                toastr['success']("{{ session('success') }}", response.message);
+                $('#modal-content div').html(JSON.stringify(response));
+            });
+            this.on("maxfilesexceeded", function(files, response) {
+                toastr['error']("{{ session('alert') }}", "{{__('admin_documents.notify_alert_multiple')}}");
+            });
+            this.on("error", function(files, response) {
+                $retMsg = (response.message)?response.message:"{{__('admin_documents.notify_alert')}}";
+                toastr['error']("{{ session('alert') }}", $retMsg);
+            });
+            this.on("complete", function(file) {
+                this.removeFile(file);
+                // $('#showModal').modal('hide');
+                // $('.modal-backdrop').remove();
+            });
+        }
+    };
+});
+
+
+</script>
+
 @endpush
 @push('assets')
 <!-- Data Table -->
 <link href="{{ asset('css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
 <link href="{{ asset('css/plugins/dataTables/dataTables.responsive.css') }}" rel="stylesheet">
 <link href="{{ asset('css/plugins/dataTables/dataTables.tableTools.min.css') }}" rel="stylesheet">
+<!-- Dropzone -->
+<link href="{{ asset('css/plugins/dropzone/basic.css') }}" rel="stylesheet">
+<link href="{{ asset('css/plugins/dropzone/dropzone.css') }}" rel="stylesheet">
 @endpush
 @section('content')
 <div class="row" style="height: 100%">
@@ -21,7 +64,9 @@
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
                         @if(Auth::user()->hasRole('admin_documents','import'))
-                        <a href="{{ url('admin_documents.upload') }}"><button class="btn btn-white dim"> <i class="fa fa-upload"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-upload')}}"></i> {{__('admin_documents.index-upload')}}</button></a>
+                        <a class="open-modal" data-toggle="modal" data-target="#showModal" title="{{__('admin_documents.index-tooltip-upload')}}" >
+                            <button class="btn btn-white"> <i class="fa fa-upload" data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-upload')}}"></i> {{__('admin_documents.index-upload')}}</button>
+                        </a>
                         @endif
                     </div>
                 </div>
@@ -168,6 +213,18 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="showModal" tabindex="-1"  role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated fadeInDown" id="modal-content">
+            <div class="modal-body">
+                <form id="my-awesome-dropzone" class="dropzone" action="{{ route('admin_documents.import_file') }}" enctype="multipart/form-data">
+                    {!! csrf_field() !!}{{ method_field('POST') }}
+                    <div class="dz-message text-center m-t-lg"><span><h1>{{__('admin_documents.drop_file')}}</h1></span></div>
+                </form>
             </div>
         </div>
     </div>

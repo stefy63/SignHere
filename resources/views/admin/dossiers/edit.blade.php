@@ -31,7 +31,7 @@
             addRemoveLinks: true,
             dictRemoveFile: '{{__('admin_documents.thumbnail_remove')}}',
             dictFileTooBig: '{{__('admin_documents.notify_alert_toobigfile')}}',
-            dictMaxFilesExceeded:'{{__('admin_documents.notify_alert_multiple')}}',
+            dictMaxFilesExceeded:'{{__('admin_documents.notify_alert_multiple', ['max' => '10'])}}',
             /!*headers: {
                 'X-CSRF-Token': $("[name=_token]").val(),
             },*!/
