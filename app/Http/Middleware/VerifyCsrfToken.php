@@ -26,7 +26,7 @@ class VerifyCsrfToken extends BaseVerifier
      *
      * @throws \Illuminate\Session\TokenMismatchException
      */
-    public function handle($request, Closure $next)
+   /* public function handle($request, Closure $next)
     {
         if($next($request)) {
 
@@ -43,6 +43,6 @@ class VerifyCsrfToken extends BaseVerifier
         } else {
             return redirect()->back()->with('alert', __('app.error_operation'));
         }
-    }
+    }*/
 }
 
