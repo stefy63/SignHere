@@ -48,18 +48,22 @@ class LoginController extends Controller
      * @param  mixed  $user
      * @return mixed
      */
-    protected function authenticated(Request $request, $user)
+    protected function authenticate(Request $request, $user)
     {
-        $previous_session = $user->session_id;
+        if(Auth::attempt(['email' => Auth::user()->email, 'password' => Auth::user()->password, 'active' => 1])) {
 
-        if ($previous_session) {
-            Session::getHandler()->destroy($previous_session);
+            $previous_session = $user->session_id;
+
+            if ($previous_session) {
+                Session::getHandler()->destroy($previous_session);
+            }
+
+            Auth::user()->session_id = \Session::getId();
+            Auth::user()->save();
+            Artisan::call('view:clear');
+            redirect()->intended($this->redirectPath());
         }
-
-        Auth::user()->session_id = \Session::getId();
-        Auth::user()->save();
-        Artisan::call('view:clear');
-        return ;//redirect()->intended($this->redirectPath());
+        return false;
     }
 
 
@@ -79,10 +83,10 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    protected function credentials(Request $request)
+    /*protected function credentials(Request $request)
     {
         return array_merge($request->only($this->username(), 'password'),
         ['active' => 1]);
-    }
+    }*/
 
 }
