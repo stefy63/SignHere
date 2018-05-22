@@ -126,7 +126,7 @@
                             <label for="readonly" >{{__('admin_documents.db-readonly')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <input class="js-switch-readonly" type="checkbox" data-switchery="true" name="readonly" value="1" style="display: none;"/>
+                            <input class="js-switch-readonly" type="checkbox" data-switchery="true" name="readonly" value="1" @if(old("readonly") == 1) checked @endif style="display: none;"/>
                         </div>
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                             <label for="active" >{{__('admin_documents.db-active')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <input class="js-switch-active" type="checkbox" data-switchery="true" name="active" value="1" style="display: none;"/>
+                            <input class="js-switch-active" type="checkbox" data-switchery="true" name="active" @if(old("active") == 1) checked @endif value="1" style="display: none;"/>
                         </div>
                     </div>
                 </div>
