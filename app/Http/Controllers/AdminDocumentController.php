@@ -37,7 +37,7 @@ class AdminDocumentController extends Controller
     {
         $acls = Acl::getMyAcls()->get();
         if ($request->has('acl_id')) {
-            $clients = ($request->acl_id == 0)?$clients = Acl::getMyClients()->get():Acl::find($request->acl_id)->clients();
+            $clients = ($request->acl_id == 0)?$clients = Acl::getMyClients():Acl::find($request->acl_id)->clients();
             if($request->ajax()) {
                 return response()->json([$clients->get()]);
             }

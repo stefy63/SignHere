@@ -28,7 +28,7 @@ return [
     'index-dossier' => 'Fascicoli',
     'index-document' => 'Documenti',
     'drop_file_submit' => 'Salva File...',
-    'select-acls' => 'Selezionare Filtro........',
+    'select-acls' => 'Tutti ........',
     'drop_file' => 'Trascina qui i file da inserire Oppure clicca',
     'edit-title' => 'Modifica Documento',
     'create-title' => 'Nuovo Documento',
