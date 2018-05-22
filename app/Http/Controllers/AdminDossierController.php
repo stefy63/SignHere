@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Dossier;
 use Illuminate\Http\Request;
+use Spatie\PdfToText\Pdf;
 
 class AdminDossierController extends Controller
 {
@@ -164,5 +165,60 @@ class AdminDossierController extends Controller
 
 
         return \Response::stream($callback, 200, $headers);
+    }
+
+    /**
+     * Remove the specified resource from documents.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function import_file(Request $request)
+    {
+        if($files = $request->documents) {
+            //\DB::beginTransaction();
+            try {
+                foreach ($files as $file) {
+                    if ($file->isValid()){
+                        $text = Pdf::getText($file->getPathName(), '/usr/local/bin/pdftotext');
+                        \Storage::disk('documents')->put('imported.txt', $text);
+
+                        $arTextFile = explode(PHP_EOL, $text);
+
+
+                        return response()->json(['message1' => $arTextFile]);
+//                        return response()->json([
+//                            'success' => true,
+//                            'message' => __("admin_documents.notify_import_success"),
+//                            'code' => 200], 200);
+
+                    } else {
+                        //\DB::rollBack();
+                        return response()->json([
+                            'error' => true,
+                            'message' => __("admin_documents.notify_alert_filesystem"),
+                            'code' => 500], 500);
+                    }
+                }
+                //\DB::commit();
+
+                return response()->json(['message2' => $files]);
+//                return response()->json([
+//                    'error' => false,
+//                    'message' => __("admin_documents.notify_success"),
+//                    'code'  => 200],200);
+            } catch (Exception $e) {
+                //\DB::rollBack();
+                return response()->json([
+                    'error' => true,
+                    'message' => __("admin_documents.notify_alert"),
+                    'code'  => 300],300);
+            }
+        } else {
+            return response()->json([
+                'error' => true,
+                'message' => __("admin_documents.notify_alert"),
+                'code'  => 400],400);
+        }
     }
 }

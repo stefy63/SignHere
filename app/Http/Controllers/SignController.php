@@ -272,8 +272,7 @@ class SignController extends Controller
             );
 
             //$finalWriter = new \SetaPDF_Core_Writer_Http('signed.pdf', true);
-//            $finalWriter = new \SetaPDF_Core_Writer_File(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
-            $finalWriter = new \SetaPDF_Core_Writer_TempFile();
+            $finalWriter = new \SetaPDF_Core_Writer_File(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
             $pub_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/server.pem');
             $priv_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/server.pem');
             $reader = new \SetaPDF_Core_Reader_String($pdf->Output('S'));

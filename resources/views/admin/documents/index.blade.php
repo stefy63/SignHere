@@ -73,7 +73,7 @@ $(function () {
             </div>
             <div class="ibox-heading">
                 <select class="form-control" name="acl_id" id="select-acl">
-                    <option id="opt_acl">{{__('admin_documents.select-acls')}}</option>
+                    <option id="opt_acl" value="0">{{__('admin_documents.select-acls')}}</option>
                     @foreach($acls as $acl)
                         <option value="{{$acl->id}}">{{$acl->name}}</option>
                     @endforeach
@@ -221,7 +221,7 @@ $(function () {
     <div class="modal-dialog">
         <div class="modal-content animated fadeInDown" id="modal-content">
             <div class="modal-body">
-                <form id="my-awesome-dropzone" class="dropzone" action="{{ route('admin_documents.import_file') }}" enctype="multipart/form-data">
+                <form id="my-awesome-dropzone" class="dropzone" action="{{ route('admin_dossiers.import_file') }}" enctype="multipart/form-data">
                     {!! csrf_field() !!}{{ method_field('POST') }}
                     <div class="dz-message text-center m-t-lg"><span><h1>{{__('admin_documents.drop_file')}}</h1></span></div>
                 </form>
@@ -290,8 +290,8 @@ $(function () {
         e.preventDefault();
         $('#div-documents').hide();
         $('#div-dossier').hide();
-        $('#tr-dossier').hide();
-        $(this).children('#opt_acl').remove();
+        //$('#tr-dossier').hide();
+        //$(this).children('#opt_acl').remove();
         var url = '{{url('admin_documents')}}';
 
         $.ajax({
