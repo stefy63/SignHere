@@ -57,7 +57,7 @@
                                     <tr class="gradeA odd" role="row">
                                         <td>
                                             <div class="onoffswitch" >
-                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_brands.update',['id' => $brand->id]) }}"  @if($brand->active == 1) checked @endif id="{{$brand->id}}">
+                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_brands.update',['id' => $brand->id]) }}"  @if($brand->active == 1) checked @endif id="{{$brand->id}}" @if(!Auth::user()->hasRole('admin_brands','edit')) disabled @endif>
                                                 <label class="onoffswitch-label" for="{{$brand->id}}">
                                                     <span class="onoffswitch-inner"></span>
                                                     <span class="onoffswitch-switch"></span>

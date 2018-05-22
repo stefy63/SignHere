@@ -13,6 +13,7 @@ use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use Mockery\Exception;
 use Illuminate\Support\Facades\Auth;
+use setasign\Fpdi\Fpdi;
 use Spatie\PdfToText\Pdf;
 
 class AdminDocumentController extends Controller
@@ -118,9 +119,20 @@ class AdminDocumentController extends Controller
 
             if($file->isValid() && $path = $file->store($request->client_id."/".$request->dossier_id,'documents')){
                 $document->filename = $path;
+                $template = Doctype::find($request->doctype_id);
+                $pdf = new Fpdi();
+                $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+                $templateLine = explode(PHP_EOL, $template->template);
+                $tempLastPageNumber = explode('|', $templateLine[count($templateLine)-1]);
+
+                if($tempLastPageNumber[0] && $tempLastPageNumber[0] <=  $pageCount) {
+                    $document->save();
+                    return redirect()->back()->with('success', __('admin_documents.success_document_created'));
+                }
+                unlink(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+                return redirect()->back()->with('alert', __('admin_documents.warning_template_document_fault'));
             }
-            $document->save();
-            return redirect()->back()->with('success', __('admin_documents.success_document_created'));
+
         }
         return redirect()->back()->with('warning', __('admin_documents.warning_document_NOTcreated'));
     }
@@ -133,7 +145,7 @@ class AdminDocumentController extends Controller
      */
     public function show(Document $document)
     {
-        die('SHOW DOC -> ');
+        //
     }
 
     /**
@@ -186,7 +198,7 @@ class AdminDocumentController extends Controller
 
             return redirect()->back()->with('success', __('admin_documents.success_document_update'));
         }
-        return redirect()->back()->with('error', __('admin_documents.error_document_NOTupdate'));
+        return redirect()->back()->with('alert', __('admin_documents.error_document_NOTupdate'));
 
     }
 

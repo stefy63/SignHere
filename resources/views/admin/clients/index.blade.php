@@ -58,7 +58,7 @@
                                         <td>
                                         @if(Auth::user()->hasRole('admin_clients','edit'))
                                             <div class="onoffswitch" >
-                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_clients.update',['id' => $client->id]) }}"  @if($client->active == 1) checked @endif id="{{$client->id}}">
+                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_clients.update',['id' => $client->id]) }}"  @if($client->active == 1) checked @endif id="{{$client->id}}" @if(!Auth::user()->hasRole('admin_clients','edit')) disabled @endif>
                                                 <label class="onoffswitch-label" for="{{$client->id}}">
                                                     <span class="onoffswitch-inner"></span>
                                                     <span class="onoffswitch-switch"></span>

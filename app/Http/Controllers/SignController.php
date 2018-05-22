@@ -260,7 +260,7 @@ class SignController extends Controller
             }
 
             $info = array(
-                'Name' => $brand->description,
+                'Name' => ($brand->description)?$brand->description:'',
                 'Location' => $brand->city,
                 'Address' => $brand->address,
                 'VAT' => $brand->vat,
@@ -272,9 +272,10 @@ class SignController extends Controller
             );
 
             //$finalWriter = new \SetaPDF_Core_Writer_Http('signed.pdf', true);
-            $finalWriter = new \SetaPDF_Core_Writer_Http(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
-            $pub_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/certificate.cer');
-            $priv_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/certificate.cer');
+//            $finalWriter = new \SetaPDF_Core_Writer_File(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+            $finalWriter = new \SetaPDF_Core_Writer_TempFile();
+            $pub_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/server.pem');
+            $priv_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/server.pem');
             $reader = new \SetaPDF_Core_Reader_String($pdf->Output('S'));
             $writer = new \SetaPDF_Core_Writer_String();
 
@@ -329,7 +330,8 @@ class SignController extends Controller
             $PdfInfo->SetTitle($document->name);
             $PdfInfo->SetSubject($document->description);
 
-            $PdfDoc->save()->finish();
+            $PdfDoc->finish();
+            copy($finalWriter->getPath(), Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
             // $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
             $document->signed = true;
             $document->readonly = true;
