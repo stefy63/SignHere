@@ -26,6 +26,10 @@ class Dossier extends Model
         return $this->hasMany(Document::class);
     }
 
+    public function additionalDossier() {
+        return $this->hasOne(AdditionalDataDossiers::class, 'dossier_id');
+    }
+
 
     public function getDateDossierAttribute($value)
     {

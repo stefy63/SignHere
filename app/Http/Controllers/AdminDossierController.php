@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdditionalDataDossiers;
 use App\Models\Brand;
 use App\Models\Client;
 use App\Models\Dossier;
@@ -110,6 +111,9 @@ class AdminDossierController extends Controller
     public function destroy(Request $request,Dossier $dossier, $id)
     {
         if ($dossier = Dossier::find($id)){
+            if($dossier->additionalDossier()) {
+                $dossier->additionalDossier()->delete();
+            }
             $dossier->documents()->delete();
             $dossier->delete();
             return response()->json([ __('admin_dossiers.success_dossier_deleted')],200);
@@ -129,26 +133,27 @@ class AdminDossierController extends Controller
 
         $temp = Dossier::find($id);
         $client = $temp->client()->first()->toArray();
-        $dossier = $temp->toArray();
-        $columns = array("Fascicolo","Descrizione","Note","Data Fascicolo","Nome","Cognome","Email","PI","CF","Indirizzo","Città","Provincia","CAP","Contatto","Telefono","Cellulare");
-        $data = array(
-            $dossier['name'],
-            $dossier['description'],
-            $dossier['note'],
-            $dossier['date_dossier'],
-            $client['name'],
-            $client['surname'],
-            $client['email'],
-            $client['vat'],
-            $client['personal_vat'],
-            $client['address'],
-            $client['city'],
-            $client['region'],
-            $client['zip_code'],
-            $client['contact'],
-            $client['phone'],
-            $client['mobile']
-        );
+        $aditionalDossier = AdditionalDataDossiers::where('dossier_id', $id)->first()->toArray();
+        $data = array_merge($client, $aditionalDossier);
+//        $columns = array("Fascicolo","Descrizione","Note","Data Fascicolo","Nome","Cognome","Email","PI","CF","Indirizzo","Città","Provincia","CAP","Contatto","Telefono","Cellulare");
+//        $data = array(
+//            $dossier['name'],
+//            $dossier['description'],
+//            $dossier['note'],
+//            $dossier['date_dossier'],
+//            $client['name'],
+//            $client['surname'],
+//            $client['email'],
+//            $client['vat'],
+//            $client['personal_vat'],
+//            $client['address'],
+//            $client['city'],
+//            $client['region'],
+//            $client['zip_code'],
+//            $client['contact'],
+//            $client['phone'],
+//            $client['mobile']
+//        );
 
         $headers = array(
             "Content-type" => "text/csv",
@@ -159,10 +164,10 @@ class AdminDossierController extends Controller
         );
 
 
-        $callback = function() use ($columns, $data)
+        $callback = function() use ($data)
         {
             $FH = fopen('php://output', 'w');
-            fputcsv($FH, $columns, chr(9));
+//            fputcsv($FH, $columns, chr(9));
             fputcsv($FH, $data, chr(9));
             fclose($FH);
         };
@@ -330,12 +335,19 @@ class AdminDossierController extends Controller
         }
         $dossier = new Dossier();
         $dossier->name = $request->dossierNumber.' - '.$request->veicleSummary;
-        
+        $dossier->client_id = $client->id;
+        $dossier->save();
+        $additionaDossier = new AdditionalDataDossiers();
+        $additionaDossier->fill($request->all());
+        $additionaDossier->dossier_id = $dossier->id;
+        $additionaDossier->save();
+
+//        Add Import Document
 
 
 
 
-
+//          end
 
         return redirect('admin_documents')->with('success', __('admin_dossiers.success_import'));
         var_dump($brand, $acl);die();
