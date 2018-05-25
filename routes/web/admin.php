@@ -31,6 +31,7 @@
      // Route for Dossier //
      Route::resource('admin_dossiers','AdminDossierController');
      Route::post('admin_dossiers/import_file', array('as' => 'admin_dossiers.import_file','uses' => 'AdminDossierController@import_file'));
+     Route::post('admin_dossiers/update_import_file', array('as' => 'admin_dossiers.update_import_file','uses' => 'AdminDossierController@update_import_file'));
      Route::get('admin_dossiers/export/{id}', array('as' => 'admin_dossiers.export','uses' => 'AdminDossierController@export'));
      Route::get('admin_dossiers/destroy/{id}', array('as' => 'admin_dossiers.destroy','uses' => 'AdminDossierController@destroy'));
      // Route for Locations //

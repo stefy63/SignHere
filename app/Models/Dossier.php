@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Dossier extends Model
 {
     protected $guarded = array();
-    //protected $fillable = ['*'];
+    protected $fillable = ['id','name','description','date_dossier','client_id','note'];
+
 
     use SoftDeletes;
 

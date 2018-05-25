@@ -23,8 +23,20 @@ $(function () {
 
         init: function() {
             this.on("success", function(files, response) {
-                toastr['success']("{{ session('success') }}", response.message);
-                $('#modal-content div').html(JSON.stringify(response));
+                toastr['success']("{{ session('success') }}", response.message1.veicleSummary[0]);
+                var result = response.message1;
+                var html = '<form method="POST" action="{{ route('admin_dossiers.update_import_file') }}" id="toast-form" enctype="multipart/form-data">{!! csrf_field() !!}';
+                for(var val in result){
+                    html += '<div class="col-md-12 row"><div class="form-group group">'+
+                            '<div class="col-md-4"><label for="date_doc" >'+result[val][1]+'</label></div>'+
+                            '<div class="col-md-8"><input class="form-control" type="text"  name="'+val+'" value="'+result[val][0]+'"/></div>' +
+                            '</div></div>';
+                }
+                html += '<div class="row footer-group"><br>' +
+                    '<div class="col-md-12 text-center footer-group">' +
+                    '<p><button class="submit-toast btn btn-block btn-outline btn-primary" data-form-id="toast-form">{{__('admin_documents.submit')}}</button></p>' +
+                    '</div></div></form>';
+                $('#modal-content div').html(html);
             });
             this.on("maxfilesexceeded", function(files, response) {
                 toastr['error']("{{ session('alert') }}", "{{__('admin_documents.notify_alert_multiple')}}");
@@ -47,6 +59,19 @@ $(function () {
 
 @endpush
 @push('assets')
+    <style>
+        .footer-group {
+            margin-top: 10px;
+        }
+        .group label {
+            margin-bottom: 1px;
+            font-size: 11px;
+        }
+        .group input {
+            height: 15px;
+            font-size: 11px;
+        }
+    </style>
 <!-- Data Table -->
 <link href="{{ asset('css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
 <link href="{{ asset('css/plugins/dataTables/dataTables.responsive.css') }}" rel="stylesheet">

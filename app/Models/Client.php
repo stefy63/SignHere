@@ -10,7 +10,24 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Client extends Model
 {
     protected $guarded = array();
-    //protected $fillable = ['*'];
+    protected $fillable = [
+        'name',
+        'surname',
+        'email',
+        'vat',
+        'personal_vat',
+        'address',
+        'city',
+        'region',
+        'zip_code',
+        'contact',
+        'phone',
+        'mobile',
+        'user_id',
+        'active'
+    ];
+
+
 
     use SoftDeletes;
 

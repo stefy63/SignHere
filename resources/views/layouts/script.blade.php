@@ -1,5 +1,6 @@
-
-
+<!-- GDPR\\
+<script src="{{ asset('js/setprivacy.js') }}"></script>
+-->
 <script src="{{ asset('js/app.js') }}"></script>
 <!-- Scripts\\-->
 <script src="{{ asset('js/jquery-2.1.1.js') }}"></script>
@@ -23,8 +24,8 @@
 
 
 <script>
-$(function () {
 
+$(function () {
     toastr.options = {
         "closeButton": true,
         "debug": false,
