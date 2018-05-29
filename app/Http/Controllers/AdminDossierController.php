@@ -199,12 +199,19 @@ class AdminDossierController extends Controller
                         ->text();
                     $retTextImport = Array();
                     $arTextFile = explode(PHP_EOL, $text);
+                    $temp = $this->_searchVal($arTextFile, 'GLOBAL SAFE INSURANCE BROKER SRL', 1);
+                    if(strpos('GS_Cop v2.7', $temp[0]) === false){
+                        return response()->json([
+                            'error' => true,
+                            'message' => __("admin_documents.model_fault"),
+                            'code'  => 300],300);
+                    }
                     $temp = $this->_searchVal($arTextFile, 'Pratica n°', 2);
                     $retTextImport['dossierNumber'] = [$temp[1], ''];
                     // DATI CONTRAENTE/ASSICURATO
                     $temp = $this->_searchVal($arTextFile, 'Nome', 6);
-                    $retTextImport['contName'] = [(strpos('Cognome', $temp[5]) == false)?'':$temp[1], ''];
-                    $retTextImport['name'] = [(strpos('Cognome', $temp[5]) == false)?$temp[1]:$temp[3], ''];
+                    $retTextImport['contName'] = [(strpos('Cognome', $temp[5]) === false)?'':$temp[1], ''];
+                    $retTextImport['name'] = [(strpos('Cognome', $temp[5]) === false)?$temp[1]:$temp[3], ''];
                     $temp = $this->_searchVal($arTextFile, 'Cognome/Ragione Soc.', 4);
                     $retTextImport['contSurname'] = [$temp[1], ''];
                     $retTextImport['surname'] = [$temp[3], ''];
@@ -217,9 +224,9 @@ class AdminDossierController extends Controller
                     $temp = $this->_searchVal($arTextFile, 'CAP - Provincia', 2);
                     $retTextImport['contCAP'] = [$temp[1], ''];
                     $tempFax = $this->_searchVal($arTextFile, 'Fax', 15);
-                    $retTextImport['zip_code'] = [(strpos('Targa', $tempFax[14]) == false)?$tempFax[5]:$tempFax[7], ''];
-                    $retTextImport['contPR'] = [(strpos('Targa', $tempFax[14]) == false)?$tempFax[3]:$tempFax[5], ''];
-                    $retTextImport['region'] = [(strpos('Targa', $tempFax[14]) == false)?$tempFax[7]:$tempFax[9], ''];
+                    $retTextImport['zip_code'] = [(strpos('Targa', $tempFax[14]) === false)?$tempFax[5]:$tempFax[7], ''];
+                    $retTextImport['contPR'] = [(strpos('Targa', $tempFax[14]) === false)?$tempFax[3]:$tempFax[5], ''];
+                    $retTextImport['region'] = [(strpos('Targa', $tempFax[14]) === false)?$tempFax[7]:$tempFax[9], ''];
                     $temp = $this->_searchVal($arTextFile, 'Codice Fiscale/P.IVA', 4);
                     $retTextImport['contCFPIVA'] = [strtoupper($temp[1]), ''];
                     $retTextImport['personal_vat'] = [strtoupper($temp[3]), ''];
@@ -230,7 +237,7 @@ class AdminDossierController extends Controller
                     $retTextImport['contEmail'] = [strtolower($temp[1]), ''];
                     $retTextImport['email'] = [strtolower($temp[3]), ''];
                     // DATI VICOLO
-                    $retTextImport['veicleSummary'] = [(strpos('Targa', $tempFax[14]) == false)?$tempFax[9]:$tempFax[11], ''];
+                    $retTextImport['veicleSummary'] = [(strpos('Targa', $tempFax[14]) === false)?$tempFax[9]:$tempFax[11], ''];
                     $temp = $this->_searchVal($arTextFile, 'Targa', 2);
                     $retTextImport['veicolo_targa'] = [$temp[1], ''];
                     $temp = $this->_searchVal($arTextFile, 'Valore assicurato', 2);
@@ -255,11 +262,11 @@ class AdminDossierController extends Controller
                     $temp = $this->_searchVal($arTextFile, 'Polizza', 2);
                     $retTextImport['contratto_polizza'] = [$temp[1], ''];
                     $temp = $this->_searchVal($arTextFile, 'Società vincolataria', 2);
-                    $retTextImport['contratto_societa'] = [(strpos('copertura', $temp[1]) == false)?'':$temp[1], ''];
+                    $retTextImport['contratto_societa'] = [(strpos('copertura', $temp[1]) === false)?'':$temp[1], ''];
                     $temp = $this->_searchVal($arTextFile, 'Durata copertura', 2);
                     $retTextImport['contratto_durata'] = [$temp[1], ''];
                     $temp = $this->_searchVal($arTextFile, 'Data scad. vincolo', 2);
-                    $retTextImport['contratto_data_scadenza_vincolo'] = [(strpos('decorrenza', $temp[1]) == false)?'':$temp[1], ''];
+                    $retTextImport['contratto_data_scadenza_vincolo'] = [(strpos('decorrenza', $temp[1]) === false)?'':$temp[1], ''];
                     $temp = $this->_searchVal($arTextFile, 'Data decorrenza', 2);
                     $retTextImport['contratto_data_decorrenza'] = [$temp[1], ''];
                     $temp = $this->_searchVal($arTextFile, 'Data scadenza', 2);
@@ -267,7 +274,7 @@ class AdminDossierController extends Controller
                     $temp = $this->_searchVal($arTextFile, 'Importo Totale', 2);
                     $retTextImport['contratto_importo'] = [$temp[1], ''];
                     $path = $file->store('/', 'documents');
-                    $retTextImport['temp_name'] = [$path , 'Teporay File Name'];
+                    $retTextImport['temp_name'] = [$path , ''];
 
                     $this->_settLabel($retTextImport);
 
@@ -307,6 +314,7 @@ class AdminDossierController extends Controller
         if(!$acl = $brand->acls()->first()) {
             return redirect()->back()->with('alert', __('admin_dossiers.alert_visibiity_NOTfound'));
         }
+        \DB::beginTransaction();
         if(!$client = Client::where('vat', $request->personal_vat)
             ->orWhere('personal_vat', $request->personal_vat)->first()) {
             $client = new Client();
@@ -327,6 +335,7 @@ class AdminDossierController extends Controller
             $client->acls()->attach($acl);
         }
         if(Dossier::where('name', 'LKE', $request->dossierNumber.'%')->first()) {
+            \DB::rollBack();
             return redirect()->back()->with('alert', __('admin_dossiers.alert_existent_dossier'));
         }
         $dossier = new Dossier();
@@ -339,19 +348,15 @@ class AdminDossierController extends Controller
         $additionaDossier->save();
 
         if(\Storage::disk('documents')->exists($request->temp_name)) {
-             $file = \Storage::disk('documents')->get($request->temp_name);
+             // $file = \Storage::disk('documents')->get($request->temp_name);
             \Storage::disk('documents')->move($request->temp_name, $client->id."/".$dossier->id."/".$request->temp_name);
         }
 
         $document = new Document();
         $document->name = 'CONFERMA COPERTURA POLIZZA ASSICURATIVA';
         $document->filename = $client->id."/".$dossier->id."/".$request->temp_name;
-        if($docType = Doctype::where('description', 'GS_Cop v2.7')->first()) {
-            $document->doctype_id = $docType->id;
-        }
-        else {
-            $document->doctype_id = 1;
-        }
+        $docType = Doctype::where('description', 'GS_Cop v2.7')->first();
+        $document->doctype_id = ($docType) ? $docType->id : 1;
         $document->dossier_id = $dossier->id;
         $document->user_id = \Auth::user()->id;
         $document->active = 1;
@@ -359,6 +364,7 @@ class AdminDossierController extends Controller
         $document->readonly = 0;
         $document->save();
 
+        \DB::commit();
         return redirect('admin_documents')->with('success', __('admin_dossiers.success_import'));
     }
 

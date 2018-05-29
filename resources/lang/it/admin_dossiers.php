@@ -81,7 +81,6 @@ return [
     '' => '',
     '' => '',
     '' => '',
-    '' => '',
     'dossierNumber' => 'Numero Pratica:',
     'contName' => 'Nome Contraente:',
     'name' => 'Nome Assicurato:',
@@ -119,4 +118,6 @@ return [
     'contratto_data_decorrenza' => 'Data Decorrenza:',
     'contratto_data_scadenza' => 'Data Scadenza:',
     'contratto_importo' => 'Importo Totale:',
+    'temp_name' => 'Nome File: ',
+
 ];
