@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\AdditionalDataDossiers;
 use App\Models\Brand;
 use App\Models\Client;
+use App\Models\Doctype;
+use App\Models\Document;
 use App\Models\Dossier;
 use Faker\Provider\DateTime;
 use Illuminate\Http\Request;
@@ -187,14 +189,14 @@ class AdminDossierController extends Controller
         if($files = $request->documents) {
             //\DB::beginTransaction();
             try {
-                $file = $files[0];
+//                $file = $files[0];
+                $file = $request->file('documents')[0];
                 if ($file->isValid()){
                     //$text = Pdf::getText($file->getPathName(), '/usr/local/bin/pdftotext');
-                    $text = (new Pdf('/usr/local/bin/pdftotext'))
+                    $text = (new Pdf('/usr/bin/pdftotext'))
                         ->setPdf($file->getPathName())
                         ->setOptions(['f 1', 'l 1'])
                         ->text();
-                    //\Storage::disk('documents')->put('imported.txt', $text);
                     $retTextImport = Array();
                     $arTextFile = explode(PHP_EOL, $text);
                     $temp = $this->_searchVal($arTextFile, 'Pratica n°', 2);
@@ -264,8 +266,12 @@ class AdminDossierController extends Controller
                     $retTextImport['contratto_data_scadenza'] = [$temp[1], ''];
                     $temp = $this->_searchVal($arTextFile, 'Importo Totale', 2);
                     $retTextImport['contratto_importo'] = [$temp[1], ''];
+                    $path = $file->store('/', 'documents');
+                    $retTextImport['temp_name'] = [$path , 'Teporay File Name'];
 
                     $this->_settLabel($retTextImport);
+
+//                    \Storage::disk('documents')->put($retTextImport['dossierNumber'].'-imported.pdf', $text);
 
 
                     return response()->json(['message1' => $retTextImport]);
@@ -304,6 +310,7 @@ class AdminDossierController extends Controller
     }
 
     public function update_import_file(Request $request) {
+
         if(!$brand = Brand::where('vat', $request->contCFPIVA)
                         ->orWhere('personal_vat', $request->contCFPIVA)->first()) {
             return redirect()->back()->with('alert', __('admin_dossiers.alert_contractor_NOTfound'));
@@ -342,15 +349,45 @@ class AdminDossierController extends Controller
         $additionaDossier->dossier_id = $dossier->id;
         $additionaDossier->save();
 
+
 //        Add Import Document
 
+//        $file = \Storage::get($request->temp_name, 'documents');
+//
+//
+//
+//
+//
+//
+//
+//
+//        $path = $file->store($client->id."/".$dossier->id, 'documents');
+//
+//
+////        \Storage::disk('documents')->move($request->temp_name, $client->id . "/" . $dossier->id);
+//
+//
+//
+//
+//        $document = new Document();
+//        $document->name = 'CONFERMA COPERTURA POLIZZA ASSICURATIVA';
+//        $document->description = $request->dossierNumber.' - '.$request->veicleSummary;
+//        $document->filename = $path;
+//        $docType = Doctype::where('description', 'GS_Cop v2.7');
+//        $document->doctype_id = ($docType)? $docType->id : 1;
+//        $document->dossier_id = $dossier->id;
+//        $document->user_id = Auth::user()->id;
+//        $document->active = 1;
+//        $document->signed = 0;
+//        $document->readonly = 0;
+//        $document->save();
 
 
+        unlink($request->temp_name);
 
 //          end
 
         return redirect('admin_documents')->with('success', __('admin_dossiers.success_import'));
-        var_dump($brand, $acl);die();
     }
 
     private function _searchVal($array, $search, $numField = 1) {
