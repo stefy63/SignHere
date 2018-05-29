@@ -275,10 +275,6 @@ class AdminDossierController extends Controller
 
 
                     return response()->json(['message1' => $retTextImport]);
-//                        return response()->json([
-//                            'success' => true,
-//                            'message' => __("admin_documents.notify_import_success"),
-//                            'code' => 200], 200);
 
                 } else {
                     //\DB::rollBack();
@@ -287,13 +283,6 @@ class AdminDossierController extends Controller
                         'message' => __("admin_documents.notify_alert_filesystem"),
                         'code' => 500], 500);
                 }
-                //\DB::commit();
-
-                return response()->json(['message2' => $files]);
-//                return response()->json([
-//                    'error' => false,
-//                    'message' => __("admin_documents.notify_success"),
-//                    'code'  => 200],200);
             } catch (Exception $e) {
                 //\DB::rollBack();
                 return response()->json([
@@ -349,43 +338,26 @@ class AdminDossierController extends Controller
         $additionaDossier->dossier_id = $dossier->id;
         $additionaDossier->save();
 
+        if(\Storage::disk('documents')->exists($request->temp_name)) {
+             $file = \Storage::disk('documents')->get($request->temp_name);
+            \Storage::disk('documents')->move($request->temp_name, $client->id."/".$dossier->id."/".$request->temp_name);
+        }
 
-//        Add Import Document
-
-//        $file = \Storage::get($request->temp_name, 'documents');
-//
-//
-//
-//
-//
-//
-//
-//
-//        $path = $file->store($client->id."/".$dossier->id, 'documents');
-//
-//
-////        \Storage::disk('documents')->move($request->temp_name, $client->id . "/" . $dossier->id);
-//
-//
-//
-//
-//        $document = new Document();
-//        $document->name = 'CONFERMA COPERTURA POLIZZA ASSICURATIVA';
-//        $document->description = $request->dossierNumber.' - '.$request->veicleSummary;
-//        $document->filename = $path;
-//        $docType = Doctype::where('description', 'GS_Cop v2.7');
-//        $document->doctype_id = ($docType)? $docType->id : 1;
-//        $document->dossier_id = $dossier->id;
-//        $document->user_id = Auth::user()->id;
-//        $document->active = 1;
-//        $document->signed = 0;
-//        $document->readonly = 0;
-//        $document->save();
-
-
-        unlink($request->temp_name);
-
-//          end
+        $document = new Document();
+        $document->name = 'CONFERMA COPERTURA POLIZZA ASSICURATIVA';
+        $document->filename = $client->id."/".$dossier->id."/".$request->temp_name;
+        if($docType = Doctype::where('description', 'GS_Cop v2.7')->first()) {
+            $document->doctype_id = $docType->id;
+        }
+        else {
+            $document->doctype_id = 1;
+        }
+        $document->dossier_id = $dossier->id;
+        $document->user_id = \Auth::user()->id;
+        $document->active = 1;
+        $document->signed = 0;
+        $document->readonly = 0;
+        $document->save();
 
         return redirect('admin_documents')->with('success', __('admin_dossiers.success_import'));
     }
