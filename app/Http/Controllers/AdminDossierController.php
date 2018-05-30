@@ -133,8 +133,8 @@ class AdminDossierController extends Controller
         // return;
 
 
-        $temp = Dossier::find($id);
-        $client = $temp->client()->first()->toArray();
+        $dossier = Dossier::find($id);
+        $client = $dossier->client()->first()->toArray();
         $aditionalDossier = AdditionalDataDossiers::where('dossier_id', $id)->first()->toArray();
         $data = array_merge($client, $aditionalDossier);
 //        $columns = array("Fascicolo","Descrizione","Note","Data Fascicolo","Nome","Cognome","Email","PI","CF","Indirizzo","Città","Provincia","CAP","Contatto","Telefono","Cellulare");
@@ -193,7 +193,7 @@ class AdminDossierController extends Controller
                 $file = $request->file('documents')[0];
                 if ($file->isValid()){
                     //$text = Pdf::getText($file->getPathName(), '/usr/local/bin/pdftotext');
-                    $text = (new Pdf('/usr/bin/pdftotext'))
+                    $text = (new Pdf('/usr/local/bin/pdftotext'))
                         ->setPdf($file->getPathName())
                         ->setOptions(['f 1', 'l 1'])
                         ->text();
@@ -210,8 +210,8 @@ class AdminDossierController extends Controller
                     $retTextImport['dossierNumber'] = [$temp[1], ''];
                     // DATI CONTRAENTE/ASSICURATO
                     $temp = $this->_searchVal($arTextFile, 'Nome', 6);
-                    $retTextImport['contName'] = [(strpos('Cognome', $temp[5]) === false)?'':$temp[1], ''];
-                    $retTextImport['name'] = [(strpos('Cognome', $temp[5]) === false)?$temp[1]:$temp[3], ''];
+                    $retTextImport['contName'] = [(stripos($temp[5], 'Cognome') === false)?'':$temp[1], ''];
+                    $retTextImport['name'] = [(stripos($temp[5], 'Cognome') === false)?$temp[1]:$temp[3], ''];
                     $temp = $this->_searchVal($arTextFile, 'Cognome/Ragione Soc.', 4);
                     $retTextImport['contSurname'] = [$temp[1], ''];
                     $retTextImport['surname'] = [$temp[3], ''];
@@ -224,9 +224,9 @@ class AdminDossierController extends Controller
                     $temp = $this->_searchVal($arTextFile, 'CAP - Provincia', 2);
                     $retTextImport['contCAP'] = [$temp[1], ''];
                     $tempFax = $this->_searchVal($arTextFile, 'Fax', 15);
-                    $retTextImport['zip_code'] = [(strpos('Targa', $tempFax[14]) === false)?$tempFax[5]:$tempFax[7], ''];
-                    $retTextImport['contPR'] = [(strpos('Targa', $tempFax[14]) === false)?$tempFax[3]:$tempFax[5], ''];
-                    $retTextImport['region'] = [(strpos('Targa', $tempFax[14]) === false)?$tempFax[7]:$tempFax[9], ''];
+                    $retTextImport['zip_code'] = [(stripos($tempFax[14], 'Targa') === false)?$tempFax[5]:$tempFax[7], ''];
+                    $retTextImport['contPR'] = [(stripos($tempFax[14], 'Targa') === false)?$tempFax[3]:$tempFax[5], ''];
+                    $retTextImport['region'] = [(stripos($tempFax[14], 'Targa') === false)?$tempFax[7]:$tempFax[9], ''];
                     $temp = $this->_searchVal($arTextFile, 'Codice Fiscale/P.IVA', 4);
                     $retTextImport['contCFPIVA'] = [strtoupper($temp[1]), ''];
                     $retTextImport['personal_vat'] = [strtoupper($temp[3]), ''];
@@ -237,7 +237,7 @@ class AdminDossierController extends Controller
                     $retTextImport['contEmail'] = [strtolower($temp[1]), ''];
                     $retTextImport['email'] = [strtolower($temp[3]), ''];
                     // DATI VICOLO
-                    $retTextImport['veicleSummary'] = [(strpos('Targa', $tempFax[14]) === false)?$tempFax[9]:$tempFax[11], ''];
+                    $retTextImport['veicleSummary'] = [(stripos($tempFax[14], 'Targa') === false)?$tempFax[9]:$tempFax[11], ''];
                     $temp = $this->_searchVal($arTextFile, 'Targa', 2);
                     $retTextImport['veicolo_targa'] = [$temp[1], ''];
                     $temp = $this->_searchVal($arTextFile, 'Valore assicurato', 2);
@@ -262,11 +262,11 @@ class AdminDossierController extends Controller
                     $temp = $this->_searchVal($arTextFile, 'Polizza', 2);
                     $retTextImport['contratto_polizza'] = [$temp[1], ''];
                     $temp = $this->_searchVal($arTextFile, 'Società vincolataria', 2);
-                    $retTextImport['contratto_societa'] = [(strpos('copertura', $temp[1]) === false)?'':$temp[1], ''];
+                    $retTextImport['contratto_societa'] = [(stripos($temp[1], 'copertura') === false)?$temp[1]:'', ''];
                     $temp = $this->_searchVal($arTextFile, 'Durata copertura', 2);
                     $retTextImport['contratto_durata'] = [$temp[1], ''];
                     $temp = $this->_searchVal($arTextFile, 'Data scad. vincolo', 2);
-                    $retTextImport['contratto_data_scadenza_vincolo'] = [(strpos('decorrenza', $temp[1]) === false)?'':$temp[1], ''];
+                    $retTextImport['contratto_data_scadenza_vincolo'] = [(stripos($temp[1], 'decorrenza') === false)?$temp[1]:'', ''];
                     $temp = $this->_searchVal($arTextFile, 'Data decorrenza', 2);
                     $retTextImport['contratto_data_decorrenza'] = [$temp[1], ''];
                     $temp = $this->_searchVal($arTextFile, 'Data scadenza', 2);
