@@ -207,78 +207,80 @@ class AdminDossierController extends Controller
                             'code'  => 300],300);
                     }
                     $temp = $this->_searchVal($arTextFile, 'Pratica n°', 2);
-                    $retTextImport['dossierNumber'] = [$temp[1], ''];
+                    $retTextImport['dossierNumber'] = [$temp[1], '', 0];
                     // DATI CONTRAENTE/ASSICURATO
                     $temp = $this->_searchVal($arTextFile, 'Nome', 6);
-                    $retTextImport['contName'] = [(stripos($temp[5], 'Cognome') === false)?'':$temp[1], ''];
-                    $retTextImport['name'] = [(stripos($temp[5], 'Cognome') === false)?$temp[1]:$temp[3], ''];
+                    $retTextImport['contName'] = [(stripos($temp[5], 'Cognome') === false)?'':$temp[1], '', 10];
+                    $retTextImport['name'] = [(stripos($temp[5], 'Cognome') === false)?$temp[1]:$temp[3], '', 1];
                     $temp = $this->_searchVal($arTextFile, 'Cognome/Ragione Soc.', 4);
-                    $retTextImport['contSurname'] = [$temp[1], ''];
-                    $retTextImport['surname'] = [$temp[3], ''];
+                    $retTextImport['contSurname'] = [$temp[1], '', 11];
+                    $retTextImport['surname'] = [$temp[3], '', 2];
                     $temp = $this->_searchVal($arTextFile, 'Indirizzo', 4);
-                    $retTextImport['contAddress'] = [$temp[1], ''];
-                    $retTextImport['address'] = [$temp[3], ''];
+                    $retTextImport['contAddress'] = [$temp[1], '', 12];
+                    $retTextImport['address'] = [$temp[3], '', 3];
                     $temp = $this->_searchVal($arTextFile, 'Località', 4);
-                    $retTextImport['contLoc'] = [$temp[1], ''];
-                    $retTextImport['city'] = [$temp[3], ''];
+                    $retTextImport['contLoc'] = [$temp[1], '', 13];
+                    $retTextImport['city'] = [$temp[3], '', 4];
                     $temp = $this->_searchVal($arTextFile, 'CAP - Provincia', 2);
-                    $retTextImport['contCAP'] = [$temp[1], ''];
+                    $retTextImport['contCAP'] = [$temp[1], '', 14];
                     $tempFax = $this->_searchVal($arTextFile, 'Fax', 15);
-                    $retTextImport['zip_code'] = [(stripos($tempFax[14], 'Targa') === false)?$tempFax[5]:$tempFax[7], ''];
-                    $retTextImport['contPR'] = [(stripos($tempFax[14], 'Targa') === false)?$tempFax[3]:$tempFax[5], ''];
-                    $retTextImport['region'] = [(stripos($tempFax[14], 'Targa') === false)?$tempFax[7]:$tempFax[9], ''];
+                    $retTextImport['zip_code'] = [(stripos($tempFax[14], 'Targa') === false)?$tempFax[5]:$tempFax[7], '', 5];
+                    $retTextImport['contPR'] = [(stripos($tempFax[14], 'Targa') === false)?$tempFax[3]:$tempFax[5], '', 16];
+                    $retTextImport['region'] = [(stripos($tempFax[14], 'Targa') === false)?$tempFax[7]:$tempFax[9], '', 6];
                     $temp = $this->_searchVal($arTextFile, 'Codice Fiscale/P.IVA', 4);
-                    $retTextImport['contCFPIVA'] = [strtoupper($temp[1]), ''];
-                    $retTextImport['personal_vat'] = [strtoupper($temp[3]), ''];
+                    $retTextImport['contCFPIVA'] = [strtoupper($temp[1]), '', 17];
+                    $retTextImport['personal_vat'] = [strtoupper($temp[3]), '', 7];
                     $temp = $this->_searchVal($arTextFile, 'Telefono/Cellulare', 4);
-                    $retTextImport['contTel'] = [strtolower($temp[1]), ''];
-                    $retTextImport['phone'] = [strtolower($temp[3]), ''];
+                    $retTextImport['contTel'] = [strtolower($temp[1]), '', 18];
+                    $retTextImport['phone'] = [strtolower($temp[3]), '', 8];
                     $temp = $this->_searchVal($arTextFile, 'Email', 4);
-                    $retTextImport['contEmail'] = [strtolower($temp[1]), ''];
-                    $retTextImport['email'] = [strtolower($temp[3]), ''];
+                    $retTextImport['contEmail'] = [strtolower($temp[1]), '', 19];
+                    $retTextImport['email'] = [strtolower($temp[3]), '', 9];
                     // DATI VICOLO
-                    $retTextImport['veicleSummary'] = [(stripos($tempFax[14], 'Targa') === false)?$tempFax[9]:$tempFax[11], ''];
+                    $retTextImport['veicleSummary'] = [(stripos($tempFax[14], 'Targa') === false)?$tempFax[9]:$tempFax[11], '', 30];
                     $temp = $this->_searchVal($arTextFile, 'Targa', 2);
-                    $retTextImport['veicolo_targa'] = [$temp[1], ''];
+                    $retTextImport['veicolo_targa'] = [$temp[1], '', 31];
                     $temp = $this->_searchVal($arTextFile, 'Valore assicurato', 2);
-                    $retTextImport['veicolo_valore_assicurato'] = [$temp[1], ''];
+                    $retTextImport['veicolo_valore_assicurato'] = [$temp[1], '', 32];
                     $temp = $this->_searchVal($arTextFile, 'Marca', 2);
-                    $retTextImport['veicolo_marca'] = [$temp[1], ''];
+                    $retTextImport['veicolo_marca'] = [$temp[1], '', 33];
                     $temp = $this->_searchVal($arTextFile, 'Stato veicolo', 2);
-                    $retTextImport['veicolo_stato'] = [$temp[1], ''];
+                    $retTextImport['veicolo_stato'] = [$temp[1], '', 34];
                     $temp = $this->_searchVal($arTextFile, 'Modello', 2);
-                    $retTextImport['veicolo_modello'] = [$temp[1], ''];
+                    $retTextImport['veicolo_modello'] = [$temp[1], '', 35];
                     $temp = $this->_searchVal($arTextFile, 'Data prima immatr.', 2);
-                    $retTextImport['veicolo_data_immatricolazione'] = [$temp[1], ''];
+                    $retTextImport['veicolo_data_immatricolazione'] = [$temp[1], '', 36];
                     $temp = $this->_searchVal($arTextFile, 'Allestimento', 2);
-                    $retTextImport['veicolo_allestimento'] = [$temp[1], ''];
+                    $retTextImport['veicolo_allestimento'] = [$temp[1], '', 37];
                     $temp = $this->_searchVal($arTextFile, 'Numero di telaio', 2);
-                    $retTextImport['veicolo_numero_telaio'] = [$temp[1], ''];
+                    $retTextImport['veicolo_numero_telaio'] = [$temp[1], '', 38];
                     $temp = $this->_searchVal($arTextFile, 'Cavalli Fiscali', 2);
-                    $retTextImport['veicolo_cavalli_fiscali'] = [$temp[1], ''];
+                    $retTextImport['veicolo_cavalli_fiscali'] = [$temp[1], '', 39];
                     // DATI CONTRATTO
                     $temp = $this->_searchVal($arTextFile, 'Dati del Contratto', 2);
-                    $retTextImport['contractSummary'] = [$temp[1], ''];
+                    $retTextImport['contractSummary'] = [$temp[1], '', 50];
                     $temp = $this->_searchVal($arTextFile, 'Polizza', 2);
-                    $retTextImport['contratto_polizza'] = [$temp[1], ''];
+                    $retTextImport['contratto_polizza'] = [$temp[1], '', 51];
                     $temp = $this->_searchVal($arTextFile, 'Società vincolataria', 2);
-                    $retTextImport['contratto_societa'] = [(stripos($temp[1], 'copertura') === false)?$temp[1]:'', ''];
+                    $retTextImport['contratto_societa'] = [(stripos($temp[1], 'copertura') === false)?$temp[1]:'', '', 52];
                     $temp = $this->_searchVal($arTextFile, 'Durata copertura', 2);
-                    $retTextImport['contratto_durata'] = [$temp[1], ''];
+                    $retTextImport['contratto_durata'] = [$temp[1], '', 53];
                     $temp = $this->_searchVal($arTextFile, 'Data scad. vincolo', 2);
-                    $retTextImport['contratto_data_scadenza_vincolo'] = [(stripos($temp[1], 'decorrenza') === false)?$temp[1]:'', ''];
+                    $retTextImport['contratto_data_scadenza_vincolo'] = [(stripos($temp[1], 'decorrenza') === false)?$temp[1]:'', '', 54];
                     $temp = $this->_searchVal($arTextFile, 'Data decorrenza', 2);
-                    $retTextImport['contratto_data_decorrenza'] = [$temp[1], ''];
+                    $retTextImport['contratto_data_decorrenza'] = [$temp[1], '', 55];
                     $temp = $this->_searchVal($arTextFile, 'Data scadenza', 2);
-                    $retTextImport['contratto_data_scadenza'] = [$temp[1], ''];
+                    $retTextImport['contratto_data_scadenza'] = [$temp[1], '', 56];
                     $temp = $this->_searchVal($arTextFile, 'Importo Totale', 2);
-                    $retTextImport['contratto_importo'] = [$temp[1], ''];
+                    $retTextImport['contratto_importo'] = [$temp[1], '', 57];
                     $path = $file->store('/', 'documents');
-                    $retTextImport['temp_name'] = [$path , ''];
+                    $retTextImport['temp_name'] = [$path , '', 100];
 
-                    $this->_settLabel($retTextImport);
+                    $this->_setLabel($retTextImport);
 
-//                    \Storage::disk('documents')->put($retTextImport['dossierNumber'].'-imported.pdf', $text);
+                    $retTextImport = collect($retTextImport)->sortBy([2])->toArray();
+
+                    // \Storage::disk('documents')->put($retTextImport['dossierNumber'].'-imported.pdf', $text);
 
 
                     return response()->json(['message1' => $retTextImport]);
@@ -372,7 +374,7 @@ class AdminDossierController extends Controller
         return array_slice($array, array_search($search, $array,true)+1, $numField);
     }
 
-    private function _settLabel(& $array) {
+    private function _setLabel(& $array) {
         foreach ($array as $key => $val) {
             $array[$key][1] = trans('admin_dossiers.'.$key);
         }

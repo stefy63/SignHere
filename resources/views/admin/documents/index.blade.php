@@ -27,7 +27,7 @@ $(function () {
                 var result = response.message1;
                 var html = '<form method="POST" action="{{ route('admin_dossiers.update_import_file') }}" id="toast-form" enctype="multipart/form-data">{!! csrf_field() !!}';
                 for(var val in result){
-                    html += '<div class="col-md-12 row"><div class="form-group group">'+
+                    html += '<div class="col-md-12 row"><div class="form-group group'+((result[val][2] == 100)?' hide':'')+'">'+
                             '<div class="col-md-4"><label for="date_doc" >'+result[val][1]+'</label></div>'+
                             '<div class="col-md-8"><input class="form-control" type="text"  name="'+val+'" value="'+result[val][0]+'"/></div>' +
                             '</div></div>';
