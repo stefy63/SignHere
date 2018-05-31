@@ -34,7 +34,8 @@ $(function () {
                 }
                 html += '<div class="row footer-group"><br>' +
                     '<div class="col-md-12 text-center footer-group">' +
-                    '<p><button class="submit-toast btn btn-block btn-outline btn-primary" data-form-id="toast-form">{{__('admin_documents.submit')}}</button></p>' +
+                    '<p><button class="submit-toast btn btn-outline btn-primary col-md-6" data-form-id="toast-form">{{__('admin_documents.submit')}}</button>' +
+                    '<button class="btn btn-outline btn-danger col-md-6" type="reset" onclick="cancelForm()">{{__('admin_documents.cancel_form')}}</button></p>' +
                     '</div></div></form>';
                 $('#modal-content div').html(html);
             });
@@ -52,8 +53,15 @@ $(function () {
             });
         }
     };
+
+
+
 });
 
+function cancelForm() {
+    $('#showModal').modal('hide');
+    location.reload();
+};
 
 </script>
 

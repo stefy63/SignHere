@@ -94,4 +94,5 @@ return [
     'index-upload' => 'Import',
     'index-tooltip-upload' => 'Import documento dati PDF',
     'submit' => 'Conferma',
+    'cancel_form' => 'Cancella Tutto',
 ];
