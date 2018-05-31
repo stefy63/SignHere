@@ -200,7 +200,7 @@ class AdminDossierController extends Controller
                     $retTextImport = Array();
                     $arTextFile = explode(PHP_EOL, $text);
                     $temp = $this->_searchVal($arTextFile, 'GLOBAL SAFE INSURANCE BROKER SRL', 1);
-                    if(strpos('GS_Cop v2.7', $temp[0]) === false){
+                    if(stripos($temp[0], 'GS_Cop') === false){
                         return response()->json([
                             'error' => true,
                             'message' => __("admin_documents.model_fault"),
@@ -316,6 +316,7 @@ class AdminDossierController extends Controller
         if(!$acl = $brand->acls()->first()) {
             return redirect()->back()->with('alert', __('admin_dossiers.alert_visibiity_NOTfound'));
         }
+
         \DB::beginTransaction();
         if(!$client = Client::where('vat', $request->personal_vat)
             ->orWhere('personal_vat', $request->personal_vat)->first()) {
@@ -336,7 +337,7 @@ class AdminDossierController extends Controller
         if(!in_array($acl->id, $clientAlcs->all())) {
             $client->acls()->attach($acl);
         }
-        if(Dossier::where('name', 'LKE', $request->dossierNumber.'%')->first()) {
+        if($existDossier = Dossier::where('name', 'LIKE', $request->dossierNumber.' -%')->first()) {
             \DB::rollBack();
             return redirect()->back()->with('alert', __('admin_dossiers.alert_existent_dossier'));
         }
