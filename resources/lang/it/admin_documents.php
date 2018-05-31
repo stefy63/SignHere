@@ -77,7 +77,7 @@ return [
     'abort_document_deleted' => 'Cancellazione del Documento, Annullata!',
     'warning_template_document_fault' => 'Il Tipo Di Documento non è compatibile con il documento.',
     'model_fault' => 'Madulo Errato',
-    '' => '',
+    'notify_alert_command_shell' => 'Comando di SHELL non installato',
     '' => '',
     'error_call_title' => 'ATTENZIONE!',
     'error_dossier' => 'Selezionare un Cliente',

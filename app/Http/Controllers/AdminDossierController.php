@@ -186,6 +186,14 @@ class AdminDossierController extends Controller
      */
     public function import_file(Request $request)
     {
+        $return = shell_exec(sprintf("which %s", escapeshellarg('pdftotext')));
+        if(empty($return)){
+            return response()->json([
+                'error' => true,
+                'message' => __("admin_documents.notify_alert_command_shell"),
+                'code' => 500], 500);
+        };
+
         if($files = $request->documents) {
             //\DB::beginTransaction();
             try {
@@ -193,7 +201,7 @@ class AdminDossierController extends Controller
                 $file = $request->file('documents')[0];
                 if ($file->isValid()){
                     //$text = Pdf::getText($file->getPathName(), '/usr/local/bin/pdftotext');
-                    $text = (new Pdf('/usr/local/bin/pdftotext'))
+                    $text = (new Pdf(preg_replace('/\s+/', ' ', trim($return))))
                         ->setPdf($file->getPathName())
                         ->setOptions(['f 1', 'l 1'])
                         ->text();
