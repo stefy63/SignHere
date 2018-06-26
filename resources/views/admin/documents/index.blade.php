@@ -76,8 +76,8 @@ function cancelForm() {
             font-size: 11px;
         }
         .group input {
-            height: 15px;
-            font-size: 11px;
+            height: 20px;
+            font-size: 10px;
         }
     </style>
 <!-- Data Table -->
