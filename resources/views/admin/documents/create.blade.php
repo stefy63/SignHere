@@ -56,7 +56,7 @@
                             <label for="date_doc" ><i class="fa fa-calendar"></i> {{__('admin_documents.db-date_doc')}}</label>
                         </div>
                         <div class="col-md-8 date">
-                            <input class="form-control" type="text"  name="date_doc" value="{{old('date_doc')}}" />
+                            <input class="form-control" type="text"  name="date_doc" value="{{old('date_doc', date('d/m/Y'))}}" />
                         </div>
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                             <label for="active" >{{__('admin_documents.db-active')}}</label>
                         </div>
                         <div class="col-md-8">
-                            <input class="js-switch-active" type="checkbox" data-switchery="true" name="active" @if(old("active") == 1) checked @endif value="1" style="display: none;"/>
+                            <input class="js-switch-active" type="checkbox" data-switchery="true" name="active" @if(old("active", 1) == 1) checked @endif value="1" style="display: none;"/>
                         </div>
                     </div>
                 </div>
