@@ -38,7 +38,11 @@ class SignController extends Controller
                 $qDocument->select(DB::raw(1))
                     ->from('documents')
                     ->whereRaw('documents.dossier_id = dossiers.id')
-                    ->where('signed',false)
+                    ->where(function ($query) {
+                        $query->where('signed', false)
+                            ->where('readonly', false);
+                    })
+                    ->where('active',true)
                     ->whereNull('deleted_at');
             });
         })->where('active',true)->paginate(10);
@@ -57,7 +61,11 @@ class SignController extends Controller
                 $qDocument->select(DB::raw(1))
                     ->from('documents')
                     ->whereRaw('documents.dossier_id = dossiers.id')
-                    ->where('signed',false)
+                    ->where(function ($query) {
+                        $query->where('signed', false)
+                            ->where('readonly', false);
+                    })
+                    ->where('active',true)
                     ->whereNull('deleted_at');
             });
         })->where('active',true)->orderByDesc('id')->paginate(10);

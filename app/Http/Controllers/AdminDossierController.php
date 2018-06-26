@@ -118,7 +118,7 @@ class AdminDossierController extends Controller
                 $dossier->additionalDossier()->delete();
             }
             foreach ($dossier->documents() as $document) {
-                Storage::disk('documents')->move($document->filename,'.trash/'.$document->name . '-' . Carbon::now()->toDateString());
+                Storage::disk('documents')->move($document->filename,'.trash/'.$document->name . '-' . Carbon::now()->toDateTimeString());
             }
             $dossier->documents()->delete();
             $dossier->delete();
