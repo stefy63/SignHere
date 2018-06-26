@@ -32,6 +32,22 @@ $(function () {
                             '<div class="col-md-8"><input class="form-control" type="text"  name="'+val+'" value="'+result[val][0]+'"/></div>' +
                             '</div></div>';
                 }
+                html += '<div class="col-md-12 row"><div class="form-group group">'+
+                            '<div class="col-md-4"><label for="venditore" >Venditore</label></div>'+
+                            '<div class="col-md-8"><input class="form-control" type="text"  name="venditore" value="{{Auth::user()->name . ' ' . Auth::user()->surname}}"/></div>' +
+                            '</div></div>';
+
+                html += '<div class="col-md-12 row"><div class="form-group group">' +
+                            '<div class="col-md-4"><label for="incentivo" >Sconto/Incentivo</label></div>' +
+                            '<div class="col-md-8"><input class="form-control" type="text"  name="incentivo" value=" " /></div>' +
+                            '</div></div>';
+                
+                html += '<div class="col-md-12 row"><div class="form-group group">'+
+                            '<div class="col-md-4"><label for="note" >Note</label></div>'+
+                            '<div class="col-md-8"><input class="form-control" type="text"  name="note" value=" " /></div>' +
+                            '</div></div>';
+
+
                 html += '<div class="row footer-group"><br>' +
                     '<div class="col-md-12 text-center footer-group">' +
                     '<p><button class="submit-toast btn btn-outline btn-primary col-md-6" data-form-id="toast-form">{{__('admin_documents.submit')}}</button>' +

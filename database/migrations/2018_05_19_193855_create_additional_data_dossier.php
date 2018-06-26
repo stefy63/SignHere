@@ -32,6 +32,8 @@ class CreateAdditionalDataDossier extends Migration
             $table->string('contratto_data_scadenza_vincolo')->nullable();
             $table->string('contratto_data_decorrenza')->nullable();
             $table->string('contratto_data_scadenza')->nullable();
+            $table->string('venditore')->nullable();
+            $table->string('incentivo')->nullable();
             $table->string('note')->nullable();
             $table->timestamps();
             $table->softDeletes();
