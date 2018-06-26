@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\Doctype;
 use App\Models\Document;
 use App\Models\Dossier;
+use Carbon\Carbon;
 use Faker\Provider\DateTime;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\Array_;
@@ -115,6 +116,9 @@ class AdminDossierController extends Controller
         if ($dossier = Dossier::find($id)){
             if($dossier->additionalDossier()) {
                 $dossier->additionalDossier()->delete();
+            }
+            foreach ($dossier->documents() as $document) {
+                Storage::disk('documents')->move($document->filename,'.trash/'.$document->name . '-' . Carbon::now()->toDateString());
             }
             $dossier->documents()->delete();
             $dossier->delete();

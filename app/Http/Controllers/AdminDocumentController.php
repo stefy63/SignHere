@@ -282,7 +282,7 @@ class AdminDocumentController extends Controller
     public function destroy(Document $document, $id)
     {
         if ($document = Document::find($id)){
-            Storage::disk('documents')->move($document->filename,'.trash/'.$document->name);
+            Storage::disk('documents')->move($document->filename,'.trash/'.$document->name . '-' . Carbon::now()->toDateString());
             $document->delete();
 
             return response()->json([ __('admin_documents.success_document_deleted')],200);
