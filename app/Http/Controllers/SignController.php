@@ -60,7 +60,7 @@ class SignController extends Controller
                     ->where('signed',false)
                     ->whereNull('deleted_at');
             });
-        })->where('active',true)->paginate(10);
+        })->where('active',true)->orderByDesc('id')->paginate(10);
 
         return view('frontend.sign.index',[
             'archives' => $archives,
