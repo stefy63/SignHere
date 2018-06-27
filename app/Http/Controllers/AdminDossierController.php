@@ -147,8 +147,12 @@ class AdminDossierController extends Controller
 
         $dossier = Dossier::find($id);
         $client = $dossier->client()->first()->toArray();
-        $aditionalDossier = AdditionalDataDossiers::where('dossier_id', $id)->first()->toArray();
-        $data = array_merge($client, $aditionalDossier);
+        if($aditionalDossier = AdditionalDataDossiers::where('dossier_id', $id)->first()) {
+            $data = array_merge($client, $aditionalDossier->toArray());
+        } else {
+            $data = array();
+        }
+
 //        $columns = array("Fascicolo","Descrizione","Note","Data Fascicolo","Nome","Cognome","Email","PI","CF","Indirizzo","Città","Provincia","CAP","Contatto","Telefono","Cellulare");
 //        $data = array(
 //            $dossier['name'],
@@ -171,7 +175,7 @@ class AdminDossierController extends Controller
 
         $headers = array(
             "Content-type" => "text/csv",
-            "Content-Disposition" => "attachment; filename=".$client['surname']."-".$dossier['name'].".csv",
+            "Content-Disposition" => "attachment; filename=".$client['name'].' '.$client['surname']."-".$dossier['name'].".csv",
             "Pragma" => "no-cache",
             "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
             "Expires" => "0"
