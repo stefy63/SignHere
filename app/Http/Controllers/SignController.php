@@ -31,7 +31,7 @@ class SignController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $clients = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
             $qDossier->whereExists(function($qDocument){
@@ -45,16 +45,7 @@ class SignController extends Controller
                     ->where('active',true)
                     ->whereNull('deleted_at');
             });
-        })->where('active',true)->paginate(10);
-
-        $last = Acl::getMyClients()
-            ->join('dossiers','clients.id','=','dossiers.client_id')
-            ->join('documents','dossiers.id','=','documents.dossier_id')
-            ->orderBy('documents.date_sign','DESC')
-            ->whereNotNull('date_sign')
-            ->paginate(10);
-//            ->take(5)
-//            ->get();
+        })->where('active',true)->paginate(3, ['*'], 'client_page');
 
         $archives = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
             $qDossier->whereNotExists(function($qDocument){
@@ -68,12 +59,11 @@ class SignController extends Controller
                     ->where('active',true)
                     ->whereNull('deleted_at');
             });
-        })->where('active',true)->orderByDesc('id')->paginate(10);
+        })->where('active',true)->orderByDesc('id')->paginate(3, ['*'], 'archive_page');
 
         return view('frontend.sign.index',[
             'archives' => $archives,
             'clients' => $clients,
-            'last'   => $last,
         ]);
     }
 

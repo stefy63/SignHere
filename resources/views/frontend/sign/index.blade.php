@@ -90,7 +90,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="pull-right">{{ $clients->links() }}</div>
+                    <div class="text-center">{{ $clients->links() }}</div>
                 </div>
                 <!-- ARCHIVIO CLIENTI  -->
                 <div class="col-lg-5 full-height">
@@ -142,7 +142,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="pull-right">{{ $archives->links() }}</div>
+                    <div class="text-center">{{ $archives->links() }}</div>
                 </div>
 
 
@@ -235,7 +235,7 @@ $(function () {
     });*/
 
     $('.content').click(function(e){
-        e.preventDefault();
+        // e.preventDefault();
         $('.tr-dossier').hide(500);
         $('.tr-document').hide(500);
     });
