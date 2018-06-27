@@ -113,18 +113,25 @@ class AdminDossierController extends Controller
      */
     public function destroy(Request $request,Dossier $dossier, $id)
     {
-        if ($dossier = Dossier::find($id)){
-            if($dossier->additionalDossier()) {
-                $dossier->additionalDossier()->delete();
+        DB::beginTransaction();
+        try {
+            if ($dossier = Dossier::find($id)){
+                if($dossier->additionalDossier()) {
+                    $dossier->additionalDossier()->delete();
+                }
+                foreach ($dossier->documents() as $document) {
+                    Storage::disk('documents')->move($document->filename,'.trash/'.$document->name . '-' . Carbon::now()->toDateTimeString());
+                }
+                $dossier->documents()->delete();
+                $dossier->delete();
+                DB::commit();
+                return response()->json([ __('admin_dossiers.success_dossier_deleted')],200);
             }
-            foreach ($dossier->documents() as $document) {
-                Storage::disk('documents')->move($document->filename,'.trash/'.$document->name . '-' . Carbon::now()->toDateTimeString());
-            }
-            $dossier->documents()->delete();
-            $dossier->delete();
-            return response()->json([ __('admin_dossiers.success_dossier_deleted')],200);
+            return response()->json([__('admin_dossiers.warning_dossier_NOTfound')],400);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json([__('admin_dossiers.warning_dossier_NOTfound')],400);
         }
-        return response()->json([__('admin_dossiers.warning_dossier_NOTfound')],400);
     }
 
     /**
