@@ -154,24 +154,47 @@ class AdminDossierController extends Controller
         }
 
 //        $columns = array("Fascicolo","Descrizione","Note","Data Fascicolo","Nome","Cognome","Email","PI","CF","Indirizzo","Città","Provincia","CAP","Contatto","Telefono","Cellulare");
-//        $data = array(
-//            $dossier['name'],
-//            $dossier['description'],
-//            $dossier['note'],
-//            $dossier['date_dossier'],
-//            $client['name'],
-//            $client['surname'],
-//            $client['email'],
-//            $client['vat'],
-//            $client['personal_vat'],
-//            $client['address'],
-//            $client['city'],
-//            $client['region'],
-//            $client['zip_code'],
-//            $client['contact'],
-//            $client['phone'],
-//            $client['mobile']
-//        );
+
+
+        $columns = array("id",
+              "name" ,
+              "surname" ,
+              "email",
+              "vat" ,
+              "personal_vat" ,
+              "address" ,
+              "city" ,
+              "region" ,
+              "zip_code" ,
+              "contact" ,
+              "phone",
+              "mobile" ,
+              "user_id",
+              "active" ,
+              "created_at",
+              "updated_at" ,
+              "deleted_at" ,
+              "dossier_id" ,
+              "veicolo_targa" ,
+              "veicolo_marca" ,
+              "veicolo_modello" ,
+              "veicolo_allestimento" ,
+              "veicolo_cavalli_fiscali" ,
+              "veicolo_valore_assicurato",
+              "veicolo_stato_vaicolo",
+              "veicolo_data_immatricolazione",
+              "veicolo_numero_telaio",
+              "contratto_polizza",
+              "contratto_societa" ,
+              "contratto_durata",
+              "contratto_importo",
+              "contratto_data_scadenza_vincolo" ,
+              "contratto_data_decorrenza" ,
+              "contratto_data_scadenza" ,
+              "venditore",
+              "incentivo",
+              "note");
+
 
         $headers = array(
             "Content-type" => "text/csv",
@@ -182,10 +205,10 @@ class AdminDossierController extends Controller
         );
 
 
-        $callback = function() use ($data)
+        $callback = function() use ($data, $columns)
         {
             $FH = fopen('php://output', 'w');
-//            fputcsv($FH, $columns, chr(9));
+            fputcsv($FH, $columns, chr(9));
             fputcsv($FH, $data, chr(9));
             fclose($FH);
         };
