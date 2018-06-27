@@ -67,7 +67,7 @@
                             <label for="date_dossier" ><i class="fa fa-calendar"></i> {{__('admin_dossiers.db-date_dossier')}}</label>
                         </div>
                         <div class="col-md-8 date">
-                            <input class="form-control" type="text"  name="date_dossier" value="{{old("date_dossier")}}" />
+                            <input class="form-control" type="text"  name="date_dossier" value="{{old("date_dossier", date('d/m/Y'))}}" />
                         </div>
                     </div>
                 </div>
