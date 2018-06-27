@@ -45,7 +45,7 @@ class SignController extends Controller
                     ->where('active',true)
                     ->whereNull('deleted_at');
             });
-        })->where('active',true)->paginate(3, ['*'], 'client_page');
+        })->where('active',true)->paginate(10, ['*'], 'client_page');
 
         $archives = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
             $qDossier->whereNotExists(function($qDocument){
@@ -59,7 +59,7 @@ class SignController extends Controller
                     ->where('active',true)
                     ->whereNull('deleted_at');
             });
-        })->where('active',true)->orderByDesc('id')->paginate(3, ['*'], 'archive_page');
+        })->where('active',true)->orderByDesc('id')->paginate(10, ['*'], 'archive_page');
 
         return view('frontend.sign.index',[
             'archives' => $archives,
