@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Dossier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminClientController extends Controller
 {

@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use PhpParser\Node\Expr\Array_;
 use Psy\Util\Json;
 use Spatie\PdfToText\Pdf;
+use Illuminate\Support\Facades\DB;
 
 class AdminDossierController extends Controller
 {
