@@ -118,7 +118,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Documents',
             'order' => 6,
             'short_name' => 'admin_documents',
-            'functions' => 'index,create,show,edit,destroy,update_file',
+            'functions' => 'index,create,show,edit,destroy,update_file,import_file,export',
             'isadmin' => true,
             'active' => 1,
             'user_id' => 1,
