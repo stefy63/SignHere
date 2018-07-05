@@ -253,6 +253,9 @@ class AdminDossierController extends Controller
                             'message' => __("admin_documents.model_fault"),
                             'code'  => 300],300);
                     }
+
+                    $pos_targa = array_search('Dati del Veicolo', $arTextFile,true);
+
                     $temp = $this->_searchVal($arTextFile, 'Pratica n°', 2);
                     $retTextImport['dossierNumber'] = [$temp[1], '', 0];
                     // DATI CONTRAENTE/ASSICURATO
@@ -276,15 +279,32 @@ class AdminDossierController extends Controller
                     $retTextImport['region'] = [(stripos($tempFax[14], 'Targa') === false)?$tempFax[7]:$tempFax[9], '', 6];
                     $temp = $this->_searchVal($arTextFile, 'Codice Fiscale/P.IVA', 4);
                     $retTextImport['contCFPIVA'] = [strtoupper($temp[1]), '', 17];
-                    $retTextImport['personal_vat'] = [strtoupper($temp[3]), '', 7];
+                    if (stripos($temp[3], 'lefono/Cellul') === false) {
+                        $retTextImport['personal_vat'] = [strtoupper($temp[3]), '', 7];
+                    } else {
+                        $retTextImport['personal_vat'] = [$arTextFile[$pos_targa - 6], '', 7];
+                    }
+
                     $temp = $this->_searchVal($arTextFile, 'Telefono/Cellulare', 4);
                     $retTextImport['contTel'] = [strtolower($temp[1]), '', 18];
-                    $retTextImport['phone'] = [strtolower($temp[3]), '', 8];
+
+                    if (stripos($temp[3], 'email') === false) {
+                        $retTextImport['phone'] = [strtolower($temp[3]), '', 8];
+                    } else {
+                        $retTextImport['phone'] = ['', '', 8];;
+                    }
+
                     $temp = $this->_searchVal($arTextFile, 'Email', 4);
                     $retTextImport['contEmail'] = [strtolower($temp[1]), '', 19];
-                    $retTextImport['email'] = [strtolower($temp[3]), '', 9];
+
+                    if (stripos($temp[3], 'fax') === false) {
+                        $retTextImport['email'] = [strtolower($temp[3]), '', 9];
+                    } else {
+                        $retTextImport['email'] = [$arTextFile[$pos_targa - 4], '', 9];
+                    }
+
                     // DATI VICOLO
-                    $retTextImport['veicleSummary'] = [(stripos($tempFax[14], 'Targa') === false)?$tempFax[9]:$tempFax[11], '', 30];
+                    $retTextImport['veicleSummary'] = [$arTextFile[$pos_targa - 2], '', 30];
                     $temp = $this->_searchVal($arTextFile, 'Targa', 2);
                     $retTextImport['veicolo_targa'] = [$temp[1], '', 31];
                     $temp = $this->_searchVal($arTextFile, 'Valore assicurato', 2);
