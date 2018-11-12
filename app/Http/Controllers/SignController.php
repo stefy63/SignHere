@@ -48,18 +48,35 @@ class SignController extends Controller
         })->where('active',true)->paginate(10, ['*'], 'client_page');
 
         $archives = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
-            $qDossier->whereNotExists(function($qDocument){
-                $qDocument->select(DB::raw(1))
-                    ->from('documents')
-                    ->whereRaw('documents.dossier_id = dossiers.id')
-                    ->where(function ($query) {
-                        $query->where('signed', false)
-                            ->where('readonly', false);
-                    })
-                    ->where('active',true)
-                    ->whereNull('deleted_at');
-            });
-        })->where('active',true)->orderByDesc('id')->paginate(10, ['*'], 'archive_page');
+            $qDossier->whereHas('documents', function ($q) {
+                $q->where('signed', true)
+                    ->where('readonly', false)
+                    ->where('date_sign', '>', Carbon::now()->subMonth(env('APP_FE_INTERVAL_MONTH')))
+                ;
+            })
+
+
+
+
+
+//                ->whereNotExists(function($qDocument){
+//                $qDocument->select(DB::raw(1))
+//                    ->from('documents')
+//                    ->whereRaw('documents.dossier_id = dossiers.id')
+//                    ->where(function ($query) {
+//                        $query->where('signed', false)
+//                            ->where('readonly', false);
+//                    })
+//                    ->where('active',true)
+//                    ->whereNull('deleted_at');
+//            })
+
+            
+            ;
+        })->where('active',true)->paginate(10, ['*'], 'archive_page');
+
+
+//        ->where('date_sign', '<', Carbon::now()->subMonth(env('APP_FE_INTERVAL_MONTH')))
 
         return view('frontend.sign.index',[
             'archives' => $archives,

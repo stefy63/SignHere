@@ -142,9 +142,6 @@ class AdminDossierController extends Controller
      */
     public function export(Request $request, Dossier $dossier, $id)
     {
-        // return;
-
-
         $dossier = Dossier::find($id);
         $client = $dossier->client()->first()->toArray();
         $num_pratica = strstr($dossier->name, ' - ', true);
@@ -154,9 +151,6 @@ class AdminDossierController extends Controller
         } else {
             $data = array();
         }
-
-//        $columns = array("Fascicolo","Descrizione","Note","Data Fascicolo","Nome","Cognome","Email","PI","CF","Indirizzo","Città","Provincia","CAP","Contatto","Telefono","Cellulare");
-
 
         $columns = array(
             "id",
