@@ -246,6 +246,7 @@ function cancelForm() {
                                         </td>
                                         <td>
                                             @if(Auth::user()->hasRole('admin_documents','edit'))<a data-url="{{ url('admin_documents/')}}/{{$document->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>@endif
+                                            @if(Auth::user()->hasRole('sign','send'))<a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="confirm-toast"><i class="fa fa-envelope-o"></i></a>@endif
                                             @if(Auth::user()->hasRole('admin_documents','destroy'))<a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>@endif
                                         </td>
                                     </tr>
@@ -444,6 +445,11 @@ $(function () {
                 @if(Auth::user()->hasRole('admin_documents','edit'))
                     row[2] += '<a data-url="{{ url('admin_documents/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>';
                 @endif
+                
+                @if(Auth::user()->hasRole('sign','send'))
+                    row[2] += '<a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/')}}/'+k['id']+'" class="sendmail">&nbsp;&nbsp<i class="fa fa-envelope-o"></i></a>';
+                @endif
+                
                 @if(Auth::user()->hasRole('admin_documents','destroy'))
                     row[2] += '<a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a>';
                 @endif
@@ -556,6 +562,24 @@ $(function () {
             return isConfirm;
         });
     };
+    
+    $(document).on('click','.sendmail', function(e){
+        e.preventDefault();
+        var location =  this.getAttribute('data-location');
+        swal({
+            title: '{{__('app.confirm-title')}}',
+            text: this.getAttribute('data-message'),
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            closeOnConfirm: true
+        }, function () {
+            //$(location).prop('href',location);
+            window.location.replace(location)
+        });
+    });
+
 
 })
 

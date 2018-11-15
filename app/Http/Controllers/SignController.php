@@ -42,39 +42,36 @@ class SignController extends Controller
                         $query->where('signed', false)
                             ->where('readonly', false);
                     })
-                    ->where('active',true)
-                    ->whereNull('deleted_at');
-            });
+                    ->where('deleted_at', null)
+                    ->where('active',true);
+            })
+            ->where('deleted_at', null);
         })->where('active',true)->paginate(10, ['*'], 'client_page');
 
+
+
         $archives = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
-            $qDossier->whereHas('documents', function ($q) {
-                $q->where('signed', true)
-                    ->where('readonly', false)
-                    ->where('date_sign', '>', Carbon::now()->subMonth(env('APP_FE_INTERVAL_MONTH')))
-                ;
+            $qDossier->whereNotExists(function($qDocument){
+                $qDocument->select(DB::raw(1))
+                    ->from('documents')
+                    ->whereRaw('documents.dossier_id = dossiers.id')
+                    ->where(function ($query) {
+                        $query->where('signed', false)
+                            ->where('readonly', false);
+                    })
+                    ->where('deleted_at', null)
+                    ->where('active',true);
             })
+            ->whereHas('documents', function ($qDoc) {
+                $qDoc->where('date_sign', '>', Carbon::now()->subMonth(env('APP_FE_INTERVAL_MONTH')));
+            })
+            ->has('documents', '>', 0)
+            ->where('deleted_at', null);
+        })
+        ->with('documents')
+        ->where('active',true)->paginate(10, ['*'], 'archive_page');
 
-
-
-
-
-//                ->whereNotExists(function($qDocument){
-//                $qDocument->select(DB::raw(1))
-//                    ->from('documents')
-//                    ->whereRaw('documents.dossier_id = dossiers.id')
-//                    ->where(function ($query) {
-//                        $query->where('signed', false)
-//                            ->where('readonly', false);
-//                    })
-//                    ->where('active',true)
-//                    ->whereNull('deleted_at');
-//            })
-
-            
-            ;
-        })->where('active',true)->paginate(10, ['*'], 'archive_page');
-
+//dd($archives);
 
 //        ->where('date_sign', '<', Carbon::now()->subMonth(env('APP_FE_INTERVAL_MONTH')))
 
