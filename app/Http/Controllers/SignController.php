@@ -104,7 +104,9 @@ class SignController extends Controller
     {
         try{
             $document = Document::findOrFail($id);
-
+                if(!Storage::disk('documents')->exists($document->filename)){
+                    return redirect()->back()->with('alert',__('sign.sign_file_NOTFound'));
+                }
                 Mail::send(new SendDocument($document));
                 return back()->with(['success' => __('sign.sign_document_send')]);
 
