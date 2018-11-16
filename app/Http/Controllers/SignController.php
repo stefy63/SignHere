@@ -46,7 +46,15 @@ class SignController extends Controller
                     ->where('active',true);
             })
             ->where('deleted_at', null);
-        })->where('active',true)->paginate(10, ['*'], 'client_page');
+        })->where('active',true);
+        
+        if($request->has('clientfilter')) {
+            $clients = $clients->where(function($qFilter) use ($request) {
+                $qFilter->where('surname', 'LIKE', '%'.$request->clientfilter.'%')
+                        ->orWhere('name', 'LIKE', '%'.$request->clientfilter.'%');
+            });
+        }
+        $clients = $clients->paginate(10, ['*'], 'client_page');
 
 
 
@@ -68,12 +76,18 @@ class SignController extends Controller
             ->has('documents', '>', 0)
             ->where('deleted_at', null);
         })
-        ->with('documents')
-        ->where('active',true)->paginate(10, ['*'], 'archive_page');
+        ->where('active',true);
+        
+        if($request->has('archivefilter')) {
+            $archives = $archives->where(function($qFilter) use ($request) {
+                $qFilter->where('surname', 'LIKE', '%'.$request->archivefilter.'%')
+                        ->orWhere('name', 'LIKE', '%'.$request->archivefilter.'%');
+            });
+        }
+        $archives = $archives->paginate(10, ['*'], 'archive_page');
 
 //dd($archives);
 
-//        ->where('date_sign', '<', Carbon::now()->subMonth(env('APP_FE_INTERVAL_MONTH')))
 
         return view('frontend.sign.index',[
             'archives' => $archives,

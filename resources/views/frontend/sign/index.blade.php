@@ -30,6 +30,9 @@
                 <div class="col-lg-7 full-height">
                     <div class="ibox-title">
                         <h5>{{__('sign.sign-title')}}</h5>
+                        <div class="filter-container">
+                            <input type="search" class="form-control input-sm" data-location="{{url('sign/')}}"  placeholder="Search..." data-name="clientfilter">
+                        </div>
                     </div>
                     <div>
                         <table class="table table-bordered table-hover tab-right">
@@ -96,9 +99,9 @@
                 <div class="col-lg-5 full-height">
                     <div class="ibox-title">
                         <h5>{{__('sign.archive-title')}}</h5>
-                        <!--<div id="DataTables_Table_0_filter" class="dataTables_filter">
-                            <input type="search" class="form-control input-sm" placeholder="Search..." aria-controls="DataTables_Table_2">
-                        </div>-->
+                        <div class="filter-container">
+                            <input type="search" class="form-control input-sm" data-location="{{url('sign/')}}" placeholder="Search..." data-name="archivefilter">
+                        </div>
                     </div>
                     <div>
                         <table class="table table-bordered table-hover tab-left" >
@@ -240,6 +243,15 @@ $(function () {
         $('.tr-document').hide(500);
     });
 
+    $('.filter-container input[type=search]').keyup(function (e) {
+        if(e.which == 13 && $(this).val().length > 2) {
+            e.preventDefault();
+            var field = this.getAttribute('data-name');
+            var location =  this.getAttribute('data-location')+"?"+field+"="+$(this).val();
+            window.location = location;
+//            alert(location);
+        }
+    });
 
 
 })
