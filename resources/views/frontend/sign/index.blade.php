@@ -244,7 +244,7 @@ $(function () {
     });
 
     $('.filter-container input[type=search]').keyup(function (e) {
-        if(e.which == 13 && $(this).val().length > 2) {
+        if(e.which == 13) {
             e.preventDefault();
             var field = this.getAttribute('data-name');
             var location =  this.getAttribute('data-location')+"?"+field+"="+$(this).val();

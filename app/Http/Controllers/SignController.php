@@ -48,7 +48,7 @@ class SignController extends Controller
             ->where('deleted_at', null);
         })->where('active',true);
         
-        if($request->has('clientfilter')) {
+        if($request->has('clientfilter') && $request->clientfilter) {
             $clients = $clients->where(function($qFilter) use ($request) {
                 $qFilter->where('surname', 'LIKE', '%'.$request->clientfilter.'%')
                         ->orWhere('name', 'LIKE', '%'.$request->clientfilter.'%');
@@ -78,7 +78,7 @@ class SignController extends Controller
         })
         ->where('active',true);
         
-        if($request->has('archivefilter')) {
+        if($request->has('archivefilter') && $request->archivefilter) {
             $archives = $archives->where(function($qFilter) use ($request) {
                 $qFilter->where('surname', 'LIKE', '%'.$request->archivefilter.'%')
                         ->orWhere('name', 'LIKE', '%'.$request->archivefilter.'%');
