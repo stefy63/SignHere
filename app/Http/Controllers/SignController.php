@@ -49,10 +49,13 @@ class SignController extends Controller
         })->where('active',true);
         
         if($request->has('clientfilter') && $request->clientfilter) {
+            $clientfilter = $request->clientfilter;
             $clients = $clients->where(function($qFilter) use ($request) {
                 $qFilter->where('surname', 'LIKE', '%'.$request->clientfilter.'%')
                         ->orWhere('name', 'LIKE', '%'.$request->clientfilter.'%');
             });
+        } else {
+            $clientfilter = '';
         }
         $clients = $clients->paginate(10, ['*'], 'client_page');
 
@@ -79,19 +82,24 @@ class SignController extends Controller
         ->where('active',true);
         
         if($request->has('archivefilter') && $request->archivefilter) {
+            $archivefilter = $request->archivefilter;
             $archives = $archives->where(function($qFilter) use ($request) {
                 $qFilter->where('surname', 'LIKE', '%'.$request->archivefilter.'%')
                         ->orWhere('name', 'LIKE', '%'.$request->archivefilter.'%');
             });
+        } else {
+            $archivefilter = '';
         }
         $archives = $archives->paginate(10, ['*'], 'archive_page');
 
-//dd($archives);
+//dd($clientfilter);
 
 
         return view('frontend.sign.index',[
             'archives' => $archives,
             'clients' => $clients,
+            'archivefilter' => $archivefilter,
+            'clientfilter'  => $clientfilter
         ]);
     }
 

@@ -10,14 +10,23 @@
 <style>
 .tab-right tbody{
     overflow-y: auto;
-    //height: 85%;
-    //position: absolute;
 }
 
 .tab-left tbody{
     overflow-y: auto;
-    //height: 85%;
-    //position: absolute;
+}
+
+.filter-container {
+    position: relative;
+}
+
+.clear_filter {
+    color: lightskyblue;
+    font-size: 20px;
+    position: absolute;
+    right: -10px;
+    top: 17px;
+    display: none;
 }
 </style>
 @endpush
@@ -31,7 +40,10 @@
                     <div class="ibox-title">
                         <h5>{{__('sign.sign-title')}}</h5>
                         <div class="filter-container">
-                            <input type="search" class="form-control input-sm" data-location="{{url('sign/')}}"  placeholder="Search..." data-name="clientfilter">
+                            <input type="search" class="form-control input-sm" data-location="{{url('sign/')}}" value="{{$clientfilter}}"  placeholder="Search..." data-name="clientfilter">
+                            <button class="clear_filter btn btn-link">
+                                <i class="fa fa-times-circle-o"></i>
+                            </button>
                         </div>
                     </div>
                     <div>
@@ -100,7 +112,10 @@
                     <div class="ibox-title">
                         <h5>{{__('sign.archive-title')}}</h5>
                         <div class="filter-container">
-                            <input type="search" class="form-control input-sm" data-location="{{url('sign/')}}" placeholder="Search..." data-name="archivefilter">
+                            <input type="search" class="form-control input-sm" data-location="{{url('sign/')}}" value="{{$archivefilter}}" placeholder="Search..." data-name="archivefilter">
+                            <button class="clear_filter btn btn-link">
+                                <i class="fa fa-times-circle-o"></i>
+                            </button>
                         </div>
                     </div>
                     <div>
@@ -230,29 +245,33 @@ $(function () {
         });
     });
 
-    /*$('.tr-document').dblclick(function(e){
-        e.stopPropagation();
-        var location = '{{url('sign/signing')}}'+'/'+this.id;
-        console.log(location);
-        window.location = location;
-    });*/
-
     $('.content').click(function(e){
         // e.preventDefault();
         $('.tr-dossier').hide(500);
         $('.tr-document').hide(500);
     });
 
+
+    $('.clear_filter').click(function (e) {
+        e.preventDefault();
+        window.location = '{{url('sign/')}}';
+    });
+
     $('.filter-container input[type=search]').keyup(function (e) {
+        if($(this).val() != '') {
+            $(this).parent().find('.clear_filter').show();
+        } else {
+            $(this).parent().find('.clear_filter').hide();
+        }
         if(e.which == 13) {
             e.preventDefault();
             var field = this.getAttribute('data-name');
             var location =  this.getAttribute('data-location')+"?"+field+"="+$(this).val();
             window.location = location;
-//            alert(location);
         }
     });
 
+    $('.filter-container input[type=search]').trigger('keyup');
 
 })
     
