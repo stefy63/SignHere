@@ -312,7 +312,7 @@ class AdminDossierController extends Controller
                     $temp = $this->_searchVal($arTextFile, 'Marca', 2);
                     $retTextImport['veicolo_marca'] = [$temp[1], '', 33];
                     $temp = $this->_searchVal($arTextFile, 'Stato veicolo', 2);
-                    $retTextImport['veicolo_stato'] = [$temp[1], '', 34];
+                    $retTextImport['veicolo_stato_vaicolo'] = [$temp[1], '', 34];
                     $temp = $this->_searchVal($arTextFile, 'Modello', 2);
                     $retTextImport['veicolo_modello'] = [$temp[1], '', 35];
                     $temp = $this->_searchVal($arTextFile, 'Data prima immatr.', 2);
@@ -417,6 +417,7 @@ class AdminDossierController extends Controller
         $additionaDossier->dossier_id = $dossier->id;
         $additionaDossier->venditore = $request->venditore;
         $additionaDossier->note = $request->note. ' - '. $request->contSurname;
+        $additionaDossier->incentivo = $request->incentivo;
         $additionaDossier->save();
 
         if(\Storage::disk('documents')->exists($request->temp_name)) {
