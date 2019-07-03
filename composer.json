@@ -13,8 +13,7 @@
         "setasign/fpdi-fpdf": "^2.0",
         "setasign/fpdi_pdf-parser": "2.0.3",
         "setasign/setapdf-signer": "2.28.0.1223",
-        "spatie/pdf-to-text": "^1.1",
-        "monolog/monolog": ">=1.1.0"
+        "spatie/pdf-to-text": "^1.1"
     },
     "repositories": [
         {
@@ -28,7 +27,7 @@
             "password": "3Punto63Punto6!"
         }
     },
-    "require-stable": {
+    "require-dev": {
         "fzaninotto/faker": "~1.4",
         "laravel/dusk": "^1.0",
         "mockery/mockery": "0.9.*",
