@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Acl;
 use App\Models\Client;
+use App\Models\Dossier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminClientController extends Controller
 {
@@ -147,13 +149,32 @@ class AdminClientController extends Controller
      */
     public function destroy(Client $client, $id)
     {
-        if($client = Client::find($id)) {
-
-            $client->acls()->detach();
-            $client->delete();
-
-            return redirect()->back()->with('success', __('admin_clients.success_client_destroy'));
+        DB::beginTransaction();
+        try {
+            if($client = Client::find($id)) {
+                if($dossiers = $client->dossiers()) {
+                    foreach ($dossiers as $dossier) {
+                        if ($dossier = Dossier::find($id)){
+                            if($dossier->additionalDossier()) {
+                                $dossier->additionalDossier()->delete();
+                            }
+                            foreach ($dossier->documents() as $document) {
+                                Storage::disk('documents')->move($document->filename,'.trash/'.$document->name . '-' . Carbon::now()->toDateTimeString());
+                            }
+                            $dossier->documents()->delete();
+                        }
+                    }
+                }
+                $client->dossiers()->delete();
+                $client->acls()->detach();
+                $client->delete();
+                DB::commit();
+                return redirect()->back()->with('success', __('admin_clients.success_client_destroy'));
+            }
+            return redirect()->back()->with('warning', __('admin_clients.warning_client_NOT_deleted'));
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('warning', $e);
         }
-        return redirect()->back()->with('warning', __('admin_clients.warning_client_NOT_deleted'));
     }
 }

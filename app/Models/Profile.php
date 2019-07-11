@@ -33,7 +33,9 @@ class Profile extends Model
     public function getModules($module = false) {
 
         $result = $this->modules()
-            ->where('active',true);
+            ->where('active',true)
+            ->whereNull('deleted_at')
+            ->orderBy('order');
 
         if($module) $result = $result->where('short_name',$module);
 

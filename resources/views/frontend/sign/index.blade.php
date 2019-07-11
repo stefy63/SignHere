@@ -10,14 +10,23 @@
 <style>
 .tab-right tbody{
     overflow-y: auto;
-    //height: 85%;
-    //position: absolute;
 }
 
 .tab-left tbody{
     overflow-y: auto;
-    //height: 85%;
-    //position: absolute;
+}
+
+.filter-container {
+    position: relative;
+}
+
+.clear_filter {
+    color: lightskyblue;
+    font-size: 20px;
+    position: absolute;
+    right: -10px;
+    top: 17px;
+    display: none;
 }
 </style>
 @endpush
@@ -30,6 +39,12 @@
                 <div class="col-lg-7 full-height">
                     <div class="ibox-title">
                         <h5>{{__('sign.sign-title')}}</h5>
+                        <div class="filter-container">
+                            <input type="search" class="form-control input-sm" data-location="{{url('sign/')}}" value="{{$clientfilter}}"  placeholder="Search..." data-name="clientfilter">
+                            <button class="clear_filter btn btn-link">
+                                <i class="fa fa-times-circle-o"></i>
+                            </button>
+                        </div>
                     </div>
                     <div>
                         <table class="table table-bordered table-hover tab-right">
@@ -49,16 +64,22 @@
                                 </tr>
                                 @foreach($client->dossiers()->get() as $dossier)
                                     <tr class="bg-warning tr-dossier dossier-{{$client->id}}" data-dossier="{{$dossier->id}}" id="{{$dossier->id}}" style="display: none">
-                                        <td colspan="3"><i class="fa fa-archive"></i> {{$dossier->name}}<i class="fa fa-chevron-down pull-right"></i></td>
+                                        <td colspan="3">
+                                            <i class="fa fa-archive"></i> {{$dossier->name}}
+                                            <div class="pull-right">
+                                                <i class="fa fa-chevron-down pull-right"></i>
+                                            </div>
+                                        </td>
                                     </tr>
                                     @foreach($dossier->documents()->get() as $document)
                                         <tr class="bg-success tr-document document-{{$dossier->id}}" data-document="{{$document->id}}" id="{{$document->id}}" style="display: none">
                                             <td colspan="3">
                                                 @if($document->readonly || $document->signed)
-                                                    <i class="fa fa-check-square-o" style="color: green;"></i>&nbsp&nbsp;{{$document->name}}
+                                                    <i class="fa fa-check-square-o" style="color: green;"></i>
                                                 @else
-                                                    <i class="fa fa-minus-square-o" style="color: red;"></i>&nbsp&nbsp;{{$document->name}}
+                                                    <i class="fa fa-minus-square-o" style="color: red;"></i>
                                                 @endif
+                                                &nbsp&nbsp;{{$document->name}}
                                                 <div class="pull-right">
                                                         @if($document->readonly || $document->signed )
                                                             @if(Auth::user()->hasRole('sign','send'))
@@ -84,15 +105,18 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="pull-right">{{ $clients->links() }}</div>
+                    <div class="text-center">{{ $clients->links() }}</div>
                 </div>
                 <!-- ARCHIVIO CLIENTI  -->
                 <div class="col-lg-5 full-height">
                     <div class="ibox-title">
                         <h5>{{__('sign.archive-title')}}</h5>
-                        <!--<div id="DataTables_Table_0_filter" class="dataTables_filter">
-                            <input type="search" class="form-control input-sm" placeholder="Search..." aria-controls="DataTables_Table_2">
-                        </div>-->
+                        <div class="filter-container">
+                            <input type="search" class="form-control input-sm" data-location="{{url('sign/')}}" value="{{$archivefilter}}" placeholder="Search..." data-name="archivefilter">
+                            <button class="clear_filter btn btn-link">
+                                <i class="fa fa-times-circle-o"></i>
+                            </button>
+                        </div>
                     </div>
                     <div>
                         <table class="table table-bordered table-hover tab-left" >
@@ -136,7 +160,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="pull-right">{{ $archives->links() }}</div>
+                    <div class="text-center">{{ $archives->links() }}</div>
                 </div>
 
 
@@ -221,20 +245,33 @@ $(function () {
         });
     });
 
-    /*$('.tr-document').dblclick(function(e){
-        e.stopPropagation();
-        var location = '{{url('sign/signing')}}'+'/'+this.id;
-        console.log(location);
-        window.location = location;
-    });*/
-
     $('.content').click(function(e){
-        e.preventDefault();
+        // e.preventDefault();
         $('.tr-dossier').hide(500);
         $('.tr-document').hide(500);
     });
 
 
+    $('.clear_filter').click(function (e) {
+        e.preventDefault();
+        window.location = '{{url('sign/')}}';
+    });
+
+    $('.filter-container input[type=search]').keyup(function (e) {
+        if($(this).val() != '') {
+            $(this).parent().find('.clear_filter').show();
+        } else {
+            $(this).parent().find('.clear_filter').hide();
+        }
+        if(e.which == 13) {
+            e.preventDefault();
+            var field = this.getAttribute('data-name');
+            var location =  this.getAttribute('data-location')+"?"+field+"="+$(this).val();
+            window.location = location;
+        }
+    });
+
+    $('.filter-container input[type=search]').trigger('keyup');
 
 })
     

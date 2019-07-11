@@ -10,8 +10,22 @@
         "guzzlehttp/guzzle": "^6.2",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "setasign/fpdf": "^1.8",
-        "setasign/fpdi": "^2.0"
+        "setasign/fpdi-fpdf": "^2.0",
+        "setasign/fpdi_pdf-parser": "2.0.4",
+        "setasign/setapdf-signer": "2.31.0.1330",
+        "spatie/pdf-to-text": "^1.1"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://emanuele.mercatante@3punto6.com:3Punto63Punto6!@www.setasign.com/downloads/"
+        }
+    ],
+    "http-basic": {
+        "www.setasign.com": {
+            "username": "emanuele.mercatante@3punto6.com",
+            "password": "3Punto63Punto6!"
+        }
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

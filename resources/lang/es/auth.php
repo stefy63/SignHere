@@ -15,5 +15,6 @@ return [
 
     'failed' => 'Las credenciales no coinciden.',
     'throttle' => 'Demasiados intentos de conexión. esperar :seconds secondi.',
+    'unactive' => 'Tu cuenta no esta activa.',
 
 ];

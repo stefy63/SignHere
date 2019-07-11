@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Dossier extends Model
 {
     protected $guarded = array();
-    //protected $fillable = ['*'];
+    protected $fillable = ['id','name','description','date_dossier','client_id','note'];
+
 
     use SoftDeletes;
 
@@ -23,6 +24,10 @@ class Dossier extends Model
 
     public function documents(){
         return $this->hasMany(Document::class);
+    }
+
+    public function additionalDossier() {
+        return $this->hasOne(AdditionalDataDossiers::class, 'dossier_id');
     }
 
 

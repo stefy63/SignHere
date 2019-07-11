@@ -39,11 +39,11 @@
 
 <script type="text/javascript">
 $(function () {
-    //$( "#draggable" ).draggable();
 
-    // var pdfData = atob("{{$b64doc}}");
+    $('#Sig-Clear').hide();
 
     var WizCtl ,
+        pdfData = '{{$b64doc}}',
         lic,
         Licence,
         hash,
@@ -55,10 +55,10 @@ $(function () {
         Pad,
         StepHandler,
         WacomCtl,
+        loopFromError = 0,
         $sigdiv = false;
 
     print(questions);
-
 
     $('#start').click(function () {
         toastr['info']("{{__('sign.sign_proc_start')}}", "{{__('sign.sign_proc_start_title')}}");
@@ -119,9 +119,8 @@ $(function () {
     }
 
     function sendQuestionsSign() {
-        console.log(questions);
         var content = $('<div></div>');
-        if (questions.length > 1){
+        if (questions.length > 0 && questions[0].length > 2){
             $(questions).each(function (index) {
                 console.log(questions[index]);
                 var item = $('<div class="i-checks"></div>');
@@ -232,6 +231,14 @@ $(function () {
         var imgSrcData;
         $('#Sig-Reset').bind('click', function(e) {
             e.stopPropagation();
+            $('#Sig-Clear').hide();
+            $('#Sig-Save').unbind('click');
+            $('#Sig-Reset').unbind('click');
+            $('.i-checks input').iCheck('destroy');
+            $('#showModal').modal('hide');
+        });
+        $('#Sig-Clear').show().bind('click', function (e) {
+            e.stopPropagation();
             $sigdiv.jSignature('clear');
         });
         $('#Sig-Save').bind('click', function(e){
@@ -336,7 +343,7 @@ $(function () {
             WizCtl.Font.Bold = false;
             WizCtl.Font.Size = Pad.textFontSize;
 
-            WizCtl.AddObject(WizObject.Checkbox, "chk", "center", "middle", "{{ __('sign.sign_proc_auth_question')}} ", null );
+            WizCtl.AddObject(WizObject.Checkbox, "chk", "center", "middle", "{{ __('sign.sign_pad_auth_question')}} ", null );
 
             WizCtl.Font.Size = Pad.buttonFontSize;
             WizCtl.AddObject(WizObject.Button, "Cancel", "left", "bottom", "Cancel", Pad.buttonWith );
@@ -392,7 +399,7 @@ $(function () {
                 $('#questions').val(JSON.stringify(responseQuestions));
                 ctlScript = 0;
                 toastr['warning']("{{__('sign.sign_proc_sign_start')}}", "{{ __('sign.sign_proc_start_sign_optional') }}");
-                sendOptionalSign()
+                sendOptionalSign();
             }
         } catch ( ex ) {
             Exception( "questions("+ctlScript+") " + ex.message);
@@ -517,6 +524,7 @@ $(function () {
             print("Capture returned: " + rc);
             switch( rc ) {
                 case 0: // CaptureOK
+                    loopFromError = 0
                     print("Signature captured successfully");
                     flags = 0x2000 + 0x80000 + 0x400000 + 0x10000; //SigObj.outputBase64 | SigObj.color32BPP | SigObj.encodeData | SigObj.BackgroundTransparent
                     b64 = sigCtl.Signature.RenderBitmap("", 300, 150, "image/png", 1, 0xff0000, 0xffffff, 0.0, 0.0, flags );
@@ -533,6 +541,11 @@ $(function () {
                     break;
                 case 101: // CaptureError
                     print("Tablet Error");
+                    if(loopFromError == 0) {
+                        loopFromError++;
+                        stopWizard();
+                        Capture();
+                    }
                     break;
                 case 102: // CaptureIntegrityKeyInvalid
                     print("The integrity key parameter is invalid (obsolete)");
@@ -575,6 +588,7 @@ $(function () {
 
     }
     function print(txt) {
+        console.log(txt);
         @if(config('app.debug'))
         var txtDisplay = document.getElementById("txtDisplay");
         if(txt == "CLEAR" )
@@ -609,147 +623,6 @@ $(function () {
     }
 
     OnLoad();
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-   /* var pdfDoc = null
-        pageNum = 1,
-        pageRendering = false,
-        pageNumPending = null,
-        //scale = 1.5,
-        canvas = $('#pdf-canvas').get(0),
-        //canvasContainer = $('#div-pdf-canvas').get(0)
-        //url = $('#pdf-canvas').attr('data-url'),
-        ctx = canvas.getContext('2d');
-
-    /!**
-     * Get page info from document, resize canvas accordingly, and render page.
-     * @param num Page number.
-     *!/
-    function renderPage(num) {
-        pageRendering = true;
-        // Using promise to fetch the page
-        pdfDoc.getPage(num).then(function(page) {
-
-            //var canvas = document.createElement('canvas');
-            var container = document.getElementById('div-pdf-canvas');
-            var canvas = document.getElementById('pdf-canvas');
-            ctx = canvas.getContext('2d');
-
-
-
-            var viewport = page.getViewport(1);
-            var scale = container.clientWidth / viewport.width;
-            viewport = page.getViewport(scale);
-
-
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-
-            // Render PDF page into canvas context
-            var renderContext = {
-                canvasContext: ctx,
-                viewport: viewport
-            };
-
-            var renderTask = page.render(renderContext);
-
-            // Wait for rendering to finish
-            renderTask.promise.then(function() {
-                pageRendering = false;
-                if (pageNumPending !== null) {
-                    // New page rendering is pending
-                    renderPage(pageNumPending);
-                    pageNumPending = null;
-                }
-            });
-
-            /!*$('#pdf-hover').attr('height', $('#pdf-canvas').height().toString() + 'px')
-                .attr('width',$('#pdf-canvas').width().toString() + 'px')
-                .sketch({defaultColor: "blue",defaultSize:1});*!/
-
-        });
-
-        // Update page counters
-        document.getElementById('page_num').textContent = pageNum;
-
-    }
-
-    /!**
-     * If another page rendering in progress, waits until the rendering is
-     * finised. Otherwise, executes rendering immediately.
-     *!/
-    function queueRenderPage(num) {
-        if (pageRendering) {
-            pageNumPending = num;
-        } else {
-            renderPage(num);
-        }
-    }
-
-    /!**
-     * Displays previous page.
-     *!/
-    function onPrevPage() {
-        if (pageNum <= 1) {
-            return;
-        }
-        pageNum--;
-        //$('#pdf-hover').sketch('actions',[]);
-        queueRenderPage(pageNum);
-    }
-    document.getElementById('prev').addEventListener('click', onPrevPage);
-
-    /!**
-     * Displays next page.
-     *!/
-    function onNextPage() {
-        if (pageNum >= pdfDoc.numPages) {
-            return;
-        }
-        pageNum++;
-        //$('#pdf-hover').sketch('actions',[]);
-        queueRenderPage(pageNum);
-    }
-    document.getElementById('next').addEventListener('click', onNextPage);
-
-    /!**
-     * Asynchronously downloads PDF.
-     *!/
-    //PDFJS.getDocument(url).then(function(pdfDoc_) {
-    PDFJS.getDocument({data: pdfData}).then(function(pdfDoc_) {
-        pdfDoc = pdfDoc_;
-        document.getElementById('page_count').textContent = pdfDoc.numPages;
-        // Initial/first page rendering
-        renderPage(pageNum);
-    });
-
-    $('#pdf-canvas').change(function(e){
-        console.log('canvas changed.......');
-    });
-
-
-    $('.i-checks').iCheck({
-        checkboxClass: 'icheckbox_square-green',
-        radioClass: 'iradio_square-green',
-    });
-
-
-
-    function resizeCanvas() {
-    // When zoomed out to less than 100%, for some very strange reason,
-    // some browsers report devicePixelRatio as less than 1
-    // and only part of the canvas is cleared then.
-    var ratio =  Math.max(window.devicePixelRatio || 1, 1);
-    canvas.width = canvas.offsetWidth * ratio;
-    canvas.height = canvas.offsetHeight * ratio;
-    canvas.getContext("2d").scale(ratio, ratio);
-    queueRenderPage(pageNum);
-}
-
-window.onresize = resizeCanvas;
-//resizeCanvas();*/
 
 })
 </script>
@@ -823,6 +696,7 @@ window.onresize = resizeCanvas;
                     </div>
                     @endif
 
+                    @if(env('QR_CODE_ENABLE'))
                     <div class="col-lg-12 col-md-12 col-xs-12 pull-right">
                         <p>
                         <qr-code
@@ -834,7 +708,9 @@ window.onresize = resizeCanvas;
                         </qr-code>
                         </p>
                     </div>
+                    @endif
                     <br />
+                    @if(env('VUE_CHAT_ENABLE'))
                     <div class="col-lg-12 col-md-12 col-xs-12 pull-right">
                         <p>
                         <videochat
@@ -849,6 +725,7 @@ window.onresize = resizeCanvas;
                         </videochat>
                         </p>
                     </div>
+                    @endif
                 </div>
 
                 <div class="pull-left col-lg-9 col-md-9 col-xs-9 text-center" id="div-pdf-canvas" style="position: relative">
@@ -866,21 +743,24 @@ window.onresize = resizeCanvas;
 </div>
 
 
-<div class="modal inmodal fade in" id="showModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal inmodal fade in" id="showModal" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content animated flipInY">
+        <div class="modal-content animated fadeInUp">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                 <h4 class="modal-title" id="modal-title" name="name">Firma del Documento</h4>
             </div>
             <div class="modal-body" id="modal-body">
-                <!--<div id="signature"></div>-->
+
             </div>
             <div class="modal-footer">
                 <div class="row">
                     <div id="tools" class="form-group">
                         <div class="col-lg-5 col-md-5 col-xs-5 pull-left">
                             <button class="btn btn-block btn-outline btn-danger" id="Sig-Reset">Reset</button>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-xs-2 text-center">
+                            <button class="btn btn-block btn-outline btn-warning" id="Sig-Clear">Clear</button>
                         </div>
                         <div class="col-lg-5 col-md-5 col-xs-5 pull-right">
                             <button class="btn btn-block btn-outline btn-primary col-md-5 pull-right" id="Sig-Save">Save</button>

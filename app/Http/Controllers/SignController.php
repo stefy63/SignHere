@@ -9,10 +9,10 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use FPDI;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendDocument;
+use setasign\Fpdi\Fpdi;
 
 class SignController extends Controller
 {
@@ -31,40 +31,75 @@ class SignController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $clients = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
             $qDossier->whereExists(function($qDocument){
                 $qDocument->select(DB::raw(1))
                     ->from('documents')
                     ->whereRaw('documents.dossier_id = dossiers.id')
-                    ->where('signed',false)
-                    ->whereNull('deleted_at');
+                    ->where(function ($query) {
+                        $query->where('signed', false)
+                            ->where('readonly', false);
+                    })
+                    ->where('deleted_at', null)
+                    ->where('active',true);
+            })
+            ->where('deleted_at', null);
+        })->where('active',true);
+        
+        if($request->has('clientfilter') && $request->clientfilter) {
+            $clientfilter = $request->clientfilter;
+            $clients = $clients->where(function($qFilter) use ($request) {
+                $qFilter->where('surname', 'LIKE', '%'.$request->clientfilter.'%')
+                        ->orWhere('name', 'LIKE', '%'.$request->clientfilter.'%');
             });
-        })->where('active',true)->paginate(10);
+        } else {
+            $clientfilter = '';
+        }
+        $clients = $clients->paginate(10, ['*'], 'client_page');
 
-        $last = Acl::getMyClients()
-            ->join('dossiers','clients.id','=','dossiers.client_id')
-            ->join('documents','dossiers.id','=','documents.dossier_id')
-            ->orderBy('documents.date_sign','DESC')
-            ->whereNotNull('date_sign')
-            ->take(5)
-            ->get();
+
 
         $archives = Acl::getMyClients()->whereHas('dossiers', function($qDossier){
             $qDossier->whereNotExists(function($qDocument){
                 $qDocument->select(DB::raw(1))
                     ->from('documents')
                     ->whereRaw('documents.dossier_id = dossiers.id')
-                    ->where('signed',false)
-                    ->whereNull('deleted_at');
+                    ->where(function ($query) {
+                        $query->where('signed', false)
+                            ->where('readonly', false);
+                    })
+                    ->where('deleted_at', null)
+                    ->where('active',true);
+            })
+            ->whereHas('documents', function ($qDoc) {
+                $qDoc->where('date_sign', '>', Carbon::now()->subMonth(env('APP_FE_INTERVAL_MONTH')));
+            })
+            ->has('documents', '>', 0)
+            ->where('deleted_at', null);
+        })
+        ->where('active',true);
+        
+        if($request->has('archivefilter') && $request->archivefilter) {
+            $archivefilter = $request->archivefilter;
+            $archives = $archives->where(function($qFilter) use ($request) {
+                $qFilter->where('surname', 'LIKE', '%'.$request->archivefilter.'%')
+                        ->orWhere('name', 'LIKE', '%'.$request->archivefilter.'%');
             });
-        })->where('active',true)->paginate(10);
+        } else {
+            $archivefilter = '';
+        }
+        $archives = $archives->paginate(10, ['*'], 'archive_page');
+
+//dd($clientfilter);
+
 
         return view('frontend.sign.index',[
             'archives' => $archives,
             'clients' => $clients,
-            'last'   => $last,
+            'archivefilter' => $archivefilter,
+            'clientfilter'  => $clientfilter
         ]);
     }
 
@@ -77,7 +112,9 @@ class SignController extends Controller
     {
         try{
             $document = Document::findOrFail($id);
-
+                if(!Storage::disk('documents')->exists($document->filename)){
+                    return redirect()->back()->with('alert',__('sign.sign_file_NOTFound'));
+                }
                 Mail::send(new SendDocument($document));
                 return back()->with(['success' => __('sign.sign_document_send')]);
 
@@ -85,6 +122,7 @@ class SignController extends Controller
              return back()->with(['alert' => $e->getMessage()]);
         }
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -214,77 +252,130 @@ class SignController extends Controller
             $returnTemplates = json_decode($request->templates);
             $returnQuestions = json_decode($request->questions);
 
-            //class_exists('TCPDF', true);
-            $pdf = new FPDI();
-            // set document information
-            $pdf->SetCreator(PDF_CREATOR);
-            $pdf->SetAuthor(\Auth::user()->surname.' '.\Auth::user()->name);
-            $pdf->SetTitle($document->name);
-            $pdf->SetSubject($document->description);
-
+            $pdf = new Fpdi();
             $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
-
-            $pub_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.crt';
-            $priv_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.key';
-            $info = array(
-                'Name' => $brand->description,
-                'Location' => $brand->city,
-                'Address' => $brand->address,
-                'VAT' => $brand->vat,
-                'Regio' => $brand->region,
-                'ContactInfo' => $brand->email,
-                'Document' => $document->name,
-                'Client' => $document->dossier->client->surname.' '.$document->dossier->client->name,
-                'ENC' => $resource,
-                );
-            //$pdf->setSignature($pub_cert, $priv_cert, '3punto6', '', 1, $info);
-            $pdf->setSignature($pub_cert, $priv_cert, '3punto6', '', 1, $info);
-            $pdf->SetAutoPageBreak(TRUE, 0);
-            $pdf->SetFont('helvetica', '', 9);
-            $html = "<h1><b>X</b></h1>";
             for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
-                $tplIdx = $pdf->importPage($pageNo);
+                // import a page
+                $templateId = $pdf->importPage($pageNo);
                 $pdf->AddPage();
-                $pdf->useTemplate($tplIdx, 0, 0, 0, 0, true);
+                // use the imported page and adjust the page size
+                $pdf->useTemplate($templateId, ['adjustPageSize' => true]);
+                $pdf->SetFont('Helvetica', 'B', 15);
 
                 if(!is_null($returnQuestions)){
                     foreach ($arrayQuestion as $iOptQuestion=>$arItem) {
                         if ($arItem[0] == $pageNo) {
                             if ($returnQuestions[$iOptQuestion] == true) {
-                                $pdf->writeHTMLCell(10,10,$arItem[1],$arItem[2],$html);
+                                $x = $arItem[1];
+                                $y = $arItem[2];
                             } else {
-                                if((int)$arItem[3] != 0)
-                                    $pdf->writeHTMLCell(10,10,$arItem[3],$arItem[4],$html);
+                                if((int)$arItem[3] != 0) {
+                                    $x = $arItem[3];
+                                    $y = $arItem[4];
+                                }
                             }
+                            $pdf->SetXY($x, $y);
+                            $pdf->Write(15, 'X');
                         }
                     }
                 }
 
-                //if(!is_null($returnTemplates)) {
-                    foreach ($arrayTpl as $iOptSign=>$arItem) {
-                        if ($arItem[0] == $pageNo) {
-                            if(strtoupper($arItem[3]) == 'O') {
-                                if($returnTemplates[$iOptSign] == true){
-                                    $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 40, 15, 'PNG');
-                                }
-                            } else {
-                                $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 40, 15, 'PNG');
+//                if(!is_null($returnTemplates)) {
+                foreach ($arrayTpl as $iOptSign=>$arItem) {
+                    if (value($arItem[0]) == $pageNo) {
+                        $x = $arItem[1];
+                        $y = $arItem[2];
+                        if(strtoupper($arItem[3]) != 'M') {
+                            if($returnTemplates[$iOptSign] == true){
+                                $pdf->Image($origin, $arItem[1], $arItem[2], 40, 15, 'PNG');
                             }
+                        } else {
+                            $pdf->Image($origin, $arItem[1], $arItem[2], 40, 15, 'PNG');
                         }
                     }
-                    $pdf->setSignatureAppearance($arItem[1], $arItem[2], 30, 15,$arItem[0]);
-                //}
+                }
+//                }
+            }
+
+            $info = array(
+                'Name' => ($brand->description)?$brand->description:'',
+                'Location' => $brand->city,
+                'Address' => $brand->address,
+                'VAT' => $brand->vat,
+                'Region' => $brand->region,
+                'ContactInfo' => $brand->email,
+                'Document' => $document->name,
+                'Client' => $document->dossier->client->surname.' '.$document->dossier->client->name,
+                'ENC' => $resource,
+            );
+
+            //$finalWriter = new \SetaPDF_Core_Writer_Http('signed.pdf', true);
+            $finalWriter = new \SetaPDF_Core_Writer_File(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+            $pub_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/server.pem');
+            $priv_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/server.pem');
+            $reader = new \SetaPDF_Core_Reader_String($pdf->Output('S'));
+            $writer = new \SetaPDF_Core_Writer_String();
+
+            for ($i = 1; $i <= $pageCount; $i++) {
+                if ($i == $pageCount) {
+                    $reader = new \SetaPDF_Core_Reader_String($writer);
+                    $writer = $finalWriter;
+                } elseif ($i != 1) {
+                    $reader = new \SetaPDF_Core_Reader_String($writer);
+                    $writer = new \SetaPDF_Core_Writer_String();
+                }
+
+                $PdfDoc = \SetaPDF_Core_Document::load($reader, $writer);
+
+                $imgReader = new \SetaPDF_Core_Reader_String($resource);
+                $img = \SetaPDF_Core_Image::get($imgReader);
+
+                $signer = new \SetaPDF_Signer($PdfDoc);
+
+                $signer->setReason($info['Client']);
+                $signer->setContactInfo($brand->description.' '.$brand->email);
+                $signer->setLocation($brand->city.' '.$brand->address);
+                $signer->setSignatureFieldName('Signature ' . $i );
+
+                $module = new \SetaPDF_Signer_Signature_Module_OpenSsl();
+
+                $module->setCertificate($pub_cert);
+                $module->setPrivateKey(array($priv_cert, '' /* no password */));
+
+                $signer->addSignatureField(
+                    'Signature ' . $i,
+                    $i,
+                    \SetaPDF_Signer_SignatureField::POSITION_CENTER_BOTTOM,
+                    array('x' => 0, 'y' => 70),
+                    200,
+                    40
+                );
+
+                $xObject = $img->toXObject($PdfDoc, \SetaPDF_Core_PageBoundaries::ART_BOX);
+                $appearance = new \SetaPDF_Signer_Signature_Appearance_Dynamic($module);
+                $appearance->setGraphic($xObject);
+                $signer->setAppearance($appearance);
+                $signer->sign($module);
 
             }
-            //$certPDF = $pdf->Output($document->name,'S');
-            $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
+
+            $PdfInfo = $PdfDoc->getInfo();
+            $PdfInfo->setAll($info);
+            // set document information
+            $PdfInfo->SetCreator(\Auth::user()->surname.' '.\Auth::user()->name);
+            $PdfInfo->SetAuthor(\Auth::user()->surname.' '.\Auth::user()->name);
+            $PdfInfo->SetTitle($document->name);
+            $PdfInfo->SetSubject($document->description);
+
+            $PdfDoc->finish();
+            copy($finalWriter->getPath(), Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+            // $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
             $document->signed = true;
             $document->readonly = true;
             $document->date_sign = Carbon::now()->format('d/m/y');
             $document->user_id = \Auth::user()->id;
             $document->save();
         }
-
         return redirect('sign');
     }
 
@@ -295,10 +386,12 @@ class SignController extends Controller
         foreach($tplLine as $line) {
             $line = str_replace("\r",'',$line);
             array_push($return,explode('|',htmlentities($line,ENT_QUOTES)));
-
         }
+
         return $return;
     }
+
+
 
 
 }

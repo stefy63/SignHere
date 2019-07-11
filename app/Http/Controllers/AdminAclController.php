@@ -211,7 +211,7 @@ class AdminAclController extends Controller
      */
     public function destroy(Acl $acl,$id)
     {
-        if($id != 1) {
+        if($id > 1) {
             $visibility = Acl::find($id);
             $visibility->delete();
 

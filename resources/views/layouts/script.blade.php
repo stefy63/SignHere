@@ -1,10 +1,11 @@
-
-
+<!-- GDPR\\
+<script src="{{ asset('js/setprivacy.js') }}"></script>
+-->
 <script src="{{ asset('js/app.js') }}"></script>
-<!-- Scripts\\
+<!-- Scripts\\-->
 <script src="{{ asset('js/jquery-2.1.1.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
--->
+
 <!-- Mainly scripts-->
 <script src="{{ asset('js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
 <script src="{{ asset('js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
@@ -23,8 +24,8 @@
 
 
 <script>
-$(function () {
 
+$(function () {
     toastr.options = {
         "closeButton": true,
         "debug": false,
@@ -127,7 +128,12 @@ $(function () {
 
 
     @if(isset($errors) && count($errors) > 0)
+        @foreach ($errors->all() as $error)
+            toastr['error']("{{$error}}", "{{__('app.notify_alert')}}");
+        @endforeach
+{{--
         toastr['error']("{{__('app.notify_alert_field')}}", "{{__('app.notify_alert')}}");
+--}}
         @foreach($errors->keys() as $k => $info)
             $('label[for="{{$info}}"]').css('color','red');
         @endforeach

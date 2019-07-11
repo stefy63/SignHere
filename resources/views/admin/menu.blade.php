@@ -11,6 +11,7 @@
                             </span>
                         </span>
                     </a>
+                    @if(env('VUE_CHAT_ENABLE'))
                     <operator
                             skey='{{env('VUE_CHAT_KEY')}}'
                             shost='{{env('VUE_CHAT_HOST')}}'
@@ -30,6 +31,7 @@
                             suser='{{Auth::user()->id}}'
                             slocation='{{Auth::user()->locations()->get()->pluck('id')}}'
                             ></video-operator>
+                    @endif
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li>
                             <a class="confirm-toast"  data-message="{{__('menu.confirmLogout')}}"  data-location="{{url('logout')}}">
@@ -41,7 +43,7 @@
                     3.6
                 </div>
             </li>
-            @foreach(Auth::user()->profile->getModules()->orderBy('order')->get() as $menu)
+            @foreach(Auth::user()->profile->getModules()->get() as $menu)
                 <li data-toggle='tooltip' title='{{__($menu->short_name.".".$menu->short_name.'_tooltip')}}'>
                     <a href='{{url($menu->short_name)}}'><i class='{{$menu->icon}}'></i>
                     <span class='nav-label'>{{__($menu->short_name.".".$menu->short_name)}}</span></a>

@@ -61,6 +61,7 @@ class DatabaseSeeder extends Seeder
         DB::table('modules')->insert([
             'id' => 1,
             'name' => 'ACLs',
+            'order' => 4,
             'short_name' => 'admin_acls',
             'functions' => 'index,create,show,edit,destroy,getitem',
             'isadmin' => true,
@@ -71,6 +72,7 @@ class DatabaseSeeder extends Seeder
         DB::table('modules')->insert([
             'id' => 2,
             'name' => 'Brands',
+            'order' => 1,
             'short_name' => 'admin_brands',
             'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
@@ -81,6 +83,7 @@ class DatabaseSeeder extends Seeder
         DB::table('modules')->insert([
             'id' => 3,
             'name' => 'Clients',
+            'order' => 3,
             'short_name' => 'admin_clients',
             'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
@@ -91,6 +94,7 @@ class DatabaseSeeder extends Seeder
         DB::table('modules')->insert([
             'id' => 4,
             'name' => 'Devices',
+            'order' => 11,
             'short_name' => 'admin_devices',
             'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
@@ -101,6 +105,7 @@ class DatabaseSeeder extends Seeder
         DB::table('modules')->insert([
             'id' => 5,
             'name' => 'Doc Type',
+            'order' => 5,
             'short_name' => 'admin_doctypes',
             'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
@@ -111,8 +116,9 @@ class DatabaseSeeder extends Seeder
         DB::table('modules')->insert([
             'id' => 6,
             'name' => 'Documents',
+            'order' => 6,
             'short_name' => 'admin_documents',
-            'functions' => 'index,create,show,edit,destroy,update_file',
+            'functions' => 'index,create,show,edit,destroy,update_file,import_file,export',
             'isadmin' => true,
             'active' => 1,
             'user_id' => 1,
@@ -121,6 +127,7 @@ class DatabaseSeeder extends Seeder
         DB::table('modules')->insert([
             'id' => 7,
             'name' => 'Locations',
+            'order' => 2,
             'short_name' => 'admin_locations',
             'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
@@ -131,6 +138,7 @@ class DatabaseSeeder extends Seeder
         DB::table('modules')->insert([
             'id' => 8,
             'name' => 'Modules',
+            'order' => 10,
             'short_name' => 'admin_modules',
             'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
@@ -141,6 +149,7 @@ class DatabaseSeeder extends Seeder
         DB::table('modules')->insert([
             'id' => 9,
             'name' => 'Users',
+            'order' => 8,
             'short_name' => 'admin_users',
             'functions' => 'index,create,show,edit,destroy,permission,resetPwd',
             'isadmin' => true,
@@ -151,6 +160,7 @@ class DatabaseSeeder extends Seeder
         DB::table('modules')->insert([
             'id' => 10,
             'name' => 'Profiles',
+            'order' => 9,
             'short_name' => 'admin_profiles',
             'functions' => 'index,create,show,edit,destroy',
             'isadmin' => true,
@@ -161,8 +171,9 @@ class DatabaseSeeder extends Seeder
         DB::table('modules')->insert([
             'id' => 11,
             'name' => 'Sign',
+            'order' => 7,
             'short_name' => 'sign',
-            'functions' => 'index,edit,create,show,destroy,signing',
+            'functions' => 'index,edit,create,destroy,signing,send,download',
             'isadmin' => false,
             'active' => 1,
             'user_id' => 1,
@@ -239,6 +250,13 @@ class DatabaseSeeder extends Seeder
             'id' => 10,
             'profile_id' => 1,
             'module_id' => 10,
+            'permission' => 'ALL',
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('module_profile')->insert([
+            'id' => 11,
+            'profile_id' => 1,
+            'module_id' => 11,
             'permission' => 'ALL',
             'created_at' => date("Y-m-d H:i:s")
         ]);

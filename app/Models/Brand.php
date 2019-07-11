@@ -15,7 +15,7 @@ class Brand extends Model
 
     public static $rules = array(
         'description'       => 'required',
-        'vat'               => 'required|numeric',
+        'vat'               => 'required|digits: 11',
         'address'           => 'required',
         'city'              => 'required',
         'region'            => 'required',

@@ -64,6 +64,18 @@
                 margin-bottom: 30px;
             }
 
+            #copy {
+                font-size: 15px;
+                vertical-align: top;
+
+            }
+
+            #ver {
+                font-size: 10px;
+                vertical-align: bottom;
+                margin-left: -20px;
+            }
+
         </style>
     </head>
     <body>
@@ -81,8 +93,7 @@
             
             <div class="content">
                 <div class="title m-b-md">
-                    
-                    Sign Here
+                    <span id="copy">&reg;</span>Sign Here <span id="copy">&trade;</span><span id="ver">ver. {{env('APP_VERSION')}}</span>
                 </div>
                 @yield('content')
             </div>

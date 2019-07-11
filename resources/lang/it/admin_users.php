@@ -78,7 +78,7 @@ return [
     'tab-general' => 'Generale',
     'tab-locations' => 'Operatore Video',
     'create-title-panel' => 'Informazioni Generali',
-    '' => '',
+    'change_password' => 'Cambio Password',
     '' => '',
     '' => '',
     '' => '',

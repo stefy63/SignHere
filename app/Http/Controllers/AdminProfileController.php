@@ -156,7 +156,7 @@ class AdminProfileController extends Controller
      */
     public function destroy(Profile $profile, $id)
     {
-        if($profile = Profile::find($id)) {
+        if($profile = Profile::find($id)&& $id > 1) {
 
             $profile->modules()->detach();
             $profile->delete();

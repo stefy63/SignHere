@@ -64,7 +64,7 @@
                                                         <div class="dd-handle col-md-1"><i class="fa fa-bars"></i></div>
                                                         <div class=" col-md-1">
                                                             <div class="onoffswitch" >
-                                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_modules.update',['id' => $module->id]) }}"  @if($module->active == 1) checked @endif id="{{$module->id}}">
+                                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_modules.update',['id' => $module->id]) }}"  @if($module->active == 1) checked @endif id="{{$module->id}}" @if(!Auth::user()->hasRole('admin_modules','edit')) disabled @endif>
                                                                 <label class="onoffswitch-label" for="{{$module->id}}">
                                                                     <span class="onoffswitch-inner"></span>
                                                                     <span class="onoffswitch-switch"></span>

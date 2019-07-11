@@ -33,13 +33,13 @@ class User extends Authenticatable
             'username'      => 'required|unique:users',
             'name'          => 'required',
             'surname'       => 'required',
-            'password'      => 'required|alpha_num|between:5,12',
+            'password'      => 'required|between:8,16',
             'email'         => 'required|email|unique:users',
             'profile_id'    => 'required|integer',
         );
 
     public static $rules_change_pwd = array(
-            'new_password'              =>'required|alpha_num|between:5,12',
+            'new_password'              =>'required|between:8,16',
             'new_password_confirmation' =>'required|same:new_password'
         );
 
@@ -69,6 +69,7 @@ class User extends Authenticatable
 
         return $profile
             ->where('active',true)
+            ->whereNull('deleted_at')
             ->where('isadmin',true)
             ->get()->count();
     }
@@ -126,7 +127,9 @@ class User extends Authenticatable
     }
 
     public function getMyForest() {
-        $roots = $this->acls()->get()->toArray();
+        $roots = $this->acls()
+                    ->whereNull('deleted_at')
+                    ->get()->toArray();
         $forest = array();
         foreach ($roots as $root) {
             $forest[] = array_add($root,'branch',$this->getMyTree($root));

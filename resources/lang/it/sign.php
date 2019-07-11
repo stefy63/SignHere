@@ -78,6 +78,7 @@ return [
     'sign_proc_sign_start' => 'Inizio Procedura di Firma Grafometrica',
     'sign_proc_start_sign_optional' => 'Richieste Firme Opzionali',
     'sign_proc_auth_question' => 'Prendo atto che la firma digitale presente su questo documento,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ha lo stesso valore della firma autografae e sarà utilizzata come tale.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Il presente documento di compone di Pagine :  ',
+    'sign_pad_auth_question' => 'Prendo atto che la firma digitale presente su questo documento, ha lo stesso valore della firma autografae e sarà utilizzata come tale.Il presente documento di compone di Pagine :  ',
     '' => '',
     '' => '',
     'send_doc_mail' => 'Consegna Documento :doc firmato in data :date.',

@@ -17,7 +17,8 @@ class isAdmin
     public function handle($request, Closure $next)
     {
         if (!Auth::user()->isAdmin())
-            return false;
+            return redirect()->back()->with('alert', __('app.error_operation'));
+            //return false;
 
         return $next($request);
     }

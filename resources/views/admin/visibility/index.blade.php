@@ -13,7 +13,9 @@
                 <h5>{{__('admin_acls.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
+                        @if(Auth::user()->hasRole('admin_acls','create'))
                         <a href="{{ url('admin_acls/create') }}"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_acls.index-tooltip-create')}}"></i> {{__('admin_acls.index-new')}}</button></a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -114,8 +116,8 @@
                         </div>
                         <br>
                         <div class="text-center">
-                            <button type="button" id="acl-edit" class="btn btn-w-m btn-primary button-toast" data-location="{{ url('admin_acls/') }}">{{__('admin_acls.btn-edit')}}</button>
-                            <button type="button" id="acl-destroy" class="profile-action btn btn-w-m btn-danger confirm-toast" data-message="{{__('admin_profiles.index-confirm-message')}}" data-location="{{ url('admin_acls/destroy/') }}">{{__('admin_acls.btn-destroy')}}</button>
+                            @if(Auth::user()->hasRole('admin_acls','edit'))<button type="button" id="acl-edit" class="btn btn-w-m btn-primary button-toast" data-location="{{ url('admin_acls/') }}">{{__('admin_acls.btn-edit')}}</button>@endif
+                            @if(Auth::user()->hasRole('admin_acls','destroy'))<button type="button" id="acl-destroy" class="profile-action btn btn-w-m btn-danger confirm-toast" data-message="{{__('admin_profiles.index-confirm-message')}}" data-location="{{ url('admin_acls/destroy/') }}">{{__('admin_acls.btn-destroy')}}</button>@endif
                         </div>
                     </div>
                     </div>

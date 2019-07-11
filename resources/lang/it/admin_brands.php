@@ -67,7 +67,6 @@ return [
     'edit-title' => 'Modifica Azienda',
     '' => '',
     '' => '',
-    '' => '',
 
 
 

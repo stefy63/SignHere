@@ -8,7 +8,9 @@
                 <h5>{{__('admin_clients.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
+                    @if(Auth::user()->hasRole('admin_clients','create'))
                         <a href="{{ url('admin_clients/create') }}"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_clientsindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</button></a>
+                    @endif
                     </div>
                 </div>
             </div>
@@ -54,34 +56,46 @@
                                 @foreach($clients as $client)
                                     <tr class="gradeA odd" role="row">
                                         <td>
+                                        @if(Auth::user()->hasRole('admin_clients','edit'))
                                             <div class="onoffswitch" >
-                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_clients.update',['id' => $client->id]) }}"  @if($client->active == 1) checked @endif id="{{$client->id}}">
+                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_clients.update',['id' => $client->id]) }}"  @if($client->active == 1) checked @endif id="{{$client->id}}" @if(!Auth::user()->hasRole('admin_clients','edit')) disabled @endif>
                                                 <label class="onoffswitch-label" for="{{$client->id}}">
                                                     <span class="onoffswitch-inner"></span>
                                                     <span class="onoffswitch-switch"></span>
                                                 </label>
                                             </div>
+                                            @endif
                                         </td>
                                         <td>
+                                        @if(Auth::user()->hasRole('admin_clients','show'))
                                             <a class="open-modal" data-url="{{ url('admin_clients/'.$client->id) }}" data-toggle="modal" data-target="#showModal" title="{{__('admin_clients.index-tooltip-col1')}}" >
                                                 {{$client->surname}}&nbsp;{{$client->name}}
                                             </a>
+                                        @else
+                                            {{$client->surname}}&nbsp;{{$client->name}}
+                                        @endif
                                         </td>
-                                        <td>{{$client->surname}}</td>
-                                        <!--<td>{{$client->address}}</td>-->
-                                        <td>{{$client->acls()->first()->name}}</td>
+                                        {{--<td>{{$client->surname}}</td>--}}
+                                        <td>{{$client->region}}</td>
+                                        <td>
+                                            @foreach($client->acls()->pluck('name') as $acl)
+                                                [{{$acl}}]
+                                            @endforeach
+                                        </td>
                                         <td>{{$client->mobile}}</td>
                                         <td><a href="mailto:{{$client->email}}">{{$client->email}}</a></td>
                                         <td class="text-center">
+                                            @if(Auth::user()->hasRole('admin_clients','edit'))
                                             <a href="{{ url('admin_clients/'.$client->id.'/edit') }}" >
                                                 <i class="fa fa-pencil"  data-toggle="tooltip" title="{{__('admin_clients.index-tooltip-update')}}"></i>
                                             </a>
+                                            @endif
                                             &nbsp;&nbsp;
+                                            @if(Auth::user()->hasRole('admin_clients','destroy'))
                                             <a  class="confirm-toast"  data-message="{{__('admin_clients.index-confirm-message')}}"  data-location="{{ url('admin_clients/destroy/'.$client->id) }}">
                                                 <i class="fa fa-trash-o text-danger"  data-toggle="tooltip" title="{{__('admin_clients.index-tooltip-delete')}}"></i>
                                             </a>
-
-
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

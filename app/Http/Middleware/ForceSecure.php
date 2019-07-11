@@ -17,6 +17,8 @@ class ForceSecure
             URL::forceScheme('https');
         }
 
+        date_default_timezone_set('Europe/Rome');
+
         $locale = substr($request->server('HTTP_ACCEPT_LANGUAGE'), 0, 2);
         if ($locale != 'it' && $locale != 'es') {
             $locale = 'en';

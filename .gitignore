@@ -1,5 +1,11 @@
 .idea/*
 .idea/
 node_modules/*
+node_modules
 vendor/*
-.env
+vendor
+.env*
+.phpstorm.meta.php
+_ide_helper*
+
+/nbproject/private/

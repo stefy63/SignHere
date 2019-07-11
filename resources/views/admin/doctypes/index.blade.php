@@ -8,8 +8,10 @@
                 <h5>{{__('admin_doctypes.index-title')}}</h5>
                 <div ibox-tools="" class="ng-scope">
                     <div dropdown="" class="ibox-tools dropdown">
+                    @if(Auth::user()->hasRole('admin_doctypes','create'))
                         <a href="{{ url('admin_doctypes/create') }}"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_doctypesindex-tooltip-create')}}"></i> {{__('admin_brands.index-new')}}</button></a>
                     </div>
+                    @endif
                 </div>
             </div>
             <div class="ibox-content">
@@ -53,7 +55,7 @@
                                     <tr class="gradeA odd" role="row">
                                         <td>
                                             <div class="onoffswitch" >
-                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_doctypes.update',['id' => $doctype->id]) }}"  @if($doctype->active == 1) checked @endif id="{{$doctype->id}}">
+                                                <input type="checkbox" class="onoffswitch-checkbox" data-url="{{ route('admin_doctypes.update',['id' => $doctype->id]) }}"  @if($doctype->active == 1) checked @endif id="{{$doctype->id}}" @if(!Auth::user()->hasRole('admin_doctypes','edit')) disabled @endif>
                                                 <label class="onoffswitch-label" for="{{$doctype->id}}">
                                                     <span class="onoffswitch-inner"></span>
                                                     <span class="onoffswitch-switch"></span>
@@ -61,15 +63,19 @@
                                             </div>
                                         </td>
                                         <td>
-                                           <a class="open-modal" data-url="{{ url('admin_doctypes/'.$doctype->id) }}" data-toggle="modal" data-target="#showModal" title="{{__('admin_doctypes.index-tooltip-col1')}}" >
+                                            @if(Auth::user()->hasRole('admin_doctypes','show'))
+                                            <a class="open-modal" data-url="{{ url('admin_doctypes/'.$doctype->id) }}" data-toggle="modal" data-target="#showModal" title="{{__('admin_doctypes.index-tooltip-col1')}}" >
                                                 {{$doctype->name}}
                                             </a>
+                                            @else
+                                                {{$doctype->name}}
+                                            @endif
                                         </td>
                                         <td>{{$doctype->description}}</td>
                                         <!--<td>{{$doctype->template}}</td>-->
                                         <td>
                                             <div class="onoffswitch" >
-                                                <input type="checkbox" class="onoffswitch-checkbox" @if($doctype->single_sign == 1) checked @endif id="{{$doctype->id}}">
+                                                <input type="checkbox" class="onoffswitch-checkbox" @if($doctype->single_sign == 1) checked @endif id="{{$doctype->id}}" @if(!Auth::user()->hasRole('admin_doctypes','edit')) disabled @endif>
                                                 <label class="onoffswitch-label" for="{{$doctype->single_sign}}">
                                                     <span class="onoffswitch-inner"></span>
                                                     <span class="onoffswitch-switch"></span>
@@ -77,13 +83,18 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
+                                            @if(Auth::user()->hasRole('admin_doctypes','edit'))
                                             <a href="{{ url('admin_doctypes/'.$doctype->id.'/edit') }}" >
                                                 <i class="fa fa-pencil"  data-toggle="tooltip" title="{{__('admin_doctypes.index-tooltip-update')}}"></i>
                                             </a>
+                                            @endif
                                             &nbsp;&nbsp;
+
+                                            @if(Auth::user()->hasRole('admin_doctypes','destroy'))
                                             <a  class="confirm-toast"  data-message="{{__('admin_doctypes.index-confirm-message')}}"  data-location="{{ url('admin_doctypes/destroy/'.$doctype->id) }}">
                                                 <i class="fa fa-trash-o text-danger"  data-toggle="tooltip" title="{{__('admin_doctypes.index-tooltip-delete')}}"></i>
                                             </a>
+                                            @endif
                                    <!--         &nbsp;&nbsp;
                                             <a  class="confirm-toast"  data-message="{{__('admin_doctypes.index-confirm-message')}}"  data-location="{{ url('admin_doctypes/permission/'.$doctype->id) }}">
                                                 <i class="fa fa-cubes"  data-toggle="tooltip" title="{{__('admin_doctypes.index-tooltip-modules')}}"></i>

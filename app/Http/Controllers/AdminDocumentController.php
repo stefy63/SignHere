@@ -13,6 +13,8 @@ use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
 use Mockery\Exception;
 use Illuminate\Support\Facades\Auth;
+use setasign\Fpdi\Fpdi;
+use Spatie\PdfToText\Pdf;
 
 class AdminDocumentController extends Controller
 {
@@ -21,7 +23,7 @@ class AdminDocumentController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->middleware('hasRole');
     }
@@ -35,7 +37,7 @@ class AdminDocumentController extends Controller
     {
         $acls = Acl::getMyAcls()->get();
         if ($request->has('acl_id')) {
-            $clients = Acl::find($request->acl_id)->clients();
+            $clients = ($request->acl_id == 0)?$clients = Acl::getMyClients():Acl::find($request->acl_id)->clients();
             if($request->ajax()) {
                 return response()->json([$clients->get()]);
             }
@@ -49,11 +51,12 @@ class AdminDocumentController extends Controller
                 return response()->json([$dossiers->get()]);
             }
         } else {
-            if ($clients->count()) {
-                $dossiers = Dossier::where('client_id', $clients->first()->id)->get();
-            } else {
-                return back()->with('alert',__('admin_documents.error_No_client'));
-            }
+//            if ($clients->count()) {
+//                $dossiers = Dossier::where('client_id', $clients->first()->id)->get();
+//            } else {
+//                return back()->with('alert',__('admin_documents.error_No_client'));
+//            }
+            $dossiers = array();
         }
 
         if ($request->has('dossier_id')) {
@@ -62,11 +65,12 @@ class AdminDocumentController extends Controller
                 return response()->json([$documents->get()]);
             }
         } else {
-            if ($dossiers) {
-                $documents = Dossier::where('client_id', $dossiers->first())->get();
-            }else {
-                $documents = array();
-            }
+//            if ($dossiers) {
+//                $documents = Dossier::where('client_id', $dossiers->first())->get();
+//            }else {
+//                $documents = array();
+//            }
+            $documents = array();
         }
 
         return view('admin.documents.index',[
@@ -115,11 +119,22 @@ class AdminDocumentController extends Controller
 
             if($file->isValid() && $path = $file->store($request->client_id."/".$request->dossier_id,'documents')){
                 $document->filename = $path;
+                $template = Doctype::find($request->doctype_id);
+                $pdf = new Fpdi();
+                $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+                $templateLine = explode(PHP_EOL, $template->template);
+                $tempLastPageNumber = explode('|', $templateLine[count($templateLine)-1]);
+
+                if($tempLastPageNumber[0] && $tempLastPageNumber[0] <=  $pageCount) {
+                    $document->save();
+                    return redirect()->back()->with('success', __('admin_documents.success_document_created'));
+                }
+                unlink(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+                return redirect()->back()->withInput($request->input())->with('alert', __('admin_documents.warning_template_document_fault'));
             }
-            $document->save();
-            return redirect()->back()->with('success', __('admin_documents.success_document_created'));
+
         }
-        return redirect()->back()->with('warning', __('admin_documents.warning_document_NOTcreated'));
+        return redirect()->back()->withInput($request->input())->with('warning', __('admin_documents.warning_document_NOTcreated'));
     }
 
     /**
@@ -177,13 +192,24 @@ class AdminDocumentController extends Controller
                     $old_filename = $document->name.'-'.basename($document->filename, ".pdf");
                     Storage::disk('documents')->move($document->filename,'.trash/'.$old_filename);
                     $document->filename = $path;
+                    $template = Doctype::find($request->doctype_id);
+                    $pdf = new Fpdi();
+                    $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+                    $templateLine = explode(PHP_EOL, $template->template);
+                    $tempLastPageNumber = explode('|', $templateLine[count($templateLine)-1]);
+
+                    if(!$tempLastPageNumber[0] && $tempLastPageNumber[0] >  $pageCount) {
+                        unlink(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+                        return redirect()->back()->withInput($request->input())->with('alert', __('admin_documents.warning_template_document_fault'));
+                    }
+
                 }
             }
             $document->save();
 
             return redirect()->back()->with('success', __('admin_documents.success_document_update'));
         }
-        return redirect()->back()->with('error', __('admin_documents.error_document_NOTupdate'));
+        return redirect()->back()->withInput($request->input())->with('alert', __('admin_documents.error_document_NOTupdate'));
 
     }
 
@@ -204,13 +230,21 @@ class AdminDocumentController extends Controller
             try {
                 foreach ($files as $file) {
                     if ($file->isValid() && $path = $file->store($request->client_id."/".$request->dossier_id,'documents')){
-                        $doc = new Document();
-                        $doc->name = $file->getClientOriginalName();
-                        $doc->date_doc = Carbon::now()->format('d/m/Y');
-                        $doc->filename = $path;
-                        $doc->dossier_id = $id;
-                        $doc->user_id = \Auth::user()->id;
-                        $doc->save();
+                        if(Doctype::all()->count()) {
+                            $doc = new Document();
+                            $doc->name = $file->getClientOriginalName();
+                            $doc->date_doc = Carbon::now()->format('d/m/Y');
+                            $doc->filename = $path;
+                            $doc->dossier_id = $id;
+                            $doc->user_id = \Auth::user()->id;
+                            $doc->save();
+                        } else {
+                            \DB::rollBack();
+                            return response()->json([
+                                'error' => true,
+                                'message' => __("admin_documents.notify_alert_missingDocType"),
+                                'code' => 500], 500);
+                        }
                     } else {
                         \DB::rollBack();
                         return response()->json([
@@ -248,11 +282,14 @@ class AdminDocumentController extends Controller
     public function destroy(Document $document, $id)
     {
         if ($document = Document::find($id)){
-            Storage::disk('documents')->move($document->filename,'.trash/'.$document->name);
+            Storage::disk('documents')->move($document->filename,'.trash/'.$document->name . '-' . Carbon::now()->toDateTimeString());
             $document->delete();
 
             return response()->json([ __('admin_documents.success_document_deleted')],200);
         }
         return response()->json([__('admin_documents.warning_document_NOTfound')],400);
     }
+
+
+
 }

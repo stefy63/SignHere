@@ -25,11 +25,14 @@
      Route::resource('admin_doctypes','AdminDoctypeController');
      Route::get('admin_doctypes/destroy/{id}', array('as' => 'admin_doctypes.destroy','uses' => 'AdminDoctypeController@destroy'));
      // Route for Document //
-     Route::resource('admin_documents','AdminDocumentController');
+     Route::resource('admin_documents','AdminDocumentController', ['except' => ['show', 'destroy']]);
      Route::put('admin_documents/update_file/{id}', array('as' => 'admin_documents.update_file','uses' => 'AdminDocumentController@update_file'));
      Route::get('admin_documents/destroy/{id}', array('as' => 'admin_documents.destroy','uses' => 'AdminDocumentController@destroy'));
      // Route for Dossier //
      Route::resource('admin_dossiers','AdminDossierController');
+     Route::post('admin_dossiers/import_file', array('as' => 'admin_dossiers.import_file','uses' => 'AdminDossierController@import_file'));
+     Route::post('admin_dossiers/update_import_file', array('as' => 'admin_dossiers.update_import_file','uses' => 'AdminDossierController@update_import_file'));
+     Route::get('admin_dossiers/export/{id}', array('as' => 'admin_dossiers.export','uses' => 'AdminDossierController@export'));
      Route::get('admin_dossiers/destroy/{id}', array('as' => 'admin_dossiers.destroy','uses' => 'AdminDossierController@destroy'));
      // Route for Locations //
      Route::resource('admin_locations','AdminLocationController');
