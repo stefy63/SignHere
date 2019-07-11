@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8d01623775a986686939d29dbce0290b",
+    "content-hash": "7c45c7d25f2955d48d16a35e44fcd1be",
     "packages": [
         {
             "name": "barryvdh/laravel-ide-helper",
@@ -1587,10 +1587,10 @@
         },
         {
             "name": "setasign/fpdi_pdf-parser",
-            "version": "2.0.3",
+            "version": "2.0.4",
             "dist": {
                 "type": "zip",
-                "url": "https://www.setasign.com/downloads/2016019/FPDI_PDF-Parser-2.0.3.zip",
+                "url": "https://www.setasign.com/downloads/2132008/FPDI_PDF-Parser-2.0.4.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -1609,14 +1609,14 @@
             "support": {
                 "email": "support@setasign.com"
             },
-            "time": "2018-02-22T00:00:00+00:00"
+            "time": "2018-11-06T00:00:00+00:00"
         },
         {
             "name": "setasign/setapdf-core",
-            "version": "2.28.0.1223",
+            "version": "2.31.0.1330",
             "dist": {
                 "type": "zip",
-                "url": "https://www.setasign.com/downloads/2080133/SetaPDF-Core_2.28.0.1223-without-demos.zip",
+                "url": "https://www.setasign.com/downloads/2221236/SetaPDF-Core_2.31.0.1330-without-demos.zip",
                 "reference": null,
                 "shasum": null
             },
@@ -1632,19 +1632,19 @@
             "support": {
                 "email": "support@setasign.com"
             },
-            "time": "2018-07-20T00:00:00+00:00"
+            "time": "2019-04-04T00:00:00+00:00"
         },
         {
             "name": "setasign/setapdf-signer",
-            "version": "2.28.0.1223",
+            "version": "2.31.0.1330",
             "dist": {
                 "type": "zip",
-                "url": "https://www.setasign.com/downloads/2080158/SetaPDF-Signer_2.28.0.1223-without-core.zip",
+                "url": "https://www.setasign.com/downloads/2221261/SetaPDF-Signer_2.31.0.1330-without-core.zip",
                 "reference": null,
                 "shasum": null
             },
             "require": {
-                "setasign/setapdf-core": "2.28.0.1223"
+                "setasign/setapdf-core": "2.31.0.1330"
             },
             "type": "library",
             "autoload": {
@@ -1658,7 +1658,7 @@
             "support": {
                 "email": "support@setasign.com"
             },
-            "time": "2018-07-20T00:00:00+00:00"
+            "time": "2019-04-04T00:00:00+00:00"
         },
         {
             "name": "spatie/pdf-to-text",

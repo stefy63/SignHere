@@ -15,5 +15,6 @@ return [
 
     'failed' => 'Le credenziali non corrispondono.',
     'throttle' => 'Troppi tentativi di accesso. Attendere :seconds secondi.',
+    'unactive' => 'Il tuo account non è attivo.',
 
 ];

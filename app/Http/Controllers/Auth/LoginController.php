@@ -38,7 +38,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'logout']);
+        $this->middleware('guest')->except('logout');
     }
 
     /**
@@ -48,10 +48,9 @@ class LoginController extends Controller
      * @param  mixed  $user
      * @return mixed
      */
-    protected function authenticate(Request $request, $user)
+    public function authenticated(Request  $request, $user)
     {
-        if(Auth::attempt(['email' => Auth::user()->email, 'password' => Auth::user()->password, 'active' => 1])) {
-
+        if(Auth::attempt(['username' => $request->username, 'password' => $request->password, 'active' => true])) {
             $previous_session = $user->session_id;
 
             if ($previous_session) {
@@ -61,9 +60,12 @@ class LoginController extends Controller
             Auth::user()->session_id = \Session::getId();
             Auth::user()->save();
             Artisan::call('view:clear');
-            redirect()->intended($this->redirectPath());
+            return redirect()->intended($this->redirectPath());
         }
-        return false;
+        \Auth::guard( 'web' )->logout(); 
+        return redirect()->intended('/login')
+            ->withInput($request->only($this->username(), 'remember'))
+            ->with('alert', __('auth.unactive') );
     }
 
 
@@ -77,16 +79,5 @@ class LoginController extends Controller
         return 'username';
     }
 
-    /**
-     * Get the needed authorization credentials from the request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    /*protected function credentials(Request $request)
-    {
-        return array_merge($request->only($this->username(), 'password'),
-        ['active' => 1]);
-    }*/
-
+    
 }

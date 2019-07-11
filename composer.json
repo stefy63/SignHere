@@ -11,8 +11,8 @@
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
         "setasign/fpdi-fpdf": "^2.0",
-        "setasign/fpdi_pdf-parser": "2.0.3",
-        "setasign/setapdf-signer": "2.28.0.1223",
+        "setasign/fpdi_pdf-parser": "2.0.4",
+        "setasign/setapdf-signer": "2.31.0.1330",
         "spatie/pdf-to-text": "^1.1"
     },
     "repositories": [
