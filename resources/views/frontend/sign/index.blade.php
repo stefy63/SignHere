@@ -36,11 +36,11 @@
         <div class="ibox float-e-margins col-lg-12">
             <div class="ibox-content col-lg-12">
                 <!-- CLIENTI IN ATTESA DI FIRMA -->
-                <div class="col-lg-7 full-height">
+                <div class="col-lg-7 full-height" id="client">
                     <div class="ibox-title">
                         <h5>{{__('sign.sign-title')}}</h5>
                         <div class="filter-container">
-                            <input type="search" class="form-control input-sm" data-location="{{url('sign/')}}" value="{{$clientfilter}}"  placeholder="Search..." data-name="clientfilter">
+                            <input type="search" id="clientfilter" class="form-control input-sm" data-location="{{url('sign/')}}" value="{{$clientfilter}}"  placeholder="Search..." data-name="clientfilter">
                             <button class="clear_filter btn btn-link">
                                 <i class="fa fa-times-circle-o"></i>
                             </button>
@@ -57,7 +57,7 @@
                             </thead>
                             <tbody>
                             @foreach($clients as $client)
-                                <tr class="bg-info tr-client" id="{{$client->id}}">
+                                <tr class="bg-info tr-client" id="{{$client->id}}" data-client="{{$client->id}}">
                                     <td class="col-md-5"><i class="fa fa-user"> {{$client->surname}}&nbsp;{{$client->name}}</i></td>
                                     <td class="col-md-2">@if($client->mobile){{$client->mobile}}@else{{$client->phone}}@endif</td>
                                     <td class="col-md-5">{{$client->email}} <i class="fa fa-chevron-down pull-right"></i></td>
@@ -79,22 +79,22 @@
                                                 @else
                                                     <i class="fa fa-minus-square-o" style="color: red;"></i>
                                                 @endif
-                                                &nbsp&nbsp;{{$document->name}}
+                                                &nbsp;&nbsp;{{$document->name}}
                                                 <div class="pull-right">
                                                         @if($document->readonly || $document->signed )
                                                             @if(Auth::user()->hasRole('sign','send'))
-                                                                <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="sendmail"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="sendmail" data-document="{{$document->id}}"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                             @endif
                                                         @else
                                                             @if(Auth::user()->hasRole('sign','signing'))
-                                                                <a data-location="{{url('sign/signing/'.$document->id)}}" class="href"><i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                <a data-location="{{url('sign/signing/'.$document->id)}}" class="href" data-document="{{$document->id}}"><i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                             @endif
                                                         @endif
                                                     @if(Auth::user()->hasRole('sign','download'))
-                                                        <a data-location="{{Storage::disk('documents')->url($document->filename) }}" target="_blank" class="href"><i class="fa fa-download"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        <a data-location="{{Storage::disk('documents')->url($document->filename) }}" target="_blank" class="href" data-document="{{$document->id}}"><i class="fa fa-download"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                     @endif
                                                     @if(Auth::user()->hasRole('sign','destroy'))
-                                                        <a data-message="{{__('sign.confirm_delete')}}" data-location="{{url('sign/destroy/'.$document->id)}}" class="confirm-toast"><i class="fa fa-trash-o text-danger"></i></a>
+                                                        <a data-message="{{__('sign.confirm_delete')}}" data-location="{{url('sign/destroy/'.$document->id)}}" class="confirm-toast" data-document="{{$document->id}}"><i class="fa fa-trash-o text-danger"></i></a>
                                                     @endif
                                                 </div>
                                             </td>
@@ -108,11 +108,11 @@
                     <div class="text-center">{{ $clients->links() }}</div>
                 </div>
                 <!-- ARCHIVIO CLIENTI  -->
-                <div class="col-lg-5 full-height">
+                <div class="col-lg-5 full-height" id="archive">
                     <div class="ibox-title">
                         <h5>{{__('sign.archive-title')}}</h5>
                         <div class="filter-container">
-                            <input type="search" class="form-control input-sm" data-location="{{url('sign/')}}" value="{{$archivefilter}}" placeholder="Search..." data-name="archivefilter">
+                            <input type="search" class="form-control input-sm" id="archivefilter" data-location="{{url('sign/')}}" value="{{$archivefilter}}" placeholder="Search..." data-name="archivefilter">
                             <button class="clear_filter btn btn-link">
                                 <i class="fa fa-times-circle-o"></i>
                             </button>
@@ -129,7 +129,7 @@
                             </thead>
                             <tbody>
                             @foreach($archives as $archive)
-                                <tr class="bg-info tr-client" id="{{$archive->id}}">
+                                <tr class="bg-info tr-client" id="{{$archive->id}}" data-client="{{$archive->id}}">
                                     <td class="col-md-5"><i class="fa fa-user"> {{$archive->surname}}&nbsp;{{$archive->name}}</i></td>
                                     <td class="col-md-2">@if($archive->mobile){{$archive->mobile}}@else{{$archive->phone}}@endif</td>
                                     <td class="col-md-5">{{$archive->email}} <i class="fa fa-chevron-down pull-right"></i></td>
@@ -148,9 +148,9 @@
                                             @endif
                                         <div class="pull-right">
                                             @if($document->signed)
-                                                <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="confirm-toast"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;
+                                                <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="confirm-toast" data-document="{{$document->id}}"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;
                                             @endif
-                                            <a data-location="{{Storage::disk('documents')->url($document->filename) }}" target="_blank" class="href"><i class="fa fa-download"></i></a>
+                                            <a data-location="{{Storage::disk('documents')->url($document->filename) }}" target="_blank" class="href" data-document="{{$document->id}}"><i class="fa fa-download"></i></a>
                                         </div>
                                         </td>
                                     </tr>
@@ -178,6 +178,7 @@ $(function () {
         e.preventDefault();
         var location =  this.getAttribute('data-location');
         var target = this.getAttribute('target');
+        localStorage.setItem('document_id', this.getAttribute('data-document'));
         if(target)
             window.open(location);
         else
@@ -198,6 +199,7 @@ $(function () {
         ($(this).parent().find('.dossier-'+id).is(':visible'))?
                 $(this).parent().find('.dossier-'+id).hide():
                 $(this).parent().find('.dossier-'+id).show();
+                localStorage.setItem('client_id', id);
     });
 
     $('.tr-dossier').click(function(e){
@@ -207,12 +209,8 @@ $(function () {
         ($(this).parent().find('.document-'+dossier).is(':visible'))?
                 $(this).parent().find('.document-'+dossier).hide():
                 $(this).parent().find('.document-'+dossier).show();
+                localStorage.setItem('dossier_id', dossier);
     });
-
-    /*$('.tr-document').click(function(e){
-        e.preventDefault();
-        //$(this).dblclick();
-    });*/
 
     $('.sendmail').click(function(e){
         e.preventDefault();
@@ -246,7 +244,6 @@ $(function () {
     });
 
     $('.content').click(function(e){
-        // e.preventDefault();
         $('.tr-dossier').hide(500);
         $('.tr-document').hide(500);
     });
@@ -254,6 +251,7 @@ $(function () {
 
     $('.clear_filter').click(function (e) {
         e.preventDefault();
+        localStorage.clear();
         window.location = '{{url('sign/')}}';
     });
 
@@ -267,12 +265,44 @@ $(function () {
             e.preventDefault();
             var field = this.getAttribute('data-name');
             var location =  this.getAttribute('data-location')+"?"+field+"="+$(this).val();
+            if(field == 'clientfilter') {
+                localStorage.setItem('clientfilter', $(this).val());
+            }
+            if(field == 'archivefilter') {
+                localStorage.setItem('archivefilter', $(this).val());
+            }
             window.location = location;
         }
     });
 
-    $('.filter-container input[type=search]').trigger('keyup');
-
+    if(!!localStorage.getItem('document_id')) {
+        localStorage.removeItem('document_id');
+        if(!!localStorage.getItem('clientfilter')) {
+            $('#clientfilter').val(localStorage.getItem('clientfilter'));
+            var e = $.Event("keyup");
+            e.which = 13; 
+            $('#clientfilter').trigger(e);
+        }
+        if(!!localStorage.getItem('archivefilter')) {
+            $('#archivefilter').val(localStorage.getItem('archivefilter'));
+            var e = $.Event("keyup");
+            e.which = 13; 
+            $('#archivefilter').trigger(e);
+        }
+    } else {
+        if(!!localStorage.getItem('archivefilter')) {
+            $('#archivefilter').parent().find('.clear_filter').show();
+        } else {
+            $('#archivefilter').parent().find('.clear_filter').hide();
+        }
+        if(!!localStorage.getItem('clientfilter')) {
+            $('#clientfilter').parent().find('.clear_filter').show();
+        } else {
+            $('#clientfilter').parent().find('.clear_filter').hide();
+        }
+        $("[data-client="+localStorage.getItem('client_id')+"]").click();
+        $("[data-dossier="+localStorage.getItem('dossier_id')+"]").click();
+    }
 })
     
 </script>

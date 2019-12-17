@@ -92,9 +92,6 @@ class SignController extends Controller
         }
         $archives = $archives->paginate(10, ['*'], 'archive_page');
 
-//dd($clientfilter);
-
-
         return view('frontend.sign.index',[
             'archives' => $archives,
             'clients' => $clients,
