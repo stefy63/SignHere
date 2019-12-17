@@ -83,7 +83,7 @@ function cancelForm() {
 
 @endpush
 @push('assets')
-    <style>
+<style>
     .footer-group {
         margin-top: 10px;
     }
@@ -207,6 +207,7 @@ function cancelForm() {
             </div>
         </div>
     </div>
+</div>
 </div>
 <div class="modal inmodal" id="showModal" tabindex="-1"  role="dialog" aria-hidden="true">
     <div class="modal-dialog">
@@ -438,7 +439,7 @@ $(function () {
         e.preventDefault();
         setShowBtnClearFilter(this);
         var len = $(this).val().length;
-        if( len > 3 || len == 0) {
+        if( e.which == 13) {
             getAjaxFilter(this);
         }
     });

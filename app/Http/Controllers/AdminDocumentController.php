@@ -35,36 +35,28 @@ class AdminDocumentController extends Controller
      */
     public function index(Request $request)
     {
-        $dossierfilter = $request->dossierfilter;
-        // CLIENTS
+        // ACLS
         $acls = Acl::getMyAcls()->get();
-        if ($request->has('acl_id')) {
-            $clients = ($request->acl_id == 0)?$clients = Acl::getMyClients():Acl::find($request->acl_id)->clients();
-            if($request->ajax()) {
-                return view('admin.documents.client', [
-                    'clients' => $clients->paginate(10, ['*'], 'client_page'),
-                    'clientfilter'  => $request->clientfilter
-                ])->render(); 
+        // CLIENTS
+        $clients = Acl::getMyClients();
+        if ($request->has('acl_id') || $request->has('clientfilter')) {
+            if($request->has('acl_id') && $request->acl_id != 0) {
+                $clients = Acl::find($request->acl_id)->clients();
             }
-        } else {
-            $clients = Acl::getMyClients();
-        }
-        if($request->has('clientfilter')) {
-            if($request->clientfilter != '#') {
+            if ($request->has('clientfilter') && $request->clientfilter != '#') {
                 $clients = $clients->where(function($qFilter) use ($request) {
                     $qFilter->where('surname', 'LIKE', '%'.$request->clientfilter.'%')
                             ->orWhere('name', 'LIKE', '%'.$request->clientfilter.'%');
                 });
-            } 
-            
+            }
             if($request->ajax()) {
                 return view('admin.documents.client', [
-                    'clients' => $clients->paginate(10, ['*'], 'client_page')
+                    'clients' => $clients->orderBy('surname', 'asc')->paginate(10, ['*'], 'client_page')
                 ])->render(); 
             }
-        }
-        $clients = $clients->paginate(10, ['*'], 'client_page');
-        
+        } 
+        $clients = $clients->orderBy('surname', 'asc')->paginate(10, ['*'], 'client_page');
+                
         // DOSSIERS
 
         if ($request->has('client_id')) {
@@ -88,7 +80,7 @@ class AdminDocumentController extends Controller
             $documents = Document::where('dossier_id', $request->dossier_id)->get();
             if ($request->ajax()) {
                 return view('admin.documents.document', [
-                    'documents' => $documents->get()
+                    'documents' => $documents
                 ])->render();
             }
         } else {
