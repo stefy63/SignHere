@@ -84,18 +84,31 @@ function cancelForm() {
 @endpush
 @push('assets')
     <style>
-        .footer-group {
-            margin-top: 10px;
-        }
-        .group label {
-            margin-bottom: 1px;
-            font-size: 11px;
-        }
-        .group input {
-            height: 20px;
-            font-size: 10px;
-        }
-    </style>
+    .footer-group {
+        margin-top: 10px;
+    }
+    .group label {
+        margin-bottom: 1px;
+        font-size: 11px;
+    }
+    .group input {
+        height: 20px;
+        font-size: 10px;
+    }
+    
+    .filter-container {
+        position: relative;
+    }
+
+    .filter-container .clear_filter {
+        color: lightskyblue;
+        font-size: 20px;
+        position: absolute;
+        right: -10px;
+        top: -5px;
+        display: none;
+    }
+</style>
 <!-- Data Table -->
 <link href="{{ asset('css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
 <link href="{{ asset('css/plugins/dataTables/dataTables.responsive.css') }}" rel="stylesheet">
@@ -140,129 +153,57 @@ function cancelForm() {
                             </div>
                         </div>
                     </div>
-                    <div class=" col-lg-12 col-md-12 col-xs-12">
-                        <!-- CLIENTS  -->
-                        <input type="hidden" id="client_id" value="0"/>
-                        <table class="table table-bordered table-hover" id="tr-client" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th class="col-lg-12 col-md-12 col-xs-12"></th>
-                                </tr>
-                            </thead>
-                            <tbody class="tbody-client" >
-                            @foreach($clients as $client)
-                                <tr class="tab-client"  id="{{$client->id}}">
-                                    <td>
-                                        <i class="fa fa-user"></i>&nbsp;&nbsp; {{$client->surname}} {{$client->name}}
-                                        @if(Auth::user()->hasRole('admin_clients','edit'))
-                                        <a data-url="{{ url('admin_clients/')}}/{{$client->id}}/edit" class="href"><i class="fa fa-pencil pull-right"></i></a>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
+                    <section class=" col-lg-12 col-md-12 col-xs-12">
+                        <div class="filter-container" >
+                            <input type="search" class="form-control input-sm" data-section-name="client" data-location="{{url('admin_documents')}}" value="{{$clientfilter}}"  placeholder="Search..." data-name="clientfilter">
+                            <button class="clear_filter btn btn-link">
+                                <i class="fa fa-times-circle-o"></i>
+                            </button>
+                        </div>
+                        <div class="client">
+                            @include('admin.documents.client')
+                        </div>
+                    </section>
                 </div>
-                <div class="col-lg-6 col-md-6 col-xs-6 border-left">
-                    <!-- DOSSIERS  -->
-                    <div class="col-lg-12 col-md-12 col-xs-12" style="height: 40%;" id="div-dossier" hidden>
-                        <div class="ibox-title">
-                            <h5 class="text-danger">{{__('admin_dossiers.index-dossier')}}</h5>
-                            <div ibox-tools="" class="ng-scope">
-                                <div dropdown="" class="ibox-tools dropdown">
-                                    @if(Auth::user()->hasRole('admin_documents','create'))
-                                    <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_dossiers.index-tooltip-dossier')}}"></i> {{__('admin_brands.index-new')}}</button></a>
-                                    @endif
-                                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-xs-6 border-left">
+                <div class="col-lg-12 col-md-12 col-xs-12" style="height: 40%;" id="div-dossier" hidden>
+                    <div class="ibox-title">
+                        <h5 class="text-danger">{{__('admin_dossiers.index-dossier')}}</h5>
+                        <div ibox-tools="" class="ng-scope">
+                            <div dropdown="" class="ibox-tools dropdown">
+                                @if(Auth::user()->hasRole('admin_documents','create'))
+                                <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_dossiers.index-tooltip-dossier')}}"></i> {{__('admin_brands.index-new')}}</button></a>
+                                @endif
                             </div>
                         </div>
-                        <input type="hidden" id="dossier_id" value="0" />
-                        <table class="table table-bordered table-hover" id="tr-dossier">
-                            <thead>
-                                <tr>
-                                    <th class="col-lg-10 col-md-10 col-xs-10"></th>
-                                    <th class="col-lg-2 col-md-2 col-xs-2"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($dossiers as $dossier)
-                                <tr class="tab-dossier" id="{{$dossier->id}}">
-                                    <td>
-                                       <i class="fa fa-archive"></i> {{$dossier->name}}
-                                    </td>
-                                    <td class="text-center">
-                                        @if(Auth::user()->hasRole('admin_documents','edit'))<a data-url="{{ url('admin_dossiers/')}}/{{$dossier->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>@endif
-                                        @if(Auth::user()->hasRole('admin_documents','export'))<a data-url="{{ url('admin_dossiers/export/'.$dossier->id)}}" class="href text-warning text-center"><i class="fa fa-file-excel-o"></i></a>@endif
-                                        @if(Auth::user()->hasRole('admin_documents','destroy'))<a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>@endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th class="col-lg-10 col-md-10 col-xs-10"></th>
-                                    <th class="col-lg-2 col-md-2 col-xs-2"></th>
-                                </tr>
-                            </tfoot>
-                        </table>
                     </div>
-                    <hr>
-                    <!-- DOCUMENTS  -->
-                    <div class="col-lg-12 col-md-12 col-xs-12" style="height: 40%;"  id="div-documents" hidden>
-                        <div class="ibox-title">
-                            <h5 class="text-danger">{{__('admin_documents.index-document')}}</h5>
-                            <div ibox-tools="" class="ng-scope">
-                                <div dropdown="" class="ibox-tools dropdown">
-                                    @if(Auth::user()->hasRole('admin_documents','create'))
-                                    <a data-url="{{ url('admin_documents/create') }}" class="call-document"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-document')}}"></i> {{__('admin_brands.index-new')}}</button></a>
-                                    @endif
-                                </div>
+                    <div class="filter-container">
+                        <input type="search" class="form-control input-sm" data-section-name="dossier" data-location="{{url('admin_documents')}}" value="{{$dossierfilter}}"  placeholder="Search..." data-name="dossierfilter">
+                        <button class="clear_filter btn btn-link">
+                            <i class="fa fa-times-circle-o"></i>
+                        </button>
+                    </div>
+                    <section class="dossier" >
+                        @include('admin.documents.dossier')
+                    </section>
+                </div>
+                <hr>
+                <div class="col-lg-12 col-md-12 col-xs-12" style="height: 40%;"  id="div-documents" hidden>
+                    <div class="ibox-title">
+                        <h5 class="text-danger">{{__('admin_documents.index-document')}}</h5>
+                        <div ibox-tools="" class="ng-scope">
+                            <div dropdown="" class="ibox-tools dropdown">
+                                @if(Auth::user()->hasRole('admin_documents','create'))
+                                <a data-url="{{ url('admin_documents/create') }}" class="call-document"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-document')}}"></i> {{__('admin_brands.index-new')}}</button></a>
+                                @endif
                             </div>
                         </div>
-                        <div class="">
-                            <input type="hidden" id="document_id" value="0"/>
-                            <table class="table table-bordered table-hover" id="tr-document">
-                                <thead>
-                                    <tr>
-                                        <th class="col-lg-1 col-md-1 col-xs-1"></th>
-                                        <th class="col-lg-9 col-md-9 col-xs-9"></th>
-                                        <th class="col-lg-2 col-md-2 col-xs-2"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($documents as $document)
-                                    <tr id="{{$document->id}}">
-                                        <td>
-                                            @if(Auth::user()->hasRole('admin_documents','download'))<a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-download"></i></a> @endif
-                                        </td>
-                                        <td class="@if($document->signed) text-line-through text-danger @endif" id="{{$document->id}}">
-                                            {{$document->name}}
-                                        </td>
-                                        <td>
-                                            @if(Auth::user()->hasRole('admin_documents','edit'))<a data-url="{{ url('admin_documents/')}}/{{$document->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>@endif
-                                            @if(Auth::user()->hasRole('sign','send'))<a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="confirm-toast"><i class="fa fa-envelope-o"></i></a>@endif
-                                            @if(Auth::user()->hasRole('admin_documents','destroy'))<a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>@endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th class="col-lg-1 col-md-1 col-xs-1"></th>
-                                        <th class="col-lg-9 col-md-9 col-xs-9"></th>
-                                        <th class="col-lg-2 col-md-2 col-xs-2"></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
                     </div>
-                </div>
+                     <section class="documents">
+                        @include('admin.documents.document')
+                    </section>
+                 </div>
             </div>
         </div>
     </div>
@@ -283,10 +224,6 @@ function cancelForm() {
 @push('scripts')
 <script>
 $(function () {
-    // $.fn.dataTable.ext.search.push(
-    // function( settings, data, dataIndex ) {
-    //     console.log(settings, data, dataIndex);
-    // });
 
     $(document).on('click','.href',function(e){
         e.preventDefault();
@@ -322,26 +259,11 @@ $(function () {
         }
     });
 
-    var tbl_option = {
-        "paging": true,
-        "ordering": false,
-        "info": false,
-        "searching": true,
-        "pagingType": "numbers",
-        //"scrollY": "auto",
-        "scrollCollapse": true
-    };
-
-    $('#tr-client').DataTable(tbl_option );
-    $('#tr-dossier').DataTable(tbl_option );
-    $('#tr-document').DataTable(tbl_option );
 
     $('#select-acl').on('change',function(e){
         e.preventDefault();
         $('#div-documents').hide();
         $('#div-dossier').hide();
-        //$('#tr-dossier').hide();
-        //$(this).children('#opt_acl').remove();
         var url = '{{url('admin_documents')}}';
 
         $.ajax({
@@ -352,16 +274,7 @@ $(function () {
                 acl_id: this.value
             } })
             .done(function(data){
-                var t = $('#tr-client').DataTable();
-                t.clear().draw();
-                data[0].forEach(function(k){
-                    var row = '<td><i class="fa fa-user"></i>&nbsp;&nbsp;'+k['name']+' '+((k['surname'])?k['surname']:'');
-                    @if(Auth::user()->hasRole('admin_clients','edit')) row += '<a  data-url="{{ url('admin_clients/')}}'+'/'+k['id']+'/edit" class="href"><i class="fa fa-pencil pull-right"></i></a>';  @endif
-                    row += '</td>';
-                    var node = t.row.add([row]).draw().node();
-                    $(node).addClass('tab-client').attr('id', k['id']);
-                });
-                $('#tr-dossier').show();
+                $('.client').html(data);
             });
     });
 
@@ -385,27 +298,8 @@ $(function () {
                 _token: "{{csrf_token()}}",
                 client_id: client_id
             } }).done(function(data){
-            $('#tr-dossier tbody').empty();
-            var t = $('#tr-dossier').DataTable();
-            t.clear().draw();
-            data[0].forEach(function(k){
-                var row = [];
-                row[0] = '<td><i class="fa fa-archive"></i> '+k['name']+'</td>';
-                row[1] = '<td class="text-center">';
-                @if(Auth::user()->hasRole('admin_documents','edit'))
-                row[1] += '<a data-url="{{ url('admin_dossiers/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>&nbsp&nbsp';
-                @endif
-                @if(Auth::user()->hasRole('admin_documents','export'))
-                row[1] += '<a data-url="{{ url('admin_dossiers/export/')}}/'+k['id']+'" class="href text-warning text-center"><i class="fa fa-file-excel-o"></i></a>';
-                @endif
-                @if(Auth::user()->hasRole('admin_documents','destroy'))
-                row[1] += '<a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a>';
-                @endif
-                row[1] += '</td>';
-                var node = t.row.add(row).draw().node();
-                $(node).addClass('tab-dossier').attr('id', k['id']);
-            });
-            $('#div-dossier').show();
+                $('.dossier').html(data);
+                $('#div-dossier').show();
         });
     }
 
@@ -428,37 +322,8 @@ $(function () {
                 _token: "{{csrf_token()}}",
                 dossier_id: dossier_id
             } }).done(function(data){
-            $('#tr-document tbody').empty();
-            var t = $('#tr-document').DataTable();
-            t.clear().draw();
-            data[0].forEach(function(k){
-                var row = [];
-                row[0] = '<td>';
-                {{--@if(Auth::user()->hasRole('admin_documents','download'))--}}
-                    row[0] += '<td><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank"><i class="fa fa-download"></i></a>';
-                {{--@endif--}}
-                row[0] += '</td>';
-                row[1] = '<td class=" "><i ';
-                row[1] += (k['signed'] == 1)?'class="fa fa-check-square-o" style="color: green;"':'class="fa fa fa-minus-square-o" style="color: red;"';
-                row[1] += '></i>  '+k['name']+'</td>';
-                row[2] = '<td>';
-                @if(Auth::user()->hasRole('admin_documents','edit'))
-                    row[2] += '<a data-url="{{ url('admin_documents/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>';
-                @endif
-                
-                @if(Auth::user()->hasRole('sign','send'))
-                    row[2] += '<a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/')}}/'+k['id']+'" class="sendmail">&nbsp;&nbsp<i class="fa fa-envelope-o"></i></a>';
-                @endif
-                
-                @if(Auth::user()->hasRole('admin_documents','destroy'))
-                    row[2] += '<a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a>';
-                @endif
-                row[2] += '</td>'
-
-                var node = t.row.add(row).draw().node();
-                $(node).attr('id', k['id']).attr('data-toggle', 'tooltip').attr('title', k['date_sign']);
-            });
-            $('#div-documents').show();
+                $('.documents').html(data);
+                $('#div-documents').show();
         });
     }
 
@@ -500,16 +365,6 @@ $(function () {
         });
     });
 
-    $(document).on('click','.tab-document',function(e){
-       /* e.preventDefault();
-        var document = $(this).closest('tr').attr('id');
-        $('input #document_id').val(document);
-        $(this).closest('tbody').find('tr').removeClass('bg-danger');
-        $(this).closest('tr').addClass('bg-danger');
-        console.log(document);
-        //alert(document);*/
-
-    });
 
     $(document).on('click','.tab-document_a',function(e){
         var document = $(this).closest('tr').attr('id');
@@ -575,10 +430,56 @@ $(function () {
             confirmButtonText: "Yes",
             closeOnConfirm: true
         }, function () {
-            //$(location).prop('href',location);
             window.location.replace(location)
         });
     });
+    
+    $(document).on('keyup', '.filter-container input[type=search]', function (e) {
+        e.preventDefault();
+        setShowBtnClearFilter(this);
+        var len = $(this).val().length;
+        if( len > 3 || len == 0) {
+            getAjaxFilter(this);
+        }
+    });
+    
+    function setShowBtnClearFilter(obj) {
+        if($(obj).val().length > 0) {
+            $(obj).parent().find('.clear_filter').show();
+        } else {
+            $(obj).parent().find('.clear_filter').hide();
+        }
+    }
+    
+    $('.filter-container .clear_filter').click(function(e){
+        e.preventDefault();
+        $(this).parent().find('input[type=search]').val('');
+        getAjaxFilter($(this).parent().find('input[type=search]'));
+    });
+    
+    function getAjaxFilter(obj) {
+        console.log('2 - ' + $(obj).attr('data-name'));
+        
+        $('#div-documents').hide();
+        $('#div-dossier').hide();
+        
+        var dataObj = {
+            '_token': "{{csrf_token()}}",
+            'client_id': $('input#client_id').val() || 0,
+        };
+        dataObj[$(obj).attr('data-name')] = $(obj).val() ?  $(obj).val() : '#';
+
+        $.ajax({
+          type: "GET",
+          data: dataObj,
+          }).done(function(data){
+              var section = $(obj).attr('data-section-name');
+              console.log('SECTION: - ' + section);
+              $('.'+section).html(data);
+              $('#div-'+section).show();
+              setShowBtnClearFilter(obj);
+          });
+    }
 
 
 })
