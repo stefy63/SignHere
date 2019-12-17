@@ -61,6 +61,7 @@
             "php artisan optimize"
         ],
         "post-update-cmd": [
+            "cp -f EloquentHandler.php vendor/monolog/monolog/src/Monolog/Handler/EloquentHandler.php",
             "Illuminate\\Foundation\\ComposerScripts::postUpdate",
             "php artisan ide-helper:generate",
             "php artisan ide-helper:meta",
