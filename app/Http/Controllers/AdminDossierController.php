@@ -410,15 +410,21 @@ class AdminDossierController extends Controller
         }
         $dossier = new Dossier();
         $dossier->name = $request->dossierNumber.' - '.$request->veicleSummary;
-        $dossier->client_id = $client->id;
-        $dossier->save();
+        $dossier->client_id = $client->id;        
+        if (!$dossier->save()) {
+            \DB::rollBack();
+            return redirect()->back()->with('alert', __('admin_dossiers.alert_create_dossier'));
+        }
         $additionaDossier = new AdditionalDataDossiers();
         $additionaDossier->fill($request->all());
         $additionaDossier->dossier_id = $dossier->id;
         $additionaDossier->venditore = $request->venditore;
         $additionaDossier->note = $request->note. ' - '. $request->contSurname;
         $additionaDossier->incentivo = $request->incentivo;
-        $additionaDossier->save();
+        if (!$additionaDossier->save()) {
+            \DB::rollBack();
+            return redirect()->back()->with('alert', __('admin_dossiers.alert_create_dossier'));
+        }
 
         if(\Storage::disk('documents')->exists($request->temp_name)) {
              // $file = \Storage::disk('documents')->get($request->temp_name);
@@ -434,8 +440,11 @@ class AdminDossierController extends Controller
         $document->user_id = \Auth::user()->id;
         $document->active = 1;
         $document->signed = 0;
-        $document->readonly = 0;
-        $document->save();
+        $document->readonly = 0;        
+        if (!$dossier->save()) {
+            \DB::rollBack();
+            return redirect()->back()->with('alert', __('admin_dossiers.alert_create_dossier'));
+        }
 
         \DB::commit();
         return redirect('admin_documents')->with('success', __('admin_dossiers.success_import'));
