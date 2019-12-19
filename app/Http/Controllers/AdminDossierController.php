@@ -441,12 +441,12 @@ class AdminDossierController extends Controller
         $document->active = 1;
         $document->signed = 0;
         $document->readonly = 0;        
-        if (!$dossier->save()) {
+        if (!$document->save()) {
             \DB::rollBack();
             return redirect()->back()->with('alert', __('admin_dossiers.alert_create_dossier'));
         }
-
         \DB::commit();
+
         return redirect('admin_documents')->with('success', __('admin_dossiers.success_import'));
     }
 
