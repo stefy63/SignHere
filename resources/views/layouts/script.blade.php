@@ -33,7 +33,7 @@ $(function () {
         "preventDuplicates": true,
         "positionClass": "toast-top-right",
         "onclick": null,
-        "showDuration": "400",
+        "showDuration": "600",
         "hideDuration": "1000",
         "timeOut": "7000",
         "extendedTimeOut": "1000",

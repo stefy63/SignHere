@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Acl;
 use App\Models\Device;
 use Illuminate\Http\Request;
+use League\Flysystem\Exception;
+use Illuminate\Support\Facades\Log;
 
 class AdminDeviceController extends Controller
 {
@@ -61,6 +63,7 @@ class AdminDeviceController extends Controller
         $device->active = isset($request->active) ? 1 : 0;
         $device->save();
         $device->acls()->sync( Auth::user()->getMyRoot());
+        Log::info('Store new device from user: '.\Auth::user()->username);
 
         return redirect()->back()->with('success', __('admin_devices.success_user_create'));
     }
@@ -127,9 +130,11 @@ class AdminDeviceController extends Controller
             $device->user_id = \Auth::user()->id;
             $device->active = isset($request->active) ? $request->active : false;
             $device->save();
+            Log::info('Update device id: '.$id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_devices.success_device_updated'));
         }
+        Log::warning('Fault from updating device id: '.$id.' with error: '.__('admin_devices.warning_device_NOTupdated'));
         return redirect()->back()->with('warning', __('admin_devices.warning_device_NOTupdated'));
     }
 
@@ -145,9 +150,11 @@ class AdminDeviceController extends Controller
 
             $device->acls()->detach();
             $device->delete();
+            Log::info('Delete device id: '.$id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_devices.success_device_destroy'));
         }
+        Log::warning('Fault from deleting client id: '.$id.' with error: '.__('admin_devices.warning_device_NOT_deleted'));
         return redirect()->back()->with('warning', __('admin_devices.warning_device_NOT_deleted'));
     }
 }

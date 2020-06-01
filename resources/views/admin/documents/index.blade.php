@@ -165,45 +165,45 @@ function cancelForm() {
                         </div>
                     </section>
                 </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-xs-6 border-left">
-                <div class="col-lg-12 col-md-12 col-xs-12" style="height: 40%;" id="div-dossier" hidden>
-                    <div class="ibox-title">
-                        <h5 class="text-danger">{{__('admin_dossiers.index-dossier')}}</h5>
-                        <div ibox-tools="" class="ng-scope">
-                            <div dropdown="" class="ibox-tools dropdown">
-                                @if(Auth::user()->hasRole('admin_documents','create'))
-                                <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_dossiers.index-tooltip-dossier')}}"></i> {{__('admin_brands.index-new')}}</button></a>
-                                @endif
+                <div class="col-lg-6 col-md-6 col-xs-6 border-left">
+                    <div class="col-lg-12 col-md-12 col-xs-12" style="height: 40%;" id="div-dossier" hidden>
+                        <div class="ibox-title">
+                            <h5 class="text-danger">{{__('admin_dossiers.index-dossier')}}</h5>
+                            <div ibox-tools="" class="ng-scope">
+                                <div dropdown="" class="ibox-tools dropdown">
+                                    @if(Auth::user()->hasRole('admin_documents','create'))
+                                    <a data-url="{{ url('admin_dossiers/create') }}" class="call-dossier"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_dossiers.index-tooltip-dossier')}}"></i> {{__('admin_brands.index-new')}}</button></a>
+                                    @endif
+                                </div>
                             </div>
                         </div>
+                        <div class="filter-container">
+                            <input type="search" class="form-control input-sm" data-section-name="dossier" data-location="{{url('admin_documents')}}" value="{{$dossierfilter}}"  placeholder="Search..." data-name="dossierfilter">
+                            <button class="clear_filter btn btn-link">
+                                <i class="fa fa-times-circle-o"></i>
+                            </button>
+                        </div>
+                        <section class="dossier" >
+                            @include('admin.documents.dossier')
+                        </section>
                     </div>
-                    <div class="filter-container">
-                        <input type="search" class="form-control input-sm" data-section-name="dossier" data-location="{{url('admin_documents')}}" value="{{$dossierfilter}}"  placeholder="Search..." data-name="dossierfilter">
-                        <button class="clear_filter btn btn-link">
-                            <i class="fa fa-times-circle-o"></i>
-                        </button>
-                    </div>
-                    <section class="dossier" >
-                        @include('admin.documents.dossier')
-                    </section>
+                    <hr>
+                    <div class="col-lg-12 col-md-12 col-xs-12" style="height: 40%;"  id="div-documents" hidden>
+                        <div class="ibox-title">
+                            <h5 class="text-danger">{{__('admin_documents.index-document')}}</h5>
+                            <div ibox-tools="" class="ng-scope">
+                                <div dropdown="" class="ibox-tools dropdown">
+                                    @if(Auth::user()->hasRole('admin_documents','create'))
+                                    <a data-url="{{ url('admin_documents/create') }}" class="call-document"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-document')}}"></i> {{__('admin_brands.index-new')}}</button></a>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                         <section class="documents">
+                            @include('admin.documents.document')
+                        </section>
+                     </div>
                 </div>
-                <hr>
-                <div class="col-lg-12 col-md-12 col-xs-12" style="height: 40%;"  id="div-documents" hidden>
-                    <div class="ibox-title">
-                        <h5 class="text-danger">{{__('admin_documents.index-document')}}</h5>
-                        <div ibox-tools="" class="ng-scope">
-                            <div dropdown="" class="ibox-tools dropdown">
-                                @if(Auth::user()->hasRole('admin_documents','create'))
-                                <a data-url="{{ url('admin_documents/create') }}" class="call-document"><button class="btn btn-primary dim"> <i class="fa fa-plus"   data-toggle="tooltip" title="{{__('admin_documents.index-tooltip-document')}}"></i> {{__('admin_brands.index-new')}}</button></a>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                     <section class="documents">
-                        @include('admin.documents.document')
-                    </section>
-                 </div>
             </div>
         </div>
     </div>

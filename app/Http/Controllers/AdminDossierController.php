@@ -15,6 +15,9 @@ use PhpParser\Node\Expr\Array_;
 use Psy\Util\Json;
 use Spatie\PdfToText\Pdf;
 use Illuminate\Support\Facades\DB;
+use League\Flysystem\Exception;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class AdminDossierController extends Controller
 {
@@ -55,9 +58,9 @@ class AdminDossierController extends Controller
         $dossier = new Dossier();
         $dossier->fill($request->all());
         $dossier->save();
+        Log::info('Store new dossier from user: '.\Auth::user()->username);
 
         return redirect('admin_dossiers/'.$dossier->id.'/edit')->with('success', __('admin_dossiers.success_dossier_created'));
-
     }
 
     /**
@@ -101,8 +104,10 @@ class AdminDossierController extends Controller
         if ($dossier = Dossier::find($id)){
             $dossier->fill($request->all());
             $dossier->save();
+            Log::info('Update dossier id: '.$id.' from user: '.\Auth::user()->username);
             return redirect('admin_dossiers/'.$dossier->id.'/edit')->with('success', __('admin_dossiers.success_dossier_update'));
         }
+        Log::warning('Fault from updating dossier id: '.$id.' with error: '.__('admin_dossiers.warning_dossier_NOTfound'));
         return redirect()->back()->with('warning', __('admin_dossiers.warning_dossier_NOTfound'));
     }
 
@@ -126,11 +131,14 @@ class AdminDossierController extends Controller
                 $dossier->documents()->delete();
                 $dossier->delete();
                 DB::commit();
+                Log::info('Delete dossier id: '.$id.' and all document, from user: '.\Auth::user()->username);
                 return response()->json([ __('admin_dossiers.success_dossier_deleted')],200);
             }
+            Log::warning('Fault from deleting dossier id: '.$id.' with error: '.__('admin_dossiers.warning_dossier_NOTfound'));
             return response()->json([__('admin_dossiers.warning_dossier_NOTfound')],400);
         } catch (Exception $e) {
             DB::rollBack();
+            Log::error('Fault from deleting dossier id: '.$id.' with error: '.$e->getMessage());
             return response()->json([__('admin_dossiers.warning_dossier_NOTfound')],400);
         }
     }
@@ -349,11 +357,12 @@ class AdminDossierController extends Controller
 
                     // \Storage::disk('documents')->put($retTextImport['dossierNumber'].'-imported.pdf', $text);
 
-
+                    Log::info('Import file from user: '.Auth::user()->username);
                     return response()->json(['message1' => $retTextImport]);
 
                 } else {
                     //\DB::rollBack();
+                    Log::error('Error from import file with error: '.__("admin_documents.notify_alert_filesystem"));
                     return response()->json([
                         'error' => true,
                         'message' => __("admin_documents.notify_alert_filesystem"),
@@ -361,12 +370,14 @@ class AdminDossierController extends Controller
                 }
             } catch (Exception $e) {
                 //\DB::rollBack();
+                Log::error('Error from import file with error: '.__("admin_documents.notify_alert"));
                 return response()->json([
                     'error' => true,
                     'message' => __("admin_documents.notify_alert"),
                     'code'  => 300],300);
             }
         } else {
+            Log::error('Error from import file with error: '.__("admin_documents.notify_alert"));
             return response()->json([
                 'error' => true,
                 'message' => __("admin_documents.notify_alert"),
@@ -389,6 +400,7 @@ class AdminDossierController extends Controller
             ->orWhere('personal_vat', $request->personal_vat)->first()) {
             $client = new Client();
             $client->fill($request->all());
+            $client->mobile = $client->phone;
             $client->personal_vat = '';
             if(preg_match("/^[0-9]{11}$/i", $request->personal_vat)){
                 $client->vat = $request->personal_vat;
@@ -406,6 +418,7 @@ class AdminDossierController extends Controller
         }
         if($existDossier = Dossier::where('name', 'LIKE', $request->dossierNumber.' -%')->first()) {
             \DB::rollBack();
+            Log::error('Errore from store iported file with error: '.__('admin_dossiers.alert_existent_dossier'));
             return redirect()->back()->with('alert', __('admin_dossiers.alert_existent_dossier'));
         }
         $dossier = new Dossier();
@@ -413,6 +426,7 @@ class AdminDossierController extends Controller
         $dossier->client_id = $client->id;        
         if (!$dossier->save()) {
             \DB::rollBack();
+            Log::error('Errore from store iported file with error: '.__('admin_dossiers.alert_create_dossier'));
             return redirect()->back()->with('alert', __('admin_dossiers.alert_create_dossier'));
         }
         $additionaDossier = new AdditionalDataDossiers();
@@ -423,6 +437,7 @@ class AdminDossierController extends Controller
         $additionaDossier->incentivo = $request->incentivo;
         if (!$additionaDossier->save()) {
             \DB::rollBack();
+            Log::error('Errore from store iported file with error: '.__('admin_dossiers.alert_create_dossier'));
             return redirect()->back()->with('alert', __('admin_dossiers.alert_create_dossier'));
         }
 
@@ -443,10 +458,11 @@ class AdminDossierController extends Controller
         $document->readonly = 0;        
         if (!$document->save()) {
             \DB::rollBack();
+            Log::error('Errore from store iported file with error: '.__('admin_dossiers.alert_create_dossier'));
             return redirect()->back()->with('alert', __('admin_dossiers.alert_create_dossier'));
         }
         \DB::commit();
-
+        Log::info('Store imported file from user: '.Auth::user()->username);
         return redirect('admin_documents')->with('success', __('admin_dossiers.success_import'));
     }
 

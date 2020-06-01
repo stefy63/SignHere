@@ -246,7 +246,6 @@ $(function () {
             imgSrcData = 'data:'+$sigdiv.jSignature('getData', 'image');
             $('#b64image').attr("src",imgSrcData);
             $("#imgB64").val(imgSrcData);
-            console.log(imgSrcData);
             $('#Sig-Reset').unbind('click');
             $('#Sig-Save').unbind('click');
             $('#showModal').modal('hide');
@@ -701,7 +700,7 @@ $(function () {
                         <p>
                         <qr-code
                                 text="{{url('api/v1/signing',[ 'id' => $document->id]).'?'.'api_token='.Auth::user()->api_token}}"
-                                :size="150"
+                                size="150"
                                 color="#000"
                                 bg-color="#FFF"
                                 error-level="L">

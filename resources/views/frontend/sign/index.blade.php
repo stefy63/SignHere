@@ -41,7 +41,7 @@
                         <h5>{{__('sign.sign-title')}}</h5>
                         <div class="filter-container">
                             <input type="search" id="clientfilter" class="form-control input-sm" data-location="{{url('sign/')}}" value="{{$clientfilter}}"  placeholder="Search..." data-name="clientfilter">
-                            <button class="clear_filter btn btn-link">
+                            <button class="clear_filter waiting btn btn-link">
                                 <i class="fa fa-times-circle-o"></i>
                             </button>
                         </div>
@@ -83,9 +83,12 @@
                                                 <div class="pull-right">
                                                         @if($document->readonly || $document->signed )
                                                             @if(Auth::user()->hasRole('sign','send'))
-                                                                <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="sendmail" data-document="{{$document->id}}"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="sendmail" data-document="{{$document->id}}"><i class="fa fa-envelope-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                             @endif
                                                         @else
+                                                            @if(Auth::user()->hasRole('sign','sendsign'))
+                                                                <a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/signing_send/'.$document->id)}}" class="sendmail" data-document="{{$document->id}}"><i class="fa fa-paper-plane-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            @endif
                                                             @if(Auth::user()->hasRole('sign','signing'))
                                                                 <a data-location="{{url('sign/signing/'.$document->id)}}" class="href" data-document="{{$document->id}}"><i class="fa fa-pencil-square-o"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;
                                                             @endif
@@ -113,7 +116,7 @@
                         <h5>{{__('sign.archive-title')}}</h5>
                         <div class="filter-container">
                             <input type="search" class="form-control input-sm" id="archivefilter" data-location="{{url('sign/')}}" value="{{$archivefilter}}" placeholder="Search..." data-name="archivefilter">
-                            <button class="clear_filter btn btn-link">
+                            <button class="clear_filter archive btn btn-link">
                                 <i class="fa fa-times-circle-o"></i>
                             </button>
                         </div>
@@ -169,7 +172,7 @@
     </div>
 </div>
 
-<div id="showModal"></div>
+<div class="modal" id="showModal"></div>
 @push('scripts')
 <script>
 $(function () {
@@ -178,7 +181,6 @@ $(function () {
         e.preventDefault();
         var location =  this.getAttribute('data-location');
         var target = this.getAttribute('target');
-        localStorage.setItem('document_id', this.getAttribute('data-document'));
         if(target)
             window.open(location);
         else
@@ -193,23 +195,32 @@ $(function () {
 
     $('.tr-client').click(function(e){
         e.stopPropagation();
-        if($('.tr-dossier').is(':visible')) $('.tr-dossier').hide();
-        if($('.tr-document').is(':visible')) $('.tr-document').hide();
         var id = this.id;
-        ($(this).parent().find('.dossier-'+id).is(':visible'))?
-                $(this).parent().find('.dossier-'+id).hide():
-                $(this).parent().find('.dossier-'+id).show();
-                localStorage.setItem('client_id', id);
+        var visible = $(this).parent().find('.dossier-'+id).is(':visible');
+        $('.tr-dossier').hide();
+        $('.tr-document').hide();
+        if (visible) {
+            $(this).parent().find('.dossier-'+id).hide();
+            localStorage.removeItem('client_id');
+            localStorage.removeItem('dossier_id');
+        } else {
+            $(this).parent().find('.dossier-'+id).show();
+            localStorage.setItem('client_id', id);
+        }
     });
 
     $('.tr-dossier').click(function(e){
         e.stopPropagation();
-        if($('.tr-document').is(':visible')) $('.tr-document').hide();
         var dossier = this.id;
-        ($(this).parent().find('.document-'+dossier).is(':visible'))?
-                $(this).parent().find('.document-'+dossier).hide():
-                $(this).parent().find('.document-'+dossier).show();
-                localStorage.setItem('dossier_id', dossier);
+        var visible = $(this).parent().find('.document-'+dossier).is(':visible');
+        if(visible) {
+            $(this).parent().find('.document-'+dossier).hide();
+            localStorage.removeItem('dossier_id');
+            $('.tr-document').hide();
+        } else {
+            $(this).parent().find('.document-'+dossier).show();
+            localStorage.setItem('dossier_id', dossier);
+        }                
     });
 
     $('.sendmail').click(function(e){
@@ -224,21 +235,7 @@ $(function () {
             confirmButtonText: "Yes",
             closeOnConfirm: true
         }, function () {
-            $('#showModal').modal({
-                fadeDuration: 1000,
-                escapeClose: false,
-                clickClose: false,
-                showClose: false,
-                backdrop: "static"
-            });
-            var $loader = $("#showModal");
-            $loader.gSpinner();
-            $loader.css({
-                'position': 'absolute',
-                'top' : '20%',
-                'left' : '30%',
-                'zoom' : '2'
-            });
+            setSpinnerOn();
             window.location = location;
         });
     });
@@ -246,15 +243,22 @@ $(function () {
     $('.content').click(function(e){
         $('.tr-dossier').hide(500);
         $('.tr-document').hide(500);
+        localStorage.clear();
     });
 
 
-    $('.clear_filter').click(function (e) {
+    $('.waiting').click(function (e) {
         e.preventDefault();
         localStorage.clear();
-        window.location = '{{url('sign/')}}';
+        window.location = '{{url('sign/?clientfilter=*')}}';
     });
 
+    $('.archive').click(function (e) {
+        e.preventDefault();
+        localStorage.removeItem('archivefilter');
+        window.location = '{{url('sign/?archivefilter=*')}}';
+    });
+    
     $('.filter-container input[type=search]').keyup(function (e) {
         if($(this).val() != '') {
             $(this).parent().find('.clear_filter').show();
@@ -275,36 +279,43 @@ $(function () {
         }
     });
 
-    if(!!localStorage.getItem('document_id')) {
-        localStorage.removeItem('document_id');
-        if(!!localStorage.getItem('clientfilter')) {
-            $('#clientfilter').val(localStorage.getItem('clientfilter'));
-            var e = $.Event("keyup");
-            e.which = 13; 
-            $('#clientfilter').trigger(e);
-        }
-        if(!!localStorage.getItem('archivefilter')) {
-            $('#archivefilter').val(localStorage.getItem('archivefilter'));
-            var e = $.Event("keyup");
-            e.which = 13; 
-            $('#archivefilter').trigger(e);
-        }
+    if(!!localStorage.getItem('archivefilter')) {
+        $('.archive').show();
     } else {
-        if(!!localStorage.getItem('archivefilter')) {
-            $('#archivefilter').parent().find('.clear_filter').show();
-        } else {
-            $('#archivefilter').parent().find('.clear_filter').hide();
-        }
-        if(!!localStorage.getItem('clientfilter')) {
-            $('#clientfilter').parent().find('.clear_filter').show();
-        } else {
-            $('#clientfilter').parent().find('.clear_filter').hide();
-        }
+        $('.archive').hide();
+    }
+    if(!!localStorage.getItem('clientfilter')) {
+        $('.waiting').show();
+    } else {
+        $('.waiting').hide();
+    }
+    if(!!localStorage.getItem('client_id')) {
         $("[data-client="+localStorage.getItem('client_id')+"]").click();
+    }
+    if(!!localStorage.getItem('dossier_id')) {
         $("[data-dossier="+localStorage.getItem('dossier_id')+"]").click();
     }
-})
     
+    function setSpinnerOn() {
+        $('#showModal').modal({
+            fadeDuration: 1000,
+            escapeClose: false,
+            clickClose: false,
+            showClose: false,
+            backdrop: "static"
+        });
+        var $loader = $("#showModal");
+        $loader.gSpinner();
+        $loader.css({
+            'position': 'absolute',
+            'top' : '40%',
+            'zoom' : '1'
+        });
+    }
+
+
+})
+
 </script>
 @endpush
 @endsection

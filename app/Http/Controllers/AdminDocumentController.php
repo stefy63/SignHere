@@ -11,10 +11,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
-use Mockery\Exception;
+use League\Flysystem\Exception;
 use Illuminate\Support\Facades\Auth;
 use setasign\Fpdi\Fpdi;
 use Spatie\PdfToText\Pdf;
+use Illuminate\Support\Facades\Log;
 
 class AdminDocumentController extends Controller
 {
@@ -52,18 +53,18 @@ class AdminDocumentController extends Controller
             if($request->ajax()) {
                 return view('admin.documents.client', [
                     'clients' => $clients->orderBy('surname', 'asc')->paginate(10, ['*'], 'client_page')
-                ])->render(); 
+                ])->render();
             }
-        } 
+        }
         $clients = $clients->orderBy('surname', 'asc')->paginate(10, ['*'], 'client_page');
-                
+
         // DOSSIERS
 
         if ($request->has('client_id')) {
             $dossiers = Dossier::where('client_id', $request->client_id);
             if($request->dossierfilter != '#') {
                 $dossiers = $dossiers->where('name', 'LIKE', '%'.$request->dossierfilter.'%');
-            } 
+            }
             if ($request->ajax()) {
                 return view('admin.documents.dossier', [
                     'dossiers'      => $dossiers->paginate(10, ['*'], 'dossier_page'),
@@ -74,7 +75,7 @@ class AdminDocumentController extends Controller
             $dossiers = Dossier::where('client_id', 0);
         }
         $dossiers = $dossiers->paginate(10, ['*'], 'dossier_page');
-        
+
         // DOCUMENTS
         if ($request->has('dossier_id')) {
             $documents = Document::where('dossier_id', $request->dossier_id)->get();
@@ -146,10 +147,12 @@ class AdminDocumentController extends Controller
                     return redirect()->back()->with('success', __('admin_documents.success_document_created'));
                 }
                 unlink(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+                Log::info('Store new document id: '.$id.' from user: '.\Auth::user()->username);
                 return redirect()->back()->withInput($request->input())->with('alert', __('admin_documents.warning_template_document_fault'));
             }
 
         }
+        Log::warning('Fault from store new document with error: '.__('admin_documents.warning_document_NOTcreated'));
         return redirect()->back()->withInput($request->input())->with('warning', __('admin_documents.warning_document_NOTcreated'));
     }
 
@@ -203,28 +206,32 @@ class AdminDocumentController extends Controller
             $document->active = isset($request->active) ? 1 : 0;
             //$document->signed = isset($request->signed) ? 1 : 0;
             $document->readonly = isset($request->readonly) ? 1 : 0;
-            if ($file = $request->filename) {
+            if ($file = $request->file('filename')) {
                 if ($file->isValid() && $path = $file->store($request->client_id . "/" . $request->dossier_id, 'documents')) {
                     $old_filename = $document->name.'-'.basename($document->filename, ".pdf");
-                    Storage::disk('documents')->move($document->filename,'.trash/'.$old_filename);
+                    if(Storage::disk('documents')->exists($document->filename)) {
+                      Storage::disk('documents')->move($document->filename,'.trash/'.$old_filename);
+                    }
                     $document->filename = $path;
                     $template = Doctype::find($request->doctype_id);
                     $pdf = new Fpdi();
-                    $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+                    $pageCount = $pdf->setSourceFile(Storage::disk('documents')->path($document->filename));
                     $templateLine = explode(PHP_EOL, $template->template);
                     $tempLastPageNumber = explode('|', $templateLine[count($templateLine)-1]);
 
-                    if(!$tempLastPageNumber[0] && $tempLastPageNumber[0] >  $pageCount) {
-                        unlink(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+                    if(!$tempLastPageNumber[0] || $tempLastPageNumber[0] >  $pageCount) {
+                        unlink(Storage::disk('documents')->path($document->filename));
                         return redirect()->back()->withInput($request->input())->with('alert', __('admin_documents.warning_template_document_fault'));
                     }
 
                 }
             }
             $document->save();
+            Log::info('Update document id: '.$id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_documents.success_document_update'));
         }
+        Log::warning('Fault from updating docuennt id: '.$id.' with error: '.__('admin_documents.error_document_NOTupdate'));
         return redirect()->back()->withInput($request->input())->with('alert', __('admin_documents.error_document_NOTupdate'));
 
     }
@@ -298,11 +305,14 @@ class AdminDocumentController extends Controller
     public function destroy(Document $document, $id)
     {
         if ($document = Document::find($id)){
-            Storage::disk('documents')->move($document->filename,'.trash/'.$document->name . '-' . Carbon::now()->toDateTimeString());
+            $client = $document->dossier->client->surname.'_'.$document->dossier->client->name;
+            Storage::disk('documents')->move($document->filename,'.trash/'. $client . '-' .$document->name . '-' . Carbon::now()->toDateTimeLocalString());
             $document->delete();
+            Log::info('Delete document id: '.$id.' from user: '.\Auth::user()->username);
 
             return response()->json([ __('admin_documents.success_document_deleted')],200);
         }
+        Log::warning('Fault from deleting document id: '.$id.' with error: '.__('admin_documents.warning_document_NOTfound'));
         return response()->json([__('admin_documents.warning_document_NOTfound')],400);
     }
 

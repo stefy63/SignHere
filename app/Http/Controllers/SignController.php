@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Acl;
 use App\Models\Brand;
 use App\Models\Document;
+use \App\Models\TokenOtp;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +13,12 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendDocument;
+use \App\Mail\SendSigningDocument;
+use Exception;
 use setasign\Fpdi\Fpdi;
+use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Log;
+use League\Flysystem\Exception;
 
 class SignController extends Controller
 {
@@ -120,7 +126,49 @@ class SignController extends Controller
         }
     }
 
+    /**
+     * Send the Document to client.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function signing_send($id)
+    {
+        $match = '/^[+|00]{0,1}[0-9]{3,4}[0-9]{6,12}$/';
+        try{
+            $acl_sender = \Auth::user();
+            $brand = $acl_sender->acls()->first()->brands()->first();
+            if(!$brand->mail_templates()->first()->active) {
+                return redirect()->back()->with('alert',__('sign.NO_templte_active_Found'));
+            }
+            $document = Document::findOrFail($id);
+            if(!Storage::disk('documents')->exists($document->filename)){
+                return redirect()->back()->with('alert',__('sign.sign_file_NOTFound'));
+            }
+            $client = $document->dossier->client;
+            $mobile = ($client->phone && !$client->mobile && preg_match($match, $client->phone))?$client->phone:$client->mobile;
+            if (!$mobile || !preg_match($match, $mobile)) {
+                return redirect()->back()->with('alert',__('sign.sign_client_mobile_NOTFound'));
+            }
+            
+            Mail::send(new SendSigningDocument($document));
+            $token_otp = new TokenOtp();
+            $token_otp->token = $acl_sender->api_token;
+            $token_otp->user_id = $acl_sender->id;
+            $token_otp->client_id = $client->id;
+            $token_otp->phone = $mobile;
+            $token_otp->document_id = $document->id;
+            $token_otp->expired_time = Carbon::now()->addHour(env('APP_TOKEN_EXPIRED_TIME'));
+            $token_otp->save();
+            Log::info('Send mail to client: '.$client->id.' from user: '.\Auth::user()->username);
+            return back()->with(['success' => __('sign.signing_document_send')]);
+        } catch (Exception $e){
+            Log::error('Fault from send mail to cient: '.$client->id.' with error: '.$e->getMessage());
+            return back()->with(['alert' => $e->getMessage()]);
+        }
+    }
 
+
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -185,14 +233,17 @@ class SignController extends Controller
     public function destroy($id)
     {
          if ($document = Document::find($id)){
-             if(!Storage::disk('documents')->exists($document->filename)){
-                 return redirect()->back()->with('alert',__('sign.sign_file_NOTFound'));
-             }
-            Storage::disk('documents')->move($document->filename,'.trash/'.$document->name.'-'.Carbon::now()->timestamp);
+            if(!Storage::disk('documents')->exists($document->filename)){
+                return redirect()->back()->with('alert',__('sign.sign_file_NOTFound'));
+            }
+            $client = $document->dossier->client->surname.'_'.$document->dossier->client->name;
+            Storage::disk('documents')->move($document->filename,'.trash/'. $client . '-' . $document->name.'-'. Carbon::now()->toDateTimeLocalString());
             $document->delete();
+            Log::info('Delete document id: '.$id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('sign.success_document_deleted'));
         }
+        Log::warning('Fault from deleting document id: '.$id.' with error: '.__('sign.sign_file_NOTFound'));
         return redirect()->back()->with('alert',__('sign.sign_file_NOTFound'));
     }
 
@@ -356,13 +407,11 @@ class SignController extends Controller
 
             }
 
-            $PdfInfo = $PdfDoc->getInfo();
-            $PdfInfo->setAll($info);
-            // set document information
-            $PdfInfo->SetCreator(\Auth::user()->surname.' '.\Auth::user()->name);
-            $PdfInfo->SetAuthor(\Auth::user()->surname.' '.\Auth::user()->name);
-            $PdfInfo->SetTitle($document->name);
-            $PdfInfo->SetSubject($document->description);
+            $PdfDoc->getInfo()->setAll($info);
+            $PdfDoc->getInfo()->setAuthor(\Auth::user()->surname.' '.\Auth::user()->name);
+            $PdfDoc->getInfo()->SetCreator(\Auth::user()->surname.' '.\Auth::user()->name);
+            $PdfDoc->getInfo()->setTitle($document->name);
+            $PdfDoc->getInfo()->SetSubject($document->description);
 
             $PdfDoc->finish();
             copy($finalWriter->getPath(), Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
@@ -372,8 +421,12 @@ class SignController extends Controller
             $document->date_sign = Carbon::now()->format('d/m/y');
             $document->user_id = \Auth::user()->id;
             $document->save();
+            Log::info('Signing document id: '.$id.' from user: '.\Auth::user()->username);
+            
+            return redirect('sign');
         }
-        return redirect('sign');
+        Log::error('Fault from signing document id: '.$id.' with error: '.__('sign.sign_document_NOTFound'));
+        return redirect()->back()->with('alert',__('sign.sign_document_NOTFound'));
     }
 
     protected function _getTemplate($tpl)

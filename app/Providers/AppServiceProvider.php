@@ -41,6 +41,10 @@ class AppServiceProvider extends ServiceProvider
             }
             return $ret;
         });
+        Validator::extend('phone', function($attribute, $value, $parameters, $validator) {
+            $match = '/^[+|00]{0,1}[0-9]{3,4}[0-9]{6,12}$/';
+            return preg_match($match, $value);
+        });
 
     }
 

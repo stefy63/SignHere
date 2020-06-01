@@ -98,8 +98,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'brand_id' => [
+            'integer' => 'The field :attribute must be selected',
         ],
     ],
 

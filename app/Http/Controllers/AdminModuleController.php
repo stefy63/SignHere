@@ -6,6 +6,7 @@ use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class AdminModuleController extends Controller
 {
@@ -66,6 +67,7 @@ class AdminModuleController extends Controller
         $module->isadmin = isset($request->isadmin) ? 1 : 0;
         $module->save();
         $module->profiles()->attach([1 => ['permission' => 'ALL']]);
+        Log::info('Store new module from user: '.\Auth::user()->username);
 
         return redirect()->back()->with('success', __('admin_modules.success_module_create'));
     }
@@ -125,13 +127,15 @@ class AdminModuleController extends Controller
                     $module->order = $i++;
                     $module->save();
                 }
-            return response()->json(['success' => __('admin_modules.success_order_updated')]);
+                Log::info('Order module id: '.$id.' from user: '.\Auth::user()->username);
+                return response()->json(['success' => __('admin_modules.success_order_updated')]);
             }
 
         if($module = Module::find($id)) {
             if($request->ajax()){
                 $module->active = $request->active;
                 $module->save();
+                Log::info('Activate/Deactivate module id: '.$id.' from user: '.\Auth::user()->username);
 
                 return response()->json(['success' => __('admin_modules.success_module_updated')]);
             }
@@ -148,9 +152,11 @@ class AdminModuleController extends Controller
             $module->active = isset($request->active) ? $request->active : false;
             $module->isadmin = isset($request->isadmin) ? 1 : 0;
             $module->save();
+            Log::info('Update module id: '.$id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_modules.success_module_updated'));
         }
+        Log::warning('Fault from updating module id: '.$id.' with error: '.__('admin_modules.warning_module_NOTupdated'));
         return redirect()->back()->with('warning', __('admin_modules.warning_module_NOTupdated'));
     }
 
@@ -166,9 +172,11 @@ class AdminModuleController extends Controller
 
             $module->profiles()->detach();
             $module->delete();
+            Log::info('Delete module id: '.$id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_modules.success_module_destroy'));
         }
+        Log::warning('Fault from deleting module id: '.$id.' with error: '.__('admin_modules.warning_module_NOT_deleted'));
         return redirect()->back()->with('warning', __('admin_modules.warning_module_NOT_deleted'));
     }
 }

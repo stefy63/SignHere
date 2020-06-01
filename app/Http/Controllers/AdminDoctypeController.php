@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Doctype;
 use Illuminate\Http\Request;
 use App\Models\Acl;
+use App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AdminDoctypeController extends Controller
 {
@@ -58,6 +60,7 @@ class AdminDoctypeController extends Controller
         $doctype->active = isset($request->active) ? 1 : 0;
         $doctype->single_sign = isset($request->single_sign) ? 1 : 0;
         $doctype->save();
+        Log::info('Store new doctype from user: '.\Auth::user()->username);
 
         return redirect()->back()->with('success', __('admin_doctypes.success_user_create'));
     }
@@ -113,6 +116,7 @@ class AdminDoctypeController extends Controller
             if($request->ajax()){
                 $doctype->active = $request->active;
                 $doctype->save();
+                Log::info('Update doctype id: '.$id.' from user: '.\Auth::user()->username);
                 return response()->json(['success' => __('admin_doctypes.success_doctype_updated')]);
             }
             $this->validate($request, Doctype::$rules);
@@ -121,9 +125,11 @@ class AdminDoctypeController extends Controller
             $doctype->active = isset($request->active) ? $request->active : false;
             $doctype->single_sign = isset($request->single_sign) ? $request->active : false;
             $doctype->save();
+            Log::info('Update doctype id: '.$id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_doctypes.success_doctype_updated'));
         }
+        Log::warning('Fault from updating doctype id: '.$id.' with error: '.__('admin_doctypes.warning_doctype_NOTupdated'));
         return redirect()->back()->with('warning', __('admin_doctypes.warning_doctype_NOTupdated'));
     }
 
@@ -138,9 +144,11 @@ class AdminDoctypeController extends Controller
         if($doctype = Doctype::find($id)) {
 
             $doctype->delete();
+            Log::info('Delete doctype id: '.$id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_doctypes.success_doctype_destroy'));
         }
+        Log::warning('Fault from deleting doctype id: '.$id.' with error: '.__('admin_doctypes.warning_doctype_NOT_deleted'));
         return redirect()->back()->with('warning', __('admin_doctypes.warning_doctype_NOT_deleted'));
     }
 }
