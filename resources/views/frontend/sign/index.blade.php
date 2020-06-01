@@ -40,8 +40,8 @@
                     <div class="ibox-title">
                         <h5>{{__('sign.sign-title')}}</h5>
                         <div class="filter-container">
-                            <input type="search" id="clientfilter" class="form-control input-sm" data-location="{{url('sign/')}}" value="{{$clientfilter}}"  placeholder="Search..." data-name="clientfilter">
-                            <button class="clear_filter waiting btn btn-link">
+                            <input type="search" id="clientfilter" class="form-control input-sm" data-location="{{url('sign/')}}" value="{{Session::get('clientfilter')}}"  placeholder="Search..." data-name="clientfilter">
+                            <button class="clear_filter btn btn-link">
                                 <i class="fa fa-times-circle-o"></i>
                             </button>
                         </div>
@@ -115,8 +115,8 @@
                     <div class="ibox-title">
                         <h5>{{__('sign.archive-title')}}</h5>
                         <div class="filter-container">
-                            <input type="search" class="form-control input-sm" id="archivefilter" data-location="{{url('sign/')}}" value="{{$archivefilter}}" placeholder="Search..." data-name="archivefilter">
-                            <button class="clear_filter archive btn btn-link">
+                            <input type="search" class="form-control input-sm" id="archivefilter" data-location="{{url('sign/')}}" value="{{Session::get('archivefilter')}}" placeholder="Search..." data-name="archivefilter">
+                            <button class="clear_filter btn btn-link">
                                 <i class="fa fa-times-circle-o"></i>
                             </button>
                         </div>
@@ -178,7 +178,7 @@
 $(function () {
 
     $('.href').click(function(e){
-        e.preventDefault();
+        e.stopPropagation();
         var location =  this.getAttribute('data-location');
         var target = this.getAttribute('target');
         if(target)
@@ -220,11 +220,11 @@ $(function () {
         } else {
             $(this).parent().find('.document-'+dossier).show();
             localStorage.setItem('dossier_id', dossier);
-        }                
+        }
     });
 
     $('.sendmail').click(function(e){
-        e.preventDefault();
+        e.stopPropagation();
         var location =  this.getAttribute('data-location');
         swal({
             title: '{{__('app.confirm-title')}}',
@@ -241,24 +241,25 @@ $(function () {
     });
 
     $('.content').click(function(e){
-        $('.tr-dossier').hide(500);
-        $('.tr-document').hide(500);
-        localStorage.clear();
+      e.stopPropagation();
+      $('.tr-dossier').hide(500);
+      $('.tr-document').hide(500);
     });
 
 
-    $('.waiting').click(function (e) {
-        e.preventDefault();
-        localStorage.clear();
-        window.location = '{{url('sign/?clientfilter=*')}}';
+    $('.clear_filter').click(function (e) {
+        e.stopPropagation();
+        if ($(this).parent().find('input').attr('id') == 'clientfilter') {
+          localStorage.removeItem('clientfilter');
+          localStorage.removeItem('client_id');
+          $('#clientfilter').val('');
+        } else {
+          localStorage.removeItem('archivefilter');
+          $('#archivefilter').val('');
+        }
+        startSearch();
     });
 
-    $('.archive').click(function (e) {
-        e.preventDefault();
-        localStorage.removeItem('archivefilter');
-        window.location = '{{url('sign/?archivefilter=*')}}';
-    });
-    
     $('.filter-container input[type=search]').keyup(function (e) {
         if($(this).val() != '') {
             $(this).parent().find('.clear_filter').show();
@@ -266,36 +267,43 @@ $(function () {
             $(this).parent().find('.clear_filter').hide();
         }
         if(e.which == 13) {
-            e.preventDefault();
-            var field = this.getAttribute('data-name');
-            var location =  this.getAttribute('data-location')+"?"+field+"="+$(this).val();
-            if(field == 'clientfilter') {
-                localStorage.setItem('clientfilter', $(this).val());
-            }
-            if(field == 'archivefilter') {
-                localStorage.setItem('archivefilter', $(this).val());
-            }
-            window.location = location;
+            e.stopPropagation();
+            localStorage.setItem('clientfilter', $('#clientfilter').val());
+            localStorage.setItem('archivefilter', $('#archivefilter').val());
+            var clientfilter = (!!localStorage.getItem('clientfilter')) ? 'clientfilter=' + localStorage.getItem('clientfilter') : 'clientfilter=*';
+            var archivefilter = (!!localStorage.getItem('archivefilter')) ? 'archivefilter=' + localStorage.getItem('archivefilter') : 'archivefilter=*';
+
+            window.location =  this.getAttribute('data-location')+"?"+archivefilter+'&'+clientfilter;
         }
     });
 
+    function startSearch() {
+      var ekey = $.Event("keyup");
+      ekey.which = 13;
+      $('#clientfilter').trigger(ekey);
+    }
+
     if(!!localStorage.getItem('archivefilter')) {
-        $('.archive').show();
+      $('#archivefilter').val(localStorage.getItem('archivefilter'));
+      $('#archivefilter').parent().find('.clear_filter').show();
+      // startSearch();
     } else {
-        $('.archive').hide();
+      $('#archivefilter').parent().find('.clear_filter').hide();
     }
     if(!!localStorage.getItem('clientfilter')) {
-        $('.waiting').show();
+      $('#clientfilter').val(localStorage.getItem('clientfilter'));
+      $('#clientfilter').parent().find('.clear_filter').show();
+      // startSearch();
     } else {
-        $('.waiting').hide();
+      $('#clientfilter').parent().find('.clear_filter').hide();
     }
     if(!!localStorage.getItem('client_id')) {
-        $("[data-client="+localStorage.getItem('client_id')+"]").click();
+      $("[data-client="+localStorage.getItem('client_id')+"]").click();
+      if(!!localStorage.getItem('dossier_id')) {
+          $("[data-dossier="+localStorage.getItem('dossier_id')+"]").click();
+      }
     }
-    if(!!localStorage.getItem('dossier_id')) {
-        $("[data-dossier="+localStorage.getItem('dossier_id')+"]").click();
-    }
-    
+
     function setSpinnerOn() {
         $('#showModal').modal({
             fadeDuration: 1000,

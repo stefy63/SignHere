@@ -14,7 +14,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendDocument;
 use \App\Mail\SendSigningDocument;
-use Exception;
 use setasign\Fpdi\Fpdi;
 use App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Log;
@@ -53,15 +52,19 @@ class SignController extends Controller
             })
             ->where('deleted_at', null);
         })->where('active',true);
-        
-        if($request->has('clientfilter') && $request->clientfilter) {
-            $clientfilter = $request->clientfilter;
-            $clients = $clients->where(function($qFilter) use ($request) {
-                $qFilter->where('surname', 'LIKE', '%'.$request->clientfilter.'%')
-                        ->orWhere('name', 'LIKE', '%'.$request->clientfilter.'%');
-            });
-        } else {
-            $clientfilter = '';
+
+        if($request->has('clientfilter') || $request->session()->has('clientfilter')) {
+            // $clientfilter = $request->clientfilter;
+            $filter = $request->has('clientfilter') ? $request->clientfilter : $request->session()->get('clientfilter');
+            if ($filter !== '*') {
+              $clients = $clients->where(function($qFilter) use ($filter) {
+                $qFilter->where('surname', 'LIKE', '%'.$filter.'%')
+                        ->orWhere('name', 'LIKE', '%'.$filter.'%');
+                });
+              $request->session()->flash('clientfilter', $filter);
+            } else {
+              $request->session()->forget('clientfilter');
+            }
         }
         $clients = $clients->paginate(10, ['*'], 'client_page');
 
@@ -86,23 +89,25 @@ class SignController extends Controller
             ->where('deleted_at', null);
         })
         ->where('active',true);
-        
-        if($request->has('archivefilter') && $request->archivefilter) {
-            $archivefilter = $request->archivefilter;
-            $archives = $archives->where(function($qFilter) use ($request) {
-                $qFilter->where('surname', 'LIKE', '%'.$request->archivefilter.'%')
-                        ->orWhere('name', 'LIKE', '%'.$request->archivefilter.'%');
-            });
-        } else {
-            $archivefilter = '';
+
+        if($request->has('archivefilter')  || $request->session()->has('archivefilter')) {
+            // $archivefilter = $request->archivefilter;
+            $filter = $request->has('archivefilter') ? $request->archivefilter : $request->session()->get('archivefilter');
+            if ($filter !== '*') {
+              $archives = $archives->where(function($qFilter) use ($request) {
+                  $qFilter->where('surname', 'LIKE', '%'.$request->archivefilter.'%')
+                          ->orWhere('name', 'LIKE', '%'.$request->archivefilter.'%');
+              });
+              $request->session()->flash('archivefilter', $filter);
+            } else {
+              $request->session()->forget('archivefilter');
+            }
         }
         $archives = $archives->paginate(10, ['*'], 'archive_page');
 
         return view('frontend.sign.index',[
             'archives' => $archives,
-            'clients' => $clients,
-            'archivefilter' => $archivefilter,
-            'clientfilter'  => $clientfilter
+            'clients' => $clients
         ]);
     }
 
@@ -149,7 +154,7 @@ class SignController extends Controller
             if (!$mobile || !preg_match($match, $mobile)) {
                 return redirect()->back()->with('alert',__('sign.sign_client_mobile_NOTFound'));
             }
-            
+
             Mail::send(new SendSigningDocument($document));
             $token_otp = new TokenOtp();
             $token_otp->token = $acl_sender->api_token;
@@ -168,7 +173,7 @@ class SignController extends Controller
     }
 
 
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -422,7 +427,7 @@ class SignController extends Controller
             $document->user_id = \Auth::user()->id;
             $document->save();
             Log::info('Signing document id: '.$id.' from user: '.\Auth::user()->username);
-            
+
             return redirect('sign');
         }
         Log::error('Fault from signing document id: '.$id.' with error: '.__('sign.sign_document_NOTFound'));
