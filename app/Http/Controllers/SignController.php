@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Acl;
-use App\Models\Brand;
+// use App\Models\Brand;
 use App\Models\Document;
 use \App\Models\TokenOtp;
-use App\User;
+// use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -140,7 +140,7 @@ class SignController extends Controller
     {
         $match = '/^[+|00]{0,1}[0-9]{3,4}[0-9]{6,12}$/';
         try{
-            $acl_sender = \Auth::user();
+            $acl_sender = Auth::user();
             $brand = $acl_sender->acls()->first()->brands()->first();
             if(!$brand->mail_templates()->first()->active) {
                 return redirect()->back()->with('alert',__('sign.NO_templte_active_Found'));
@@ -164,7 +164,7 @@ class SignController extends Controller
             $token_otp->document_id = $document->id;
             $token_otp->expired_time = Carbon::now()->addHour(env('APP_TOKEN_EXPIRED_TIME'));
             $token_otp->save();
-            Log::info('Send mail to client: '.$client->id.' from user: '.\Auth::user()->username);
+            Log::info('Send mail to client: '.$client->id.' from user: '.Auth::user()->username);
             return back()->with(['success' => __('sign.signing_document_send')]);
         } catch (Exception $e){
             Log::error('Fault from send mail to cient: '.$client->id.' with error: '.$e->getMessage());
@@ -244,7 +244,7 @@ class SignController extends Controller
             $client = $document->dossier->client->surname.'_'.$document->dossier->client->name;
             Storage::disk('documents')->move($document->filename,'.trash/'. $client . '-' . $document->name.'-'. Carbon::now()->toDateTimeLocalString());
             $document->delete();
-            Log::info('Delete document id: '.$id.' from user: '.\Auth::user()->username);
+            Log::info('Delete document id: '.$id.' from user: '.Auth::user()->username);
 
             return redirect()->back()->with('success', __('sign.success_document_deleted'));
         }
@@ -284,7 +284,7 @@ class SignController extends Controller
                 'template'  => json_encode($arrayTpl),
                 'questions' => json_encode($arrayQuestion),
                 'b64doc'    => $b64Doc,
-                'user'      => \Auth::user()
+                'user'      => Auth::user()
             ]);
         }
         return redirect()->back()->with('alert',__('sign.sign_document_NOTFound'));
@@ -413,8 +413,8 @@ class SignController extends Controller
             }
 
             $PdfDoc->getInfo()->setAll($info);
-            $PdfDoc->getInfo()->setAuthor(\Auth::user()->surname.' '.\Auth::user()->name);
-            $PdfDoc->getInfo()->SetCreator(\Auth::user()->surname.' '.\Auth::user()->name);
+            $PdfDoc->getInfo()->setAuthor(Auth::user()->surname.' '.Auth::user()->name);
+            $PdfDoc->getInfo()->SetCreator(Auth::user()->surname.' '.Auth::user()->name);
             $PdfDoc->getInfo()->setTitle($document->name);
             $PdfDoc->getInfo()->SetSubject($document->description);
 
@@ -424,9 +424,9 @@ class SignController extends Controller
             $document->signed = true;
             $document->readonly = true;
             $document->date_sign = Carbon::now()->format('d/m/y');
-            $document->user_id = \Auth::user()->id;
+            $document->user_id = Auth::user()->id;
             $document->save();
-            Log::info('Signing document id: '.$id.' from user: '.\Auth::user()->username);
+            Log::info('Signing document id: '.$id.' from user: '.Auth::user()->username);
 
             return redirect('sign');
         }

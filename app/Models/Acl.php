@@ -5,14 +5,14 @@ namespace App\models;
 use App\Models\User;
 use App\Models\Device;
 use App\Models\Location;
-use App\Models\Document;
+// use App\Models\Document;
 use App\Models\Client;
 use App\Models\Brand;
 use App\Models\Profile;
 use App\Models\Module;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Acl extends Model
@@ -90,6 +90,7 @@ class Acl extends Model
 
     public static function getMyClients() {
         $userAcls = Auth::user()->getMyAcls();
+
         $Clients = Client::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
         });
