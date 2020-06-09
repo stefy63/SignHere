@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\SendDocument;
 use \App\Mail\SendSigningDocument;
 use setasign\Fpdi\Fpdi;
-use App\Http\Controllers\Auth;
 use Illuminate\Support\Facades\Log;
 use League\Flysystem\Exception;
+use Illuminate\Support\Facades\Auth;
 
 class SignController extends Controller
 {

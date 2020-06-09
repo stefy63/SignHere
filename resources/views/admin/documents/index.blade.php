@@ -41,7 +41,7 @@ $(function () {
                             '<div class="col-md-4"><label for="incentivo" >Sconto/Incentivo</label></div>' +
                             '<div class="col-md-8"><input class="form-control" type="text"  name="incentivo" value=" " /></div>' +
                             '</div></div>';
-                
+
                 html += '<div class="col-md-12 row"><div class="form-group group">'+
                             '<div class="col-md-4"><label for="note" >Note</label></div>'+
                             '<div class="col-md-8"><input class="form-control" type="text"  name="note" value=" " /></div>' +
@@ -95,7 +95,7 @@ function cancelForm() {
         height: 20px;
         font-size: 10px;
     }
-    
+
     .filter-container {
         position: relative;
     }
@@ -137,12 +137,14 @@ function cancelForm() {
                 <select class="form-control" name="acl_id" id="select-acl">
                     <option id="opt_acl" value="0">{{__('admin_documents.select-acls')}}</option>
                     @foreach($acls as $acl)
-                        <option value="{{$acl->id}}">{{$acl->name}}</option>
+                        <option value="{{$acl->id}}" @if($acl->id == $acl_id)
+                          selected
+                        @endif>{{$acl->name}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="ibox-content">
-                <div class="col-lg-6 col-md-6 col-xs-6" style="height: 80%;">
+                <div class="col-lg-6 col-md-6 col-xs-6" style="height: 80%;" id="div-client">
                     <div class="ibox-title">
                         <h5 class="text-danger">{{__('admin_documents.index-client')}}</h5>
                         <div ibox-tools="" class="ng-scope">
@@ -225,6 +227,23 @@ function cancelForm() {
 @push('scripts')
 <script>
 $(function () {
+
+  if('{{$clientfilter}}' != '') {
+    setShowBtnClearFilter($('#div-client').find('.filter-container input[type=search]'));
+    // $('#div-client').find('.clear_filter').show();
+  }
+  if('{{$dossierfilter}}' != '') {
+    setShowBtnClearFilter($('#div-dossier').find('.filter-container input[type=search]'));
+    // $('#div-dossier').find('.clear_filter').show();
+  }
+  if({{$client_id}} != 0) {
+    // getAjaxFilter($('#div-client').find('.filter-container input[type=search]'));
+    getDossiers({{$client_id}});
+  }
+  if({{$dossier_id}} != 0) {
+    // getAjaxFilter($('#div-dossier').find('.filter-container input[type=search]'));
+    getDocuments({{$dossier_id}});
+  }
 
     $(document).on('click','.href',function(e){
         e.preventDefault();
@@ -418,7 +437,7 @@ $(function () {
             return isConfirm;
         });
     };
-    
+
     $(document).on('click','.sendmail', function(e){
         e.preventDefault();
         var location =  this.getAttribute('data-location');
@@ -434,16 +453,15 @@ $(function () {
             window.location.replace(location)
         });
     });
-    
+
     $(document).on('keyup', '.filter-container input[type=search]', function (e) {
         e.preventDefault();
         setShowBtnClearFilter(this);
-        var len = $(this).val().length;
         if( e.which == 13) {
             getAjaxFilter(this);
         }
     });
-    
+
     function setShowBtnClearFilter(obj) {
         if($(obj).val().length > 0) {
             $(obj).parent().find('.clear_filter').show();
@@ -451,31 +469,28 @@ $(function () {
             $(obj).parent().find('.clear_filter').hide();
         }
     }
-    
+
     $('.filter-container .clear_filter').click(function(e){
         e.preventDefault();
         $(this).parent().find('input[type=search]').val('');
         getAjaxFilter($(this).parent().find('input[type=search]'));
     });
-    
+
     function getAjaxFilter(obj) {
-        console.log('2 - ' + $(obj).attr('data-name'));
-        
         $('#div-documents').hide();
         $('#div-dossier').hide();
-        
+
         var dataObj = {
             '_token': "{{csrf_token()}}",
             'client_id': $('input#client_id').val() || 0,
         };
         dataObj[$(obj).attr('data-name')] = $(obj).val() ?  $(obj).val() : '#';
+        var section = $(obj).attr('data-section-name');
 
         $.ajax({
           type: "GET",
           data: dataObj,
           }).done(function(data){
-              var section = $(obj).attr('data-section-name');
-              console.log('SECTION: - ' + section);
               $('.'+section).html(data);
               $('#div-'+section).show();
               setShowBtnClearFilter(obj);
