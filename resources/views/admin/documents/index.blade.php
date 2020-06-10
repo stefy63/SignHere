@@ -157,7 +157,7 @@ function cancelForm() {
                     </div>
                     <section class=" col-lg-12 col-md-12 col-xs-12">
                         <div class="filter-container" >
-                            <input type="search" class="form-control input-sm" data-section-name="client" data-location="{{url('admin_documents')}}" value="{{$clientfilter}}"  placeholder="Search..." data-name="clientfilter">
+                            <input type="search" class="form-control input-sm" data-section-name="client" data-location="{{url('admin_documents')}}" value="{{$clientfilter}}"  placeholder="Search..." data-name="clientfilter" />
                             <button class="clear_filter btn btn-link">
                                 <i class="fa fa-times-circle-o"></i>
                             </button>
@@ -180,7 +180,7 @@ function cancelForm() {
                             </div>
                         </div>
                         <div class="filter-container">
-                            <input type="search" class="form-control input-sm" data-section-name="dossier" data-location="{{url('admin_documents')}}" value="{{$dossierfilter}}"  placeholder="Search..." data-name="dossierfilter">
+                            <input type="search" class="form-control input-sm" data-section-name="dossier" data-location="{{url('admin_documents')}}" value="{{$dossierfilter}}"  placeholder="Search..." data-name="dossierfilter" />
                             <button class="clear_filter btn btn-link">
                                 <i class="fa fa-times-circle-o"></i>
                             </button>
@@ -228,34 +228,18 @@ function cancelForm() {
 <script>
 $(function () {
 
-  if('{{$clientfilter}}' != '') {
-    setShowBtnClearFilter($('#div-client').find('.filter-container input[type=search]'));
-    // $('#div-client').find('.clear_filter').show();
-  }
-  if('{{$dossierfilter}}' != '') {
-    setShowBtnClearFilter($('#div-dossier').find('.filter-container input[type=search]'));
-    // $('#div-dossier').find('.clear_filter').show();
-  }
-  if({{$client_id}} != 0) {
-    // getAjaxFilter($('#div-client').find('.filter-container input[type=search]'));
-    getDossiers({{$client_id}});
-  }
-  if({{$dossier_id}} != 0) {
-    // getAjaxFilter($('#div-dossier').find('.filter-container input[type=search]'));
-    getDocuments({{$dossier_id}});
-  }
+  var timer;
 
     $(document).on('click','.href',function(e){
-        e.preventDefault();
+        e.stopPropagation();
         var location =  this.getAttribute('data-url');
-        console.log(location);
 
         window.location = location;
     });
 
 
     $('.call-dossier').click(function(e){
-        e.preventDefault();
+        e.stopPropagation();
         var client_id = $('input#client_id').val();
         if(client_id != 0){
             var url = this.getAttribute('data-url');
@@ -268,7 +252,7 @@ $(function () {
     });
 
     $('.call-document').click(function(e){
-        e.preventDefault();
+        e.stopPropagation();
         var dossier_id = $('input#dossier_id').val();
         if(dossier_id != 0){
             var url = this.getAttribute('data-url');
@@ -281,7 +265,7 @@ $(function () {
 
 
     $('#select-acl').on('change',function(e){
-        e.preventDefault();
+        e.stopPropagation();
         $('#div-documents').hide();
         $('#div-dossier').hide();
         var url = '{{url('admin_documents')}}';
@@ -299,13 +283,15 @@ $(function () {
     });
 
     $(document).on('click','.tab-client',function(e){
-        e.preventDefault();
+        e.stopPropagation();
         $('#div-documents').hide();
         $('#div-dossier').hide();
         $('input#client_id').val(this.id);
         $('.tab-client').removeClass('bg-success');
         $(this).addClass('bg-success');
-        getDossiers(this.id);
+        $('#div-dossier').find('input[type=search]').val('');
+        // getDossiers(this.id);
+        getAjaxFilter($('#div-dossier').find('input[type=search]'));
     });
 
     function getDossiers(client_id){
@@ -320,15 +306,15 @@ $(function () {
             } }).done(function(data){
                 $('.dossier').html(data);
                 $('#div-dossier').show();
+                $('#tr-dossier #{{$dossier_id}}').addClass('bg-success');
         });
     }
 
     $(document).on('click','.tab-dossier',function(e){
-        e.preventDefault();
-        $('input#dossier_id').val(this.id);
+        e.stopPropagation();
+        $('.dossier #dossier_id').val(this.id);
         $('.tab-dossier').removeClass('bg-success');
         $(this).addClass('bg-success');
-        console.log(this.id);
         getDocuments(this.id);
     });
 
@@ -348,8 +334,8 @@ $(function () {
     }
 
     $(document).on('click','.tab-dossier_a',function(e){
+        e.stopPropagation();
         var dossier = $(this).closest('tr').attr('id');
-        //console.log(dossier);
         var url = '{{url('admin_dossiers/destroy')}}/'+dossier;
         swal({
             title: '{{__('app.confirm-title')}}',
@@ -358,8 +344,6 @@ $(function () {
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
             confirmButtonText: "Yes",
-            closeOnConfirm: false,
-            closeOnCancel: false
         }, function (isConfirm) {
             if(isConfirm) {
                 $.ajax({
@@ -370,12 +354,10 @@ $(function () {
                     }
                 })
                 .done(function (data) {
-                    //toastr['success']('',data[0]);
                     getDossiers($('input#client_id').val());
                     swal("Deleted!", data[0], "success");
                 })
                 .error(function (xhr, status, err) {
-                    console.log(JSON.parse(xhr.responseText)[0]);
                     swal("Error!", JSON.parse(xhr.responseText)[0], "error");
                     toastr['error']('',JSON.parse(xhr.responseText)[0]);
                 });
@@ -387,6 +369,7 @@ $(function () {
 
 
     $(document).on('click','.tab-document_a',function(e){
+      e.stopPropagation();
         var document = $(this).closest('tr').attr('id');
         ///alert(document);
         var url = '{{url('admin_documents/destroy')}}/'+document;
@@ -397,8 +380,6 @@ $(function () {
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
             confirmButtonText: "Yes",
-            closeOnConfirm: false,
-            closeOnCancel: false
         }, function (isConfirm) {
             if(isConfirm) {
                 $.ajax({
@@ -413,7 +394,6 @@ $(function () {
                     swal("Deleted!", data[0], "success");
                 })
                 .error(function (xhr, status, err) {
-                    console.log(JSON.parse(xhr.responseText)[0]);
                     swal("Error!", JSON.parse(xhr.responseText)[0], "error");
                     toastr['error']('',JSON.parse(xhr.responseText)[0]);
                 });
@@ -433,13 +413,12 @@ $(function () {
             confirmButtonText: "Yes",
             closeOnConfirm: true
         }, function (isConfirm) {
-            console.log(isConfirm);
             return isConfirm;
         });
     };
 
     $(document).on('click','.sendmail', function(e){
-        e.preventDefault();
+        e.stopPropagation();
         var location =  this.getAttribute('data-location');
         swal({
             title: '{{__('app.confirm-title')}}',
@@ -454,10 +433,18 @@ $(function () {
         });
     });
 
-    $(document).on('keyup', '.filter-container input[type=search]', function (e) {
-        e.preventDefault();
+    $(document).on('keyup', 'input[type=search]', function (e) {
+        e.stopPropagation();
+        clearTimeout(timer);
         setShowBtnClearFilter(this);
+        if ($(this).val().length > 3) {
+            timer = setTimeout(() => {
+                clearTimeout(timer);
+                getAjaxFilter(this);
+            }, 2000);
+        }
         if( e.which == 13) {
+            clearTimeout(timer);
             getAjaxFilter(this);
         }
     });
@@ -470,9 +457,10 @@ $(function () {
         }
     }
 
-    $('.filter-container .clear_filter').click(function(e){
-        e.preventDefault();
+    $('.clear_filter').click(function(e){
+        e.stopPropagation();
         $(this).parent().find('input[type=search]').val('');
+        clearTimeout(timer);
         getAjaxFilter($(this).parent().find('input[type=search]'));
     });
 
@@ -494,8 +482,33 @@ $(function () {
               $('.'+section).html(data);
               $('#div-'+section).show();
               setShowBtnClearFilter(obj);
+
           });
     }
+
+  if('{{$clientfilter}}' != '') {
+    setShowBtnClearFilter($('#div-client').find('input[type=search]'));
+  }
+  if('{{$dossierfilter}}' != '') {
+    $('#div-dossier input[type=search]').val({{$dossierfilter}});
+    setShowBtnClearFilter($('#div-dossier').find('input[type=search]'));
+  }
+
+  if({{$client_id}} != 0) {
+    $('#div-documents').hide();
+    $('#div-dossier').hide();
+    $('input#client_id').val({{$client_id}});
+    $('.tab-client').removeClass('bg-success');
+    $('#tr-client #{{$client_id}}').addClass('bg-success');
+    getDossiers({{$client_id}});
+  }
+
+  if({{$dossier_id}} != 0) {
+    $('.dossier #dossier_id').val({{$dossier_id}});
+    $('.tab-dossier').removeClass('bg-success');
+    $('#tr-dossier #{{$dossier_id}}').addClass('bg-success');
+    getDocuments({{$dossier_id}});
+  }
 
 
 })

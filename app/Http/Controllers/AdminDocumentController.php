@@ -36,86 +36,69 @@ class AdminDocumentController extends Controller
      */
     public function index(Request $request)
     {
+
         // ACLS
         $acls = Acl::getMyAcls()->get();
 
         // CLIENTS
+        // set acl
         $clients = Acl::getMyClients();
-        $acl_id = 0;
-        if ($request->has('acl_id')) {
-          $acl_id = $request->acl_id;
-          $request->session()->put('acl_id', $acl_id);
+        $acl_id = $request->session()->get('acl_id', 0);
+        $acl_id = $request->get('acl_id', $acl_id);
+        $request->session()->put('acl_id', $acl_id);
+        if ($acl_id != 0) {
+          $clients = Acl::find($acl_id)->clients();
         }
-        if ($request->session()->has('acl_id')) {
-          $acl_id = $request->session()->get('acl_id');
-          ($acl_id == 0)?: $clients = Acl::find($acl_id)->clients();
-        }
-
-        $clientfilter = '';
-        if ($request->has('clientfilter') ) {
-          $clientfilter = $request->clientfilter;
-          if($clientfilter == '#') {
-           $request->session()->forget('clientfilter');
-           $request->session()->forget('dossier_id');
-           $request->session()->forget('client_id');
-          } else {
-            $request->session()->put('clientfilter', $clientfilter);
-          }
-        }
-        if ($request->session()->has('clientfilter')) {
-          $clientfilter = $request->session()->get('clientfilter');
-           $clients = $clients->where(function($qFilter) use ($clientfilter) {
-            $qFilter->where('surname', 'LIKE', '%'.$clientfilter.'%')
-                    ->orWhere('name', 'LIKE', '%'.$clientfilter.'%');
-          });
+        // set filter
+        $clientfilter = $request->session()->get('clientfilter', '#');
+        $clientfilter = $request->get('clientfilter', $clientfilter);
+        $request->session()->put('clientfilter', $clientfilter);
+        if($clientfilter == '#') {
+          $clientfilter = '';
+          $request->request->remove('client_page');
+          $request->session()->forget(['clientfilter','dossierfilter','dossier_id']);
+        } else {
+          $clients = $clients->where(function($qFilter) use ($clientfilter) {
+              $qFilter->where('surname', 'LIKE', '%'.$clientfilter.'%')
+                      ->orWhere('name', 'LIKE', '%'.$clientfilter.'%');
+            });
         }
         $clients = $clients->orderBy('surname', 'asc')->paginate(10, ['*'], 'client_page');
+        // set client id
+        $client_id = $request->session()->get('client_id', 0);
+        $client_id = $request->get('client_id', $client_id);
+        $request->session()->put('client_id', $client_id );
 
-        $client_id = 0;
-        if ($request->has('client_id')) {
-          $client_id = $request->client_id;
-          $request->session()->put('client_id', $client_id );
-          $request->session()->forget('dossier_id');
-        }
-        if($request->session()->has('client_id')) {
-          $client_id = $request->session()->get('client_id');
-        }
+
         // DOSSIERS
-        $dossierfilter = '';
+        // set filter
         $dossiers = Dossier::where('client_id', $client_id);
-        if ($request->has('dossierfilter') ) {
-          $dossierfilter = $request->dossierfilter;
-          if ($dossierfilter == '#') {
-           $request->session()->forget('dossierfilter') ;
-           $request->session()->forget('dossier_id');
-          } else {
-           $request->session()->put('dossierfilter', $dossierfilter);
-          }
-        }
-        if ($request->session()->has('dossierfilter')) {
-          $dossierfilter = $request->session()->get('dossierfilter');
+        $dossierfilter = $request->session()->get('dossierfilter', '#');
+        $dossierfilter = $request->get('dossierfilter', $dossierfilter);
+        $request->session()->put('dossierfilter', $dossierfilter);
+        if ( $dossierfilter == '#') {
+          $dossierfilter = '';
+          $request->request->remove('dossier_page');
+          $request->session()->forget(['dossierfilter']);
+        } else {
+          // dd($request->session()->all(), $request->all(), $dossierfilter);
           $dossiers = $dossiers->where('name', 'LIKE', '%'.$dossierfilter.'%');
         }
         $dossiers = $dossiers->paginate(10, ['*'], 'dossier_page');
-
-        $dossier_id = 0;
-        if ($request->has('dossier_id')) {
-          $dossier_id = $request->dossier_id;
-          $request->session()->put('dossier_id', $dossier_id );
-        }
-        if($request->session()->has('dossier_id')) {
-          $dossier_id = $request->session()->get('dossier_id');
-        }
+        // set dossier_id
+        $dossier_id = $request->session()->get('dossier_id', 0);
+        $dossier_id = $request->get('dossier_id', $dossier_id);
+        $request->session()->put('dossier_id', $dossier_id );
 
         // DOCUMENTS
-        $documents = ($request->has('dossier_id')) ? Document::where('dossier_id', $request->dossier_id)->get() : array();
+        $documents = ($dossier_id != 0) ? Document::where('dossier_id', $request->dossier_id)->get() : array();
 
         if ($request->ajax()) {
-          switch ($request) {
-            case $request->has('acl_id');
+          switch (true) {
+            case $request->has('acl_id'):
             case $request->has('clientfilter'):
             {
-              return view('admin.documents.client', [
+            return view('admin.documents.client', [
                         'clients' => $clients
                     ])->render();
             }
@@ -123,7 +106,7 @@ class AdminDocumentController extends Controller
             {
               return view('admin.documents.dossier', [
                         'dossiers'      => $dossiers,
-                        'dossierfilter' => $request->dossierfilter
+                        'dossierfilter' => $dossierfilter
                     ])->render();
             }
             case $request->has('dossier_id'):
