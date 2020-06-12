@@ -21,7 +21,7 @@
                         </td>
                         <td>
                             @if(Auth::user()->hasRole('admin_documents','edit'))<a data-url="{{ url('admin_documents/')}}/{{$document->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>@endif
-                            @if(Auth::user()->hasRole('sign','send'))<a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="confirm-toast"><i class="fa fa-envelope-o"></i></a>@endif
+                            @if(Auth::user()->hasRole('sign','send'))<a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="sendmail confirm-toast"><i class="fa fa-envelope-o"></i></a>@endif
                             @if(Auth::user()->hasRole('admin_documents','destroy'))<a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>@endif
                         </td>
                     </tr>

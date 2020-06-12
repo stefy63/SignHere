@@ -58,11 +58,14 @@ class AdminDocumentController extends Controller
           $request->request->remove('client_page');
           $request->session()->forget(['clientfilter','dossierfilter','dossier_id']);
         } else {
-          $clients = $clients->where(function($qFilter) use ($clientfilter) {
-              $qFilter->where('surname', 'LIKE', '%'.$clientfilter.'%')
-                      ->orWhere('name', 'LIKE', '%'.$clientfilter.'%');
+            $split_search = explode(' ', $clientfilter);
+          $clients = $clients->where(function($qFilter) use ($split_search) {
+              foreach ($split_search as $part) {
+                    $qFilter->whereRaw("CONCAT_WS(' ', surname, name) LIKE '%".$part."%'");
+                }
             });
         }
+        // dd($clients->toSql());
         $clients = $clients->orderBy('surname', 'asc')->paginate(10, ['*'], 'client_page');
         // set client id
         $client_id = $request->session()->get('client_id', 0);
@@ -81,7 +84,6 @@ class AdminDocumentController extends Controller
           $request->request->remove('dossier_page');
           $request->session()->forget(['dossierfilter']);
         } else {
-          // dd($request->session()->all(), $request->all(), $dossierfilter);
           $dossiers = $dossiers->where('name', 'LIKE', '%'.$dossierfilter.'%');
         }
         $dossiers = $dossiers->paginate(10, ['*'], 'dossier_page');
