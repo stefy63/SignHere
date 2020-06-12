@@ -54,12 +54,13 @@ class SignController extends Controller
         })->where('active',true);
 
         if($request->has('clientfilter') || $request->session()->has('clientfilter')) {
-            // $clientfilter = $request->clientfilter;
             $filter = $request->has('clientfilter') ? $request->clientfilter : $request->session()->get('clientfilter');
             if ($filter !== '*') {
-              $clients = $clients->where(function($qFilter) use ($filter) {
-                $qFilter->where('surname', 'LIKE', '%'.$filter.'%')
-                        ->orWhere('name', 'LIKE', '%'.$filter.'%');
+              $split_search = explode(' ', $filter);
+              $clients = $clients->where(function($qFilter) use ($split_search) {
+                foreach ($split_search as $part) {
+                    $qFilter->whereRaw("CONCAT_WS(' ', surname, name) LIKE '%".$part."%'");
+                    }
                 });
               $request->session()->flash('clientfilter', $filter);
             } else {
@@ -91,12 +92,13 @@ class SignController extends Controller
         ->where('active',true);
 
         if($request->has('archivefilter')  || $request->session()->has('archivefilter')) {
-            // $archivefilter = $request->archivefilter;
             $filter = $request->has('archivefilter') ? $request->archivefilter : $request->session()->get('archivefilter');
             if ($filter !== '*') {
-              $archives = $archives->where(function($qFilter) use ($request) {
-                  $qFilter->where('surname', 'LIKE', '%'.$request->archivefilter.'%')
-                          ->orWhere('name', 'LIKE', '%'.$request->archivefilter.'%');
+              $split_search = explode(' ', $filter);
+              $archives = $archives->where(function($qFilter) use ($split_search) {
+                foreach ($split_search as $part) {
+                    $qFilter->whereRaw("CONCAT_WS(' ', surname, name) LIKE '%".$part."%'");
+                }
               });
               $request->session()->flash('archivefilter', $filter);
             } else {
