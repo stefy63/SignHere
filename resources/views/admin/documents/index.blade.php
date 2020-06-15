@@ -439,7 +439,7 @@ $(function () {
         clearTimeout(timer);
         setShowBtnClearFilter(this);
         if ($(this).val().length > 3) {
-            timer = setTimeout(() => {
+            timer = setTimeout(function(){
                 clearTimeout(timer);
                 getAjaxFilter(this);
             }, 2000);

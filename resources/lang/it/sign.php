@@ -46,7 +46,7 @@ return [
     'crud-sendsign' => 'Invia Documento da firmare',
     'crud-ALL' => 'TUTTI',
     'crud-download' => 'Download Documenti',
-    '' => '',
+    'check-show-archive' => 'Archivio ',
     '' => '',
     '' => '',
     '' => '',
