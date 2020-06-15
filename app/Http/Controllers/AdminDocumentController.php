@@ -50,7 +50,7 @@ class AdminDocumentController extends Controller
           $clients = Acl::find($acl_id)->clients();
         }
         // set filter
-        $clientfilter = $request->session()->get('clientfilter', '#');
+        $clientfilter = $request->session()->get('clientfilter', '');
         $clientfilter = $request->get('clientfilter', $clientfilter);
         $request->session()->put('clientfilter', $clientfilter);
         if($clientfilter == '#') {
@@ -75,7 +75,7 @@ class AdminDocumentController extends Controller
         // DOSSIERS
         // set filter
         $dossiers = Dossier::where('client_id', $client_id);
-        $dossierfilter = $request->session()->get('dossierfilter', '#');
+        $dossierfilter = $request->session()->get('dossierfilter', '');
         $dossierfilter = $request->get('dossierfilter', $dossierfilter);
         $request->session()->put('dossierfilter', $dossierfilter);
         if ( $dossierfilter == '#') {

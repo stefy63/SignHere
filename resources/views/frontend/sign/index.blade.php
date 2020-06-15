@@ -241,14 +241,14 @@ $(function () {
     });
 
     $('.content').click(function(e){
-      e.stopPropagation();
+      e.preventDefault();
       $('.tr-dossier').hide(500);
       $('.tr-document').hide(500);
     });
 
 
     $('.clear_filter').click(function (e) {
-        e.stopPropagation();
+        e.preventDefault();
         if ($(this).parent().find('input').attr('id') == 'clientfilter') {
           localStorage.removeItem('clientfilter');
           localStorage.removeItem('client_id');

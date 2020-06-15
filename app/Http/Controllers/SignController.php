@@ -62,7 +62,7 @@ class SignController extends Controller
                     $qFilter->whereRaw("CONCAT_WS(' ', surname, name) LIKE '%".$part."%'");
                     }
                 });
-              $request->session()->flash('clientfilter', $filter);
+              $request->session()->put('clientfilter', $filter);
             } else {
               $request->session()->forget('clientfilter');
             }
@@ -100,7 +100,7 @@ class SignController extends Controller
                     $qFilter->whereRaw("CONCAT_WS(' ', surname, name) LIKE '%".$part."%'");
                 }
               });
-              $request->session()->flash('archivefilter', $filter);
+              $request->session()->put('archivefilter', $filter);
             } else {
               $request->session()->forget('archivefilter');
             }

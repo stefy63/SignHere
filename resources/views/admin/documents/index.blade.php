@@ -239,7 +239,7 @@ $(function () {
 
 
     $('.call-dossier').click(function(e){
-        e.stopPropagation();
+        e.preventDefault();
         var client_id = $('input#client_id').val();
         if(client_id != 0){
             var url = this.getAttribute('data-url');
@@ -252,7 +252,7 @@ $(function () {
     });
 
     $('.call-document').click(function(e){
-        e.stopPropagation();
+        e.preventDefault();
         var dossier_id = $('input#dossier_id').val();
         if(dossier_id != 0){
             var url = this.getAttribute('data-url');
@@ -265,7 +265,7 @@ $(function () {
 
 
     $('#select-acl').on('change',function(e){
-        e.stopPropagation();
+        e.preventDefault();
         $('#div-documents').hide();
         $('#div-dossier').hide();
         var url = '{{url('admin_documents')}}';
@@ -283,15 +283,15 @@ $(function () {
     });
 
     $(document).on('click','.tab-client',function(e){
-        e.stopPropagation();
+        e.preventDefault();
         $('#div-documents').hide();
         $('#div-dossier').hide();
         $('input#client_id').val(this.id);
         $('.tab-client').removeClass('bg-success');
         $(this).addClass('bg-success');
         $('#div-dossier').find('input[type=search]').val('');
-        // getDossiers(this.id);
-        getAjaxFilter($('#div-dossier').find('input[type=search]'));
+        getDossiers(this.id);
+        // getAjaxFilter($('#div-dossier').find('input[type=search]'));
     });
 
     function getDossiers(client_id){
@@ -302,7 +302,8 @@ $(function () {
             url: url,
             data: {
                 _token: "{{csrf_token()}}",
-                client_id: client_id
+                client_id: client_id,
+                dossier_id: 0
             } }).done(function(data){
                 $('.dossier').html(data);
                 $('#div-dossier').show();
@@ -311,7 +312,7 @@ $(function () {
     }
 
     $(document).on('click','.tab-dossier',function(e){
-        e.stopPropagation();
+        e.preventDefault();
         $('.dossier #dossier_id').val(this.id);
         $('.tab-dossier').removeClass('bg-success');
         $(this).addClass('bg-success');
@@ -334,7 +335,7 @@ $(function () {
     }
 
     $(document).on('click','.tab-dossier_a',function(e){
-        e.stopPropagation();
+        e.preventDefault();
         var dossier = $(this).closest('tr').attr('id');
         var url = '{{url('admin_dossiers/destroy')}}/'+dossier;
         swal({
@@ -368,7 +369,7 @@ $(function () {
     });
 
     $(document).on('click','.sendmail', function(e){
-        e.stopPropagation();
+        e.preventDefault();
         var location =  this.getAttribute('data-location');
         swal({
             title: '{{__('app.confirm-title')}}',
@@ -384,7 +385,7 @@ $(function () {
     });
 
     $(document).on('click','.tab-document_a',function(e){
-        e.stopPropagation();
+        e.preventDefault();
         var document = $(this).closest('tr').attr('id');
         ///alert(document);
         var url = '{{url('admin_documents/destroy')}}/'+document;
@@ -434,7 +435,7 @@ $(function () {
 
 
     $(document).on('keyup', 'input[type=search]', function (e) {
-        e.stopPropagation();
+        e.preventDefault();
         clearTimeout(timer);
         setShowBtnClearFilter(this);
         if ($(this).val().length > 3) {
@@ -458,7 +459,7 @@ $(function () {
     }
 
     $('.clear_filter').click(function(e){
-        e.stopPropagation();
+        e.preventDefault();
         $(this).parent().find('input[type=search]').val('');
         clearTimeout(timer);
         getAjaxFilter($(this).parent().find('input[type=search]'));
