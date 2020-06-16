@@ -11,16 +11,16 @@
 .tab-right tbody{
     overflow-y: auto;
 }
-.tab-right tbody td {
+.tab-right tbody td, i {
     max-width: 15vw;
 }
 .tab-left tbody{
     overflow-y: auto;
 }
-.tab-left tbody td {
+.tab-left tbody td, i {
     max-width: 20vw;
 }
-table tr td {
+table tr td, i {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -79,9 +79,9 @@ table tr td {
                             <tbody>
                             @foreach($clients as $client)
                                 <tr class="bg-info tr-client" id="{{$client->id}}" data-client="{{$client->id}}">
-                                    <td class="col-md-5"><i class="fa fa-user"> {{$client->surname}}&nbsp;{{$client->name}}</i></td>
+                                    <td class="col-md-5"><i class="fa fa-user" title="{{$client->surname}} {{$client->name}}"> {{$client->surname}}&nbsp;{{$client->name}}</i></td>
                                     <td class="col-md-2">@if($client->mobile){{$client->mobile}}@else{{$client->phone}}@endif</td>
-                                    <td class="col-md-5">{{$client->email}} <i class="fa fa-chevron-down pull-right"></i></td>
+                                    <td class="col-md-5" title="{{$client->email}}">{{$client->email}} <i class="fa fa-chevron-down pull-right"></i></td>
                                 </tr>
                                 @foreach($client->dossiers()->get() as $dossier)
                                     <tr class="bg-warning tr-dossier dossier-{{$client->id}}" data-dossier="{{$dossier->id}}" id="{{$dossier->id}}" style="display: none">
@@ -155,9 +155,9 @@ table tr td {
                             <tbody>
                             @foreach($archives as $archive)
                                 <tr class="bg-info tr-client" id="{{$archive->id}}" data-client="{{$archive->id}}">
-                                    <td class="col-md-5"><i class="fa fa-user"> {{$archive->surname}}&nbsp;{{$archive->name}}</i></td>
+                                    <td class="col-md-5"><i class="fa fa-user" title="{{$archive->surname}} {{$archive->name}}"> {{$archive->surname}}&nbsp;{{$archive->name}}</i></td>
                                     <td class="col-md-2">@if($archive->mobile){{$archive->mobile}}@else{{$archive->phone}}@endif</td>
-                                    <td class="col-md-5">{{$archive->email}} <i class="fa fa-chevron-down pull-right"></i></td>
+                                    <td class="col-md-5" title="{{$archive->email}}">{{$archive->email}} <i class="fa fa-chevron-down pull-right"></i></td>
                                 </tr>
                                 @foreach($archive->dossiers()->get() as $dossier)
                                 <tr class="bg-warning tr-dossier dossier-{{$archive->id}}" data-dossier="{{$dossier->id}}"  id="{{$dossier->id}}" style="display: none">
