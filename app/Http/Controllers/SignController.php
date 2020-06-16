@@ -64,10 +64,17 @@ class SignController extends Controller
                 });
               $request->session()->put('clientfilter', $filter);
             } else {
-              $request->session()->forget('clientfilter');
+              $request->session()->forget('clientfilter', 'fo_client_page');
             }
         }
-        $clients = $clients->paginate(10, ['*'], 'client_page');
+
+        // set pagination
+        if($request->has('client_page')) {
+          $request->session()->put('fo_client_page', $request->client_page);
+          $client_page = $request->client_page;
+        }
+        $client_page = $request->session()->get('fo_client_page', null);
+        $clients = $clients->paginate(10, ['*'], 'client_page', $client_page);
 
 
 
@@ -102,10 +109,17 @@ class SignController extends Controller
               });
               $request->session()->put('archivefilter', $filter);
             } else {
-              $request->session()->forget('archivefilter');
+              $request->session()->forget('archivefilter', 'fo_archive_page');
             }
         }
-        $archives = $archives->paginate(10, ['*'], 'archive_page');
+
+        // set pagination
+        if($request->has('archive_page')) {
+          $request->session()->put('fo_archive_page', $request->archive_page);
+          $archive_page = $request->archive_page;
+        }
+        $archive_page = $request->session()->get('fo_archive_page', null);
+        $archives = $archives->paginate(10, ['*'], 'archive_page', $archive_page);
 
         return view('frontend.sign.index',[
             'archives' => $archives,

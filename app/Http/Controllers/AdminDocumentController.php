@@ -49,6 +49,7 @@ class AdminDocumentController extends Controller
         if ($acl_id != 0) {
           $clients = Acl::find($acl_id)->clients();
         }
+
         // set filter
         $clientfilter = $request->session()->get('clientfilter', '');
         $clientfilter = $request->get('clientfilter', $clientfilter);
@@ -56,7 +57,7 @@ class AdminDocumentController extends Controller
         if($clientfilter == '#') {
           $clientfilter = '';
           $request->request->remove('client_page');
-          $request->session()->forget(['clientfilter','dossierfilter','dossier_id']);
+          $request->session()->forget(['clientfilter','dossierfilter','dossier_id','bo_client_page']);
         } else {
           $split_search = explode(' ', $clientfilter);
           $clients = $clients->where(function($qFilter) use ($split_search) {
@@ -65,7 +66,15 @@ class AdminDocumentController extends Controller
                 }
             });
         }
-        $clients = $clients->orderBy('surname', 'asc')->paginate(10, ['*'], 'client_page');
+
+        // set pagination
+        if($request->has('client_page')) {
+          $request->session()->put('bo_client_page', $request->client_page);
+          $client_page = $request->client_page;
+        }
+        $client_page = $request->session()->get('bo_client_page', null);
+        $clients = $clients->orderBy('surname', 'asc')->paginate(10, ['*'], 'client_page', $client_page);
+
         // set client id
         $client_id = $request->session()->get('client_id', 0);
         $client_id = $request->get('client_id', $client_id);
@@ -81,11 +90,19 @@ class AdminDocumentController extends Controller
         if ( $dossierfilter == '#') {
           $dossierfilter = '';
           $request->request->remove('dossier_page');
-          $request->session()->forget(['dossierfilter']);
+          $request->session()->forget(['dossierfilter', 'bo_dossier_page']);
         } else {
           $dossiers = $dossiers->where('name', 'LIKE', '%'.$dossierfilter.'%');
         }
-        $dossiers = $dossiers->paginate(10, ['*'], 'dossier_page');
+
+        // set pagination
+        if($request->has('bo_dossier_page')) {
+          $request->session()->put('dossier_page', $request->dossier_page);
+          $dossier_page = $request->dossier_page;
+        }
+        $dossier_page = $request->session()->get('bo_dossier_page', null);
+        $dossiers = $dossiers->paginate(10, ['*'], 'dossier_page', $dossier_page);
+
         // set dossier_id
         $dossier_id = $request->session()->get('dossier_id', 0);
         $dossier_id = $request->get('dossier_id', $dossier_id);
