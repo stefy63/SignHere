@@ -16,6 +16,13 @@
     overflow-y: auto;
 }
 
+table tr td {
+    overflow: hidden;
+    max-width: 20vw;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .filter-container {
     position: relative;
 }
@@ -122,7 +129,6 @@
                     <div class="text-center">{{ $clients->links() }}</div>
                 </div>
                 <!-- ARCHIVIO CLIENTI  -->
-
 
                 <div class="col-lg-5" id="archive">
                     <div class="ibox-title">
