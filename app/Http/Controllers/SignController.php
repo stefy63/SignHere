@@ -71,7 +71,6 @@ class SignController extends Controller
         // set pagination
         if($request->has('client_page')) {
           $request->session()->put('fo_client_page', $request->client_page);
-          $client_page = $request->client_page;
         }
         $client_page = $request->session()->get('fo_client_page', null);
         $clients = $clients->paginate(10, ['*'], 'client_page', $client_page);
@@ -116,7 +115,6 @@ class SignController extends Controller
         // set pagination
         if($request->has('archive_page')) {
           $request->session()->put('fo_archive_page', $request->archive_page);
-          $archive_page = $request->archive_page;
         }
         $archive_page = $request->session()->get('fo_archive_page', null);
         $archives = $archives->paginate(10, ['*'], 'archive_page', $archive_page);

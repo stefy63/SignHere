@@ -70,7 +70,6 @@ class AdminDocumentController extends Controller
         // set pagination
         if($request->has('client_page')) {
           $request->session()->put('bo_client_page', $request->client_page);
-          $client_page = $request->client_page;
         }
         $client_page = $request->session()->get('bo_client_page', null);
         $clients = $clients->orderBy('surname', 'asc')->paginate(10, ['*'], 'client_page', $client_page);
@@ -98,7 +97,6 @@ class AdminDocumentController extends Controller
         // set pagination
         if($request->has('bo_dossier_page')) {
           $request->session()->put('dossier_page', $request->dossier_page);
-          $dossier_page = $request->dossier_page;
         }
         $dossier_page = $request->session()->get('bo_dossier_page', null);
         $dossiers = $dossiers->paginate(10, ['*'], 'dossier_page', $dossier_page);
