@@ -37,6 +37,17 @@
             <div class="ibox-content col-lg-12">
                 <!-- CLIENTI IN ATTESA DI FIRMA -->
                 <div class="col-lg-7 full-height" id="client">
+
+                  <div class="pull-right">
+                    <div class="onoffswitch" >
+                      <input type="checkbox" class="onoffswitch-checkbox"  id="show_archive">
+                      <label class="onoffswitch-label" for="show_archive">
+                          <span class="onoffswitch-inner"></span>
+                          <span class="onoffswitch-switch"></span>
+                      </label>
+                    </div>
+                  </div>
+
                     <div class="ibox-title">
                         <h5>{{__('sign.sign-title')}}</h5>
                         <div class="filter-container">
@@ -111,6 +122,8 @@
                     <div class="text-center">{{ $clients->links() }}</div>
                 </div>
                 <!-- ARCHIVIO CLIENTI  -->
+
+
                 <div class="col-lg-5 full-height" id="archive">
                     <div class="ibox-title">
                         <h5>{{__('sign.archive-title')}}</h5>
@@ -177,6 +190,32 @@
 <script>
 $(function () {
 
+  if(!!localStorage.getItem('show-archive')) {
+    var test = localStorage.getItem('show-archive');
+    $('#show_archive').prop('checked', (test=='true'));
+  } else {
+    $('#show_archive').prop('checked', true);
+  }
+  setShowArchive($('#show_archive').prop('checked'));
+
+  $('.onoffswitch-checkbox').change(function (e) {
+        e.preventDefault();
+        var test = $(this).prop('checked');
+        localStorage.setItem('show-archive', test);
+        setShowArchive(test);
+    });
+
+    function setShowArchive(show) {
+        if(show) {
+          $('#archive').show();
+          $('#client').addClass('col-lg-7');
+        } else {
+          $('#archive').hide();
+          $('#client').removeClass('col-lg-7');
+        }
+    }
+
+
     $('.href').click(function(e){
         e.stopPropagation();
         var location =  this.getAttribute('data-location');
@@ -240,11 +279,11 @@ $(function () {
         });
     });
 
-    $('.content').click(function(e){
-      e.preventDefault();
-      $('.tr-dossier').hide(500);
-      $('.tr-document').hide(500);
-    });
+    // $('.content').click(function(e){
+    //   e.preventDefault();
+    //   $('.tr-dossier').hide(500);
+    //   $('.tr-document').hide(500);
+    // });
 
 
     $('.clear_filter').click(function (e) {
