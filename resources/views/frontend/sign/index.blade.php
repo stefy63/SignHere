@@ -11,14 +11,17 @@
 .tab-right tbody{
     overflow-y: auto;
 }
-
+.tab-right tbody td {
+    max-width: 15vw;
+}
 .tab-left tbody{
     overflow-y: auto;
 }
-
+.tab-left tbody td {
+    max-width: 20vw;
+}
 table tr td {
     overflow: hidden;
-    max-width: 20vw;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
