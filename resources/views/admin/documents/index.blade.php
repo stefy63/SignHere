@@ -118,8 +118,8 @@ function cancelForm() {
 <link href="{{ asset('css/plugins/dropzone/dropzone.css') }}" rel="stylesheet">
 @endpush
 @section('content')
-<div class="row" style="height: 100%">
-    <div class="col-lg-12 col-md-12 col-xs-12">
+<div class="row" >
+    <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>{{__('admin_documents.index-title')}}</h5>
@@ -210,7 +210,7 @@ function cancelForm() {
         </div>
     </div>
 </div>
-</div>
+
 <div class="modal inmodal" id="showModal" tabindex="-1"  role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content animated fadeInDown" id="modal-content">

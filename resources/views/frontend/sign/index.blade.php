@@ -34,19 +34,19 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="ibox float-e-margins col-lg-12">
-            <div class="ibox-content col-lg-12">
+            <div class="ibox-content ">
                 <!-- CLIENTI IN ATTESA DI FIRMA -->
-                <div class="col-lg-7 full-height" id="client">
+                <div class="col-lg-7" id="client">
 
-                  <div class="pull-right">
-                    <div class="onoffswitch" >
-                      <input type="checkbox" class="onoffswitch-checkbox"  id="show_archive">
-                      <label class="onoffswitch-label" for="show_archive">
-                          <span class="onoffswitch-inner"></span>
-                          <span class="onoffswitch-switch"></span>
-                      </label>
+                    <div class="pull-right">
+                      <div class="onoffswitch" >
+                        <input type="checkbox" class="onoffswitch-checkbox"  id="show_archive">
+                        <label class="onoffswitch-label" for="show_archive">
+                            <span class="onoffswitch-inner"></span>
+                            <span class="onoffswitch-switch"></span>
+                        </label>
+                      </div>
                     </div>
-                  </div>
 
                     <div class="ibox-title">
                         <h5>{{__('sign.sign-title')}}</h5>
@@ -124,7 +124,7 @@
                 <!-- ARCHIVIO CLIENTI  -->
 
 
-                <div class="col-lg-5 full-height" id="archive">
+                <div class="col-lg-5" id="archive">
                     <div class="ibox-title">
                         <h5>{{__('sign.archive-title')}}</h5>
                         <div class="filter-container">
