@@ -265,14 +265,17 @@ class AdminDossierController extends Controller
                     $pos_targa = array_search('Dati del Veicolo', $arTextFile,true);
 
                     $temp = $this->_searchVal($arTextFile, 'Pratica n°', 2);
-                    $retTextImport['dossierNumber'] = [$temp[1], '', 0];
                     // DATI CONTRAENTE/ASSICURATO
                     $temp = $this->_searchVal($arTextFile, 'Nome', 6);
                     $retTextImport['contName'] = [(stripos($temp[5], 'Cognome') === false)?'':$temp[1], '', 10];
                     $retTextImport['name'] = [(stripos($temp[5], 'Cognome') === false)?$temp[1]:$temp[3], '', 1];
-                    $temp = $this->_searchVal($arTextFile, 'Cognome/Ragione Soc.', 4);
-                    $retTextImport['contSurname'] = [$temp[1], '', 11];
-                    $retTextImport['surname'] = [$temp[3], '', 2];
+
+                    $tmp = array_keys(array_filter($arTextFile, function($el) {
+                        return str_contains($el, "Cognome/Ragione Soc.");
+                    }));
+                    $surname = $arTextFile[$tmp[0] + 2];
+                    $retTextImport['contSurname'] = [$surname, '', 11];
+                    $retTextImport['surname'] = [$surname, '', 2];
                     $temp = $this->_searchVal($arTextFile, 'Indirizzo', 4);
                     $retTextImport['contAddress'] = [$temp[1], '', 12];
                     $retTextImport['address'] = [$temp[3], '', 3];
