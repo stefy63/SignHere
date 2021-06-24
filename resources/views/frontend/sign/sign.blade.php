@@ -407,13 +407,16 @@ $(function () {
     function Step_Handler(Ctl,Id,Type) {
         switch(Id) {
             case "Next":
-                if (WizCtl.GetObjectState("chk2")) {
-                    responseQuestions[ctlScript] = true;
+                let questionsMandatory = questions[ctlScript][6];
+                responseQuestions[ctlScript] = !!WizCtl.GetObjectState("chk2");
+
+                if(questionsMandatory && questionsMandatory === "M" && !responseQuestions[ctlScript]){
+                   console.log("Question is mandatory and is not flagged as true");
                 } else {
-                    responseQuestions[ctlScript] = false;
+                    ctlScript++;
                 }
-                print("ctlScript: "+ctlScript);
-                ctlScript++;
+
+                print("ctlScript: " + ctlScript);
                 sendQuestions();
                 break;
             case "Cancel":
