@@ -43,7 +43,7 @@ return [
     'db-single_sign' => 'Firma Singola/Multipla',
     'db-select_user' => 'Selezionare l\'Utente ......',
     'db-questions' => 'Domande Facoltative',
-    'db-questions_format' => 'Formato {p|xY|yY|xN|yN|message} Y = Yes | N = No (se xN = 0 viene ignorato N), message = messaggio da proporre sul tablet solo in caso di firma opzionale',
+    'db-questions_format' => 'Formato {p|xY|yY|xN|yN|message|[MO]} Y = Yes | N = No (se xN = 0 viene ignorato N), message = messaggio da proporre sul tablet solo in caso di firma opzionale, M = Mandatory | O = Optional',
     'crud-index' => 'Elenco Completo',
     'crud-create' => 'Crea nuovo',
     'crud-show' => 'Visualizza Dettagli',
