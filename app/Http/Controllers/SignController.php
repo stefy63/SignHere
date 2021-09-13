@@ -118,10 +118,12 @@ class SignController extends Controller
         }
         $archive_page = $request->session()->get('fo_archive_page', null);
         $archives = $archives->paginate(10, ['*'], 'archive_page', $archive_page);
+        $sign_session = getenv('APP_SIGN_SESSION') === 'true';
 
         return view('frontend.sign.index',[
             'archives' => $archives,
-            'clients' => $clients
+            'clients' => $clients,
+            'sign_session' => $sign_session
         ]);
     }
 

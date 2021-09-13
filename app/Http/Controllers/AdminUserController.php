@@ -153,7 +153,7 @@ class AdminUserController extends Controller
                 } else {
                     $user->fill($request->all());
                 }
-                 $user->active = ($id == 1)? 1 :isset($request->active) ? 1 : 0;
+                 $user->active = ($id == 1)? 1 :(isset($request->active) ? 1 : 0);
                  $user->user_id = \Auth::user()->id;
                  $user->profile_id = $request->profile_id;
                  $user->save();
@@ -227,11 +227,11 @@ class AdminUserController extends Controller
 
             $user->password = bcrypt($request->new_password);
             $user->save();
-            Log::info('Reset pwd from user id: '.$id.' from user: '.\Auth::user()->username);
+            Log::info('Reset pwd from user id: '.$request->id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_users.success_user_updated'));
         }
-        Log::warning('Fault from reset pwd from user id: '.$id.' with error: '.__('admin_users.warning_user_NOTupdated'));
+        Log::warning('Fault from reset pwd from user id: '.$request->id.' with error: '.__('admin_users.warning_user_NOTupdated'));
         return redirect()->back()->with('warning',__( 'admin_users.warning_user_NOTupdated'));
     }
 
