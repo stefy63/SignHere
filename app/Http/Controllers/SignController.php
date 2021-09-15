@@ -8,6 +8,8 @@ use App\Models\Acl;
 use App\Models\Document;
 use App\Models\Dossier;
 use App\Models\TokenOtp;
+use App\Models\SignSession;
+use App\Models\SignDocument;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -448,13 +450,18 @@ class SignController extends Controller
             $document->save();
             Log::info('Signing document id: '.$id.' from user: '.Auth::user()->username);
 
-            $ret_url = 'sign';
+            $ret_url = '/sign';
             $sign_session = getenv('APP_SIGN_SESSION') === 'true';
             if ($sign_session && $request->session()->has('user.sign')) {
+                SignDocument::where('document_id', $id)
+                    ->where('sign_session_id', session('sign_session_id'))
+                    ->update(['signed' => true]);
                 if($documents = $request->session()->pull('user.sign')){
                     $doc_id = array_pop($documents);
                     session(['user.sign' => $documents]);
                     $ret_url = '/sign/signing/'.$doc_id;
+                } else {
+                    SignSession::find(session('sign_session_id'))->update(['date_end' => Carbon::now()]);
                 }
             }
             return redirect($ret_url);
@@ -487,11 +494,19 @@ class SignController extends Controller
                 return $qDocument->whereIn('id', $documents);
             })
             ->first()) {
-
-            // TODO store session start into db
-
+            $sign_session = SignSession::create([
+                'user_id' => Auth::user()->id,
+                'dossier_id' => $dossier->id,
+                'date_start' => Carbon::now()
+            ]);
+            foreach ($documents as $doc) {
+                SignDocument::create([
+                    'sign_session_id' => $sign_session->id,
+                    'document_id' => $doc
+                ]);
+            }
             $doc_id = array_pop($documents);
-            session(['user.sign' => $documents]);
+            session(['user.sign' => $documents, 'sign_session_id' => $sign_session->id]);
             return response()->json(['url' => url('/sign/signing/'.$doc_id)], 200);
         } else {
             return response()->json(['message' => 'Error'], 500);

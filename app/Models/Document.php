@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Acl;
 use App\Models\Doctype;
 use App\Models\Client;
+use App\Models\SignSession;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Document extends Model
@@ -28,6 +29,10 @@ class Document extends Model
 
     public function dossier() {
         return $this->belongsTo(Dossier::class);
+    }
+
+    public function sign_session() {
+        $this->hasOne(SignSession::class);
     }
 
     public function getDateDocAttribute($value){return $this->__getData($value);}

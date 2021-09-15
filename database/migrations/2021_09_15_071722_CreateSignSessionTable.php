@@ -13,15 +13,20 @@ class CreateSignSessionTable extends Migration
      */
     public function up()
     {
-        Schema::create('sign_session', function (Blueprint $table) {
+        Schema::create('sign_sessions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->date('date_start');
-            $table->date('date_end');
+            $table->integer('dossier_id');
+            $table->dateTime('date_start');
+            $table->dateTime('date_end')->nullable();
             $table->timestamps();
         });
-        Schema::table('documents', function (Blueprint $table) {
-            $table->integer('sign_session_id')->nullable()->after('signed');
+        Schema::create('sign_documents', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('sign_session_id');
+            $table->integer('document_id');
+            $table->boolean('signed')->default(false);
+            $table->timestamps();
         });
     }
 
@@ -32,9 +37,7 @@ class CreateSignSessionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sign_session');
-        Schema::table('documents', function ($table) {
-            $table->dropColumn('sign_session_id');
-        });
+        Schema::dropIfExists('sign_sessions');
+        Schema::dropIfExists('sign_documents');
     }
 }
