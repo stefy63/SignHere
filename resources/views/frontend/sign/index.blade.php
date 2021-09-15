@@ -166,8 +166,8 @@
                                                 style="display: none">
                                                 <td colspan="3">
                                                     <div class="pull-right font-bold">
-                                                        <a data-location="{{url('sign/sign_session/'.$dossier->id)}}"
-                                                           class="href">Inizia sessione di firma
+                                                        <a data-location="{{url('sign/sign_session')}}"
+                                                           class="chk-href" data-document="{{$dossier->id}}">Inizia sessione di firma
                                                             <i class="m-l-sm fa fa-caret-right"
                                                                style="font-size: 30px !important; vertical-align: middle"></i></a>
                                                     </div>
@@ -293,6 +293,40 @@
                     }
                 }
 
+                @if($sign_session)
+                $('.chk-href').click(function (e) {
+                    e.stopPropagation();
+                    var location = this.getAttribute('data-location');
+                    var doc_id = this.getAttribute('data-document');
+                    var chk = [];
+                    $.each($(".document-"+doc_id+" .form-check-input:checked"), function(){
+                        chk.push($(this).val());
+                    });
+                    if (chk.length == 0) {
+                        toastr.error('Nessun documento selezionato!', 'Attenzione');
+                        return false;
+                    }
+                    console.log(JSON.stringify(chk));
+                    $.ajax({
+                        method: 'POST',
+                        url: location,
+                        data: {
+                            _token: "{{csrf_token()}}",
+                            dossier: doc_id,
+                            documents: JSON.stringify(chk)
+                        },
+                        success: (data) => {
+                            window.location = data.url;
+                        },
+                        error:  (err) => {
+                            toastr.error(err.responseJSON.message, 'Attenzione!');
+                            console.log(err);
+                        }
+                    })
+
+
+                });
+                @endif
 
                 $('.href').click(function (e) {
                     e.stopPropagation();
