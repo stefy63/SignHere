@@ -123,10 +123,16 @@ class SignController extends Controller
         $archives = $archives->paginate(10, ['*'], 'archive_page', $archive_page);
         $sign_session = getenv('APP_SIGN_SESSION') === 'true';
 
+        $sign_today = SignSession::whereDate('date_start', Carbon::today())->count();
+        $sign_month = SignSession::whereMonth('date_start', '=', Carbon::now()->month)->count();
+        $sign_prev = SignSession::whereMonth('date_start', '=', Carbon::now()->subMonth()->month)->count();
         return view('frontend.sign.index', [
             'archives' => $archives,
             'clients' => $clients,
-            'sign_session' => $sign_session
+            'sign_session' => $sign_session,
+            'sign_today' => $sign_today,
+            'sign_month' => $sign_month,
+            'sign_prev' => $sign_prev
         ]);
     }
 

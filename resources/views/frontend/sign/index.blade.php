@@ -43,6 +43,20 @@
             display: none;
         }
 
+        .summary {
+            margin-left: 35px;
+            margin-bottom: 10px;
+        }
+        .header {
+            margin-bottom: 10px;
+        }
+        .summary .body .fa-users span {
+            padding-left: 10px;
+        }
+        .body .sub-title {
+            font-size: 9px;
+        }
+
     </style>
 @endpush
 @section('content')
@@ -50,6 +64,23 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins col-lg-12">
                 <div class="ibox-content ">
+                    <div class="summary">
+                        <div class="row header">
+                            <span> Sessioni firmate</span>
+                        </div>
+                        <div class="body">
+                            <div class="row">
+                                <div class="col-md-1"><i class="fa fa-users"><span>{{$sign_today}}</span></i></div>
+                                <div class="col-md-1"><i class="fa fa-users"><span>{{$sign_month}}</span></i></div>
+                                <div class="col-md-1"><i class="fa fa-users"><span>{{$sign_prev}}</span></i></div>
+                            </div>
+                            <div class="row sub-title">
+                                <div class="col-md-1">Oggi</div>
+                                <div class="col-md-1">Mese corrente</div>
+                                <div class="col-md-1">Mese scorso</div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- CLIENTI IN ATTESA DI FIRMA -->
                     <div class="col-lg-7" id="client">
 
@@ -112,7 +143,8 @@
                                                         <i class="fa fa-check-square-o" style="color: green;"></i>
                                                     @else
                                                         @if($sign_session)
-                                                            <input class="form-check-input" type="checkbox" value="{{$document->id}}">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                   value="{{$document->id}}">
                                                         @else
                                                             <i class="fa fa-minus-square-o" style="color: red;"></i>
                                                         @endif
@@ -167,7 +199,8 @@
                                                 <td colspan="3">
                                                     <div class="pull-right font-bold">
                                                         <a data-location="{{url('sign/sign_session')}}"
-                                                           class="chk-href" data-document="{{$dossier->id}}">Inizia sessione di firma
+                                                           class="chk-href" data-document="{{$dossier->id}}">Inizia
+                                                            sessione di firma
                                                             <i class="m-l-sm fa fa-caret-right"
                                                                style="font-size: 30px !important; vertical-align: middle"></i></a>
                                                     </div>
@@ -299,7 +332,7 @@
                     var location = this.getAttribute('data-location');
                     var doc_id = this.getAttribute('data-document');
                     var chk = [];
-                    $.each($(".document-"+doc_id+" .form-check-input:checked"), function(){
+                    $.each($(".document-" + doc_id + " .form-check-input:checked"), function () {
                         chk.push($(this).val());
                     });
                     if (chk.length == 0) {
@@ -318,7 +351,7 @@
                         success: (data) => {
                             window.location = data.url;
                         },
-                        error:  (err) => {
+                        error: (err) => {
                             toastr.error(err.responseJSON.message, 'Attenzione!');
                             console.log(err);
                         }
