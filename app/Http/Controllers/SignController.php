@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\SendDocument;
-use App\Mail\SendSigningDocument;
 use App\Models\Acl;
 use App\Models\Document;
 use App\Models\Dossier;
-use App\Models\TokenOtp;
-use App\Models\SignSession;
+use App\Models\SendDocument;
+use App\Models\SendSigningDocument;
 use App\Models\SignDocument;
+use App\Models\SignSession;
+use App\Models\TokenOtp;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -319,6 +319,14 @@ class SignController extends Controller
 
     public function store_signing(Request $request, $id)
     {
+        $ret_url = '/sign';
+        $sign_session = getenv('APP_SIGN_SESSION') === 'true';
+        if ($sign_session && !SignDocument::where('document_id', $id)
+                ->where('sign_session_id', session('sign_session_id'))
+                ->where('signed', false)->get()) {
+            Log::error('Fault from signing document id: '.$id.' with error: '.__('sign.sign_document_NOTFound'));
+            return redirect()->back()->with('alert', __('sign.sign_document_NOTFound'));
+        }
         if (!$request->imgB64[0]) {
             return redirect()->back()->with('alert', __('sign.document_unsigned'));
         }
@@ -456,15 +464,14 @@ class SignController extends Controller
             $document->save();
             Log::info('Signing document id: '.$id.' from user: '.Auth::user()->username);
 
-            $ret_url = '/sign';
-            $sign_session = getenv('APP_SIGN_SESSION') === 'true';
+
             if ($sign_session && $request->session()->has('user.sign')) {
                 SignDocument::where('document_id', $id)
                     ->where('sign_session_id', session('sign_session_id'))
                     ->update(['signed' => true]);
-                if($documents = $request->session()->pull('user.sign')){
-                    $doc_id = array_pop($documents);
-                    session(['user.sign' => $documents]);
+                if ($sign_documents = $request->session()->pull('user.sign')) {
+                    $doc_id = array_pop($sign_documents);
+                    session(['user.sign' => $sign_documents]);
                     $ret_url = '/sign/signing/'.$doc_id;
                 } else {
                     SignSession::find(session('sign_session_id'))->update(['date_end' => Carbon::now()]);
