@@ -6,6 +6,7 @@ vendor/*
 vendor
 .htaccess
 .env*
+!.env_old
 .phpstorm.meta.php
 _ide_helper*
 
