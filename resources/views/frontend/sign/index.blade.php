@@ -192,7 +192,7 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                        @if($sign_session && $dossier->documents()->get()->filter(function ($value){return !$value->signed;})->count() >= 1)
+                                        @if($sign_session && $dossier->documents()->get()->filter(function ($value){return !$value->signed && !$value->readonly;})->count() >= 1)
                                             <tr class="bg-success tr-document document-{{$dossier->id}}"
                                                 {{--                                                data-document="{{$document->id}}" id="{{$document->id}}"--}}
                                                 style="display: none">

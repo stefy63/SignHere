@@ -286,6 +286,11 @@ class SignController extends Controller
      */
     public function signing($id)
     {
+        $sign_session = getenv('APP_SIGN_SESSION') === 'true';
+        if ($sign_session) {
+            $sign_documents = SignDocument::with('document')->where('sign_session_id',
+                session('sign_session_id'))->orderBy('id', 'desc')->get();
+        }
         if ($document = Document::find($id)) {
 
             if (!Storage::disk('documents')->exists($document->filename)) {
@@ -307,6 +312,8 @@ class SignController extends Controller
 
             return view('frontend.sign.sign', [
                 'document' => $document,
+                'sign_session' => $sign_session,
+                'sign_documents' => $sign_documents,
                 'template' => json_encode($arrayTpl),
                 'questions' => json_encode($arrayQuestion),
                 'b64doc' => $b64Doc,
@@ -323,7 +330,8 @@ class SignController extends Controller
         $sign_session = getenv('APP_SIGN_SESSION') === 'true';
         if ($sign_session && !SignDocument::where('document_id', $id)
                 ->where('sign_session_id', session('sign_session_id'))
-                ->where('signed', false)->get()) {
+                ->where('signed', false)
+                ->get()) {
             Log::error('Fault from signing document id: '.$id.' with error: '.__('sign.sign_document_NOTFound'));
             return redirect()->back()->with('alert', __('sign.sign_document_NOTFound'));
         }
@@ -475,6 +483,8 @@ class SignController extends Controller
                     $ret_url = '/sign/signing/'.$doc_id;
                 } else {
                     SignSession::find(session('sign_session_id'))->update(['date_end' => Carbon::now()]);
+                    Log::info('Session: '.$sign_session.' terminate: '.__('sign.sign_session_terminate_success'));
+                    return redirect($ret_url)->with('success', __('sign.sign_session_terminate_success'));
                 }
             }
             return redirect($ret_url);

@@ -91,6 +91,8 @@ return [
     'sign_proc_sign_otp_end' => 'Codice OTP Inviato!',
     'sign_sms_failed' => 'Invio SMS non riuscito!',
     'sign_token_NOVerified' => 'Il Token inviato non &eacute; corretto!',
+    'sign_session_terminate' => 'Confermi uscita prematura dalla sessione di firma?',
+    'sign_session_terminate_success' => 'Sessione di firma terminata con successo.',
 
 
 
