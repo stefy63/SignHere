@@ -288,6 +288,13 @@ class SignController extends Controller
     {
         $sign_session = getenv('APP_SIGN_SESSION') === 'true';
         if ($sign_session) {
+            if (!SignDocument::where('document_id', $id)
+                    ->where('sign_session_id', session('sign_session_id'))
+                    ->where('signed', false)
+                    ->get()) {
+                Log::error('Fault from signing document id: '.$id.' with error: '.__('sign.sign_document_NOTFound'));
+                return redirect()->back()->with('alert', __('sign.sign_document_NOTFound'));
+            }
             $sign_documents = SignDocument::with('document')->where('sign_session_id',
                 session('sign_session_id'))->orderBy('id', 'desc')->get();
         }
