@@ -291,7 +291,7 @@ class SignController extends Controller
             if (!SignDocument::where('document_id', $id)
                     ->where('sign_session_id', session('sign_session_id'))
                     ->where('signed', false)
-                    ->get()) {
+                    ->first()) {
                 Log::error('Fault from signing document id: '.$id.' with error: '.__('sign.sign_document_NOTFound'));
                 return redirect()->back()->with('alert', __('sign.sign_document_NOTFound'));
             }
