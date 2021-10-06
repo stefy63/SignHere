@@ -22,7 +22,7 @@
     height: 3px;
     width: 100%;
     border-radius: 4px;
-    margin: 2em 0;
+    margin: 3em 0;
 }
 
 .timeline .events ol {
@@ -49,7 +49,7 @@
     color: #606060;
     text-decoration: none;
     position: relative;
-    top: -32px;
+    top: -55px;
 }
 
 .timeline .events ul li a:after {
