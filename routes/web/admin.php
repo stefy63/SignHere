@@ -47,7 +47,9 @@
      Route::put('admin_users/permission/{id}', array('as' => 'admin_users.store_permission','uses' => 'AdminUserController@store_permission'));
      Route::get('admin_users/resetPwd/{id}', array('as' => 'admin_users.resetPwd','uses' => 'AdminUserController@resetPwd'));
      Route::post('admin_users/resetPwd', array('as' => 'admin_users.update_resetPwd','uses' => 'AdminUserController@update_resetPwd'));
-
+     // Route for Edit Template mail //
+     Route::resource('admin_mail_template','AdminMailTemplateController', ['except' => ['destroy']]);
+     Route::get('admin_mail_template/destroy/{id}', array('as' => 'admin_mail_template.destroy','uses' => 'AdminMailTemplateController@destroy'));
 
 
  });

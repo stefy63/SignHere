@@ -34,4 +34,8 @@ class Brand extends Model
         return $this->hasMany(Location::class);
     }
 
+     public function mail_templates() {
+        return $this->hasOne(MailTemplate::class);
+    }
+    
 }

@@ -36,7 +36,9 @@ class Client extends Model
         'email'     => 'required|email',
         'acl_id'    => 'required|array',
         'vat'       => 'nullable|required_without:surname|digits: 11',
-        'personal_vat' => 'nullable|required_with:surname|regex:/^[A-Za-z]{6}[0-9LMNPQRSTUV]{2}[A-Za-z]{1}[0-9LMNPQRSTUV]{2}[A-Za-z]{1}[0-9LMNPQRSTUV]{3}[A-Za-z]{1}$/'
+        'personal_vat' => 'nullable|required_with:surname|regex:/^[A-Za-z]{6}[0-9LMNPQRSTUV]{2}[A-Za-z]{1}[0-9LMNPQRSTUV]{2}[A-Za-z]{1}[0-9LMNPQRSTUV]{3}[A-Za-z]{1}$/',
+        'phone'     => 'nullable|phone',
+        'mobile'     => 'nullable|phone',
     );
 
     public function acls() {

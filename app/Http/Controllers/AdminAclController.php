@@ -11,6 +11,7 @@ use League\Flysystem\Exception;
 use MongoDB\BSON\Javascript;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AdminAclController extends Controller
 {
@@ -95,10 +96,11 @@ class AdminAclController extends Controller
             ($request->profiles) ? $visibility->profiles()->attach(array_keys($request->profiles)) : $visibility->profiles()->detach();
             $visibility->users()->sync(array_keys($users));
             DB::commit();
-
+            Log::info('Store new visibility from user: '.\Auth::user()->username);
             return redirect()->back()->with('success', __('admin_acls.success_acl_create'));
         } catch (Exception $e) {
             DB::rollback();
+            Log::error('Fault from creation new visibility with error'.$e->getMessage());
             return redirect()->back()->with('DB-error', $e->getMessage());
         }
     }
@@ -194,12 +196,15 @@ class AdminAclController extends Controller
                     }
                 }
                 DB::commit();
+                Log::info('Update visibility id: '.$id.' from user: '.\Auth::user()->username);
                 return redirect()->back()->with('success', __('admin_acls.success_acl_edit'));
             } catch (Exception $e) {
                 DB::rollback();
+                Log::error('Fault from updating visibility id: '.$id.' with error'.$e->getMessage());
                 return redirect()->back()->with('DB-error', $e->getMessage());
             }
         }
+        Log::warning('Fault from updating visibility id: '.$id.' with error: '.__('admin_acls.warning_acl_NOTupdated'));
         return redirect()->back()->with('warning', __('admin_acls.warning_acl_NOTupdated'));
     }
 
@@ -214,9 +219,11 @@ class AdminAclController extends Controller
         if($id > 1) {
             $visibility = Acl::find($id);
             $visibility->delete();
+            Log::info('Delete visibility id: '.$id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_acls.success_acl_destroy'));
         }
+        Log::warning('Fault from deleting visibility id: '.$id.' with error'.__('admin_acls.warning_acl_NOT_deleted'));
         return redirect()->back()->with('warning', __('admin_acls.warning_acl_NOT_deleted'));
     }
 

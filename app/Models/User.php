@@ -102,7 +102,7 @@ class User extends Authenticatable
     }
 
     public function getMyAcls($roots = false) {
-        ($roots)? :$roots = $this->getMyForest();//dd($roots);
+        ($roots)? :$roots = $this->getMyForest();
         $temp = array();
         foreach ($roots as $v ) {
             $temp[] = $v['id'];

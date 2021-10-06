@@ -33,7 +33,7 @@ $(function () {
         "preventDuplicates": true,
         "positionClass": "toast-top-right",
         "onclick": null,
-        "showDuration": "400",
+        "showDuration": "600",
         "hideDuration": "1000",
         "timeOut": "7000",
         "extendedTimeOut": "1000",
@@ -131,9 +131,6 @@ $(function () {
         @foreach ($errors->all() as $error)
             toastr['error']("{{$error}}", "{{__('app.notify_alert')}}");
         @endforeach
-{{--
-        toastr['error']("{{__('app.notify_alert_field')}}", "{{__('app.notify_alert')}}");
---}}
         @foreach($errors->keys() as $k => $info)
             $('label[for="{{$info}}"]').css('color','red');
         @endforeach

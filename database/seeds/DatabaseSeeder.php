@@ -179,6 +179,28 @@ class DatabaseSeeder extends Seeder
             'user_id' => 1,
             'created_at' => date("Y-m-d H:i:s")
         ]);
+        DB::table('modules')->insert([
+            'id' => 12,
+            'name' => 'Document Template',
+            'order' => 8,
+            'short_name' => 'admin_template',
+            'functions' => 'index,create,show,edit,destroy',
+            'isadmin' => true,
+            'active' => 0,
+            'user_id' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('modules')->insert([
+            'id' => 13,
+            'name' => 'Custom Mail Template',
+            'order' => 9,
+            'short_name' => 'admin_mail_template',
+            'functions' => 'index,create,show,edit,destroy',
+            'isadmin' => true,
+            'active' => 1,
+            'user_id' => 1,
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
 
 
 
@@ -257,6 +279,20 @@ class DatabaseSeeder extends Seeder
             'id' => 11,
             'profile_id' => 1,
             'module_id' => 11,
+            'permission' => 'ALL',
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('module_profile')->insert([
+            'id' => 12,
+            'profile_id' => 1,
+            'module_id' => 12,
+            'permission' => 'ALL',
+            'created_at' => date("Y-m-d H:i:s")
+        ]);
+        DB::table('module_profile')->insert([
+            'id' => 13,
+            'profile_id' => 1,
+            'module_id' => 13,
             'permission' => 'ALL',
             'created_at' => date("Y-m-d H:i:s")
         ]);

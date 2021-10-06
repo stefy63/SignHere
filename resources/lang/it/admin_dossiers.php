@@ -70,6 +70,8 @@ return [
     'alert_existent_dossier' => 'Fascicolo Già Presente',
     '' => '',
     '' => '',
+    'alert_create_dossier' => 'Impossibile importare il nuovo dossier!',
+    'alert_create_additional_dossier' => 'Impossibile importare le informazioni aggiuntive del nuovo dossier!',
     '' => '',
     '' => '',
     '' => '',

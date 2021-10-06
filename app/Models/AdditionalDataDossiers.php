@@ -36,7 +36,4 @@ class AdditionalDataDossiers extends Model
 
     use SoftDeletes;
 
-    public static $rules = array(
-        'name'          => 'required',
-    );
 }

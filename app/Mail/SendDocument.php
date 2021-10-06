@@ -29,9 +29,10 @@ class SendDocument extends Mailable
         $this->document = $document;
         $this->sender = \Auth::user();
         $this->client = $this->document->dossier->client;
-        $this->acl_client = $this->client->acls()->first();
-        $this->brand = $this->acl_client->brands()->first();
-
+//        $this->acl_client = $this->client->acls()->first();
+//        $this->brand = $this->acl_client->brands()->first();
+        $acl_sender = $this->sender->acls()->first();
+        $this->brand = $acl_sender->brands()->first();
         $host = ($this->brand->smtp_host)?$this->brand->smtp_host:config('mail.host');
         $port = ($this->brand->smtp_port)?$this->brand->smtp_port:config('mail.port');
         $username = ($this->brand->smtp_username)?$this->brand->smtp_username:config('mail.username');

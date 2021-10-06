@@ -10,9 +10,9 @@
         "guzzlehttp/guzzle": "^6.2",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "setasign/fpdi-fpdf": "^2.0",
+        "setasign/fpdi-fpdf": "^2.2",
         "setasign/fpdi_pdf-parser": "2.0.4",
-        "setasign/setapdf-signer": "2.31.0.1330",
+        "setasign/setapdf-signer": "2.32.0.1371",
         "spatie/pdf-to-text": "^1.1"
     },
     "repositories": [
@@ -31,7 +31,8 @@
         "fzaninotto/faker": "~1.4",
         "laravel/dusk": "^1.0",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7"
+        "phpunit/phpunit": "~5.7",
+        "doctrine/dbal": "~2.3"
     },
     "autoload": {
         "classmap": [
@@ -58,6 +59,8 @@
         ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
+            "cp -f EloquentHandler.php vendor/monolog/monolog/src/Monolog/Handler/EloquentHandler.php",
+            "cp -f Dynamic.php vendor/setasign/setapdf-signer/library/SetaPDF/Signer/Signature/Dynamic.php",
             "php artisan optimize"
         ],
         "post-update-cmd": [

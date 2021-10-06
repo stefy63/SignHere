@@ -8,6 +8,7 @@ use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\MessageBag;
+use Illuminate\Support\Facades\Log;
 
 class AdminLocationController extends Controller
 {
@@ -68,6 +69,7 @@ class AdminLocationController extends Controller
         $location->active = isset($request->active) ? 1 : 0;
         $location->save();
         $location->acls()->sync(Auth::user()->getMyRoot());
+        Log::info('Store new location from user: '.\Auth::user()->username);
 
         return redirect()->back()->with('success', __('admin_locations.success_location_create'));
     }
@@ -129,6 +131,7 @@ class AdminLocationController extends Controller
             if($request->ajax()){
                 $location->active = $request->active;
                 $location->save();
+                Log::info('Update location id: '.$id.' from user: '.\Auth::user()->username);
                 return response()->json(['success' => __('admin_locations.success_location_updated')]);
             }
             //dd($request->all());
@@ -137,10 +140,11 @@ class AdminLocationController extends Controller
             $location->user_id = Auth::user()->id;
             $location->active = isset($request->active) ? $request->active : false;
             $location->save();
-
+            Log::info('Update location id: '.$id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_locations.success_location_updated'));
         }
+        Log::warning('Fault from updating location id: '.$id.' with error: '.__('admin_locations.warning_location_NOTupdated'));
         return redirect()->back()->with('warning',__( 'admin_locations.warning_location_NOTupdated'));
     }
 
@@ -156,9 +160,11 @@ class AdminLocationController extends Controller
 
             $location->acls()->detach();
             $location->delete();
+            Log::info('Delete location id: '.$id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_locations.success_location_destroy'));
         }
+        Log::warning('Fault from deleting location id: '.$id.' with error: '.__('admin_locations.warning_location_NOT_deleted'));
         return redirect()->back()->with('warning',__( 'admin_locations.warning_location_NOT_deleted'));
     }
 }

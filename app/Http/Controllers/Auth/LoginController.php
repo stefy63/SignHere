@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Artisan;
 
 class LoginController extends Controller
 {
@@ -50,7 +49,8 @@ class LoginController extends Controller
      */
     public function authenticated(Request  $request, $user)
     {
-        if(Auth::attempt(['username' => $request->username, 'password' => $request->password, 'active' => true])) {
+        if($user->active) {
+            
             $previous_session = $user->session_id;
 
             if ($previous_session) {
@@ -59,10 +59,9 @@ class LoginController extends Controller
 
             Auth::user()->session_id = \Session::getId();
             Auth::user()->save();
-            Artisan::call('view:clear');
             return redirect()->intended($this->redirectPath());
         }
-        \Auth::guard( 'web' )->logout(); 
+        Auth::guard( 'web' )->logout(); 
         return redirect()->intended('/login')
             ->withInput($request->only($this->username(), 'remember'))
             ->with('alert', __('auth.unactive') );

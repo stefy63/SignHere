@@ -11,10 +11,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Storage;
-use Mockery\Exception;
+use League\Flysystem\Exception;
 use Illuminate\Support\Facades\Auth;
 use setasign\Fpdi\Fpdi;
 use Spatie\PdfToText\Pdf;
+use Illuminate\Support\Facades\Log;
 
 class AdminDocumentController extends Controller
 {
@@ -35,49 +36,114 @@ class AdminDocumentController extends Controller
      */
     public function index(Request $request)
     {
+
+        // ACLS
         $acls = Acl::getMyAcls()->get();
-        if ($request->has('acl_id')) {
-            $clients = ($request->acl_id == 0)?$clients = Acl::getMyClients():Acl::find($request->acl_id)->clients();
-            if($request->ajax()) {
-                return response()->json([$clients->get()]);
-            }
-        } else {
-            $clients = Acl::getMyClients()->get();
+
+        // CLIENTS
+        // set acl
+        $clients = Acl::getMyClients();
+        $acl_id = $request->session()->get('acl_id', 0);
+        $acl_id = $request->get('acl_id', $acl_id);
+        $request->session()->put('acl_id', $acl_id);
+        if ($acl_id != 0) {
+          $clients = Acl::find($acl_id)->clients();
         }
 
-        if ($request->has('client_id')) {
-            $dossiers = Dossier::where('client_id', $request->client_id);
-            if ($request->ajax()) {
-                return response()->json([$dossiers->get()]);
-            }
+        // set filter
+        $clientfilter = $request->session()->get('clientfilter', '');
+        $clientfilter = $request->get('clientfilter', $clientfilter);
+        $request->session()->put('clientfilter', $clientfilter);
+        if($clientfilter == '#') {
+          $clientfilter = '';
+          $request->request->remove('client_page');
+          $request->session()->forget(['clientfilter','dossierfilter','dossier_id','bo_client_page']);
         } else {
-//            if ($clients->count()) {
-//                $dossiers = Dossier::where('client_id', $clients->first()->id)->get();
-//            } else {
-//                return back()->with('alert',__('admin_documents.error_No_client'));
-//            }
-            $dossiers = array();
+          $split_search = explode(' ', $clientfilter);
+          $clients = $clients->where(function($qFilter) use ($split_search) {
+              foreach ($split_search as $part) {
+                    $qFilter->whereRaw("CONCAT_WS(' ', surname, name) LIKE '%".$part."%'");
+                }
+            });
         }
 
-        if ($request->has('dossier_id')) {
-            $documents = Document::where('dossier_id', $request->dossier_id);
-            if ($request->ajax()) {
-                return response()->json([$documents->get()]);
-            }
+        // set pagination
+        if($request->has('client_page')) {
+          $request->session()->put('bo_client_page', $request->client_page);
+        }
+        $client_page = $request->session()->get('bo_client_page', null);
+        $clients = $clients->orderBy('surname', 'asc')->paginate(10, ['*'], 'client_page', $client_page);
+
+        // set client id
+        $client_id = $request->session()->get('client_id', 0);
+        $client_id = $request->get('client_id', $client_id);
+        $request->session()->put('client_id', $client_id );
+
+
+        // DOSSIERS
+        // set filter
+        $dossiers = Dossier::where('client_id', $client_id);
+        $dossierfilter = $request->session()->get('dossierfilter', '');
+        $dossierfilter = $request->get('dossierfilter', $dossierfilter);
+        $request->session()->put('dossierfilter', $dossierfilter);
+        if ( $dossierfilter == '#') {
+          $dossierfilter = '';
+          $request->request->remove('dossier_page');
+          $request->session()->forget(['dossierfilter', 'bo_dossier_page']);
         } else {
-//            if ($dossiers) {
-//                $documents = Dossier::where('client_id', $dossiers->first())->get();
-//            }else {
-//                $documents = array();
-//            }
-            $documents = array();
+          $dossiers = $dossiers->where('name', 'LIKE', '%'.$dossierfilter.'%');
+        }
+
+        // set pagination
+        if($request->has('bo_dossier_page')) {
+          $request->session()->put('dossier_page', $request->dossier_page);
+        }
+        $dossier_page = $request->session()->get('bo_dossier_page', null);
+        $dossiers = $dossiers->paginate(10, ['*'], 'dossier_page', $dossier_page);
+
+        // set dossier_id
+        $dossier_id = $request->session()->get('dossier_id', 0);
+        $dossier_id = $request->get('dossier_id', $dossier_id);
+        $request->session()->put('dossier_id', $dossier_id );
+
+        // DOCUMENTS
+        $documents = ($dossier_id != 0) ? Document::where('dossier_id', $request->dossier_id)->get() : array();
+
+        if ($request->ajax()) {
+          switch (true) {
+            case $request->has('acl_id'):
+            case $request->has('clientfilter'):
+            {
+            return view('admin.documents.client', [
+                        'clients' => $clients
+                    ])->render();
+            }
+            case $request->has('client_id'):
+            {
+              return view('admin.documents.dossier', [
+                        'dossiers'      => $dossiers,
+                        'dossierfilter' => $dossierfilter
+                    ])->render();
+            }
+            case $request->has('dossier_id'):
+              {
+                return view('admin.documents.document', [
+                          'documents' => $documents
+                      ])->render();
+              }
+          }
         }
 
         return view('admin.documents.index',[
-            'acls'      => $acls,
-            'clients'   => $clients,
-            'dossiers'  => $dossiers,
-            'documents' => $documents,
+            'dossier_id'   => $dossier_id,
+            'client_id'     => $client_id,
+            'acl_id'        => $acl_id,
+            'acls'          => $acls,
+            'clients'       => $clients,
+            'clientfilter'  => $clientfilter,
+            'dossiers'      => $dossiers,
+            'dossierfilter' => $dossierfilter,
+            'documents'     => $documents,
         ]);
     }
 
@@ -130,10 +196,12 @@ class AdminDocumentController extends Controller
                     return redirect()->back()->with('success', __('admin_documents.success_document_created'));
                 }
                 unlink(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+                Log::info('Store new document from user: '.Auth::user()->username);
                 return redirect()->back()->withInput($request->input())->with('alert', __('admin_documents.warning_template_document_fault'));
             }
 
         }
+        Log::warning('Fault from store new document with error: '.__('admin_documents.warning_document_NOTcreated'));
         return redirect()->back()->withInput($request->input())->with('warning', __('admin_documents.warning_document_NOTcreated'));
     }
 
@@ -187,28 +255,32 @@ class AdminDocumentController extends Controller
             $document->active = isset($request->active) ? 1 : 0;
             //$document->signed = isset($request->signed) ? 1 : 0;
             $document->readonly = isset($request->readonly) ? 1 : 0;
-            if ($file = $request->filename) {
+            if ($file = $request->file('filename')) {
                 if ($file->isValid() && $path = $file->store($request->client_id . "/" . $request->dossier_id, 'documents')) {
                     $old_filename = $document->name.'-'.basename($document->filename, ".pdf");
-                    Storage::disk('documents')->move($document->filename,'.trash/'.$old_filename);
+                    if(Storage::disk('documents')->exists($document->filename)) {
+                      Storage::disk('documents')->move($document->filename,'.trash/'.$old_filename);
+                    }
                     $document->filename = $path;
                     $template = Doctype::find($request->doctype_id);
                     $pdf = new Fpdi();
-                    $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+                    $pageCount = $pdf->setSourceFile(Storage::disk('documents')->path($document->filename));
                     $templateLine = explode(PHP_EOL, $template->template);
                     $tempLastPageNumber = explode('|', $templateLine[count($templateLine)-1]);
 
-                    if(!$tempLastPageNumber[0] && $tempLastPageNumber[0] >  $pageCount) {
-                        unlink(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+                    if(!$tempLastPageNumber[0] || $tempLastPageNumber[0] >  $pageCount) {
+                        unlink(Storage::disk('documents')->path($document->filename));
                         return redirect()->back()->withInput($request->input())->with('alert', __('admin_documents.warning_template_document_fault'));
                     }
 
                 }
             }
             $document->save();
+            Log::info('Update document id: '.$id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_documents.success_document_update'));
         }
+        Log::warning('Fault from updating docuennt id: '.$id.' with error: '.__('admin_documents.error_document_NOTupdate'));
         return redirect()->back()->withInput($request->input())->with('alert', __('admin_documents.error_document_NOTupdate'));
 
     }
@@ -282,11 +354,14 @@ class AdminDocumentController extends Controller
     public function destroy(Document $document, $id)
     {
         if ($document = Document::find($id)){
-            Storage::disk('documents')->move($document->filename,'.trash/'.$document->name . '-' . Carbon::now()->toDateTimeString());
+            $client = $document->dossier->client->surname.'_'.$document->dossier->client->name;
+            Storage::disk('documents')->move($document->filename,'.trash/'. $client . '-' .$document->name . '-' . Carbon::now()->toDateTimeLocalString());
             $document->delete();
+            Log::info('Delete document id: '.$id.' from user: '.\Auth::user()->username);
 
             return response()->json([ __('admin_documents.success_document_deleted')],200);
         }
+        Log::warning('Fault from deleting document id: '.$id.' with error: '.__('admin_documents.warning_document_NOTfound'));
         return response()->json([__('admin_documents.warning_document_NOTfound')],400);
     }
 
