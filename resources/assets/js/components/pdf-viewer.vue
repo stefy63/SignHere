@@ -8,7 +8,7 @@
             <!--<button v-on:click="onPutSign" class="col-lg-4 col-md-4 col-xs-4 pull-right btn btn-info">Sign</button>-->
         </div>
         <!--<canvas id="tst"></canvas>-->
-        <div  id="div-pdf-canvas">
+        <div id="div-pdf-canvas">
             <canvas id="pdf-canvas"></canvas>
         </div>
     </div>
@@ -47,6 +47,7 @@ export default {
         window.onresize = this.resizeCanvas;
     },
     computed: function () {
+        this.resizeCanvas();
     },
     methods:{
         renderPage: function (num) {

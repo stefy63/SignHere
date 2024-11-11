@@ -41,7 +41,7 @@ $(function () {
                             '<div class="col-md-4"><label for="incentivo" >Sconto/Incentivo</label></div>' +
                             '<div class="col-md-8"><input class="form-control" type="text"  name="incentivo" value=" " /></div>' +
                             '</div></div>';
-                
+
                 html += '<div class="col-md-12 row"><div class="form-group group">'+
                             '<div class="col-md-4"><label for="note" >Note</label></div>'+
                             '<div class="col-md-8"><input class="form-control" type="text"  name="note" value=" " /></div>' +
@@ -83,19 +83,32 @@ function cancelForm() {
 
 @endpush
 @push('assets')
-    <style>
-        .footer-group {
-            margin-top: 10px;
-        }
-        .group label {
-            margin-bottom: 1px;
-            font-size: 11px;
-        }
-        .group input {
-            height: 20px;
-            font-size: 10px;
-        }
-    </style>
+<style>
+    .footer-group {
+        margin-top: 10px;
+    }
+    .group label {
+        margin-bottom: 1px;
+        font-size: 11px;
+    }
+    .group input {
+        height: 20px;
+        font-size: 10px;
+    }
+
+    .filter-container {
+        position: relative;
+    }
+
+    .filter-container .clear_filter {
+        color: lightskyblue;
+        font-size: 20px;
+        position: absolute;
+        right: -10px;
+        top: -5px;
+        display: none;
+    }
+</style>
 <!-- Data Table -->
 <link href="{{ asset('css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
 <link href="{{ asset('css/plugins/dataTables/dataTables.responsive.css') }}" rel="stylesheet">
@@ -105,8 +118,8 @@ function cancelForm() {
 <link href="{{ asset('css/plugins/dropzone/dropzone.css') }}" rel="stylesheet">
 @endpush
 @section('content')
-<div class="row" style="height: 100%">
-    <div class="col-lg-12 col-md-12 col-xs-12">
+<div class="row" >
+    <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5>{{__('admin_documents.index-title')}}</h5>
@@ -124,12 +137,14 @@ function cancelForm() {
                 <select class="form-control" name="acl_id" id="select-acl">
                     <option id="opt_acl" value="0">{{__('admin_documents.select-acls')}}</option>
                     @foreach($acls as $acl)
-                        <option value="{{$acl->id}}">{{$acl->name}}</option>
+                        <option value="{{$acl->id}}" @if($acl->id == $acl_id)
+                          selected
+                        @endif>{{$acl->name}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="ibox-content">
-                <div class="col-lg-6 col-md-6 col-xs-6" style="height: 80%;">
+                <div class="col-lg-6 col-md-6 col-xs-6" style="height: 80%;" id="div-client">
                     <div class="ibox-title">
                         <h5 class="text-danger">{{__('admin_documents.index-client')}}</h5>
                         <div ibox-tools="" class="ng-scope">
@@ -140,37 +155,19 @@ function cancelForm() {
                             </div>
                         </div>
                     </div>
-                    <div class=" col-lg-12 col-md-12 col-xs-12">
-                        <!-- CLIENTS  -->
-                        <input type="hidden" id="client_id" value="0"/>
-                        <table class="table table-bordered table-hover" id="tr-client" cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th class="col-lg-12 col-md-12 col-xs-12"></th>
-                                </tr>
-                            </thead>
-                            <tbody class="tbody-client" >
-                            @foreach($clients as $client)
-                                <tr class="tab-client"  id="{{$client->id}}">
-                                    <td>
-                                        <i class="fa fa-user"></i>&nbsp;&nbsp; {{$client->surname}} {{$client->name}}
-                                        @if(Auth::user()->hasRole('admin_clients','edit'))
-                                        <a data-url="{{ url('admin_clients/')}}/{{$client->id}}/edit" class="href"><i class="fa fa-pencil pull-right"></i></a>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
+                    <section class=" col-lg-12 col-md-12 col-xs-12">
+                        <div class="filter-container" >
+                            <input type="search" class="form-control input-sm" data-section-name="client" data-location="{{url('admin_documents')}}" value="{{$clientfilter}}"  placeholder="Search..." data-name="clientfilter" />
+                            <button class="clear_filter btn btn-link">
+                                <i class="fa fa-times-circle-o"></i>
+                            </button>
+                        </div>
+                        <div class="client">
+                            @include('admin.documents.client')
+                        </div>
+                    </section>
                 </div>
                 <div class="col-lg-6 col-md-6 col-xs-6 border-left">
-                    <!-- DOSSIERS  -->
                     <div class="col-lg-12 col-md-12 col-xs-12" style="height: 40%;" id="div-dossier" hidden>
                         <div class="ibox-title">
                             <h5 class="text-danger">{{__('admin_dossiers.index-dossier')}}</h5>
@@ -182,38 +179,17 @@ function cancelForm() {
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" id="dossier_id" value="0" />
-                        <table class="table table-bordered table-hover" id="tr-dossier">
-                            <thead>
-                                <tr>
-                                    <th class="col-lg-10 col-md-10 col-xs-10"></th>
-                                    <th class="col-lg-2 col-md-2 col-xs-2"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($dossiers as $dossier)
-                                <tr class="tab-dossier" id="{{$dossier->id}}">
-                                    <td>
-                                       <i class="fa fa-archive"></i> {{$dossier->name}}
-                                    </td>
-                                    <td class="text-center">
-                                        @if(Auth::user()->hasRole('admin_documents','edit'))<a data-url="{{ url('admin_dossiers/')}}/{{$dossier->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>@endif
-                                        @if(Auth::user()->hasRole('admin_documents','export'))<a data-url="{{ url('admin_dossiers/export/'.$dossier->id)}}" class="href text-warning text-center"><i class="fa fa-file-excel-o"></i></a>@endif
-                                        @if(Auth::user()->hasRole('admin_documents','destroy'))<a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>@endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th class="col-lg-10 col-md-10 col-xs-10"></th>
-                                    <th class="col-lg-2 col-md-2 col-xs-2"></th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                        <div class="filter-container">
+                            <input type="search" class="form-control input-sm" data-section-name="dossier" data-location="{{url('admin_documents')}}" value="{{$dossierfilter}}"  placeholder="Search..." data-name="dossierfilter" />
+                            <button class="clear_filter btn btn-link">
+                                <i class="fa fa-times-circle-o"></i>
+                            </button>
+                        </div>
+                        <section class="dossier" >
+                            @include('admin.documents.dossier')
+                        </section>
                     </div>
                     <hr>
-                    <!-- DOCUMENTS  -->
                     <div class="col-lg-12 col-md-12 col-xs-12" style="height: 40%;"  id="div-documents" hidden>
                         <div class="ibox-title">
                             <h5 class="text-danger">{{__('admin_documents.index-document')}}</h5>
@@ -225,48 +201,16 @@ function cancelForm() {
                                 </div>
                             </div>
                         </div>
-                        <div class="">
-                            <input type="hidden" id="document_id" value="0"/>
-                            <table class="table table-bordered table-hover" id="tr-document">
-                                <thead>
-                                    <tr>
-                                        <th class="col-lg-1 col-md-1 col-xs-1"></th>
-                                        <th class="col-lg-9 col-md-9 col-xs-9"></th>
-                                        <th class="col-lg-2 col-md-2 col-xs-2"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($documents as $document)
-                                    <tr id="{{$document->id}}">
-                                        <td>
-                                            @if(Auth::user()->hasRole('admin_documents','download'))<a href="{{ asset('storage')}}/documents/{{$document->filename}}" target="_blank"><i class="fa fa-download"></i></a> @endif
-                                        </td>
-                                        <td class="@if($document->signed) text-line-through text-danger @endif" id="{{$document->id}}">
-                                            {{$document->name}}
-                                        </td>
-                                        <td>
-                                            @if(Auth::user()->hasRole('admin_documents','edit'))<a data-url="{{ url('admin_documents/')}}/{{$document->id}}/edit" class="href"><i class="fa fa-pencil"></i></a>@endif
-                                            @if(Auth::user()->hasRole('sign','send'))<a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/'.$document->id)}}" class="confirm-toast"><i class="fa fa-envelope-o"></i></a>@endif
-                                            @if(Auth::user()->hasRole('admin_documents','destroy'))<a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o"></i></a>@endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th class="col-lg-1 col-md-1 col-xs-1"></th>
-                                        <th class="col-lg-9 col-md-9 col-xs-9"></th>
-                                        <th class="col-lg-2 col-md-2 col-xs-2"></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
+                         <section class="documents">
+                            @include('admin.documents.document')
+                        </section>
+                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <div class="modal inmodal" id="showModal" tabindex="-1"  role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content animated fadeInDown" id="modal-content">
@@ -283,15 +227,12 @@ function cancelForm() {
 @push('scripts')
 <script>
 $(function () {
-    // $.fn.dataTable.ext.search.push(
-    // function( settings, data, dataIndex ) {
-    //     console.log(settings, data, dataIndex);
-    // });
+
+  var timer;
 
     $(document).on('click','.href',function(e){
-        e.preventDefault();
+        e.stopPropagation();
         var location =  this.getAttribute('data-url');
-        console.log(location);
 
         window.location = location;
     });
@@ -322,26 +263,11 @@ $(function () {
         }
     });
 
-    var tbl_option = {
-        "paging": true,
-        "ordering": false,
-        "info": false,
-        "searching": true,
-        "pagingType": "numbers",
-        //"scrollY": "auto",
-        "scrollCollapse": true
-    };
-
-    $('#tr-client').DataTable(tbl_option );
-    $('#tr-dossier').DataTable(tbl_option );
-    $('#tr-document').DataTable(tbl_option );
 
     $('#select-acl').on('change',function(e){
         e.preventDefault();
         $('#div-documents').hide();
         $('#div-dossier').hide();
-        //$('#tr-dossier').hide();
-        //$(this).children('#opt_acl').remove();
         var url = '{{url('admin_documents')}}';
 
         $.ajax({
@@ -352,16 +278,7 @@ $(function () {
                 acl_id: this.value
             } })
             .done(function(data){
-                var t = $('#tr-client').DataTable();
-                t.clear().draw();
-                data[0].forEach(function(k){
-                    var row = '<td><i class="fa fa-user"></i>&nbsp;&nbsp;'+k['name']+' '+((k['surname'])?k['surname']:'');
-                    @if(Auth::user()->hasRole('admin_clients','edit')) row += '<a  data-url="{{ url('admin_clients/')}}'+'/'+k['id']+'/edit" class="href"><i class="fa fa-pencil pull-right"></i></a>';  @endif
-                    row += '</td>';
-                    var node = t.row.add([row]).draw().node();
-                    $(node).addClass('tab-client').attr('id', k['id']);
-                });
-                $('#tr-dossier').show();
+                $('.client').html(data);
             });
     });
 
@@ -372,7 +289,9 @@ $(function () {
         $('input#client_id').val(this.id);
         $('.tab-client').removeClass('bg-success');
         $(this).addClass('bg-success');
+        $('#div-dossier').find('input[type=search]').val('');
         getDossiers(this.id);
+        // getAjaxFilter($('#div-dossier').find('input[type=search]'));
     });
 
     function getDossiers(client_id){
@@ -383,38 +302,20 @@ $(function () {
             url: url,
             data: {
                 _token: "{{csrf_token()}}",
-                client_id: client_id
+                client_id: client_id,
+                dossier_id: 0
             } }).done(function(data){
-            $('#tr-dossier tbody').empty();
-            var t = $('#tr-dossier').DataTable();
-            t.clear().draw();
-            data[0].forEach(function(k){
-                var row = [];
-                row[0] = '<td><i class="fa fa-archive"></i> '+k['name']+'</td>';
-                row[1] = '<td class="text-center">';
-                @if(Auth::user()->hasRole('admin_documents','edit'))
-                row[1] += '<a data-url="{{ url('admin_dossiers/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>&nbsp&nbsp';
-                @endif
-                @if(Auth::user()->hasRole('admin_documents','export'))
-                row[1] += '<a data-url="{{ url('admin_dossiers/export/')}}/'+k['id']+'" class="href text-warning text-center"><i class="fa fa-file-excel-o"></i></a>';
-                @endif
-                @if(Auth::user()->hasRole('admin_documents','destroy'))
-                row[1] += '<a class="tab-dossier_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a>';
-                @endif
-                row[1] += '</td>';
-                var node = t.row.add(row).draw().node();
-                $(node).addClass('tab-dossier').attr('id', k['id']);
-            });
-            $('#div-dossier').show();
+                $('.dossier').html(data);
+                $('#div-dossier').show();
+                $('#tr-dossier #{{$dossier_id}}').addClass('bg-success');
         });
     }
 
     $(document).on('click','.tab-dossier',function(e){
         e.preventDefault();
-        $('input#dossier_id').val(this.id);
+        $('.dossier #dossier_id').val(this.id);
         $('.tab-dossier').removeClass('bg-success');
         $(this).addClass('bg-success');
-        console.log(this.id);
         getDocuments(this.id);
     });
 
@@ -428,43 +329,14 @@ $(function () {
                 _token: "{{csrf_token()}}",
                 dossier_id: dossier_id
             } }).done(function(data){
-            $('#tr-document tbody').empty();
-            var t = $('#tr-document').DataTable();
-            t.clear().draw();
-            data[0].forEach(function(k){
-                var row = [];
-                row[0] = '<td>';
-                {{--@if(Auth::user()->hasRole('admin_documents','download'))--}}
-                    row[0] += '<td><a href="{{ asset('storage')}}/documents/'+k['filename']+'" target="_blank"><i class="fa fa-download"></i></a>';
-                {{--@endif--}}
-                row[0] += '</td>';
-                row[1] = '<td class=" "><i ';
-                row[1] += (k['signed'] == 1)?'class="fa fa-check-square-o" style="color: green;"':'class="fa fa fa-minus-square-o" style="color: red;"';
-                row[1] += '></i>  '+k['name']+'</td>';
-                row[2] = '<td>';
-                @if(Auth::user()->hasRole('admin_documents','edit'))
-                    row[2] += '<a data-url="{{ url('admin_documents/')}}/'+k['id']+'/edit" class="href pull-left"><i class="fa fa-pencil"></i></a>';
-                @endif
-                
-                @if(Auth::user()->hasRole('sign','send'))
-                    row[2] += '<a data-message="{{__('sign.confirm_send')}}" data-location="{{url('sign/send/')}}/'+k['id']+'" class="sendmail">&nbsp;&nbsp<i class="fa fa-envelope-o"></i></a>';
-                @endif
-                
-                @if(Auth::user()->hasRole('admin_documents','destroy'))
-                    row[2] += '<a class="tab-document_a OK-button"><i class="text-danger fa fa-trash-o pull-right"></i></a>';
-                @endif
-                row[2] += '</td>'
-
-                var node = t.row.add(row).draw().node();
-                $(node).attr('id', k['id']).attr('data-toggle', 'tooltip').attr('title', k['date_sign']);
-            });
-            $('#div-documents').show();
+                $('.documents').html(data);
+                $('#div-documents').show();
         });
     }
 
     $(document).on('click','.tab-dossier_a',function(e){
+        e.preventDefault();
         var dossier = $(this).closest('tr').attr('id');
-        //console.log(dossier);
         var url = '{{url('admin_dossiers/destroy')}}/'+dossier;
         swal({
             title: '{{__('app.confirm-title')}}',
@@ -473,8 +345,6 @@ $(function () {
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
             confirmButtonText: "Yes",
-            closeOnConfirm: false,
-            closeOnCancel: false
         }, function (isConfirm) {
             if(isConfirm) {
                 $.ajax({
@@ -485,12 +355,10 @@ $(function () {
                     }
                 })
                 .done(function (data) {
-                    //toastr['success']('',data[0]);
                     getDossiers($('input#client_id').val());
                     swal("Deleted!", data[0], "success");
                 })
                 .error(function (xhr, status, err) {
-                    console.log(JSON.parse(xhr.responseText)[0]);
                     swal("Error!", JSON.parse(xhr.responseText)[0], "error");
                     toastr['error']('',JSON.parse(xhr.responseText)[0]);
                 });
@@ -500,18 +368,24 @@ $(function () {
         });
     });
 
-    $(document).on('click','.tab-document',function(e){
-       /* e.preventDefault();
-        var document = $(this).closest('tr').attr('id');
-        $('input #document_id').val(document);
-        $(this).closest('tbody').find('tr').removeClass('bg-danger');
-        $(this).closest('tr').addClass('bg-danger');
-        console.log(document);
-        //alert(document);*/
-
+    $(document).on('click','.sendmail', function(e){
+        e.preventDefault();
+        var location =  this.getAttribute('data-location');
+        swal({
+            title: '{{__('app.confirm-title')}}',
+            text: this.getAttribute('data-message'),
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes",
+            closeOnConfirm: true
+        }, function () {
+            window.location.replace(location)
+        });
     });
 
     $(document).on('click','.tab-document_a',function(e){
+        e.preventDefault();
         var document = $(this).closest('tr').attr('id');
         ///alert(document);
         var url = '{{url('admin_documents/destroy')}}/'+document;
@@ -522,8 +396,6 @@ $(function () {
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
             confirmButtonText: "Yes",
-            closeOnConfirm: false,
-            closeOnCancel: false
         }, function (isConfirm) {
             if(isConfirm) {
                 $.ajax({
@@ -538,7 +410,6 @@ $(function () {
                     swal("Deleted!", data[0], "success");
                 })
                 .error(function (xhr, status, err) {
-                    console.log(JSON.parse(xhr.responseText)[0]);
                     swal("Error!", JSON.parse(xhr.responseText)[0], "error");
                     toastr['error']('',JSON.parse(xhr.responseText)[0]);
                 });
@@ -558,27 +429,87 @@ $(function () {
             confirmButtonText: "Yes",
             closeOnConfirm: true
         }, function (isConfirm) {
-            console.log(isConfirm);
             return isConfirm;
         });
     };
-    
-    $(document).on('click','.sendmail', function(e){
+
+
+    $(document).on('keyup', 'input[type=search]', function (e) {
         e.preventDefault();
-        var location =  this.getAttribute('data-location');
-        swal({
-            title: '{{__('app.confirm-title')}}',
-            text: this.getAttribute('data-message'),
-            type: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Yes",
-            closeOnConfirm: true
-        }, function () {
-            //$(location).prop('href',location);
-            window.location.replace(location)
-        });
+        clearTimeout(timer);
+        setShowBtnClearFilter(this);
+        if ($(this).val().length > 3) {
+            timer = setTimeout(function(){
+                clearTimeout(timer);
+                getAjaxFilter(this);
+            }, 2000);
+        }
+        if( e.which == 13) {
+            clearTimeout(timer);
+            getAjaxFilter(this);
+        }
     });
+
+    function setShowBtnClearFilter(obj) {
+        if($(obj).val().length > 0) {
+            $(obj).parent().find('.clear_filter').show();
+        } else {
+            $(obj).parent().find('.clear_filter').hide();
+        }
+    }
+
+    $('.clear_filter').click(function(e){
+        e.preventDefault();
+        $(this).parent().find('input[type=search]').val('');
+        clearTimeout(timer);
+        getAjaxFilter($(this).parent().find('input[type=search]'));
+    });
+
+    function getAjaxFilter(obj) {
+        $('#div-documents').hide();
+        $('#div-dossier').hide();
+
+        var dataObj = {
+            '_token': "{{csrf_token()}}",
+            'client_id': $('input#client_id').val() || 0,
+        };
+        dataObj[$(obj).attr('data-name')] = $(obj).val() ?  $(obj).val() : '#';
+        var section = $(obj).attr('data-section-name');
+
+        $.ajax({
+          type: "GET",
+          data: dataObj,
+          }).done(function(data){
+              $('.'+section).html(data);
+              $('#div-'+section).show();
+              setShowBtnClearFilter(obj);
+
+          });
+    }
+
+  if('{{$clientfilter}}' != '') {
+    setShowBtnClearFilter($('#div-client').find('input[type=search]'));
+  }
+  if('{{$dossierfilter}}' != '') {
+    $('#div-dossier input[type=search]').val({{$dossierfilter}});
+    setShowBtnClearFilter($('#div-dossier').find('input[type=search]'));
+  }
+
+  if({{$client_id}} != 0) {
+    $('#div-documents').hide();
+    $('#div-dossier').hide();
+    $('input#client_id').val({{$client_id}});
+    $('.tab-client').removeClass('bg-success');
+    $('#tr-client #{{$client_id}}').addClass('bg-success');
+    getDossiers({{$client_id}});
+  }
+
+  if({{$dossier_id}} != 0) {
+    $('.dossier #dossier_id').val({{$dossier_id}});
+    $('.tab-dossier').removeClass('bg-success');
+    $('#tr-dossier #{{$dossier_id}}').addClass('bg-success');
+    getDocuments({{$dossier_id}});
+  }
 
 
 })

@@ -5,13 +5,14 @@ namespace App\models;
 use App\Models\User;
 use App\Models\Device;
 use App\Models\Location;
-use App\Models\Document;
+// use App\Models\Document;
 use App\Models\Client;
 use App\Models\Brand;
 use App\Models\Profile;
 use App\Models\Module;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Acl extends Model
@@ -56,7 +57,7 @@ class Acl extends Model
     }
 
     public static function getMyBrands() {
-        $userAcls = \Auth::user()->getMyAcls();
+        $userAcls = Auth::user()->getMyAcls();
         $Brands = Brand::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
         })->whereNull('deleted_at');
@@ -64,7 +65,7 @@ class Acl extends Model
     }
 
     public static function getMyLocations() {
-        $userAcls = \Auth::user()->getMyAcls();
+        $userAcls = Auth::user()->getMyAcls();
         $Locations = Location::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
         })->whereNull('deleted_at');
@@ -72,7 +73,7 @@ class Acl extends Model
     }
 
     public static function getMyUsers() {
-        $userAcls = \Auth::user()->getMyAcls();
+        $userAcls = Auth::user()->getMyAcls();
         $Users = User::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
         })->whereNull('deleted_at');
@@ -80,7 +81,7 @@ class Acl extends Model
     }
 
     public static function getMyDevices() {
-        $userAcls = \Auth::user()->getMyAcls();
+        $userAcls = Auth::user()->getMyAcls();
         $Devices = Device::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
         })->whereNull('deleted_at');
@@ -88,7 +89,8 @@ class Acl extends Model
     }
 
     public static function getMyClients() {
-        $userAcls = \Auth::user()->getMyAcls();
+        $userAcls = Auth::user()->getMyAcls();
+
         $Clients = Client::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
         });
@@ -104,14 +106,14 @@ class Acl extends Model
     }*/
 
     public static function getMyAcls() {
-        $userAcls = \Auth::user()->getMyAcls();
+        $userAcls = Auth::user()->getMyAcls();
         $acls = Acl::whereIn('id',$userAcls)->whereNull('deleted_at');
 
         return $acls;
     }
 
     public static function getMyProfiles() {
-        $userAcls = \Auth::user()->getMyAcls();
+        $userAcls = Auth::user()->getMyAcls();
         $Modules = Profile::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
         })->whereNull('deleted_at');
@@ -119,7 +121,7 @@ class Acl extends Model
     }
 
     public static function getMyModules() {
-        $userAcls = \Auth::user()->getMyAcls();
+        $userAcls = Auth::user()->getMyAcls();
         $Modules = Module::whereHas('acls',function ($q) use ($userAcls){
             $q->whereIn('acl_id',$userAcls);
         })->whereNull('deleted_at');

@@ -168,7 +168,7 @@
     </div>
 </div>
 
-<div id="showModal"></div>
+<div class="modal" id="showModal"></div>
 @push('scripts')
 <script>
 $(function() {
@@ -205,9 +205,8 @@ $(function() {
         $loader.gSpinner();
         $loader.css({
             'position': 'absolute',
-            'top' : '20%',
-            'left' : '30%',
-            'zoom' : '2'
+            'top' : '40%',
+            'zoom' : '1'
         });
         this.submit();
      });

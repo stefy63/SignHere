@@ -5,15 +5,18 @@ namespace App\Http\Controllers\Api;
 use App\Models\Acl;
 use App\Models\Brand;
 use App\Models\Document;
+use \App\Models\TokenOtp;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use FPDI;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendDocument;
 use App\Http\Controllers\Controller;
+use App\Services\SMSsender;
+use setasign\Fpdi\Fpdi;
+
 
 class ApiSignController extends Controller
 {
@@ -24,7 +27,7 @@ class ApiSignController extends Controller
      */
     public function __construct()
     {
-        //$this->middleware('hasRole');
+//        $this->middleware('auth:api');
     }
 
     /**
@@ -116,7 +119,10 @@ class ApiSignController extends Controller
      */
     public function show($id)
     {
-        //
+        if($document = Document::findOrFail($id)){
+            return response()->file(Storage::disk('public')->path('documents/'.$document->filename));
+        }
+        return redirect()->back()->with('error',__('sign.sign_file_NOTFound'));
     }
 
     /**
@@ -168,20 +174,29 @@ class ApiSignController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function signing($id)
+    public function signing(Request $request, $id)
     {
 
         if($document = Document::find($id)){
-
+// TODO TOKEN EXPIRED CONTROL
+            $now = Carbon::now();
+            $tokenToOtp = TokenOtp::where('token', $request->api_token)
+                    ->where('document_id',$id)
+                    ->where('expired_time', '>=', $now)
+                    ->get();
+            if($tokenToOtp->count() == 0) {
+                abort(401,__('sign.sign_token_expired'));
+            }
+          
             if(!Storage::disk('documents')->exists($document->filename)){
-                return redirect()->back()->with('alert',__('sign.sign_file_NOTFound'));
+                abort(401,__('sign.sign_file_NOTFound'));
             }
             if($document->signed) {
-                return redirect()->back()->with('alert',__('sign.sign_doc_signed_alert').$document->date_sign);
+                abort(401,__('sign.sign_doc_signed_alert').$document->date_sign);
             }
             $b64Doc = Storage::disk('documents')->get($document->filename);
             $b64Doc = base64_encode($b64Doc);
-
+            
             if($document->doctype) {
                 $arrayTpl = $this->_getTemplate($document->doctype->template);
                 $arrayQuestion = $this->_getTemplate($document->doctype->questions);
@@ -190,106 +205,202 @@ class ApiSignController extends Controller
                 $arrayQuestion = array();
             }
 
-            return view('frontend.sign.sign',[
+            return view('api.sign.sign',[
                 'document'  => $document,
+                'b64doc'    => $b64Doc,
                 'template'  => json_encode($arrayTpl),
                 'questions' => json_encode($arrayQuestion),
-                'b64doc'    => $b64Doc,
-                'user'      => \Auth::user()
+                'api_token'      => \Auth::user()->api_token
             ]);
         }
-        return redirect()->back()->with('alert',__('sign.sign_document_NOTFound'));
+        abort(401,__('sign.sign_document_NOTFound'));
 
     }
+       
+    public function SendCode(Request $request) {
+        $user = \Auth::user();
+        $now = Carbon::now();
+        $ret = ['message' => 'OK', 'status' => 200];
+        $brand = $user->acls()->first()->brands()->first();
+        if(!$tokenToOtp = TokenOtp::where('token', $user->api_token)
+                    ->where('document_id',$request->document_id)
+                    ->where('signed', 0)
+                    ->where('expired_time', '>=', $now)
+                    ->first()
+        ) {
+            $ret = ['message' => __('sign.sign_token_expired'), 'status' => 401];
+        } else {
+            if($document = Document::find($tokenToOtp->document_id)){
+                if(!Storage::disk('documents')->exists($document->filename)){
+                    $ret = ['message' => __('sign.sign_file_NOTFound'), 'status' => 401];
+                } elseif ($document->signed) {
+                    $ret = ['message' => __('sign.sign_doc_signed_alert').$document->date_sign, 'status' => 401];
+                } else {
+                    $msg = "Questo è il tuo codice OTP: ";
+                    $SMSsender = new SMSsender();
+                    if($tokenToOtp->otp = $SMSsender->Send($msg, $tokenToOtp->phone, $brand->description)) {
+                        $tokenToOtp->save();
+                    } else {
+                        $ret = ['message' => __('sign.sign_sms_failed'), 'status' => 401];
+                    }
+                }
+            } else {
+                $ret = ['message' => __('sign.sign_document_NOTFound'), 'status' => 401];
+            }
+        }
+        
+        return response()->json($ret['message'], $ret['status']);
+    }
 
-    public function store_signing(Request $request, $id)
+    public function VerifyCode(Request $request) {
+        $user = \Auth::user();
+        $now = Carbon::now();
+        $ret = ['message' => 'OK', 'status' => 200];
+        $brand = $user->acls()->first()->brands()->first();
+        $tokenToOtp = TokenOtp::where('token', $user->api_token)
+                    ->where('document_id',$request->document_id)
+                    ->where('signed', 0)
+                    ->where('expired_time', '>=', $now)
+                    ->first();
+
+        if($tokenToOtp->count() == 0) {
+            $ret = ['message' => __('sign.sign_token_expired'), 'status' => 401];
+        } else {
+            if($document = Document::find($tokenToOtp->document_id)){
+                if(!Storage::disk('documents')->exists($document->filename)){
+                    $ret = ['message' => __('sign.sign_file_NOTFound'), 'status' => 401];
+                } elseif ($document->signed) {
+                    $ret = ['message' => __('sign.sign_doc_signed_alert').$document->date_sign, 'status' => 401];
+                } else {
+                    $SMSsender = new SMSsender();
+                    if($SMSsender->VerifyOTP($request->code, $tokenToOtp) && $this->store_signing($request, $tokenToOtp, $document)) {
+                        $tokenToOtp->signed = 1;
+                        $tokenToOtp->save();
+                        Mail::send(new SendDocument($document));
+                    } else {
+                        $ret = ['message' => __('sign.sign_token_NOVerified'), 'status' => 401];
+                    }
+                }
+            } else {
+                $ret = ['message' => __('sign.sign_document_NOTFound'), 'status' => 401];
+            }
+        }
+        return response()->json($ret['message'], $ret['status']);
+    }
+
+    public function store_signing(Request $request, $DBtoken, $document)
     {
-        if(!$request->imgB64[0])
-            return redirect()->back()->with('alert',__('sign.document_unsigned'));
-        if($document = Document::find($id)){
+        try {
             $brand = Acl::getMyBrands()->first();
-            $origin = $request->imgB64[0];
+            $resource = $DBtoken->otp;
             $arrayTpl = $this->_getTemplate($document->doctype->template);
             $arrayQuestion = $this->_getTemplate($document->doctype->questions);
-            $base64 = ($origin)?substr($origin,strpos($origin,",")+1):'';
-            $resource = base64_decode($base64);
             $returnTemplates = json_decode($request->templates);
             $returnQuestions = json_decode($request->questions);
 
-            //class_exists('TCPDF', true);
-            $pdf = new FPDI();
-            // set document information
-            $pdf->SetCreator(PDF_CREATOR);
-            $pdf->SetAuthor(\Auth::user()->surname.' '.\Auth::user()->name);
-            $pdf->SetTitle($document->name);
-            $pdf->SetSubject($document->description);
-
-            $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
-
-            $pub_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.crt';
-            $priv_cert = 'file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'domain.key';
+            $pdf = new Fpdi();
+            $pageCount = $pdf->setSourceFile(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename); 
             $info = array(
-                'Name' => $brand->description,
+                'Name' => ($brand->description)?$brand->description:'',
                 'Location' => $brand->city,
                 'Address' => $brand->address,
                 'VAT' => $brand->vat,
-                'Regio' => $brand->region,
+                'Region' => $brand->region,
                 'ContactInfo' => $brand->email,
                 'Document' => $document->name,
                 'Client' => $document->dossier->client->surname.' '.$document->dossier->client->name,
-                'ENC' => $resource,
-                );
-            //$pdf->setSignature($pub_cert, $priv_cert, '3punto6', '', 1, $info);
-            $pdf->setSignature($pub_cert, $priv_cert, '3punto6', '', 1, $info);
-            $pdf->SetAutoPageBreak(TRUE, 0);
-            $pdf->SetFont('helvetica', '', 9);
-            $html = "<h1><b>X</b></h1>";
+                'OTP' => $resource,
+                'Sign Time' => $DBtoken->updated_at,
+                'token' => $DBtoken->token
+            );
             for ($pageNo = 1; $pageNo <= $pageCount; $pageNo++) {
-                $tplIdx = $pdf->importPage($pageNo);
+                // import a page
+                $templateId = $pdf->importPage($pageNo);
                 $pdf->AddPage();
-                $pdf->useTemplate($tplIdx, 0, 0, 0, 0, true);
+                // use the imported page and adjust the page size
+                $pdf->useTemplate($templateId, ['adjustPageSize' => true]);
+                $pdf->SetFont('Helvetica', 'B', 10);
 
-                if(!is_null($returnQuestions)){
-                    foreach ($arrayQuestion as $iOptQuestion=>$arItem) {
-                        if ($arItem[0] == $pageNo) {
-                            if ($returnQuestions[$iOptQuestion] == true) {
-                                $pdf->writeHTMLCell(10,10,$arItem[1],$arItem[2],$html);
-                            } else {
-                                if((int)$arItem[3] != 0)
-                                    $pdf->writeHTMLCell(10,10,$arItem[3],$arItem[4],$html);
-                            }
+                foreach ($arrayTpl as $iOptSign=>$arItem) {
+                    if (value($arItem[0]) == $pageNo) {
+                        $x = $arItem[1];
+                        $y = $arItem[2];
+                        if(strtoupper($arItem[3]) == 'M') {
+                            $pdf->SetXY($x, $y+11);
+                            $pdf->Write(0, $info['Client']);
                         }
                     }
                 }
+            }
 
-                //if(!is_null($returnTemplates)) {
-                    foreach ($arrayTpl as $iOptSign=>$arItem) {
-                        if ($arItem[0] == $pageNo) {
-                            if(strtoupper($arItem[3]) == 'O') {
-                                if($returnTemplates[$iOptSign] == true){
-                                    $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 40, 15, 'PNG');
-                                }
-                            } else {
-                                $pdf->Image('@' . $resource, $arItem[1], $arItem[2], 40, 15, 'PNG');
-                            }
-                        }
-                    }
-                    $pdf->setSignatureAppearance($arItem[1], $arItem[2], 30, 15,$arItem[0]);
-                //}
+           
+
+            //$finalWriter = new \SetaPDF_Core_Writer_Http('signed.pdf', true);
+            $finalWriter = new \SetaPDF_Core_Writer_File(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
+            $pub_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/server.pem');
+            $priv_cert = file_get_contents('file://'.Storage::disk('local')->getAdapter()->getPathPrefix().'/crt/server.pem');
+            $reader = new \SetaPDF_Core_Reader_String($pdf->Output('S'));
+            $writer = new \SetaPDF_Core_Writer_String();
+
+            for ($i = 1; $i <= $pageCount; $i++) {
+                if ($i == $pageCount) {
+                    $reader = new \SetaPDF_Core_Reader_String($writer);
+                    $writer = $finalWriter;
+                } elseif ($i != 1) {
+                    $reader = new \SetaPDF_Core_Reader_String($writer);
+                    $writer = new \SetaPDF_Core_Writer_String();
+                }
+
+                $PdfDoc = \SetaPDF_Core_Document::load($reader, $writer);
+
+                $signer = new \SetaPDF_Signer($PdfDoc);
+                $signer->addSignatureField(
+                    'Signature ' . $i,
+                    $i,
+                    \SetaPDF_Signer_SignatureField::POSITION_CENTER_BOTTOM,
+                    array('x' => 0, 'y' => 70),
+                    200,
+                    40
+                );
+                $signer->setReason($brand->description);
+                $signer->setContactInfo($brand->description.' '.$brand->email);
+                $signer->setLocation($brand->city.' '.$brand->address);
+                $signer->setSignatureFieldName('Signature ' . $i );
+                $signer->setName($info['Client']);
+                        
+                $module = new \SetaPDF_Signer_Signature_Module_OpenSsl();
+
+                $module->setCertificate($pub_cert);
+                $module->setPrivateKey(array($priv_cert, ''));
+                $appearance = new \SetaPDF_Signer_Signature_Appearance_Dynamic($module);
+                
+                $signer->setAppearance($appearance);
+                $signer->sign($module);
 
             }
-            //$certPDF = $pdf->Output($document->name,'S');
-            $pdf->Output(Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename,'F');
+
+            $PdfDoc->getInfo()->setAll($info);
+            $PdfDoc->getInfo()->setAuthor(\Auth::user()->surname.' '.\Auth::user()->name);
+            $PdfDoc->getInfo()->SetCreator(\Auth::user()->surname.' '.\Auth::user()->name);
+            $PdfDoc->getInfo()->setTitle($document->name);
+            $PdfDoc->getInfo()->SetSubject($document->description);
+
+            $PdfDoc->finish();
+            copy($finalWriter->getPath(), Storage::disk('documents')->getDriver()->getAdapter()->getPathPrefix().$document->filename);
             $document->signed = true;
             $document->readonly = true;
             $document->date_sign = Carbon::now()->format('d/m/y');
             $document->user_id = \Auth::user()->id;
             $document->save();
+
+
+            return true;
+            
+        } catch (Exception $ex) {
+            return false;
         }
-
-        return redirect('sign');
     }
-
+    
     protected function _getTemplate($tpl)
     {
         $tplLine = explode("\n",$tpl);

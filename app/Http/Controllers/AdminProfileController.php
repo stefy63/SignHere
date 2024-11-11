@@ -8,6 +8,7 @@ use App\Models\Module;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\Array_;
+use Illuminate\Support\Facades\Log;
 
 class AdminProfileController extends Controller
 {
@@ -77,6 +78,7 @@ class AdminProfileController extends Controller
         }
         $profile->modules()->sync($Modules);
         $profile->acls()->sync(Auth::user()->getMyRoot());
+        Log::info('Store new profile from user: '.\Auth::user()->username);
         return redirect()->back()->with('success', __('admin_profiles.success_profile_create'));
     }
 
@@ -143,8 +145,10 @@ class AdminProfileController extends Controller
                 }
             }
             $profile->modules()->sync($Modules);
+            Log::info('Update profile id: '.$id.' from user: '.\Auth::user()->username);
             return redirect()->back()->with('success', __('admin_profiles.success_profile_updated'));
         }
+        Log::warning('Fault from updating profile id: '.$id.' with error: '.__('admin_profiles.warning_profile_NOTupdated'));
         return redirect()->back()->with('warning', __('admin_profiles.warning_profile_NOTupdated'));
     }
 
@@ -161,8 +165,10 @@ class AdminProfileController extends Controller
             $profile->modules()->detach();
             $profile->delete();
 
+            Log::info('Delete profile id: '.$id.' from user: '.\Auth::user()->username);
             return redirect()->back()->with('success', __('admin_profiles.success_profile_destroy'));
         }
+        Log::warning('Fault from deleting profile id: '.$id.' with error: '.__('admin_profiles.warning_profile_NOT_deleted'));
         return redirect()->back()->with('warning', __('admin_profiles.warning_profile_NOT_deleted'));
     }
 }

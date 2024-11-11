@@ -6,8 +6,10 @@ use App\Models\Acl;
 use App\Models\Client;
 use App\Models\Dossier;
 use Illuminate\Http\Request;
+use League\Flysystem\Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class AdminClientController extends Controller
 {
@@ -68,6 +70,7 @@ class AdminClientController extends Controller
         $client->active = isset($request->active) ? 1 : 0;
         $client->save();
         $client->acls()->sync($acl_id);
+        Log::info('Store new client from user: '.\Auth::user()->username);
 
         return redirect()->back()->with('success', __('admin_clients.success_client_create'));
     }
@@ -124,6 +127,7 @@ class AdminClientController extends Controller
             if($request->ajax()){
                 $client->active = $request->active;
                 $client->save();
+                Log::info('Update client id: '.$id.' from user: '.\Auth::user()->username);
                 return response()->json(['success' => __('admin_clients.success_client_updated')]);
             }
             $this->validate($request, Client::$rules);
@@ -134,10 +138,11 @@ class AdminClientController extends Controller
             $client->user_id = Auth::user()->id;
             $client->save();
             $client->acls()->sync($acl_id);
-
+            Log::info('Update client id: '.$id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_clients.success_client_updated'));
         }
+        Log::warning('Fault from updating brand id: '.$id.' with error: '.__('admin_clients.warning_client_NOTupdated'));
         return redirect()->back()->with('warning', __('admin_clients.warning_client_NOTupdated'));
     }
 
@@ -169,12 +174,14 @@ class AdminClientController extends Controller
                 $client->acls()->detach();
                 $client->delete();
                 DB::commit();
+                Log::info('Delete client id: '.$id.' and all document, from user: '.\Auth::user()->username);
                 return redirect()->back()->with('success', __('admin_clients.success_client_destroy'));
             }
             return redirect()->back()->with('warning', __('admin_clients.warning_client_NOT_deleted'));
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('warning', $e);
+            Log::error('Fault from deleting client id: '.$id.' with error: '.$e->getMessage());
+            return redirect()->back()->with('warning', $e->getMessage());
         }
     }
 }

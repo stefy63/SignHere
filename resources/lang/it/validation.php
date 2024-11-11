@@ -33,7 +33,7 @@ return [
     'confirmed'            => 'Il campo :attribute confirmation does not match.',
     'date'                 => 'Il campo :attribute is not a valid date.',
     'date_format'          => 'Il campo :attribute deve avere il formato :format.',
-    'different'            => 'Il campo :attribute and :other must be different.',
+    'different'            => 'Il campo :attribute e :other devono essere diversi.',
     'digits'               => 'Il campo :attribute deve essere di :digits caratteri.',
     'digits_between'       => 'Il campo :attribute must be between :min and :max digits.',
     'dimensions'           => 'Il campo :attribute has invalid image dimensions.',
@@ -98,8 +98,8 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'brand_id' => [
+            'integer' => 'Il campo :attribute deve essere selezionato',
         ],
     ],
 
@@ -116,5 +116,6 @@ return [
 
     'sign_format' => 'Il formato di una riga in :attribute è errato. eg: pg|x|y|{M-O}|se O stringa',
     'question_format' => 'Il formato di una riga in :attribute è errato. eg: pg|xYes|yYes|xNo|yNo|testo',
+    'phone' => 'Il numero di telefono non è valido!',
 
 ];

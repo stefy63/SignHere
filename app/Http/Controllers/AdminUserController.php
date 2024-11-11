@@ -9,6 +9,8 @@ use App\Models\Acl;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Validator;
+use Illuminate\Support\Facades\Log;
+use League\Flysystem\Exception;
 
 class AdminUserController extends Controller
 {
@@ -79,10 +81,12 @@ class AdminUserController extends Controller
             if($locations){
                 $user->locations()->sync($locations);
             }
+            Log::info('Store new user from user: '.\Auth::user()->username);
         } catch (\Exception $e) {
+            Log::error('Fault from store new user with error: '.$ex->getMessage());
             return redirect()->back()->with('alert', $e->getMessage());
         }
-
+        Log::warning('Fault from store new user with error: '.__('admin_users.success_user_create'));
         return redirect()->back()->with('success', __('admin_users.success_user_create'));
     }
 
@@ -134,8 +138,10 @@ class AdminUserController extends Controller
                 if($id != 1) {
                     $user->active = $request->active;
                     $user->save();
+                    Log::info('Update user id: '.$id.' from user: '.\Auth::user()->username);
                     return response()->json(['success' => __('admin_users.success_user_updated')]);
                 } else {
+                    Log::info('Fault update user id: '.$id.' from user: '.\Auth::user()->username);
                     return response()->json(['warning' => __('admin_users.warning_user_NOTupdated')]);
                 }
             }
@@ -147,19 +153,24 @@ class AdminUserController extends Controller
                 } else {
                     $user->fill($request->all());
                 }
-                 $user->active = ($id == 1)? 1 :isset($request->active) ? 1 : 0;
+                 $user->active = ($id == 1)? 1 :(isset($request->active) ? 1 : 0);
                  $user->user_id = \Auth::user()->id;
                  $user->profile_id = $request->profile_id;
                  $user->save();
                  if($locations){
                     $user->locations()->sync($locations);
                  }
+                Log::info('Update user id: '.$id.' from user: '.\Auth::user()->username);
+                Log::info('Update user id: '.$id.' from user: '.\Auth::user()->username);
             } catch (\Exception $e) {
+                Log::error('Fault from updating user id: '.$id.' with error: '.$e->getMessage());
                 return redirect()->back()->with('alert', $e->getMessage());
             }
+            Log::warning('Fault from updating user id: '.$id.' with error: '.__('admin_users.success_user_updated'));
             return redirect()->back()->with('success', __('admin_users.success_user_updated'));
         }
 
+        Log::warning('Fault from updating user id: '.$id.' with error: '.__('admin_users.warning_user_NOTupdated'));
         return redirect()->back()->with('warning', __('admin_users.warning_user_NOTupdated'));
     }
 
@@ -179,9 +190,11 @@ class AdminUserController extends Controller
             $user->locations()->detach();
             $user->locations()->detach();
             $user->delete();
+            Log::info('Delete user id: '.$id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_users.success_user_destroy'));
         }
+        Log::warning('Fault from deleting user id: '.$id.' with error: '.__('admin_users.warning_user_NOTupdated'));
         return redirect()->back()->with('warning', __('admin_users.warning_user_NOT_deleted'));
     }
 
@@ -214,9 +227,11 @@ class AdminUserController extends Controller
 
             $user->password = bcrypt($request->new_password);
             $user->save();
+            Log::info('Reset pwd from user id: '.$request->id.' from user: '.\Auth::user()->username);
 
             return redirect()->back()->with('success', __('admin_users.success_user_updated'));
         }
+        Log::warning('Fault from reset pwd from user id: '.$request->id.' with error: '.__('admin_users.warning_user_NOTupdated'));
         return redirect()->back()->with('warning',__( 'admin_users.warning_user_NOTupdated'));
     }
 
